@@ -1726,11 +1726,11 @@ try{var rraw=localStorage.getItem('ta5_v2');
 function tierOfXp(){return tierOf(ST.xp)}
 function gunOk(id){var o=WM[id];if(!o)return false;
  if(o.hero)return ST.hero===1;
- if(ST.hw&&ST.hw[id])return true;    /* 少校授权 / 英雄使用记录 */
- /* 国产枪族：剧情模式里全部可用；实战里必须由英雄队员在剧情中实际使用过一次才解锁 */
+ /* 国产枪族：只能在剧情任务里现场使用；用过的永久解锁（少校授权不能替代） */
  if(/国产/.test(o.cn||'')){
-  if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;   /* 仅在剧情任务进行中全部可用 */
-  return false}
+  if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
+  return !!(ST.hw&&ST.hw[id])}
+ if(ST.hw&&ST.hw[id])return true;    /* 少校授权（仅非国产装备） */
  return (o.tk==null?0:o.tk)<=tierOfXp()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'m4a1';
@@ -2107,7 +2107,7 @@ function paintTrim(g,c,FU,ws){var i,d;
    g.fillRect(d[0]-3,d[1]+d[3],d[2]+6,2);
    g.fillStyle='rgba(0,0,0,.35)';g.fillRect(d[0]+d[2]/2-1,d[1],2,d[3]);
    g.fillStyle='rgba(180,190,200,.10)';g.fillRect(d[0]+d[2]/2-2,d[1]+2,4,d[3]-4)}}}
-function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rnd=rngOf(c.sd);
+function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,7)-1],ws=[],raw=c.wl([]),k,rnd=rngOf(c.sd);
  THc=TH[c.th];L=null;
  for(k=0;k<raw.length;k++){var rr=raw[k];if(rr[2]>0&&rr[3]>0)ws.push({x:rr[0],y:rr[1],w:rr[2],h:rr[3]})}
  var base=D.createElement('canvas');base.width=c.W;base.height=c.H;
@@ -3223,6 +3223,8 @@ var ALLY=[{role:'assault',n:' Bravo-2 · 突击',sp:196,r:13,hp:130,col:'#4e6f4a
  {role:'marksman',n:' Bravo-3 · 精确',sp:178,r:13,hp:104,col:'#4a5f78',dm:44,rpm:220,acc:.5,range:2400,
   gun:{n:'M110（半精确）',ap:.6,pl:1,bs:1700,rn:3900,pen:1,ins:0}}];
 function initAllies(){if(!G)return;G.al=[];
+ /* 暂时全部改为单人作战：AI 队员会卡在出生点，先停用以保证体验 */
+ return;
  if(!G.allyOn)return;
  if(L.cfg&&L.cfg.tutorial)return;
  var c=L.cfg,i,cap=(c.allyN==null?ALLY.length:c.allyN);
@@ -3627,28 +3629,28 @@ function draw(){if(!G||!L)return;
   ctx.lineTo(G.p.x+Math.cos(G.p.aa)*hd,G.p.y+Math.sin(G.p.aa)*hd);ctx.stroke()}
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
- drawFog();
  /* 狙击镜：除镜内圆形视野外，主画面全部遮蔽 */
  if(G.p&&G.p.scope){
-  var scx=VW/2,scy=VH/2,scr=Math.min(VW,VH)*.40;
+  var scx=VW/2,scy=VH/2,scr=Math.min(VW,VH)*.18;
   ctx.save();
   ctx.fillStyle='rgba(2,3,5,.985)';
   ctx.beginPath();ctx.rect(0,0,VW,VH);ctx.arc(scx,scy,scr,0,TAU,true);ctx.fill();
-  ctx.lineWidth=16;ctx.strokeStyle='rgba(0,0,0,1)';
-  ctx.beginPath();ctx.arc(scx,scy,scr+8,0,TAU);ctx.stroke();
-  ctx.lineWidth=2;ctx.strokeStyle='rgba(130,150,160,.55)';
+  ctx.lineWidth=10;ctx.strokeStyle='rgba(0,0,0,1)';
+  ctx.beginPath();ctx.arc(scx,scy,scr+5,0,TAU);ctx.stroke();
+  ctx.lineWidth=1.6;ctx.strokeStyle='rgba(130,150,160,.5)';
   ctx.beginPath();ctx.arc(scx,scy,scr,0,TAU);ctx.stroke();
-  ctx.strokeStyle='rgba(226,240,246,.9)';ctx.lineWidth=1.3;
+  /* 准星：与步枪/手枪同尺寸，跟着瞄准方向走 */
+  var acx=MS.x,acy=MS.y;
+  if(touchUI||!MS.r){acx=VW/2+Math.cos(G.p.aa)*0;acy=VH/2}
+  acx=(typeof MS.x==='number')?MS.x:VW/2;acy=(typeof MS.y==='number')?MS.y:VH/2;
+  var chh=9,chg=3;
+  ctx.strokeStyle='rgba(232,244,250,.92)';ctx.lineWidth=1.4;
   ctx.beginPath();
-  ctx.moveTo(scx-scr*.82,scy);ctx.lineTo(scx-12,scy);
-  ctx.moveTo(scx+12,scy);ctx.lineTo(scx+scr*.82,scy);
-  ctx.moveTo(scx,scy-scr*.82);ctx.lineTo(scx,scy-12);
-  ctx.moveTo(scx,scy+12);ctx.lineTo(scx,scy+scr*.82);ctx.stroke();
-  ctx.fillStyle='rgba(226,240,246,.85)';
-  ctx.beginPath();ctx.arc(scx,scy,1.8,0,TAU);ctx.fill();
-  var mi;for(mi=1;mi<=4;mi++){var off=mi*scr*.16;
-   ctx.fillRect(scx-off,scy-1,scy*0+1.4,2);ctx.fillRect(scx+off,scy-1,1.4,2);
-   ctx.fillRect(scx-1,scy-off,2,1.4);ctx.fillRect(scx-1,scy+off,2,1.4)}
+  ctx.moveTo(acx-chh-chg,acy);ctx.lineTo(acx-chg,acy);
+  ctx.moveTo(acx+chg,acy);ctx.lineTo(acx+chh+chg,acy);
+  ctx.moveTo(acx,acy-chh-chg);ctx.lineTo(acx,acy-chg);
+  ctx.moveTo(acx,acy+chg);ctx.lineTo(acx,acy+chh+chg);ctx.stroke();
+  ctx.fillStyle='rgba(232,244,250,.95)';ctx.beginPath();ctx.arc(acx,acy,1.4,0,TAU);ctx.fill();
   ctx.restore()}
  /* 开镜时隐藏 HUD */
  D.body.classList.toggle('scoped',!!(G.p&&G.p.scope));
@@ -4484,11 +4486,13 @@ function cstDay(){var t=new Date(Date.now()+8*3600e3);
 function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
  var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
  return ST.hu}
-function openHero(){show('sHero');setScr('hero');renderHero()}
+function openHero(){
+ if(ST.hero!==1){toast('尚未获得少校授权：通关剧情后解锁英雄队员',3000);return}
+ show('sHero');setScr('hero');renderHero()}
 function renderHero(){if(!$('heroList'))return;var q=heroQuota();
  $('hqLeft').textContent=q.left;
  var l=$('heroList');l.innerHTML='';
- var arr=WP.filter(function(o){return !o.hero&&!gunOk(o.id)});
+ var arr=WP.filter(function(o){return !o.hero&&!/国产/.test(o.cn||'')&&!gunOk(o.id)});
  if(!arr.length){l.innerHTML='<div class="note">当前没有需要解锁的装备 · 军械库全部可用</div>';return}
  arr.forEach(function(o){
   var row=mk('div','heroRow');
