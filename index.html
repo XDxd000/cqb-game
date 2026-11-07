@@ -19,7 +19,10 @@ body{background:var(--bg);color:var(--txt);overflow:hidden;overscroll-behavior:n
 body{background:var(--bg);color:var(--txt);overflow:hidden;overscroll-behavior:none;
  font-family:"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,-apple-system,Arial,sans-serif}
 #cv{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:block;background:#05070a}
-body.noc,body.noc #cv,body.noc #hud,body.noc #hud *,body.noc #ksBox,body.noc #kbar,body.noc #comms{cursor:none}
+body.noc,body.noc #cv,body.noc #hud,body.noc #hud *,body.noc #ksBox,body.noc #kbar,body.noc #comms{cursor:none
+}
+/* 开镜隐藏 HUD */
+body.scoped #hud .ht,body.scoped #hud .hb,body.scoped #kbar,body.scoped #voice,body.scoped #prompt{opacity:0 !important;transition:opacity .12s}
 .hidden{display:none!important}
 .screen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:30;display:none;overflow:auto;overscroll-behavior:contain;
  background:radial-gradient(120% 90% at 18% 0%,rgba(28,42,52,.97),rgba(6,9,12,.99) 62%)}
@@ -159,6 +162,34 @@ body.noc #hud,body.noc #hud *{cursor:none}
 #comms .c:hover{background:rgba(30,46,32,.96);border-color:#93ac6d}
 #comms .c:active{background:rgba(90,120,70,.9);border-color:#a9cd87}
 #comms .wf{margin:10px 2px 0;font-size:9.5px;color:#62798a;letter-spacing:.06em;text-align:center}
+/* SECTION: style-hero 英雄队员界面 */
+.heroCard{display:flex;gap:16px;align-items:stretch;margin:6px 0 4px;padding:12px;border-radius:10px;
+ background:linear-gradient(135deg,rgba(40,52,38,.55),rgba(14,20,26,.75));border:1px solid #2f3d34}
+.heroArt{width:132px;flex:0 0 132px;border-radius:8px;overflow:hidden;border:1px solid #3a4a3a;
+ box-shadow:0 8px 22px rgba(0,0,0,.5)}
+.heroArt svg{display:block;width:100%;height:100%}
+.heroMeta{flex:1;min-width:0}
+.heroName{font-size:22px;font-weight:700;color:#eef3e6;letter-spacing:.06em;display:flex;align-items:baseline;gap:10px}
+.heroTag{font-size:10px;letter-spacing:.18em;color:#93ac6d;border:1px solid #3c4a30;border-radius:999px;padding:2px 8px}
+.heroRankRow{margin-top:6px;font-size:12px;color:#e2b45a;letter-spacing:.1em}
+.heroRankRow i{font-style:normal;color:#f0d890;margin-right:4px}
+.heroDesc{margin:8px 0 10px;font-size:12px;line-height:1.7;color:#9fb2bf}
+.heroQuota{font-size:11.5px;color:#8fc0d8;letter-spacing:.04em}
+.heroQuota b{color:#f0d890;font-size:14px;margin:0 2px}
+.heroList{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.heroRow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #24323d;border-radius:6px;
+ background:rgba(14,20,26,.7)}
+.heroRow b{font-size:12.5px;color:#e9f2f8;font-weight:600;min-width:170px}
+.heroRow i{flex:1;font-style:normal;font-size:10.5px;color:#7f939f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.heroRow .btn{flex:0 0 auto}
+.cardRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.card .rep{border-color:#3a4a5a;color:#bcd2e0}
+@media (max-width:520px){
+ .heroCard{flex-direction:column}
+ .heroArt{width:100%;height:180px;flex:none}
+ .heroRow{flex-wrap:wrap}
+ .heroRow b{min-width:0}
+}
 /* SECTION: style-touch */
 #touch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:22;display:none;pointer-events:none}
 body.touch #touch.on{display:block}
@@ -656,7 +687,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn sm on" id="bHint">键位提示：开</button>
     <button class="btn sm on" id="bAud">音效 开</button>
     <button class="btn sm on" id="bFx">画质：自适应</button>
-    <button class="btn sm" id="bReset">清空进度</button>
+    <button class="btn sm" id="bHero">英雄队员</button>
   </div>
   <h3>军衔 · 晋升与武器解锁</h3>
   <div class="rankCard" id="rankCard"></div>
@@ -767,6 +798,41 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn" id="bHome">任务列表</button>
   </div>
   <div class="note" id="rNote"></div>
+</div></section>
+
+<!-- SECTION: markup-hero -->
+<section class="screen" id="sHero"><div class="wrap" style="max-width:760px">
+  <div class="eyebrow">HERO OPERATOR · 猎鹰突击队</div>
+  <h1>英雄队员</h1>
+  <div class="heroCard">
+    <div class="heroArt">
+      <svg viewBox="0 0 120 168" aria-hidden="true">
+        <defs><linearGradient id="hg1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2b3a46"/><stop offset="1" stop-color="#10171d"/></linearGradient></defs>
+        <rect x="0" y="0" width="120" height="168" fill="url(#hg1)"/>
+        <ellipse cx="60" cy="150" rx="42" ry="12" fill="rgba(0,0,0,.45)"/>
+        <path d="M28 150 Q28 92 60 92 Q92 92 92 150 Z" fill="#3c4a3a"/>
+        <path d="M34 150 Q34 100 60 100 Q86 100 86 150 Z" fill="#4a5a46"/>
+        <rect x="44" y="104" width="32" height="34" rx="5" fill="#2f3a2c"/>
+        <rect x="48" y="108" width="10" height="12" rx="2" fill="#1d241b"/>
+        <rect x="62" y="108" width="10" height="12" rx="2" fill="#1d241b"/>
+        <circle cx="60" cy="78" r="21" fill="#c9a184"/>
+        <path d="M38 74 Q38 50 60 50 Q82 50 82 74 L82 82 Q60 70 38 82 Z" fill="#2f3a2c"/>
+        <rect x="39" y="66" width="42" height="7" rx="3" fill="#1b2220"/>
+        <path d="M28 118 Q20 130 24 150" stroke="#3c4a3a" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M92 118 Q100 130 96 150" stroke="#3c4a3a" stroke-width="10" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="heroMeta">
+      <div class="heroName">燕锋<span class="heroTag">猎鹰 · 队长</span></div>
+      <div class="heroRankRow"><i>★</i> 少校 · 猎鹰突击队</div>
+      <p class="heroDesc">猎鹰突击队教官，QBZ-191 与国产枪族的使用者。少校军衔赋予他临时授权权限——可动用军械库中尚未解锁的装备。</p>
+      <div class="heroQuota">今日剩余授权 <b id="hqLeft">3</b> / 3 · 每日 00:00（北京时间）刷新</div>
+    </div>
+  </div>
+  <h3>装备解锁 <span class="h3sub">每次消耗 1 次授权 · 解锁后全模式可用</span></h3>
+  <div id="heroList" class="heroList"></div>
+  <div class="bar"><button class="btn p" id="bHeroBack">返回</button></div>
 </div></section>
 
 <!-- SECTION: markup-keys -->
@@ -1600,8 +1666,8 @@ function softSprite(g,x,y,w,h,t){
 /* SECTION: state */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,throwable:0,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
- name:'',tut:0,ui:'auto',swp:null};
-try{var rraw=localStorage.getItem('ta5_v1');
+ name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
+try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
   if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,5);
   if(jd&&jd.b)ST.best=jd.b;
@@ -1610,6 +1676,8 @@ try{var rraw=localStorage.getItem('ta5_v1');
   if(jd&&jd.tu)ST.tut=1;
   if(jd&&(jd.ui==='kb'||jd.ui==='touch'||jd.ui==='auto'))ST.ui=jd.ui;
   if(jd&&jd.swp&&typeof jd.swp==='object')ST.swp=jd.swp;
+  if(jd&&jd.hw&&typeof jd.hw==='object')ST.hw=jd.hw;
+  if(jd&&jd.hu&&typeof jd.hu==='object')ST.hu=jd.hu;
   if(jd&&jd.gd)for(var gdi in ST.gd)if(typeof jd.gd[gdi]==='number')ST.gd[gdi]=clamp(jd.gd[gdi]|0,0,1);
   if(jd&&jd.of&&ofDef(jd.of).id===jd.of)ST.outfit=jd.of;
   if(jd&&jd.l&&WM[jd.l[0]]&&WM[jd.l[1]])ST.load=[jd.l[0],jd.l[1]];
@@ -1621,14 +1689,19 @@ try{var rraw=localStorage.getItem('ta5_v1');
 function tierOfXp(){return tierOf(ST.xp)}
 function gunOk(id){var o=WM[id];if(!o)return false;
  if(o.hero)return ST.hero===1;
+ if(ST.hw&&ST.hw[id])return true;    /* 少校授权 / 英雄使用记录 */
+ /* 国产枪族：剧情模式里全部可用；实战里必须由英雄队员在剧情中实际使用过一次才解锁 */
+ if(/国产/.test(o.cn||'')){
+  if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;   /* 仅在剧情任务进行中全部可用 */
+  return false}
  return (o.tk==null?0:o.tk)<=tierOfXp()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'m4a1';
  if(!gunOk(ST.load[0]))ST.load[0]='m4a1';
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
-function save(){try{localStorage.setItem('ta5_v1',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
+function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
- nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp}))}catch(e){}}
+ nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 function addXp(v){var b=rankOf(ST.xp);ST.xp+=v;var a=rankOf(ST.xp);
  if(a>b){var wl=weaponsAtXp(RKLAD[a][1]);
   toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}}
@@ -1646,12 +1719,12 @@ function saveLv(){if(!G||G.phase!=='live'||G.over)return;
   ci:L.civ.map(function(e){return[Math.round(e.x),Math.round(e.y),e.f,e.down?1:0]}),
   ck:L.cr.map(function(e){return e.got?1:0}),
   d:L.dr.map(function(e){return e.open?1:0})};
-  localStorage.setItem('ta5_lv'+ST.lv,JSON.stringify(sv))}catch(e){}}
-function loadLv(i){try{var j=JSON.parse(localStorage.getItem('ta5_lv'+i));
+  localStorage.setItem('ta5_lv2'+ST.lv,JSON.stringify(sv))}catch(e){}}
+function loadLv(i){try{var j=JSON.parse(localStorage.getItem('ta5_lv2'+i));
  if(!(j&&j.en&&j.en.length&&j.p&&j.c))return null;
  if(j.ts&&Date.now()-j.ts>7*864e5)return null;
  return j}catch(e){return null}}
-function clearLv(i){try{localStorage.removeItem('ta5_lv'+i)}catch(e){}}
+function clearLv(i){try{localStorage.removeItem('ta5_lv2'+i)}catch(e){}}
 function applyLv(sv){var p=G.p,j;
  p.x=sv.p.x;p.y=sv.p.y;p.hp=sv.p.hp;p.ar=sv.p.ar;p.rg=sv.p.rg;p.md=sv.p.md;
  p.shots=sv.p.shots||0;p.wi=sv.p.wi||0;
@@ -2360,7 +2433,12 @@ function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  tutEv('fire');
  var g=cur(),w1=g.w;
+ /* 剧情模式里用过的国产枪 → 永久解锁 */
+ if(ST.inStory&&/国产/.test(w1.cn||'')&&!(ST.hw&&ST.hw[w1.id])){
+  ST.hw=ST.hw||{};ST.hw[w1.id]=1;save();
+  toast('英雄使用记录 · '+w1.n+' 已永久解锁',2600);feed('国产装备解锁：'+w1.n,1)}
  if(p.rl>0||p.sw>0||p.kd>0)return;
+ if(p.scope)p.scope=0;   /* 开火即退出瞄准镜 */
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
  var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa;
@@ -2949,11 +3027,17 @@ function updatePlayer(dt){var p=G.p,i;
  if(kb('left')||KEY.arrowleft)mx-=1;if(kb('right')||KEY.arrowright)mx+=1;
  mx+=sm.dx;my+=sm.dy;
  var ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;ml=1}
- p.aim=((MS.r||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
+ p.aim=((p.scope||MS.r||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
+ /* 狙击镜：右键切换瞄准镜，再点右键或开火退出 */
+ var adsNow=(MS.r||kb('adsAlt')||BF.ads)?1:0;
+ if(cur().w.cls==='sniper'){
+  if(adsNow&&!p._adsPrev){p.scope=p.scope?0:1;if(p.scope)snd.ui()}
+ }else if(p.scope)p.scope=0;
+ p._adsPrev=adsNow;
  p.run=BF.sp||(kb('sprint')?1:0);
  var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
- var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1);
+ var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.scope?.42:1);
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -3447,6 +3531,30 @@ function draw(){if(!G||!L)return;
   ctx.lineTo(G.p.x+Math.cos(G.p.aa)*hd,G.p.y+Math.sin(G.p.aa)*hd);ctx.stroke()}
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
+ /* 狙击镜：除镜内圆形视野外，主画面全部遮蔽 */
+ if(G.p&&G.p.scope){
+  var scx=VW/2,scy=VH/2,scr=Math.min(VW,VH)*.40;
+  ctx.save();
+  ctx.fillStyle='rgba(2,3,5,.985)';
+  ctx.beginPath();ctx.rect(0,0,VW,VH);ctx.arc(scx,scy,scr,0,TAU,true);ctx.fill();
+  ctx.lineWidth=16;ctx.strokeStyle='rgba(0,0,0,1)';
+  ctx.beginPath();ctx.arc(scx,scy,scr+8,0,TAU);ctx.stroke();
+  ctx.lineWidth=2;ctx.strokeStyle='rgba(130,150,160,.55)';
+  ctx.beginPath();ctx.arc(scx,scy,scr,0,TAU);ctx.stroke();
+  ctx.strokeStyle='rgba(226,240,246,.9)';ctx.lineWidth=1.3;
+  ctx.beginPath();
+  ctx.moveTo(scx-scr*.82,scy);ctx.lineTo(scx-12,scy);
+  ctx.moveTo(scx+12,scy);ctx.lineTo(scx+scr*.82,scy);
+  ctx.moveTo(scx,scy-scr*.82);ctx.lineTo(scx,scy-12);
+  ctx.moveTo(scx,scy+12);ctx.lineTo(scx,scy+scr*.82);ctx.stroke();
+  ctx.fillStyle='rgba(226,240,246,.85)';
+  ctx.beginPath();ctx.arc(scx,scy,1.8,0,TAU);ctx.fill();
+  var mi;for(mi=1;mi<=4;mi++){var off=mi*scr*.16;
+   ctx.fillRect(scx-off,scy-1,scy*0+1.4,2);ctx.fillRect(scx+off,scy-1,1.4,2);
+   ctx.fillRect(scx-1,scy-off,2,1.4);ctx.fillRect(scx-1,scy+off,2,1.4)}
+  ctx.restore()}
+ /* 开镜时隐藏 HUD */
+ D.body.classList.toggle('scoped',!!(G.p&&G.p.scope));
  drawALRT();
  if(G.p.act==='n'||G.p.act==='f'){var pg=toScreen(G.p.gx,G.p.gy);
   ctx.strokeStyle='rgba(240,200,120,.8)';ctx.lineWidth=1.4;
@@ -3922,6 +4030,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   b.appendChild(mt);
   /* 通关后可派 AI 扫荡 */
   if(bb){
+   var rowS=mk('div','cardRow');
    var s=sweepSlot(i+1),sb=mk('button','btn sm swp');
    sb.setAttribute('data-lv',''+(i+1));
    if(!s){sb.textContent='AI 扫荡 +'+sweepXp(i)+'（'+fmt(c.par)+'）';
@@ -3929,7 +4038,12 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
    else if(Date.now()<s){sb.textContent='扫荡中 '+fmt((s-Date.now())/1000);sb.disabled=true;sb.classList.add('on')}
    else{sb.textContent='领取扫荡经验 +'+sweepXp(i);
     sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();snd.ui();collectSweep(i+1)})}
-   b.appendChild(sb)}
+   rowS.appendChild(sb);
+   /* 再次游玩：直接重开这一关（不影响扫荡计时） */
+   var rb=mk('button','btn sm rep');rb.textContent='再次游玩';
+   rb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();aInit();snd.ui();ST.lv=i+1;brief()});
+   rowS.appendChild(rb);
+   b.appendChild(rowS)}
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
@@ -4182,6 +4296,7 @@ function startLv(){show(null);setScr('play');aInit();
  if($('tut'))$('tut').classList.add('hidden');
  TUT.on=false;
  build(ST.lv);
+ ST.inStory=(L.cfg&&L.cfg.recruit)?1:0;
  POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
  $('feed').innerHTML='';$('comms').classList.remove('on');
  if($('voice'))$('voice').innerHTML='';
@@ -4265,6 +4380,30 @@ function togAud(){ST.aud=ST.aud?0:1;
 
 /* SECTION: arsenal */
 var CCLS='rifle';
+/* SECTION: hero 英雄队员界面 · 少校授权解锁（北京时间每日 0 点刷新 3 次） */
+function cstDay(){var t=new Date(Date.now()+8*3600e3);
+ return t.getUTCFullYear()+'-'+('0'+(t.getUTCMonth()+1)).slice(-2)+'-'+('0'+t.getUTCDate()).slice(-2)}
+function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
+ var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
+ return ST.hu}
+function openHero(){show('sHero');setScr('hero');renderHero()}
+function renderHero(){if(!$('heroList'))return;var q=heroQuota();
+ $('hqLeft').textContent=q.left;
+ var l=$('heroList');l.innerHTML='';
+ var arr=WP.filter(function(o){return !o.hero&&!gunOk(o.id)});
+ if(!arr.length){l.innerHTML='<div class="note">当前没有需要解锁的装备 · 军械库全部可用</div>';return}
+ arr.forEach(function(o){
+  var row=mk('div','heroRow');
+  var nm=mk('b');nm.textContent=o.n;row.appendChild(nm);
+  var de=mk('i');de.textContent=(o.cn||'')+(o.mk?' · '+o.mk:'');row.appendChild(de);
+  var bt=mk('button','btn sm');
+  bt.textContent=q.left>0?'授权解锁（-1）':'今日次数已用完';
+  bt.disabled=q.left<=0;
+  bt.onclick=function(){var qq=heroQuota();if(qq.left<=0)return;
+   qq.left--;ST.hw=ST.hw||{};ST.hw[o.id]=1;save();aInit();snd.sec();
+   toast('少校授权 · '+o.n+' 已解锁（全模式可用）',2600);renderHero();
+   if(typeof renderArs==='function')try{renderArs()}catch(e){} };
+  row.appendChild(bt);l.appendChild(row)})}
 function renderArs(){var lst=$('wpList');lst.innerHTML='';
  WP.filter(function(o){return o.cls===CCLS}).forEach(function(o){
   var r=mk('button','wrow'+((o.id===ST.load[0]||o.id===ST.load[1])?' sel':''));
@@ -4338,11 +4477,11 @@ bind('bTutArs',function(){openArs()});
  sk.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();
   toast('已跳过新兵训练',1800);tutFinish()})})();
 bind('bArs',openArs);
+bind('bHero',openHero);
+bind('bHeroBack',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bHelp',function(){show('sHelp');setScr('help')});
 bind('bHelpC',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bAud',togAud);bind('bAud2',function(){togAud();$('bAud2').textContent=ST.aud?'音效 开':'音效 关'});
-bind('bReset',function(){ST.unl=1;ST.best={};ST.low0=undefined;ST.name='';ST.tut=0;save();
- for(var i=1;i<=5;i++)clearLv(i);renderLv();toast2('进度已清空 · 下次进入将重新登记代号')});
 bind('bFx',function(){ST.fx=ST.fx==='auto'?'low':'auto';
  ST.low=(ST.fx==='low')?1:0;$('bFx').textContent='画质：'+(ST.fx==='low'?'低（强制）':'自适应');
  $('bFx').classList.toggle('on',ST.fx==='auto');resize()});
