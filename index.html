@@ -1380,21 +1380,38 @@ var RANGE_WL=function(a){ring(a,1500,900,20);
  a.push([300,120,16,118],[300,662,16,118]);   /* 射击线两端的隔断（中间留通道） */
  a.push([420,120,12,70],[420,710,12,70]);     /* 近端靶道隔板 */
  return a};
-var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 制式步枪考核',W:1500,H:900,dk:.10,th:'port',sd:77,par:150,rq:2,exam:150,recruit:1,range:1,
- fl:[[20,20,1460,860]],
- wl:RANGE_WL,
- tg:[[600,270,0,0],[900,270,1,54],[1200,270,0,0],
-     [900,450,1,64],[1200,450,0,0],
-     [600,630,0,0],[900,630,1,54],[1200,630,0,0]],
- cr2:[[236,262],[236,638]],
- foe:{grunt:8},acc:0,rea:999,edm:0,ehp:1,civ:[],
- zn:[[320,130,960,640]],st:[150,450],ex:[60,400,44,70],
- threat:'人形靶不还击 · 150 秒内击倒全部 8 个人形靶即为合格',
- terr:'15／30／45 m 三条距离线 · 部分靶位带横向移动轨道',
- hint:'据枪（右键）可显著压缩散布 · 45 m 靶位建议单发点射',
- intel:'猎鹰突击队（本作虚构演绎，致敬我国特种警察部队）年度招募·射击科目考核。剧情讲解后进入室内靶场：三条距离线、八个人形靶，其中三个装在横向移动轨道上。',
- obj:['观看猎鹰剧情讲解','进入靶场','150 秒内击倒 8 个人形靶','返回出发线撤离点'],
- roe:'考核仅对人形靶射击 · 超时判定不合格，可重新申请考核'};
+/* 猎鹰考核：实弹环境（一整栋训练楼，2200×1400）——取消原来的室内靶场 */
+var RECRUIT_WL=function(a){
+ ring(a,2200,1400,20);
+ /* 三道横向走廊隔墙（留门洞） */
+ a.push([20,520,280,20],[440,520,420,20],[980,520,320,20],[1420,520,780,20]);
+ a.push([20,720,560,20],[700,720,600,20],[1420,720,760,20]);
+ a.push([20,1080,380,20],[520,1080,700,20],[1340,1080,860,20]);
+ /* 纵向隔墙 */
+ a.push([740,20,20,220],[740,330,20,190]);
+ a.push([1500,20,20,240],[1500,360,20,160]);
+ a.push([1080,720,20,180],[1080,980,20,100]);
+ a.push([1700,720,20,160],[1700,960,20,120]);
+ return a};
+var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:1,
+ fl:[[20,20,2160,1360]],
+ wl:RECRUIT_WL,
+ dr:[[300,520,140,20,0,'wood'],[860,520,120,20,0,'metal'],[1300,520,120,20,0,'wood'],
+     [580,720,120,20,0,'wood'],[1300,720,120,20,0,'metal'],
+     [400,1080,120,20,0,'wood'],[1220,1080,120,20,0,'wood'],
+     [740,240,20,90,0,'wood'],[1500,260,20,100,0,'metal'],
+     [1080,900,20,80,0,'wood'],[1700,880,20,80,0,'wood']],
+ cr2:[[160,1240],[2060,1250]],
+ foe:{grunt:8,heavy:2,sniper:2},acc:.52,rea:.72,edm:1,ehp:1,
+ civ:[[1000,300],[1620,900]],
+ zn:[[120,120,600,340],[1600,120,520,360],[120,760,900,280],[1500,760,600,280],[120,1120,2000,220]],
+ st:[150,1300],ex:[2080,60,90,90],
+ threat:'12 名持械佣兵（含 2 名重装、2 名精确射手）· 2 名人质',
+ terr:'两进式训练楼：上下三层房间 + 两道横向走廊，门多、拐角多',
+ hint:'先破门再切角 · 重装兵打头用穿甲，精确射手优先压制',
+ intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是带一名队员真的把人清出来。',
+ obj:['看完猎鹰剧情讲解','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
+ roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
 var LS6=LS.concat([RGD]);
 /* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
 var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:900,dk:.10,th:'port',sd:99,par:120,range:1,tutorial:1,tgt:1,
@@ -1993,7 +2010,7 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
  paintFloorDetail(g,c);
  var deco={'apartment':['#6b5236','#4d5a46'],'mall':['#5d7f8f','#8f5d6d'],'ktv':['#6b3a78','#3a5f78'],
   'port':['#8a5a34','#4a6a78'],'desert':['#7d6b46','#6b5533']}[c.th];
- var FU=(idx>=1&&idx<=5)?FUD[idx-1]:{dr:[],ty:{},sf:[],lp:[]},fTy=FU.ty;
+ var FU=(idx>=1&&idx<=5)?FUD[idx-1]:{dr:c.dr||[],ty:c.ty||{},sf:c.sf||[],lp:c.lp||[]},fTy=FU.ty;
  for(k=0;k<ws.length;k++){var ws1=ws[k],ft=fTy[ws1.x+','+ws1.y];
   if(!ft){g.fillStyle=THc.w2;g.fillRect(ws1.x-1,ws1.y-1,ws1.w+2,ws1.h+2);
    g.fillStyle=THc.w;g.fillRect(ws1.x,ws1.y,ws1.w,ws1.h);
@@ -3041,15 +3058,15 @@ var ALLY=[{role:'assault',n:' Bravo-2 · 突击',sp:196,r:13,hp:130,col:'#4e6f4a
   gun:{n:'M110（半精确）',ap:.6,pl:1,bs:1700,rn:3900,pen:1,ins:0}}];
 function initAllies(){if(!G)return;G.al=[];
  if(!G.allyOn)return;
- if(L.cfg&&(L.cfg.exam||L.cfg.tutorial))return;
- var c=L.cfg,i;
- for(i=0;i<ALLY.length;i++){var A=ALLY[i];
+ if(L.cfg&&L.cfg.tutorial)return;
+ var c=L.cfg,i,cap=(c.allyN==null?ALLY.length:c.allyN);
+ for(i=0;i<cap&&i<ALLY.length;i++){var A=ALLY[i];
   G.al.push({i:i,n:A.n,role:A.role,x:c.st[0]+(i?-26:26),y:c.st[1]+(i?18:-18),
    hp:A.hp,mhp:A.hp,sp:A.sp,r:A.r,col:A.col,gun:A.gun,dm:A.dm,rpm:A.rpm,acc:A.acc,range:A.range,
    a:0,aa:0,kd:0,rl:0,sw:.2,ammo:30,mg:150,down:0,dt2:0,heal:0,
    tx:0,ty:0,mv:0,shC:0,seeT:0,canSee:0,kills:0,mode:1,search:0,ph:Math.random()*TAU,
    qst:'follow',qd:0,sx9:0,sy9:0,aggro:1,ord:'follow'})}
- if(ST.hero===1&&L.cfg&&!L.cfg.exam){var HI=ALLY.length;
+ if(ST.hero===1&&L.cfg&&!L.cfg.recruit){var HI=G.al.length;
   G.al.push({i:HI,n:' 猎鹰 · 燕锋',role:'hero',x:c.st[0]+26,y:c.st[1]-26,
    hp:190,mhp:190,sp:216,r:13,col:'#8a2f2f',dm:35,rpm:700,acc:.55,range:1600,
    gun:{n:'QBZ-191',ap:.5,pl:1,bs:1560,rn:3500,pen:1,ins:0},
@@ -3957,12 +3974,12 @@ var DRG=[
 {Q:'Q1',O:['按规程短点射压制','0.5 秒辨识：枪口朝向与手部形状','喊话命令其趴下再动作']},['考官','答得可以。犹豫会死人，但扣错的扳机杀的是自己人。'],
 ['考官','甄别题二：撤离点遭火力压制，一名人质落在掩体外三米。'],
 {Q:'Q2',O:['掩护火力压住，自己冲出去拖','呼叫队友交替掩护，全队一起拖','先清掉压制点再回头']},['燕锋','标准只有一个：人质要带出来，队友也不能白死。顺序和手段，体现你怎么想。'],
-['旁白','第五幕 · 模拟打靶（限时 12 秒，命中全部人形靶）'],
-['燕锋','先模拟一遍。三个人形靶，逐个放倒——手稳心稳，眼睛看靶心，呼吸自然。'],
-{T:1},['燕锋','不错。记住这种安静——实弹的时候，世界会比这更安静。'],
+['旁白','第五幕 · 实弹环境（训练楼 · 三层房间与走廊）'],
+['燕锋','靶场取消了。今天的考题是这栋楼——十二名持械“佣兵”，还有两名人质在里面。'],
+['燕锋','Bravo-2 归你指挥，我跟你一起进。记住三件事：破门前先看门缝、人质优先、收得住手。'],
 ['旁白','第六幕 · 考核确认'],
-['考官','最后的说明：考核场设 15 米、30 米、45 米三条距离线，八个人形靶，其中三个装在横向移动轨道上，150 秒限时。'],
-['考官','规则三条：人形靶不还击，但倒下才算；射击线以外不得越线；超时可申请重考。'],
+['考官','考核场为实弹训练楼：三层房间、两道横向走廊，守敌 12 人，含重装兵与精确射手。'],
+['考官','没有射击线、没有固定靶位。清空全部守敌，把人质带出并从楼顶侧门撤离，即算合格。'],
 ['燕锋','枪在你右手，道理在你心里。去吧——我跟着你，最后一发我看着。'],
 ['旁白','点击进入实弹考核 · OP-06 靶场']
 ];
@@ -4126,12 +4143,12 @@ function submitName(v){v=String(v||'').replace(/\s+/g,' ').trim().slice(0,12);
  else{aInit();startTut()}}
 function brief2Exam(){show('sBrief');setScr('brief');
  var c=LS6[5];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho('单人考核 · 无 AI 队员');
+ renderWho('你 · Bravo-2 突击（实弹环境）');
  var o=$('fO');o.innerHTML='';c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
- $('fE').textContent='8 靶标 · 150 秒限时 · 难度 ★★★★★';
+ $('fE').textContent='12 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
  $('fP').textContent=fmt(c.par)+' 内完成为满分基准';$('fG').textContent=c.roe;
- var ba=$('bAlly');ba.textContent='AI 队员：考核必须单人';ba.classList.remove('on');
+ var ba=$('bAlly');ba.textContent='AI 队员：Bravo-2 突击 ×1（固定）';ba.classList.add('on');
  var cb=$('bCont');cb.classList.add('hidden');
  $('bDeploy').textContent='进入实弹考核'}
 /* 任务简报顶部：显示登记代号 + 军衔 + 本场编队 */
