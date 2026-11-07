@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0b0f13">
 <link rel="icon" href="data:,">
-<title>CQB反恐行动（测试版）</title>
+<title>战术突袭（页游）</title>
 <style>
 /* SECTION: style */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -619,23 +619,24 @@ table.rt td:last-child{text-align:right;font-weight:600}
       fill="rgba(255,255,255,.13)"/>
     <path d="M92,150 q 8 8 16 0" fill="none" stroke="#c9a24c" stroke-width="3.4" stroke-linecap="round"/>
   </svg>
-  <div class="bootTtl">CQB反恐行动</div>
+  <div class="bootTtl">战术突袭</div>
   <div class="bootSub">TACTICAL CQB OPERATION</div>
   <div class="bootChips">
-    <span class="chip"><b>5</b> 张地图</span>
+    <span class="chip"><b>6</b> 张地图</span>
     <span class="chip"><b id="chipW">33</b> 把枪械</span>
     <span class="chip"><b id="chipR">14</b> 级军衔</span>
+    <span class="chip">页游</span>
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">五个真实场景由易到难逐级解锁：公寓、商场、KTV、港口、沙漠地堡。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
+  <p class="bootLead">六个场景由易到难逐级解锁：公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
     <div class="r"><span class="k">开发方式</span><span class="v">学生 × AI 协同开发</span></div>
   </div>
   <div class="bootAct"><button class="btn p bootBtn" id="bEnter">进入行动</button></div>
-  <p class="bootTip">温馨提示：此网页游戏为学生与 AI 共同开发的游戏项目，不对外开发，不支持氪金系统。</p>
+  <p class="bootTip">声明：本网页游戏由单人（策划 / 制作）与 AI 合作开发，一切内容遵守我国法律法规；游戏内涉及武器与部队名称均为公开资料的虚构演绎，不指涉任何真实组织或个人。一切解释权归属作者。</p>
  </div></div>
 </section>
 
@@ -673,8 +674,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
 
 <!-- SECTION: markup-menu -->
 <section class="screen" id="sMenu"><div class="wrap">  <div class="eyebrow">Tactical CQB · 现实轻武器资料 · 单文件网页</div>
-  <h1>CQB反恐行动 <b>（测试版）</b></h1>
-  <p class="lead">俯视角战术射击演练。五个真实场景按难度由易到难依次解锁——公寓、商场、KTV、港口、沙漠地堡。
+  <h1>战术突袭 <b>（页游）</b></h1>
+  <p class="lead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次，所以先看清「离下一级还差多少经验」再决定打哪一关。
 界面参考《严阵以待》（Ready or Not）的任务简报 / 命令轮盘 / 交战规则，
 以及《战争雷霆》手游的战斗信息流与评级结算。敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
@@ -1239,7 +1240,7 @@ function rankName(xp){return RKLAD[rankOf(xp)][0]}
 /* SECTION: data-rank 军衔展示
    军衔由经验推导，每级对应可解锁的武器档次（tk 0–3，阈值见 TIER_XP）。
    DIFF_NAME / LV_REC 用于把作战序列标成「由易到难」的阶梯。 */
-var DIFF_NAME=['入门','常规','高压','硬核','极限'];
+var DIFF_NAME=['入门','常规','高压','硬核','极限','地狱'];
 var LV_REC=['列兵','上等兵','下士','中士','上士'];
 function weaponsAtXp(xp){var out=[],i,o,tk;
  for(i=0;i<WP.length;i++){o=WP[i];if(o.hero)continue;tk=o.tk==null?0:o.tk;
@@ -1288,7 +1289,7 @@ function renderLvRail(){var el=$('lvRail');if(!el)return;
   var st=done?'已通过':(cur?'当前任务':(!unl?'未解锁':(!rankOk?('需 '+RKLAD[LS[i].rq][0]):'可重打')));
   h+='<div class="lvStep '+cls+'"><div class="n">OP-0'+(i+1)+'</div>'+
    '<div class="m">'+LS[i].nm.split(' · ')[0]+'</div>'+
-   '<div class="d">'+st+' · '+DIFF_NAME[i]+' '+('★'.repeat(i+1))+'</div></div>'}
+   '<div class="d">'+st+' · '+DIFF_NAME[i]+' '+('★'.repeat(Math.min(5,i+1)))+'</div></div>'}
  return el.innerHTML=h}
 var ARM={0:{n:'无甲',v:0},1:{n:'轻型软质防弹衣',v:.28},2:{n:'NIJ IIIA 防弹背心',v:.45},3:{n:'NIJ IV 陶瓷插板',v:.68}};
 var EARM={grunt:1,rush:1,heavy:3,sniper:2,boss:3};
@@ -1478,8 +1479,44 @@ var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,
  intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是带一名队员真的把人清出来。',
  obj:['看完猎鹰剧情讲解','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
  roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
-var LS6=LS.concat([RGD]);
-/* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
+/* ==== 新增室外地图：OP-06 郊野储运站 ==== */
+var YARD_WL=function(a){
+ ring(a,2400,1500,20);
+ /* 值班楼（左上，三面墙 + 一道门洞） */
+ a.push([200,220,440,20],[200,220,20,300],[640,220,20,300]);
+ a.push([200,500,180,20],[480,500,160,20]);
+ /* 泵房（右侧） */
+ a.push([1520,320,520,20],[1520,320,20,140],[1520,560,20,80],[2040,320,20,320]);
+ a.push([1520,640,180,20],[1800,640,240,20]);
+ /* 工具棚（下方） */
+ a.push([900,1100,120,20],[1140,1100,60,20],[900,1100,20,200],[1200,1100,20,200],[900,1300,300,20]);
+ /* 集装箱堆 */
+ a.push([860,260,180,60],[860,336,180,60],[860,412,180,60]);
+ a.push([1180,760,60,200],[1180,980,60,120]);
+ a.push([1980,980,180,60],[1980,1052,180,60]);
+ /* 管架 / 防爆堤 */
+ a.push([700,900,640,14],[380,700,14,240]);
+ return a};
+var YARD={code:'OP-06 · DEPOT',nm:'郊野储运站 · 室外场区',W:2400,H:1500,dk:.10,th:'yard',sd:66,par:210,rq:5,
+ fl:[[20,20,2360,1460]],
+ wl:YARD_WL,
+ dr:[[380,500,100,20,0,'wood'],[1700,640,100,20,0,'metal'],[1520,460,20,100,0,'wood'],[1020,1100,120,20,0,'wood']],
+ sf:[['barrel',760,470,28,28],['barrel',800,470,28,28],['barrel',1180,300,28,28],
+     ['crates',980,760,60,60],['crates',1040,760,60,60],['crates',2100,420,60,60],
+     ['pallet',1700,900,80,60],['tyre',640,1000,40,40],['tyre',690,1012,40,40],
+     ['barrel',2200,700,28,28],['crates',300,1180,60,60]],
+ foe:{grunt:9,heavy:2,sniper:4},acc:.54,rea:.62,edm:1,ehp:1,
+ civ:[[1760,470]],
+ zn:[[120,120,620,360],[1600,120,700,420],[120,760,900,300],[700,1000,1400,380]],
+ st:[180,1320],ex:[2200,80,90,90],
+ threat:'15 名守敌（含 4 名精确射手、2 名重装）· 室外开阔场区',
+ terr:'集装箱堆、管架与防爆堤构成掩体网；狙击手占据远端与高处',
+ hint:'开阔地不要直线冲刺 · 沿集装箱与管架逐段跃进，优先压制精确射手',
+ intel:'郊野储运站：两层围栏、三排集装箱、一座值班楼与一座泵房。守敌占据场区四角，能看穿整片空地。',
+ obj:['进入储运站','清除全部守敌','解救被扣押的工人','从东侧大门撤离'],
+ roe:'室外场区有平民 · 误伤按 ROE 追责'};
+LS.push(YARD);
+var LS6=LS.concat([RGD]);/* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
 var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:900,dk:.10,th:'port',sd:99,par:120,range:1,tutorial:1,tgt:1,
  fl:[[20,20,1460,860]],
  wl:RANGE_WL,
@@ -1669,7 +1706,7 @@ var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
-  if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,5);
+  if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,6);
   if(jd&&jd.b)ST.best=jd.b;
   if(jd&&jd.x)ST.xp=Math.max(0,jd.x|0);
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
@@ -1951,7 +1988,8 @@ var TH={apartment:{f:'#3a322b',f2:'#453b32',w:'#6d635a',w2:'#413a33'},
  mall:{f:'#39414a',f2:'#434b55',w:'#7f8992',w2:'#4b545d'},
  ktv:{f:'#2b2036',f2:'#332540',w:'#5c4a6e',w2:'#3a2f48'},
  port:{f:'#3b3f42',f2:'#474b4f',w:'#9aa1a6',w2:'#5a6166'},
- desert:{f:'#5a4b31',f2:'#655538',w:'#8a7448',w2:'#5f5030'}};
+ desert:{f:'#5a4b31',f2:'#655538',w:'#8a7448',w2:'#5f5030'},
+ yard:{f:'#4c4e46',f2:'#56584f',w:'#8e9086',w2:'#5b5d54'}};
 var THc=TH.apartment;
 /* 靶场地板：水泥地 + 三道距离线 + 射击线 + 靶位地垫 + 收弹区 */
 function paintRange(g,c){var W=c.W,H=c.H,i,x,y;
@@ -2082,7 +2120,7 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
  if(c.range)paintRange(g,c);
  paintFloorDetail(g,c);
  var deco={'apartment':['#6b5236','#4d5a46'],'mall':['#5d7f8f','#8f5d6d'],'ktv':['#6b3a78','#3a5f78'],
-  'port':['#8a5a34','#4a6a78'],'desert':['#7d6b46','#6b5533']}[c.th];
+  'port':['#8a5a34','#4a6a78'],'desert':['#7d6b46','#6b5533'],'yard':['#6f6a52','#4a5a44']}[c.th]||['#5a5a52','#3a3a34'];
  var FU=(idx>=1&&idx<=5)?FUD[idx-1]:{dr:c.dr||[],ty:c.ty||{},sf:c.sf||[],lp:c.lp||[]},fTy=FU.ty;
  for(k=0;k<ws.length;k++){var ws1=ws[k],ft=fTy[ws1.x+','+ws1.y];
   if(!ft){g.fillStyle=THc.w2;g.fillRect(ws1.x-1,ws1.y-1,ws1.w+2,ws1.h+2);
@@ -4020,7 +4058,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   ob.textContent=locked?why:(c.obj[0]+' → '+c.obj[c.obj.length-1]);
   b.appendChild(ob);
   var mt=mk('div','mt');
-  var st=mk('span','st');st.textContent='★★★★★'.slice(0,i+1)+'☆☆☆☆☆'.slice(0,4-i);mt.appendChild(st);
+  var st=mk('span','st');st.textContent='★★★★★'.slice(0,Math.min(5,i+1))+'☆☆☆☆☆'.slice(0,Math.max(0,4-i));mt.appendChild(st);
   var bs=mk('span','badge');bs.className='badge '+(i===0?'g':'r');
   var bb=ST.best[''+(i+1)],cont=!locked&&loadLv(i+1);
   bs.textContent=cont?'进行中 '+fmt(cont.t):bb?(bb.rate+' · '+fmt(bb.time)):(locked?'未解锁':'待执行');
@@ -4047,17 +4085,17 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
-  var need=LS6[5].rq||0,locked=ST.unl<2||rankOf(ST.xp)<need;
+  var need=LS6[6].rq||0,locked=ST.unl<2||rankOf(ST.xp)<need;
   var b=mk('div','card'+(locked?' lock':''));b.style.borderStyle='dashed';
-  var no=mk('div','no');no.textContent='06';b.appendChild(no);
-  var e2=mk('div','en2');e2.textContent=LS6[5].code;b.appendChild(e2);
-  var sc=mk('div','sc');sc.textContent=LS6[5].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
+  var no=mk('div','no');no.textContent='07';b.appendChild(no);
+  var e2=mk('div','en2');e2.textContent=LS6[6].code;b.appendChild(e2);
+  var sc=mk('div','sc');sc.textContent=LS6[6].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
   var ob=mk('div','ob');ob.textContent=ST.hero===1?'英雄队员「燕锋」与 QBZ-191 已解锁 · 可重考'
    :(ST.unl<2?'完成第一战后解锁 · 猎鹰突击队招募剧情（约5分钟）':'需晋升 '+RKLAD[need][0]+' 才能参加考核');b.appendChild(ob);
   var mt=mk('div','mt');
   var bs=mk('span','badge');bs.textContent=ST.hero===1?'已通过':(locked?'未解锁':'考核');bs.className='badge'+(ST.hero===1?' p':'');mt.appendChild(bs);
   b.appendChild(mt);
-  if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=6;brief()});
+  if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=7;brief()});
   l.appendChild(b)}
  lvCard6()}
 var DRG=[
@@ -4175,7 +4213,7 @@ function drgLoop(){if(drgDone)return;drgR=requestAnimationFrame(drgLoop);
  if(drgL<drgBuf.length){drgL+=1;$('dTxt').textContent=drgBuf.slice(0,drgL);
   if(drgL>=drgBuf.length)$('dNext').classList.add('on')}}
 function dStartExam(){show(null);
- ST.lv=6;brief2Exam()}
+ ST.lv=7;brief2Exam()}
 /* SECTION: tutorial 新兵训练
    一座靶场里的 13 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
 var TUTS=[
@@ -4256,7 +4294,7 @@ function submitName(v){v=String(v||'').replace(/\s+/g,' ').trim().slice(0,12);
  if(ST.tut===1){show('sMenu');setScr('menu');renderLv();toast2('欢迎归队，'+ST.name)}
  else{aInit();startTut()}}
 function brief2Exam(){show('sBrief');setScr('brief');
- var c=LS6[5];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
+ var c=LS6[6];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
  renderWho('你 · Bravo-2 突击（实弹环境）');
  var o=$('fO');o.innerHTML='';c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  $('fE').textContent='12 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
@@ -4350,7 +4388,7 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  $('r5').textContent=G.sec2+'/'+L.civ.length+' 解救'+(G.civD?(' · '+G.civD+' 伤亡（ROE 违规）'):' · 零伤亡');
  $('r6').textContent=sc;
  $('rNote').textContent=win?(G.civD?'存在平民伤亡，评级已下调一级——S 级要求零 ROE 违规。':
-   '零 ROE 违规，评估良好。'+(ST.lv<5?'下一区域：'+LS[ST.lv].nm:''))
+   '零 ROE 违规，评估良好。'+(ST.lv<6?'下一区域：'+LS[ST.lv].nm:''))
   :'角色阵亡。换弹节奏与掩体利用决定存活时间；也可在军械库换一把更可控的武器，或让 AI 队员先上前压制。';
  /* 任务经验：胜利给固定经验（评级越高越多），失败也给少量，保证军衔能持续推进 */
  var rk0=rankOf(G.xp0==null?ST.xp:G.xp0);
@@ -4365,11 +4403,11 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  var gained=ST.xp-(G.xp0||0),ak=0;
  if(G.al)G.al.forEach(function(a){ak+=a.kills||0});
  $('rNote').textContent+=(' ｜ 本场经验 +'+gained+' · '+rankName(ST.xp)+(G.al&&G.al.length?(' · 队友击毙 '+ak+' 名'):''));
- $('bNext').classList.toggle('hidden',!(win&&ST.lv<5));
+ $('bNext').classList.toggle('hidden',!(win&&ST.lv<6));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
- if(win&&ST.lv===6&&ST.hero!==1){ST.hero=1;save();
+ if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;save();
   $('rTtl').textContent='猎鹰招募通过 · QBZ-191 与英雄队员「燕锋」已解锁';}
- if(win){ST.unl=Math.min(5,Math.max(ST.unl,ST.lv+1));
+ if(win){ST.unl=Math.min(6,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
   if(!ob||ob.sc<sc){ST.best[key]={sc:sc,rate:rate,time:sec}}
   save();snd.cheer()}else snd.dead()
@@ -4538,7 +4576,7 @@ bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){clearLv(ST.lv);startLv()});
 bind('bQuit',function(){saveLv();show('sMenu');setScr('menu');renderLv()});
 bind('bAgain',function(){clearLv(ST.lv);startLv()});
-bind('bNext',function(){if(ST.lv<5&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
+bind('bNext',function(){if(ST.lv<6&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
 bind('bHome',function(){show('sMenu');setScr('menu');renderLv()});
 Array.prototype.forEach.call($('tabs').children,function(b){
  b.addEventListener('click',function(){aInit();snd.ui();CCLS=b.getAttribute('data-c');
