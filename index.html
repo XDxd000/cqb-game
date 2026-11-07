@@ -138,23 +138,27 @@ body.noc #hud,body.noc #hud *{cursor:none}
 #goT{font-size:clamp(34px,10vw,74px);font-weight:800;letter-spacing:.14em;color:#eef5ea;text-shadow:0 4px 22px #000}
 #goS{font-size:12px;letter-spacing:.16em;color:var(--amber);padding:0 16px;text-align:center}
 /* SECTION: style-comms */
-#comms{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:340px;height:340px;z-index:26;display:none}
+#comms{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(468px,92vw);max-height:80vh;
+ overflow:auto;z-index:26;display:none;padding:12px 12px 13px;border-radius:10px;
+ background:linear-gradient(180deg,rgba(13,19,25,.975),rgba(9,13,18,.975));
+ border:1px solid var(--line2);box-shadow:0 24px 64px rgba(0,0,0,.62)}
 #comms.on{display:block}
-#comms:before{content:'';position:absolute;left:50%;top:50%;width:262px;height:262px;margin:-131px 0 0 -131px;
- border-radius:50%;border:1px dashed rgba(120,150,170,.20);
- background:radial-gradient(circle,rgba(10,16,21,.78),rgba(10,16,21,0) 72%)}
-.wcv{position:absolute;left:50%;top:50%;margin:-25px 0 0 -62px;width:124px;text-align:center;pointer-events:none}
-.wcv b{display:block;font-size:9.5px;letter-spacing:.22em;color:#71879a}
-.wcv span{display:block;font-size:11.5px;color:#e2a93e;margin-top:5px;font-weight:600}
-#comms .c{position:absolute;width:94px;height:46px;left:50%;top:50%;margin:-23px 0 0 -47px;
- background:rgba(12,18,24,.94);border:1px solid var(--line2);border-left:2px solid #4a6b3a;border-radius:3px;
- color:#d5e3ec;cursor:pointer;padding:4px 7px;text-align:left;display:flex;flex-direction:column;justify-content:center}
+#comms .wh{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 9px}
+#comms .wh b{font-size:9.5px;letter-spacing:.22em;color:#7d93a6;font-weight:600}
+#comms .wh span{font-size:11.5px;color:#e2a93e;font-weight:600}
+#comms .wsec{font-size:9px;letter-spacing:.18em;color:#6b8090;margin:9px 2px 5px}
+#comms .wg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#comms .c{position:static;display:flex;flex-direction:column;justify-content:center;
+ background:rgba(16,23,30,.96);border:1px solid #24323d;border-left:3px solid #4a6b3a;border-radius:4px;
+ padding:7px 9px;text-align:left;cursor:pointer;color:#d5e3ec;min-height:40px}
 #comms .c b{font-size:11.5px;letter-spacing:.06em;color:#e9f2f8;font-weight:600}
-#comms .c i{display:block;font-style:normal;font-size:8.5px;color:#7f939f;margin-top:3px;line-height:1.25}
+#comms .c i{display:block;font-style:normal;font-size:8.5px;color:#7f939f;margin-top:3px;line-height:1.3}
 #comms .c.tm{border-left-color:#93ac6d}
 #comms .c.sf{border-left-color:#5fa8d3}
+#comms .c.on{background:rgba(52,74,40,.95);border-color:#93ac6d;border-left-color:#a9cd87}
 #comms .c:hover{background:rgba(30,46,32,.96);border-color:#93ac6d}
 #comms .c:active{background:rgba(90,120,70,.9);border-color:#a9cd87}
+#comms .wf{margin:10px 2px 0;font-size:9.5px;color:#62798a;letter-spacing:.06em;text-align:center}
 /* SECTION: style-touch */
 #touch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:22;display:none;pointer-events:none}
 body.touch #touch.on{display:block}
@@ -589,7 +593,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bootChips">
     <span class="chip"><b>5</b> 张地图</span>
     <span class="chip"><b id="chipW">33</b> 把枪械</span>
-    <span class="chip"><b>7</b> 级军衔</span>
+    <span class="chip"><b id="chipR">14</b> 级军衔</span>
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
@@ -1850,7 +1854,8 @@ function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  return{tp:tp,hp:b.hp*mul,mh:b.hp*mul,r:b.r,sp:b.sp,acc:b.acc,dm:b.dm,ar:ap.v,arv:av,arn:ap.n,
  x:x,y:y,vx:0,vy:0,a:0,st:'patrol',ph:Math.random()*TAU,hx:x,hy:y,sw:.5,hurt:0,
  sub:0,dead:0,dt:0,dis:0,alert:0,rt:0,losT:0,canSee:0,pf:Math.random()*TAU,
- nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6}}
+ nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6,
+ hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0}}
 function FUDfor(i){return FUD[i-1]}
 var TH={apartment:{f:'#3a322b',f2:'#453b32',w:'#6d635a',w2:'#413a33'},
  mall:{f:'#39414a',f2:'#434b55',w:'#7f8992',w2:'#4b545d'},
@@ -2013,9 +2018,15 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
  /* 门数据：[x,y,w,h,是否已开,类型] —— 类型决定踹门次数与外观（wood/metal/glass） */
  for(k=0;k<FU.dr.length;k++){d=FU.dr[k];
   var dtype=d[5]||'wood';
-  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:!!d[4],anim:(d[4]?1:0),brk:0,scout:0,
-   kickT:0,blowT:0,hor:d[2]>=d[3],type:dtype,hg:0,sw:1,
+  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:false,anim:0,brk:0,scout:0,
+   kickT:0,blowT:0,hor:d[2]>=d[3],type:dtype,hg:0,sw:1,tr:null,
    need:dtype==='metal'?1.9:(dtype==='glass'?0.34:1)})}
+ /* 硬性保证：新对局所有门一律关闭（「继续任务」随后按存档恢复） */
+ for(k=0;k<drs.length;k++){drs[k].open=false;drs[k].anim=0;drs[k].kickT=0;drs[k].blowT=0}
+ /* 门后诡计：阻门器 / 绊发诡雷，难度越高配置越多 */
+ (function(){var cap=Math.min(3,1+Math.floor((c.sd||11)/25)),n=0,i2;
+  for(i2=0;i2<drs.length&&n<cap;i2++){
+   if(Math.random()<.24){drs[i2].tr=(Math.random()<.5?'blocker':'rig');n++}}})();
  L={cfg:c,ws:ws,en:[],civ:[],cr:[],dr:drs,sof:FU.sf.map(function(a){return{x:a[1],y:a[2],w:a[3],h:a[4],t:a[0]}}),
   lp:FU.lp,base:base,mmc:mmc,sc:sc,neon:neon};
  var SOLID_SF={table:1,ktvtable:1,bench:1,locker:1,vending:1,barrel:1,crates:1};
@@ -2131,9 +2142,14 @@ g.restore();
 
 /* SECTION: collision */
 var CW=[],CWo=null;
-function rebuildCW(){if(!L)return;CW=L.ws.slice();
- var i;for(i=0;i<L.dr.length;i++){var a=L.dr[i];if(!a.open)CW.push(a)}CWo=L}
-function cwNoDoors(){CW=L.ws.slice()}
+var CW=[],CWB=[],CWo=null;
+function rebuildCW(){if(!L)return;CW=L.ws.slice();CWB=L.ws.slice();
+ var i;for(i=0;i<L.dr.length;i++){var a=L.dr[i];if(a.open)continue;
+  CW.push(a);
+  /* 木门 / 玻璃门：子弹可穿透（不进弹道遮挡集），金属与防爆门挡弹 */
+  if(a.type!=='wood'&&a.type!=='glass')CWB.push(a)}
+ CWo=L}
+function cwNoDoors(){CW=L.ws.slice();CWB=L.ws.slice()}
 function inWallAt(x,y){var i;for(i=0;i<CW.length;i++){var a=CW[i];
  if(x>a.x&&x<a.x+a.w&&y>a.y&&y<a.y+a.h)return true}return false}
 function freeAt(x,y,r){var i;if(x<r||y<r||x>L.cfg.W-r||y>L.cfg.H-r)return false;
@@ -2149,13 +2165,14 @@ function segHit(a,x1,y1,x2,y2){var dx=x2-x1,dy=y2-y1,lo=0,hi=1,p,px,pv,q;
  return !fail&&lo<=hi}
 function segWall(x1,y1,x2,y2){var i;for(i=0;i<CW.length;i++)if(segHit(CW[i],x1,y1,x2,y2))return true;return false}
 function los(ax,ay,bx,by){return !segWall(ax,ay,bx,by)}
-function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,p,px,pv,q,fail;
- for(i=0;i<CW.length;i++){a=CW[i];lo=0;hi=best;fail=0;
+var RHIT=null;
+function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,p,px,pv,q,fail;RHIT=null;
+ for(i=0;i<CWB.length;i++){a=CWB[i];lo=0;hi=best;fail=0;
   var P=[-dx,-dy,dx,dy],Q=[x-a.x,a.x+a.w-x,y-a.y,a.y+a.h-y];
   for(p=0;p<4;p++){px=P[p];q=Q[p];
    if(px===0){if(q>0){fail=1;break}}
    else{pv=q/px;if(px<0){if(pv>hi){fail=1;break}if(pv>lo)lo=pv}else{if(pv<lo){fail=1;break}if(pv<hi)hi=pv}}}
-  if(!fail&&lo<=hi&&lo>=0&&lo<best)best=lo}
+  if(!fail&&lo<=hi&&lo>=0&&lo<best){best=lo;RHIT=a}}
  var len=Math.hypot(dx,dy)||1;return best>=1?len:best*len}
 /* 平滑脱困：把卡进墙体的单位在若干帧内「挤」向最近的空地，代替过去整格瞬移
    speed 为每秒推进像素；返回 1 表示找到了脱困方向 */
@@ -2321,6 +2338,7 @@ function updGun(){var g=cur(),p=G.p;
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
  p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
+ tutEv('reload');   /* 按了就算完成教学步骤，弹匣满时也生效 */
  if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl;snd.rl1();tutEv('reload')}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  tutEv('fire');
@@ -2396,6 +2414,9 @@ function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
   var dd=Math.hypot(p.x-cx,p.y-cy);if(dd<bd){bd=dd;door=d}}}
  if(!door){toast('近处没有可观察的关门');return}
  G.stickN--;door.scout=3.4;
+ if(door.tr){door.known=1;
+  toast('镜下定睛：门后发现'+(door.tr==='blocker'?'阻门器（踹门无效）':'绊发诡雷（开门即炸）'),3200);
+  feed('观察关门 · 发现门后装置',1);snd.alert()}
  var n=0,ox=door.x+door.w/2,oy=door.y+door.h/2;
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
   if(Math.hypot(e.x-ox,e.y-oy)<270&&los(ox,oy,e.x,e.y)){e.scout=3.4;n++}}
@@ -2438,20 +2459,24 @@ var CMDS=[
  {k:'scout', n:'观察关门',s:'FlushStick 侦察门内',c:'sf'}
 ];
 var ORD_NAME={follow:'跟随',breach:'突击清剿',hold:'原地固守',cover:'火力掩护',srch:'战术搜索',t3:'破门编队'};
+var TEAM_PUSH=[],SOLO_PUSH=[];
 function wheel(on){var el=$('comms');
  if(on){tutEv('wheel');
-  el.innerHTML='';el.classList.add('on');
   var cur=(G&&G.al&&G.al[0]&&G.al[0].ord)||'follow';
-  var cv=D.createElement('div');cv.className='wcv';
-  cv.innerHTML='<b>战术指令</b><span>当前 · '+(ORD_NAME[cur]||'跟随')+'</span>';
-  el.appendChild(cv);
-  CMDS.forEach(function(cd,i){var b=mk('button','c '+cd.c);
+  TEAM_PUSH=[];SOLO_PUSH=[];
+  CMDS.forEach(function(cd){
+   var b=mk('button','c '+cd.c+(cd.k===cur?' on':''));
    b.innerHTML='<b>'+cd.n+'</b><i>'+cd.s+'</i>';
-   var a=-PI/2+i*TAU/CMDS.length;
-   b.style.transform='translate('+(Math.cos(a)*118)+'px,'+(Math.sin(a)*118)+'px)';
    var run=function(e){e.preventDefault();e.stopPropagation();com(cd.k);wheel(0)};
    b.addEventListener('click',run);b.addEventListener('touchstart',run,{passive:false});
-   el.appendChild(b)})}
+   (cd.c==='sf'?SOLO_PUSH:TEAM_PUSH).push(b)});
+  el.innerHTML='<div class="wh"><b>战术指令</b><span>当前 · '+(ORD_NAME[cur]||'跟随')+'</span></div>'+
+   '<div class="wsec">小队指令 · 对两名 AI 队员同时生效</div><div class="wg" id="wgT"></div>'+
+   '<div class="wsec">个人动作</div><div class="wg" id="wgS"></div>'+
+   '<div class="wf">按 E 关闭</div>';
+  TEAM_PUSH.forEach(function(b){$('wgT').appendChild(b)});
+  SOLO_PUSH.forEach(function(b){$('wgS').appendChild(b)});
+  el.classList.add('on')}
  else el.classList.remove('on')}
 function com(k){var p=G.p,i;if(!p)return;
  if(k==='med')tutEv('med');else if(k==='cov')tutEv('cov');
@@ -2533,7 +2558,7 @@ function playerShout(){
  snd.alert();
  var i,n=0,fk=0,seen=0;
  for(i=0;i<L.en.length;i++){var e=L.en[i];
-  if(e.dead||e.sub>0||e.tp==='heavy'||e.tp==='boss'||e.tp==='sniper')continue;
+  if(e.dead||e.sub>0||e.fight||e.tp==='heavy'||e.tp==='boss'||e.tp==='sniper')continue;
   if(Math.hypot(e.x-p.x,e.y-p.y)>420)continue;
   if(!los(p.x,p.y,e.x,e.y))continue;
   seen++;
@@ -2604,7 +2629,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
  for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead){e.dt+=dt;continue}
   /* 靶场人形靶：只沿轨道横移，不寻路、不开火 */
-  if(L.cfg.exam||L.cfg.tgt){
+  if((L.cfg.exam||L.cfg.tgt)&&!e.fight){
    e.hurt=Math.max(0,e.hurt-dt);
    if(e.rail){var RL=e.rail;RL.ph+=dt*RL.spd;
     var roff=Math.sin(RL.ph)*RL.amp;
@@ -2657,7 +2682,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     e.a+=clamp(dab,-dt*3,dt*3);
     if(d<440&&e.sw<=0&&e.canSee){e.sw=2.6;G.bossCmd=3.2;feed('指挥官下令交叉压制',0)}
     continue}
-   var mv=e.sp*mul;
+   var mv=e.hold?0:e.sp*mul;
    if(freeAt(e.x+Math.cos(want)*mv*dt,e.y+Math.sin(want)*mv*dt,e.r)){e.vx=Math.cos(want)*mv;e.vy=Math.sin(want)*mv}
    else if(!moveToward(e,e.x+Math.cos(want)*mv*4,e.y+Math.sin(want)*mv*4,mv,dt)){
     e.vx=Math.cos(want+1.7)*mv*.55;e.vy=Math.sin(want+1.7)*mv*.55}
@@ -2712,14 +2737,38 @@ function updateBullets(dt){var i,k;
   var vx=b.vx*dt,vy=b.vy*dt,len=Math.hypot(vx,vy);
   if(len<.5){b.tm+=dt;if(b.tm>b.lm)b.a=0;continue}
   var ox=b.x,oy=b.y;
-  var hit=rayHit(b.x,b.y,vx,vy);
+  var hit=rayHit(b.x,b.y,vx,vy),hitObj=RHIT;
   var nx=b.x+vx,ny=b.y+vy,done=0;
-  if(hit<len){nx=b.x+vx/len*hit;ny=b.y+vy/len*hit;
+  if(hit<len){
+   var px2=b.x+vx/len*hit,py2=b.y+vy/len*hit;
+   /* 物理跳弹：打在墙体上按入射面反弹一次，威力衰减 */
+   if(hitObj&&!hitObj.type&&(b.rc|0)<1&&b.pen<=0&&Math.random()<.34){
+    var dl=Math.abs(px2-hitObj.x),dr2=Math.abs(px2-(hitObj.x+hitObj.w)),
+     dt2=Math.abs(py2-hitObj.y),db=Math.abs(py2-(hitObj.y+hitObj.h)),
+     mn2=Math.min(dl,dr2,dt2,db);
+    if(mn2===dl||mn2===dr2)b.vx*=-.72;else b.vy*=-.72;
+    b.vx*=.9;b.vy*=.9;b.rc=1;b.dm*=.55;b.lm=Math.max(b.lm,.3);
+    b.x=px2;b.y=py2;
+    burst(px2,py2,ST.low?2:4,'#ffd79a',120,190);if(b.own===1)snd.ping();
+    b.tm+=dt;continue}
+   if(hitObj&&hitObj.type==='wood'&&b.own===1){/* 木门穿透留弹孔 */
+    if(!hitObj.holes)hitObj.holes=[];
+    if(hitObj.holes.length<14&&Math.random()<.5)hitObj.holes.push({x:px2,y:py2})}
+   nx=px2;ny=py2;
    b.x=nx;b.y=ny;
    if(b.pen>0){b.pen--;burst(nx,ny,2,'#a8b0b8',50,120)}
    else{b.a=0;burst(nx,ny,ST.low?2:4,'#c8b98a',80,150);if(b.own===1)snd.ping()}}
   else{b.x=nx;b.y=ny}
   if(b.a){done=hitSeg(b,ox,oy,nx,ny);
+   /* 木门穿透：子弹穿过关闭的木门时留下弹孔 */
+   if(b.own===1||b.own===2){var dq2;
+    for(dq2=0;dq2<L.dr.length;dq2++){var dd2=L.dr[dq2];
+     if(dd2.open||dd2.type!=='wood')continue;
+     if(segHit(dd2,ox,oy,nx,ny)){
+      if(!dd2.holes)dd2.holes=[];
+      if(dd2.holes.length<16)dd2.holes.push({x:(ox+nx)/2,y:(oy+ny)/2});
+      if(!b.wd){b.wd=1;b.dm*=.55}   /* 穿木门后威力衰减 */
+      break}}}
    if(b.x<-40||b.y<-40||b.x>L.cfg.W+40||b.y>L.cfg.H+40)b.a=0;
    else if(!done){b.tm+=dt;if(b.tm>b.lm)b.a=0}}}
 }
@@ -2853,6 +2902,16 @@ function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
   if(freeAt(nx,ny,4)){g2.x=nx;g2.y=ny}else{g2.vx*=-.35;g2.vy*=-.35}
   var fr=Math.pow(.18,dt);g2.vx*=fr;g2.vy*=fr;
   if(g2.t>=g2.fuse){G.eg.splice(i--,1);explode(g2.x,g2.y,115,95,1);snd.boom()}}}
+/* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
+function updVis(dt){if(!G||!L)return;
+ G._vT=(G._vT==null?0:G._vT-dt);if(G._vT>0)return;G._vT=.12;
+ var p=G.p,i,o;
+ for(i=0;i<L.en.length;i++){o=L.en[i];if(o.dead)continue;
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<130||los(p.x,p.y,o.x,o.y))?1:0}
+ for(i=0;i<L.civ.length;i++){o=L.civ[i];if(o.down)continue;
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<110||los(p.x,p.y,o.x,o.y))?1:0}
+ for(i=0;i<L.cr.length;i++){o=L.cr[i];
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<150||los(p.x,p.y,o.x,o.y))?1:0}}
 function updRein(dt){var c=L.cfg;if(!c.rein||G.phase!=='live'||G.reinLeft<=0||G.over)return; G.rt-=dt;if(G.rt>0)return;
  G.rt=c.rein.iv;var al=0,i;for(i=0;i<L.en.length;i++)if(!L.en[i].dead)al++;
  if(al>=12){G.rt=2.5;return}
@@ -2924,12 +2983,31 @@ function doorNear(x,y,r,closed){var i,bd=r,b=null;
  for(i=0;i<L.dr.length;i++){var d=L.dr[i];if(closed&&d.open)continue;
   var cx=clamp(x,d.x,d.x+d.w),cy=clamp(y,d.y,d.y+d.h),dd=Math.hypot(x-cx,y-cy);
   if(dd<bd){bd=dd;b=d}}return b}
-function openDoor(d,who){if(d.open)return;d.open=1;d.anim=0;d.kickT=0;rebuildCW();
+function openDoor(d,who){if(d.open)return;
+ /* 绊发诡雷：开门瞬间引爆，站在门口的人非死即伤 */
+ if(d.tr==='rig'&&who!=='x'){
+  d.tr=null;d.open=1;d.anim=0;d.kickT=0;rebuildCW();
+  var cx0=d.x+d.w/2,cy0=d.y+d.h/2;
+  d.hg=1;explode(cx0,cy0,138,190,1);
+  /* 贴门的人必死：距离越近伤害越致命 */
+  var dpp0=Math.hypot(G.p.x-cx0,G.p.y-cy0);
+  if(dpp0<115)dmgPlayer(G.p.mhp*(0.95-dpp0/115*0.45));
+  if(G.al)for(var qi=0;qi<G.al.length;qi++){var al0=G.al[qi];
+   if(!al0.down&&Math.hypot(al0.x-cx0,al0.y-cy0)<115)allyDmg(al0,al0.mhp*1.3)}
+  toast('诡雷！门后绊发装置引爆',3200);feed('门后诡雷引爆 · 门区致命',0);
+  say('Bravo-2','诡雷！门后！','#ff8a70');
+  snd.boom();return}
+ d.open=1;d.anim=0;d.kickT=0;rebuildCW();
  if(who==='e')noiseAt(d.x+d.w/2,d.y+d.h/2,320);
  else if(d.type==='glass')burst(d.x+d.w/2,d.y+d.h/2,ST.low?5:12,'#bfe2ea',200,260)}
 function kickDoor(d){var p=G.p;
  /* 已经开着的门不再响应：这是之前「开完还要再踹」的根因 */
  if(!d||d.open||d.blowT>0)return;
+ /* 阻门器：普通踹门无效，必须用破门弹 */
+ if(d.tr==='blocker'&&G.stickyN<=0){
+  d.kickT=0;snd.empty();
+  toast('门被阻门器顶死 · 需要破门弹（军械库可配）',2600);
+  feed('阻门器 · 踹门无效',0);return}
  var cx=d.x+d.w/2,cy=d.y+d.h/2;
  if(G.stickyN>0){G.stickyN--;d.blowT=.55;
   toast('破门弹贴装 · 0.55 秒起爆');snd.rl1();updGun();return}
@@ -2979,8 +3057,11 @@ function initAllies(){if(!G)return;G.al=[];
    tx:0,ty:0,mv:0,shC:0,seeT:0,canSee:0,kills:0,mode:1,search:0,ph:Math.random()*TAU,
    qst:'follow',qd:0,sx9:0,sy9:0,aggro:1,ord:'follow'})}
  if(G.al.length)feed('Bravo 编入小队 · 默认跟队并自动交火，按 E 调整战术指令'+(ST.hero===1&&!L.cfg.exam?' · 猎鹰「燕锋」':''),1)}
-function allySlot(a){var p=G.p,base=p.aa,
- off=a.i===0?{d:-52,s:58}:(a.i>=2?{d:-88,s:10}:{d:-58,s:-62});
+function allySlot(a){var p=G.p,sp=Math.hypot(p.vx||0,p.vy||0),base;
+ /* 队形只跟「玩家移动方向」走：静止时沿用最后一次移动方向，不再随鼠标/准星乱转 */
+ if(sp>24)p._fDir=Math.atan2(p.vy,p.vx);
+ base=(typeof p._fDir==='number')?p._fDir:p.aa;
+ var off=a.i===0?{d:-46,s:52}:(a.i>=2?{d:-72,s:8}:{d:-52,s:-56});
  var sx=p.x+Math.cos(base+PI/2)*off.s-Math.cos(base)*-off.d,
   sy=p.y+Math.sin(base+PI/2)*off.s-Math.sin(base)*-off.d;
  if(freeAt(sx,sy,a.r))return{x:sx,y:sy};
@@ -3058,17 +3139,11 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
    if(a.dt2>16){a.down=0;a.hp=a.mhp*.55;a.dt2=0;feed(a.n+' 恢复战斗',1)}continue}
   a.kd-=dt;a.sw-=dt;a.seeT-=dt;a.heal=Math.max(0,a.heal-dt);
   if(a.seeT<=0){a.seeT=.2;a.dE=null}
-  /* 掉队追赶：距离越远跑得越快（最高 2.2 倍），靠速度归队而不是瞬移 */
+  /* 掉队追赶：距离越远跑得越快（最高 2.4 倍），全程靠双腿走回来，绝不瞬移 */
   var dpp=Math.hypot(a.x-p.x,a.y-p.y);
-  a.catch=dpp>360?clamp(1+(dpp-360)/300,1,2.2):1;
-  /* 重组：极远时用半秒淡出－淡入完成归位，镜头内不会出现硬跳 */
-  if(a.rjT>0){a.rjT-=dt;a.mv=0;
-   if(!a.rjM&&a.rjT<=.3){a.rjM=1;
-    var rs=allySlot(a);
-    if(freeAt(rs.x,rs.y,a.r)){a.x=rs.x;a.y=rs.y}
-    else if(freeAt(p.x,p.y,a.r)){a.x=p.x;a.y=p.y}}
-   if(a.rjT<=0){a.rjT=0;a.rjM=0}
-   continue}
+  a.catch=dpp>150?clamp(1+(dpp-150)/170,1,2.4):1;
+  /* 旧的「淡出淡入重新归位」已移除：那会让队友（甚至镜头）瞬间换位 */
+  a.rjT=0;a.rjM=0;
   cqb(a,dt,p);
   var tg=allyTarget(a);a.tg=tg;var mode=a.mode==null?1:a.mode;
   if(!tg&&a.search){for(var si=0;si<L.en.length;si++){var se2=L.en[si];
@@ -3102,6 +3177,9 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
   if(a.qst==='stack'&&a.sx9!==undefined&&!tg){want=1;wx=a.sx9;wy=a.sy9;d0(a,{x:wx,y:wy})<14||(dsp=1)}
   a.stuck=(a._lx!==undefined&&Math.abs(a.x-a._lx)+Math.abs(a.y-a._ly)<.4&&d0(a,{x:wx,y:wy})>34)?1:0;
   a._lx=a.x;a._ly=a.y;
+  /* 被关着的门挡住、且明显掉队时才推门（不抢玩家破门的活，也不会开门暴露你） */
+  if(want>0&&a.stuck&&dpp>190){var dnb=doorNear(a.x,a.y,48);
+   if(dnb&&!dnb.open&&!dnb.tr){openDoor(dnb,'a');feed(a.n+' 推开门扉',1);a.stuck=0;dnb.anim=0}}
   if(want>0){var au=Math.atan2(wy-a.y,wx-a.x),vv=a.sp*(a.lost?1.35:want)*(a.catch||1);
    if(!moveToward(a,wx,wy,vv,dt))a.stuckT=(a.stuckT||0)+dt;
    else a.mv=1}
@@ -3139,8 +3217,8 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
   if(a.hp<a.mhp*.35&&!a.heal&&Math.hypot(a.x-sl.x,a.y-sl.y)<300){
    a.hp=Math.min(a.mhp,a.hp+45);a.heal=14;feed(a.n+' 使用自救包',1);allySay(a,'包扎完成，继续压上')}
   var dx2=p.x-a.x,dy2=p.y-a.y,dd2=Math.hypot(dx2,dy2);
-  a.lost=dd2>520?1:0;
-  if(dd2>1600&&!vis(a.x,a.y,0)){a.rjT=.58;a.rjM=0}}
+  a.lost=dd2>520?1:0;   /* 失散只影响移速，不再有瞬移归位 */
+  a.rjT=0}
  if(!G.al.length)return;
  for(i=0;i<G.al.length;i++){var o=G.al[i];
   for(var k=i+1;k<G.al.length;k++){var s=G.al[k],ox=o.x-s.x,oy=o.y-s.y,
@@ -3158,15 +3236,22 @@ function drawDoor(d){
  var rot=(Math.PI/2)*d.anim*sw*sg*(d.hor?1:-1);
  var rx=d.hor?(sg>0?0:-leaf):-th/2, ry=d.hor?-th/2:(sg>0?0:-leaf);
  var rw=d.hor?leaf:th, rh=d.hor?th:leaf;
- var metal=d.type==='metal', glass=d.type==='glass', i;
+ var metal=d.type==='metal', glass=d.type==='glass', blast=d.type==='blast', i;
  ctx.save();ctx.translate(hx,hy);
  if(d.anim>.04){ctx.save();ctx.rotate(rot);ctx.fillStyle='rgba(0,0,0,.20)';
   ctx.fillRect(rx+3,ry+4,rw,rh);ctx.restore()}
  ctx.rotate(rot);
  if(glass)ctx.fillStyle=d.brk?'rgba(120,170,185,.14)':'rgba(150,205,220,.34)';
+ else if(blast)ctx.fillStyle=d.brk?'#262a2e':'#41474e';
  else if(metal)ctx.fillStyle=d.brk?'#384048':'#5b6670';
  else ctx.fillStyle=d.brk?'#453222':'#6f4d30';
  ctx.fillRect(rx,ry,rw,rh);
+ /* 防爆门：黄黑警示斜条 */
+ if(blast&&!d.brk){ctx.save();ctx.beginPath();ctx.rect(rx,ry,rw,rh);ctx.clip();
+  for(i=-rh;i<rw+rh;i+=9){ctx.fillStyle=(i/9|0)%2?'rgba(226,169,62,.55)':'rgba(20,22,24,.55)';
+   ctx.beginPath();ctx.moveTo(rx+i,ry);ctx.lineTo(rx+i+4,ry);ctx.lineTo(rx+i+4-rh,ry+rh);ctx.lineTo(rx+i-rh,ry+rh);
+   ctx.closePath();ctx.fill()}
+  ctx.restore()}
  ctx.strokeStyle='rgba(0,0,0,.5)';ctx.lineWidth=1.6;
  ctx.strokeRect(rx+.8,ry+.8,rw-1.6,rh-1.6);
  ctx.strokeStyle=glass?'rgba(255,255,255,.28)':'rgba(255,255,255,.10)';ctx.lineWidth=1;
@@ -3185,6 +3270,27 @@ function drawDoor(d){
  if(d.hor){ctx.fillRect(rx+(sg>0?0:-3),ry+3,3,4);ctx.fillRect(rx+(sg>0?0:-3),ry+rh-7,3,4)}
  else{ctx.fillRect(rx+3,ry+(sg>0?0:-3),4,3);ctx.fillRect(rx+rw-7,ry+(sg>0?0:-3),4,3)}
  ctx.restore();
+ /* 门框：紧贴洞口两侧，视觉上把门缝收到最小 */
+ if(!d.open){var fw2=3.5;
+  ctx.fillStyle='#2b2620';
+  if(d.hor){ctx.fillRect(d.x-fw2,d.y-1.5,fw2,d.h+3);ctx.fillRect(d.x+d.w,d.y-1.5,fw2,d.h+3)}
+  else{ctx.fillRect(d.x-1.5,d.y-fw2,d.w+3,fw2);ctx.fillRect(d.x-1.5,d.y+d.h,d.w+3,fw2)}
+  ctx.fillStyle='rgba(255,255,255,.07)';
+  if(d.hor){ctx.fillRect(d.x,d.y-.8,d.w,1.6)}else{ctx.fillRect(d.x-.8,d.y,1.6,d.h)}}
+ /* 木门弹孔（可穿透） */
+ if(d.holes&&d.holes.length&&!d.open){var hi4;
+  for(hi4=0;hi4<d.holes.length;hi4++){var ho=d.holes[hi4];
+   ctx.fillStyle='rgba(20,14,8,.75)';ctx.beginPath();ctx.arc(ho.x,ho.y,1.6,0,TAU);ctx.fill()}}
+ /* 已知门后装置：门框上打标记（红=绊雷，黄=阻门器） */
+ if(!d.open&&d.known&&d.tr){
+  var mx=d.x+d.w/2,my=d.y+d.h/2;
+  ctx.save();ctx.translate(mx,my);
+  ctx.strokeStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';ctx.lineWidth=1.8;
+  ctx.beginPath();ctx.arc(0,0,7,0,TAU);ctx.stroke();
+  ctx.fillStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';
+  ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(d.tr==='rig'?'雷':'阻',0,0);
+  ctx.restore();ctx.textAlign='left';ctx.textBaseline='alphabetic'}
  if(!d.open&&!d.brk){
   var cx=d.x+d.w/2,cy=d.y+d.h/2,
    near=G&&G.p&&Math.hypot(G.p.x-cx,G.p.y-cy)<72;
@@ -3257,6 +3363,7 @@ function draw(){if(!G||!L)return;
   ctx.strokeStyle='#8ea06b';ctx.lineWidth=1.6;ctx.strokeRect(c.x-11,c.y-11,22,22);
   ctx.fillStyle='#c9d3a8';ctx.fillRect(c.x-2,c.y-7,4,14);ctx.fillRect(c.x-7,c.y-2,14,4)}
  for(i=0;i<L.civ.length;i++){var cc=L.civ[i];if(!vis(cc.x,cc.y,18))continue;
+  if(cc._vis===0&&!cc.f)continue;
   if(cc.down){ctx.fillStyle='#3a2320';ctx.beginPath();ctx.ellipse(cc.x,cc.y+2,13,7,0,0,TAU);ctx.fill();
    ctx.strokeStyle='#c8574a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cc.x-8,cc.y-5);ctx.lineTo(cc.x+8,cc.y+5);ctx.stroke()}
   else{ctx.fillStyle=cc.f?'#a8c08a':'#d9c87a';ctx.beginPath();ctx.arc(cc.x,cc.y,9,0,TAU);ctx.fill();
@@ -3271,6 +3378,8 @@ function draw(){if(!G||!L)return;
     ctx.globalAlpha=al*.9;ctx.fillStyle='#33231f';
     ctx.beginPath();ctx.ellipse(e.x,e.y,e.r*1.05,e.r*.55,0,0,TAU);ctx.fill();ctx.globalAlpha=1}continue}
   if(!vis(e.x,e.y,e.r+10))continue;
+  /* 视线遮挡：门后 / 墙体后面的敌人不渲染 */
+  if(e._vis===0)continue;
   if(e.sub>0){drawSub(e);continue}
   drawFoe(e)}
  for(i=0;i<L.dr.length;i++){var ddd=L.dr[i];if(vis(ddd.x+ddd.w/2,ddd.y+ddd.h/2,90))drawDoor(ddd)}
@@ -3434,8 +3543,53 @@ function drawAlly(a){var fv=a.rjT>0?clamp(Math.abs(a.rjT-.29)/.29,0,1):1;
  ctx.restore();
  if(fv<1)return;
  drawNameTag(a.x,a.y-31,(a.n||'').replace(/^\s+/,''),'#a6c8dc')}
-function drawFoe(e){if(L.cfg&&(L.cfg.exam||L.cfg.tgt)){
- /* 人形靶：人形剪影 + 靶架 + A 区环线 + 弹孔 */
+/* 人质 / 平民：俯视角平民模型（便装 + 发色 + 被扣押举手 / 获救后跟随） */
+var CIVCOL=['#7a6a58','#5f6b74','#7d5a52','#60684f','#6b5f76','#8a7358'];
+function drawCiv(c){
+ var col=CIVCOL[Math.abs((c.x*7+c.y*13)|0)%CIVCOL.length];
+ var lg=c.f?Math.sin(c.ph*7)*3:0;
+ ctx.save();ctx.translate(c.x,c.y);
+ ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.ellipse(2,3,10.5,7,0,0,TAU);ctx.fill();
+ if(c.down){
+  ctx.fillStyle=shade(col,-.25);ctx.beginPath();ctx.ellipse(0,0,12,7.5,0,0,TAU);ctx.fill();
+  ctx.fillStyle='#8a2f28';ctx.beginPath();ctx.ellipse(-1,1,7,4,0,0,TAU);ctx.fill();
+  ctx.strokeStyle='#c8574a';ctx.lineWidth=2;ctx.beginPath();
+  ctx.moveTo(-9,-6);ctx.lineTo(9,6);ctx.moveTo(9,-6);ctx.lineTo(-9,6);ctx.stroke();
+  ctx.restore();return}
+ /* 腿 */
+ ctx.fillStyle=shade(col,-.22);ctx.fillRect(-11,-6.5,8.5,5);ctx.fillRect(-11,1.5,8.5,5);
+ ctx.fillStyle='#20242a';ctx.fillRect(-12.4+lg*.5,-6.5,3.6,5);ctx.fillRect(-12.4-lg*.5,1.5,3.6,5);
+ /* 躯干（便装外套） */
+ ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(-.6,0,8.2,9.4,0,0,TAU);ctx.fill();
+ ctx.fillStyle=shade(col,.10);ctx.fillRect(-3.2,-7.6,3.4,15.2);
+ ctx.fillStyle='rgba(0,0,0,.16)';ctx.fillRect(-8,7.2,15,1.8);
+ /* 头 + 头发 */
+ ctx.fillStyle='#c9a184';ctx.beginPath();ctx.arc(1.8,0,5.9,0,TAU);ctx.fill();
+ ctx.fillStyle='#2d2620';ctx.beginPath();ctx.arc(1.1,0,6.1,PI*.52,PI*1.48);ctx.fill();
+ ctx.fillStyle='rgba(255,255,255,.10)';ctx.beginPath();ctx.arc(.6,-1.8,3.2,0,TAU);ctx.fill();
+ /* 手臂：被扣押时双手抱头，获救后自然下垂 */
+ if(!c.f){
+  ctx.strokeStyle=col;ctx.lineWidth=3.2;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(1,-6.2);ctx.lineTo(7,-10.5);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(1,6.2);ctx.lineTo(7,10.5);ctx.stroke();
+  ctx.fillStyle='#c9a184';
+  ctx.beginPath();ctx.arc(7.4,-10.8,2.3,0,TAU);ctx.fill();
+  ctx.beginPath();ctx.arc(7.4,10.8,2.3,0,TAU);ctx.fill()}
+ else{
+  ctx.strokeStyle=col;ctx.lineWidth=3;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(1,-6);ctx.lineTo(6+lg*.5,-4);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(1,6);ctx.lineTo(6-lg*.5,4);ctx.stroke();
+  ctx.fillStyle='#c9a184';
+  ctx.beginPath();ctx.arc(6.6+lg*.5,-4,2.1,0,TAU);ctx.fill();
+  ctx.beginPath();ctx.arc(6.6-lg*.5,4,2.1,0,TAU);ctx.fill()}
+ ctx.restore();
+ /* 头顶标识：被扣押的黄标 / 已获救的绿标 */
+ var by=c.y-20;
+ ctx.fillStyle=c.f?'rgba(142,224,142,.9)':'rgba(226,169,62,.92)';
+ ctx.beginPath();ctx.moveTo(c.x,by-4);ctx.lineTo(c.x+4,by);ctx.lineTo(c.x,by+4);ctx.lineTo(c.x-4,by);ctx.closePath();ctx.fill();
+ if(!c.f){ctx.fillStyle='rgba(226,169,62,.9)';ctx.font='bold 8px sans-serif';ctx.textAlign='center';
+  ctx.fillText('人质',c.x,by-8);ctx.textAlign='left'}}
+function drawFoe(e){if(L.cfg&&(L.cfg.exam||L.cfg.tgt)){ /* 人形靶：人形剪影 + 靶架 + A 区环线 + 弹孔 */
  var fall=e.dead?Math.min(1,e.dt*1.6):0;
  ctx.save();ctx.translate(e.x,e.y);
  ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(0,41,22,6,0,0,TAU);ctx.fill();
@@ -3622,6 +3776,7 @@ function updHud(){var p=G.p,g=cur(),i;
   mmCtx.fillStyle=cc.down?'#8a4038':(cc.f?'#8ee08e':'#d9c87a');
   mmCtx.fillRect(cc.x*s2-1.8,cc.y*s2-1.8,3.6,3.6)}
  for(i=0;i<L.en.length;i++){var ee=L.en[i];if(ee.dead)continue;
+  if(ee._vis===0&&!ee.alert)continue;   /* 小地图也只显示看得见或已暴露的敌人 */
   mmCtx.fillStyle=ee.sub>0?'#e6d78a':(ee.tp==='boss'?'#ff5a4a':(ee.tp==='sniper'?'#7fd0ff':'#e06a52'));
   mmCtx.fillRect(ee.x*s2-2,ee.y*s2-2,4,4)}
  mmCtx.fillStyle=G.exitOpen?'rgba(140,224,142,.45)':'rgba(120,130,135,.25)';
@@ -3646,7 +3801,7 @@ function step(dt){if(!G)return;
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
  if(G.p.act==='n'||G.p.act==='f')updateGren(dt);
- updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);
+ updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /*  win check：踏入撤离区即可（新兵训练不判定撤离） */
  if(G.exitOpen&&!G.tut){var eR=G.exit,
@@ -3726,6 +3881,7 @@ setInterval(function(){
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderRank();renderLvRail();sweepTick();
  if($('chipW'))$('chipW').textContent=WP.length;
+ if($('chipR'))$('chipR').textContent=RKLAD.length;
  /* 只遍历 5 张主线地图；OP-06 考核单独由 lvCard6() 渲染，避免重复卡片 */
  LS.forEach(function(c,i){var ok=lvPlayable(i),locked=!ok,why=lvLockWhy(i);
   var b=mk('div','card'+(locked?' lock':''));
@@ -3900,6 +4056,7 @@ var TUTS=[
  {k:'swap',t:'切枪',d:'按 <b>1 / 2</b> 切换主副武器，<b>Q</b> 快速切回上一把。',g:'切换 1 次武器',n:1},
  {k:'gren',t:'投掷',d:'按 <b>B</b> 投出投掷物：破片杀伤，M84 闪光致眩。',g:'投出 1 枚投掷物',n:1},
  {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。',g:'完成 1 次互动',n:1},
+ {k:'kills',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'wheel',t:'战术轮盘',d:'按 <b>E</b> 打开战术轮盘。实战里用它给 AI 队员下达跟随／突击／掩护等指令；训练场没有队员，先熟悉按键与轮盘布局。',g:'打开 1 次轮盘',n:1},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
  {k:'cov',t:'掩护射击',d:'按 <b>G</b>：换弹加速、散布收紧，适合压制窗口。',g:'触发 1 次掩护',n:1},
@@ -3923,7 +4080,14 @@ function tutCheck(){if(!TUT.on||TUT.done||!G)return;
  TUT.i++;snd.sec();
  if(TUT.i>=TUTS.length){tutFinish();return}
  TUT.k0=G.killed;tutRender();
+ /* 进入「模拟清房」时投放三名陪练目标 */
+ if(TUTS[TUT.i]&&TUTS[TUT.i].t==='模拟清房'&&!TUT.simSpawn){TUT.simSpawn=1;spawnTutFoes()}
  toast('完成：'+s.t+' · 下一步 '+TUTS[TUT.i].t,1500)}
+function spawnTutFoes(){if(!G||!L)return;var c=L.cfg.st,i;
+ for(i=0;i<3;i++){var e=spawnFoe('grunt',c[0]+150+i*54,c[1]-150-((i%2)*46),0.55);
+  e.fight=1;e.st='patrol';e.alert=0;e.hx=e.x;e.hy=e.y;e.nade=0;e.acc=.5;e.dm=7;e.pf=Math.random()*TAU;
+  L.en.push(e)}
+ feed('模拟目标入场 · 三名持械佣兵',1);toast('模拟交战：击倒 3 名目标',3000);snd.alert()}
 function tutTick(dt){if(!G||!G.p||!TUT.on)return;
  var p=G.p,d=Math.hypot(p.x-TUT.px,p.y-TUT.py);
  if(d<48)TUT.moved+=d;
