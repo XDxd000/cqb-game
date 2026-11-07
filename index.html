@@ -49,6 +49,8 @@ p{color:var(--dim);font-size:13.5px;line-height:1.75}
 .card .en2{font-size:11px;color:var(--amber);letter-spacing:.12em}
 .card .ob{font-size:12px;color:var(--dim);line-height:1.6}
 .card .dftag{font-size:10.5px;color:#93ac6d;letter-spacing:.08em}
+.card .swp{margin-top:8px;align-self:flex-start;padding:4px 11px;font-size:10.5px;letter-spacing:.04em}
+.card .swp.on{border-color:#5a6a3a;color:#c9d69a}
 .card.lock .dftag{color:#7a5a4e}
 .card .mt{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:11px;color:#7c919f}
 .card .st{color:var(--red);letter-spacing:2px}
@@ -579,7 +581,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bootSub">TACTICAL CQB OPERATION</div>
   <div class="bootChips">
     <span class="chip"><b>5</b> 张地图</span>
-    <span class="chip"><b>22</b> 把枪械</span>
+    <span class="chip"><b id="chipW">33</b> 把枪械</span>
     <span class="chip"><b>7</b> 级军衔</span>
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
@@ -1061,16 +1063,100 @@ w({id:'qbz191',n:'QBZ-191 精确射手型',cls:'rifle',cn:'国产新一代制式
  rg:'公开口径约 600 m 级（区间值）',wt:'空枪约 3.6–4.0 kg（区间值）',
  it:'191 式枪族是我国现役新一代制式轻武器，2019 年国庆阅兵首次公开。精确射手型配可变倍率瞄具——本作战例中猎鹰考核的指定枪型。',
  dmg:35,rpm:700,cap:30,rl:2.3,sp:.019,bs:1560,rn:2700,au:1,kk:1.05,mb:-.02,pen:1,pl:1,hero:1});
+/* ==== 国产枪族（公开资料口径 · 虚构演绎，不含任何涉密参数） ==== */
+w({id:'type54',n:'54 式手枪',cls:'pistol',cn:'国产手枪',g:'▮',
+ mk:'中国（仿制自 TT-33，公开资料）',
+ cal:'7.62×25mm 51 式手枪弹',rt:'枪管短后坐，单发，约 30 发/分',
+ mg:'8 发弹匣',br:'约 116 mm',mz:'约 420 m/s',
+ rg:'约 50 m',wt:'空枪约 0.85 kg',
+ it:'建国后大批量装备的制式手枪，结构简单、穿透力强，握把角度大，快速出枪顺手。',
+ dmg:26,rpm:320,cap:8,rl:1.8,sp:.034,bs:1300,rn:800,au:0,kk:1.15,mb:.02,pen:1,pl:1,tk:0}),
+w({id:'qsz92g',n:'QSZ-92G 手枪',cls:'pistol',cn:'国产手枪',g:'▮',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'9×19mm / 5.8×21mm（双口径版本）',rt:'枪管短后坐 + 回转闭锁，单/双动',
+ mg:'15 发弹匣',br:'约 111 mm',mz:'约 350 m/s',
+ rg:'约 50 m',wt:'空枪约 0.76 kg',
+ it:'92 式手枪的改进型，握把与保险机构优化，戴手套操作更顺；警用与外贸版本常见 9mm 口径。',
+ dmg:27,rpm:380,cap:15,rl:1.9,sp:.030,bs:1350,rn:850,au:0,kk:1.05,mb:.03,pen:0,pl:1,tk:1}),
+w({id:'type79',n:'79 式冲锋枪',cls:'smg',cn:'国产冲锋枪',g:'▮',
+ mk:'中国（公开资料）',
+ cal:'7.62×25mm 51 式手枪弹',rt:'导气式，单/连发，理论射速约 1000 发/分',
+ mg:'20 发弹匣',br:'约 250 mm',mz:'约 500 m/s',
+ rg:'约 200 m',wt:'空枪约 1.9 kg',
+ it:'我国自行研制的轻型冲锋枪，体积小、枪身短，适合楼道与车内等狭窄空间，射速快但后坐直接。',
+ dmg:24,rpm:900,cap:20,rl:1.9,sp:.036,bs:1450,rn:1150,au:1,kk:1.0,mb:.02,pen:0,pl:1,tk:1}),
+w({id:'qcw05',n:'05 式微声冲锋枪',cls:'smg',cn:'国产微声冲锋枪',g:'▮',
+ mk:'中国（公开资料）',
+ cal:'5.8×21mm 微声弹',rt:'自由枪机，单/连发，消声器一体',
+ mg:'50 发弹匣',br:'较短（公开数据为区间值）',mz:'亚音速（公开口径）',
+ rg:'约 150 m',wt:'空枪约 2.2 kg',
+ it:'5.8mm 微声冲锋枪，弹匣容量大、枪口特征小，适合破门后近距离连续压制，穿透力相对温和。',
+ dmg:21,rpm:900,cap:50,rl:2.6,sp:.030,bs:1050,rn:1000,au:1,kk:.85,mb:.03,pen:0,pl:1,tk:3}),
+w({id:'qbz95',n:'QBZ-95 步枪',cls:'rifle',cn:'国产突击步枪',g:'▣',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'5.8×42mm DBP-87 弹',rt:'导气式，单/连发，约 650 发/分',
+ mg:'30 发弹匣',br:'约 463 mm',mz:'约 930 m/s',
+ rg:'点目标约 400 m',wt:'空枪约 3.4 kg',
+ it:'95 式枪族是我国第一代大规模列装的小口径无托步枪，重心靠后、指向性好，是很多人对国产步枪的第一印象。',
+ dmg:30,rpm:650,cap:30,rl:2.4,sp:.028,bs:1500,rn:2500,au:1,kk:1.05,mb:0,pen:0,pl:1,tk:2}),
+w({id:'qbz951',n:'QBZ-95-1 步枪',cls:'rifle',cn:'国产突击步枪',g:'▣',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'5.8×42mm DBP-10 弹',rt:'导气式，单/连发，约 650 发/分',
+ mg:'30 发弹匣',br:'约 463 mm',mz:'约 930 m/s',
+ rg:'点目标约 400–500 m',wt:'空枪约 3.3 kg',
+ it:'95 式改进型：拉机柄与保险位置优化、弹匣与抛壳更顺，人机工效明显提升。',
+ dmg:32,rpm:650,cap:30,rl:2.3,sp:.026,bs:1520,rn:2600,au:1,kk:1.02,mb:0,pen:1,pl:1,tk:3}),
+w({id:'qbs09',n:'QBS-09 军用霰弹枪',cls:'shotgun',cn:'国产军用霰弹枪',g:'▤',
+ mk:'中国（公开资料）',
+ cal:'18.4mm 霰弹',rt:'导气式半自动',
+ mg:'5 发管状弹仓',br:'约 380 mm',mz:'公开数据未详',
+ rg:'约 50 m',wt:'空枪约 3.3 kg',
+ it:'我国军用霰弹枪，破门与近距离压制兼顾，弹丸散布大，室内一发即可压制整扇门洞。',
+ dmg:18,rpm:120,cap:5,rl:3.0,sp:.075,bs:900,rn:700,au:0,kk:1.3,mb:-.02,pen:0,pl:7,tk:3}),
+w({id:'qbu88',n:'QBU-88 狙击步枪',cls:'sniper',cn:'国产半自动狙击步枪',g:'◈',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'5.8×42mm 重弹',rt:'导气式半自动',
+ mg:'10 发弹匣',br:'约 620 mm',mz:'约 895 m/s',
+ rg:'约 800 m',wt:'空枪约 4.1 kg',
+ it:'88 式狙击步枪，5.8mm 弹道平直、后坐温和，半自动便于连续补射，是我军班组精确火力的老面孔。',
+ dmg:62,rpm:70,cap:10,rl:2.9,sp:.010,bs:1750,rn:3200,au:0,kk:1.6,mb:-.05,pen:2,pl:1,tk:4}),
+w({id:'qbu191',n:'QBU-191 精确射手步枪',cls:'sniper',cn:'国产精确射手步枪',g:'◈',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'5.8×42mm 新型弹',rt:'短行程活塞，半自动',
+ mg:'20 发弹匣',br:'加重长枪管（公开数据为区间值）',mz:'公开数据未详',
+ rg:'约 800 m 级（公开口径）',wt:'约 4.2 kg（区间值）',
+ it:'191 式枪族中的精确射手型，20 发弹匣兼顾火力密度与精度，配可变倍率瞄具后中远距离压制更从容。',
+ dmg:46,rpm:130,cap:20,rl:2.6,sp:.012,bs:1700,rn:3000,au:0,kk:1.35,mb:-.03,pen:2,pl:1,tk:4}),
+w({id:'cslr4',n:'CS/LR4 高精度狙击步枪',cls:'sniper',cn:'国产高精狙',g:'◈',
+ mk:'中国兵器装备集团（外贸型号，公开资料）',
+ cal:'7.62×51mm NATO',rt:'旋转后拉枪机',
+ mg:'5 发弹匣',br:'约 610 mm',mz:'约 800 m/s',
+ rg:'约 1000 m 级（公开口径）',wt:'空枪约 6.5 kg',
+ it:'高精度狙击系统，配高倍镜与重型枪管，首发命中率高，代价是重量与机动性。',
+ dmg:80,rpm:45,cap:5,rl:3.2,sp:.006,bs:1850,rn:3400,au:0,kk:1.9,mb:-.08,pen:3,pl:1,tk:5}),
+w({id:'qbu10',n:'QBU-10 反器材狙击步枪',cls:'sniper',cn:'国产反器材步枪',g:'◈',
+ mk:'中国兵器装备集团（公开资料）',
+ cal:'12.7×108mm',rt:'半自动，导气式',
+ mg:'5 发弹匣',br:'约 780 mm',mz:'约 820 m/s',
+ rg:'约 1500 m 级（公开口径）',wt:'空枪约 12 kg 级',
+ it:'12.7mm 反器材狙击步枪，可对付轻装甲与掩体后的目标；在本作里它意味着「一枪穿一排」。',
+ dmg:112,rpm:40,cap:5,rl:3.6,sp:.008,bs:1900,rn:3600,au:0,kk:2.2,mb:-.12,pen:4,pl:1,tk:6});
+
 /* SECTION: range-tuning 射程整体放量
    数值 rn 的单位是「世界像素」，即子弹在无遮挡时的最大飞行距离。
    各场景对角长约 1600–2060 px，所以 rn 一旦超过 2100 就等于「打到视野尽头」。
    这里按枪种给出梯度：手枪明显加强但仍是近战优势，步枪可覆盖全图，狙击枪保持最远。 */
 var RNG_TUNE={rifle:1.3,smg:1.4,pistol:1.7,shotgun:1.25,sniper:1.1};
 (function(){var i,o,m;for(i=0;i<WP.length;i++){o=WP[i];m=RNG_TUNE[o.cls]||1.3;o.rn=Math.round(o.rn*m/10)*10}})();
-var TIER_XP=[0,400,1200,2600];
-var TIER_NAME=['列兵','下士','上士','军士长'];
-var RKLAD=[['列兵',0],['上等兵',200],['下士',400],['中士',800],['上士',1200],['一级上士',1800],['军士长',2600]];
-function tierOf(xp){return xp>=TIER_XP[3]?3:(xp>=TIER_XP[2]?2:(xp>=TIER_XP[1]?1:0))}
+/* 军衔：按我军现行等级序列编排（士兵 → 军士 → 军官），共 14 级
+   武器档次 tk 0–7 依次挂在这些军衔上，见 TIER_XP */
+var TIER_XP=[0,300,700,1300,2100,4400,8000,13600];
+var TIER_NAME=['列兵','上等兵','下士','中士','上士','二级军士长','少尉','上尉'];
+var RKLAD=[
+ ['列兵',0],['上等兵',300],['下士',700],['中士',1300],['上士',2100],
+ ['三级军士长',3100],['二级军士长',4400],['一级军士长',6000],
+ ['少尉',8000],['中尉',10600],['上尉',13600],['少校',17200],['中校',21200],['上校',26000]];
+function tierOf(xp){var r=0,i;for(i=1;i<TIER_XP.length;i++)if(xp>=TIER_XP[i])r=i;return r}
 function rankOf(xp){var r=0,i;for(i=0;i<RKLAD.length;i++)if(xp>=RKLAD[i][1])r=i;return r}
 function rankName(xp){return RKLAD[rankOf(xp)][0]}
 /* SECTION: data-rank 军衔展示
@@ -1115,15 +1201,17 @@ function renderRank(){var el=$('rankCard');if(!el)return;
  RKLAD.forEach(function(k,i){
   h+='<div class="rankStep '+(i<r?'done':(i===r?'now':''))+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
  return el.innerHTML=h+'</div>'}
-/* 作战序列阶梯：把 5 张地图按难度铺开，标出已完成 / 当前 / 未解锁 */
+/* 作战序列阶梯：把 5 张地图按难度铺开，标出已完成 / 当前 / 未解锁 / 军衔不足 */
 function renderLvRail(){var el=$('lvRail');if(!el)return;
- var h='',unlDone=ST.unl,i;
+ var h='',i;
  for(i=0;i<LS.length;i++){
-  var done=!!ST.best[''+(i+1)],cur=(i+1)===ST.unl&&!done,
-   cls=done?'done':(cur?'cur':((i+1)>ST.unl?'lock':''));
+  var done=!!ST.best[''+(i+1)],unl=(i+1)<=ST.unl,rankOk=rankOf(ST.xp)>=(LS[i].rq||0),
+   cur=unl&&rankOk&&(i+1)===ST.unl&&!done,
+   cls=done?'done':(cur?'cur':((!unl||!rankOk)?'lock':''));
+  var st=done?'已通过':(cur?'当前任务':(!unl?'未解锁':(!rankOk?('需 '+RKLAD[LS[i].rq][0]):'可重打')));
   h+='<div class="lvStep '+cls+'"><div class="n">OP-0'+(i+1)+'</div>'+
    '<div class="m">'+LS[i].nm.split(' · ')[0]+'</div>'+
-   '<div class="d">'+(done?'已通过':(cur?'当前任务':((i+1)>ST.unl?'未解锁':'可重打')))+' · '+DIFF_NAME[i]+' '+('★'.repeat(i+1))+'</div></div>'}
+   '<div class="d">'+st+' · '+DIFF_NAME[i]+' '+('★'.repeat(i+1))+'</div></div>'}
  return el.innerHTML=h}
 var ARM={0:{n:'无甲',v:0},1:{n:'轻型软质防弹衣',v:.28},2:{n:'NIJ IIIA 防弹背心',v:.45},3:{n:'NIJ IV 陶瓷插板',v:.68}};
 var EARM={grunt:1,rush:1,heavy:3,sniper:2,boss:3};
@@ -1173,7 +1261,7 @@ function ofDef(id){for(var i=0;i<OUTF.length;i++)if(OUTF[i].id===id)return OUTF[
 /* SECTION: data-levels */
 function ring(a,W2,H2,t){a.push([0,0,W2,t],[0,H2-t,W2,t],[0,0,t,H2],[W2-t,0,t,H2])}
 var LS=[
-{code:'OP-01 · APARTMENT',nm:'公寓 · 室内清剿',W:1280,H:900,dk:.14,th:'apartment',sd:11,par:110,
+{code:'OP-01 · APARTMENT',nm:'公寓 · 室内清剿',W:1280,H:900,dk:.14,th:'apartment',sd:11,par:110,rq:0,
  fl:[[20,20,1240,860]],
  wl:function(a){ring(a,1280,900,20);
   a.push([360,20,20,230],[360,330,20,170],[360,600,20,280]);
@@ -1192,7 +1280,7 @@ var LS=[
  obj:['击毙或缴械区域内全部武装人员','解救被扣押平民（跟随撤离）','抵达楼梯口撤离点并停留'],
  roe:'平民不可射击；对举手投降者开枪将重扣分',
  civ:[[300,180],[900,430]],st:[120,830],ex:[70,835,150,85],zn:[[60,60,1200,820]]},
-{code:'OP-02 · MALL',nm:'商场 · 中庭与店铺',W:1600,H:1000,dk:.10,th:'mall',sd:22,par:150,
+{code:'OP-02 · MALL',nm:'商场 · 中庭与店铺',W:1600,H:1000,dk:.10,th:'mall',sd:22,par:150,rq:1,
  fl:[[20,20,1560,960]],
  wl:function(a){ring(a,1600,1000,20);
   var xs=[200,420,640,860,1080,1300,1520],i;
@@ -1212,7 +1300,7 @@ var LS=[
  obj:['清除店铺与中庭全部守敌','优先消除 2 名高点精确射手','解救平民并从中庭侧门撤离'],
  roe:'中庭开阔地带极易误伤跟随的平民，注意走位',
  civ:[[272,150],[1352,160],[780,884]],st:[95,905],ex:[62,912,150,80],zn:[[60,60,1480,170],[60,790,1480,170],[60,300,1480,390]]},
-{code:'OP-03 · KTV',nm:'KTV · 昏暗包厢走廊',W:1400,H:880,dk:.84,th:'ktv',sd:33,par:165,
+{code:'OP-03 · KTV',nm:'KTV · 昏暗包厢走廊',W:1400,H:880,dk:.84,th:'ktv',sd:33,par:165,rq:2,
  fl:[[20,20,1360,840]],
  wl:function(a){ring(a,1400,880,20);
   var x0=40,rw=258,n=5,i,sx,mid;
@@ -1232,7 +1320,7 @@ var LS=[
  obj:['清空走廊两侧全部包厢','在低能见度下避免误伤平民','从大堂安全门撤离'],
  roe:'黑暗中辨明身份：平民举手求救，佣兵持枪',
  civ:[[200,230],[1180,690],[685,250]],st:[1290,440],ex:[52,404,110,72],zn:[[60,60,1280,300],[60,520,1280,320],[60,404,1280,76]]},
-{code:'OP-04 · PORT',nm:'港口 · 集装箱场区',W:1800,H:1000,dk:.18,th:'port',sd:44,par:190,
+{code:'OP-04 · PORT',nm:'港口 · 集装箱场区',W:1800,H:1000,dk:.18,th:'port',sd:44,par:190,rq:3,
  fl:[[20,20,1760,960]],
  wl:function(a){ring(a,1800,1000,20);
   var r,c,x,y;
@@ -1251,7 +1339,7 @@ var LS=[
  obj:['击毙场区全部守敌（含 2 名精确射手）','压制重装佣兵推进至核心箱位','从西南角登船点撤离'],
  roe:'重装佣兵防弹衣使躯干伤害衰减约 35%，需补枪或瞄头',
  civ:[[182,222],[1610,700]],st:[110,930],ex:[80,900,148,80],zn:[[80,80,1640,840]]},
-{code:'OP-05 · DESERT BUNKER',nm:'沙漠地堡 · 地下指挥所',W:1700,H:1100,dk:.46,th:'desert',sd:55,par:250,
+{code:'OP-05 · DESERT BUNKER',nm:'沙漠地堡 · 地下指挥所',W:1700,H:1100,dk:.46,th:'desert',sd:55,par:250,rq:4,
  fl:[[20,20,1660,1060]],
  wl:function(a){ring(a,1700,1100,20);
   var rnd=rngOf(55),i,x,y;
@@ -1281,7 +1369,7 @@ var RANGE_WL=function(a){ring(a,1500,900,20);
  a.push([300,120,16,118],[300,662,16,118]);   /* 射击线两端的隔断（中间留通道） */
  a.push([420,120,12,70],[420,710,12,70]);     /* 近端靶道隔板 */
  return a};
-var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 制式步枪考核',W:1500,H:900,dk:.10,th:'port',sd:77,par:150,exam:150,recruit:1,range:1,
+var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 制式步枪考核',W:1500,H:900,dk:.10,th:'port',sd:77,par:150,rq:2,exam:150,recruit:1,range:1,
  fl:[[20,20,1460,860]],
  wl:RANGE_WL,
  tg:[[600,270,0,0],[900,270,1,54],[1200,270,0,0],
@@ -1484,7 +1572,7 @@ function softSprite(g,x,y,w,h,t){
 /* SECTION: state */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,throwable:0,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
- name:'',tut:0,ui:'auto'};
+ name:'',tut:0,ui:'auto',swp:null};
 try{var rraw=localStorage.getItem('ta5_v1');
  if(rraw){var jd=JSON.parse(rraw);
   if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,5);
@@ -1493,6 +1581,7 @@ try{var rraw=localStorage.getItem('ta5_v1');
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
   if(jd&&jd.tu)ST.tut=1;
   if(jd&&(jd.ui==='kb'||jd.ui==='touch'||jd.ui==='auto'))ST.ui=jd.ui;
+  if(jd&&jd.swp&&typeof jd.swp==='object')ST.swp=jd.swp;
   if(jd&&jd.gd)for(var gdi in ST.gd)if(typeof jd.gd[gdi]==='number')ST.gd[gdi]=clamp(jd.gd[gdi]|0,0,1);
   if(jd&&jd.of&&ofDef(jd.of).id===jd.of)ST.outfit=jd.of;
   if(jd&&jd.l&&WM[jd.l[0]]&&WM[jd.l[1]])ST.load=[jd.l[0],jd.l[1]];
@@ -1511,7 +1600,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v1',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
- nm:ST.name,tu:ST.tut,ui:ST.ui}))}catch(e){}}
+ nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp}))}catch(e){}}
 function addXp(v){var b=rankOf(ST.xp);ST.xp+=v;var a=rankOf(ST.xp);
  if(a>b){var wl=weaponsAtXp(RKLAD[a][1]);
   toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}}
@@ -2022,7 +2111,7 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
    sp:Math.round(208*(1+of.mob)*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,rg:thrCfg?1:2,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
-   act:null,gx:0,gy:0,gvx:0,gvy:0,gt:0,
+   act:null,gx:0,gy:0,gvx:0,gvy:0,gt:0,fuse:3.6,gren:0,cook:0,cooking:0,
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
 }
 
@@ -2140,7 +2229,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('gun1'))swGun(0);
    else if(kb('gun2'))swGun(1);
    else if(kb('swap'))swGun(G.p.wi===0?1:0);
-   else if(kb('gren'))throwG();
+   else if(kb('gren'))toggleGren();
    else if(kb('act'))interact();
    else if(kb('wheel'))wheel(!$('comms').classList.contains('on'));
    else if(kb('med'))com('med');
@@ -2195,7 +2284,7 @@ function bindT(id,fn,hold){var el=$(id);
 bindT('tF',function(v){BF.f=v;if(v)BF.press=1},1);
 bindT('tR',function(){tryReload()});
 bindT('tS',function(){swGun(G&&G.p.wi===0?1:0)});
-bindT('tG',function(){throwG()});
+bindT('tG',function(){toggleGren()});
 bindT('tE',function(){interact()});
 bindT('tQ',function(){wheel(!$('comms').classList.contains('on'))});
 bindT('tAim',function(v){BF.ads=v},1);
@@ -2216,7 +2305,7 @@ function updGun(){var g=cur(),p=G.p;
  $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
   (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''))}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
- p.wi=i;p.sw=.32;p.rl=0;snd.swap();updGun();tutEv('swap')}
+ p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
  if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl;snd.rl1();tutEv('reload')}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
@@ -2243,19 +2332,47 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
   if(se.dead||se.sub>0||se.alert)continue;
   if(Math.hypot(se.x-p.x,se.y-p.y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    se.hx=p.x;se.hy=p.y}}
- G.lastNoise=G.t}
+ G.lastNoise=G.t;
+ /* 敌人躲子弹：危险等级越高，侧移反应越频繁 */
+ var lvD=ST.lv||1,de;
+ for(jj=0;jj<L.en.length;jj++){de=L.en[jj];
+  if(de.dead||de.sub>0||!de.alert)continue;
+  if(G.t-(de._db||0)<.6)continue;
+  de._db=G.t;
+  if(Math.hypot(de.x-p.x,de.y-p.y)>480)continue;
+  if(Math.random()<.05*lvD)tryDodge(de,p.x,p.y,.35+Math.random()*.3)}}
 function noiseAt(x,y,rad){if(!L)return;var i;
  for(i=0;i<L.en.length;i++){var se=L.en[i];
   if(se.dead||se.sub>0||se.alert)continue;
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    se.hx=x;se.hy=y}}}
-function throwG(){var p=G.p;if(!p||G.phase!=='live'||p.act)return;
+/* ---- 手雷：切雷 → 长按温雷 → 松手投出 ---- */
+var GREN_FUSE=3.6;
+function grenAvail(){var p=G.p;return (p.rg>0)||(G.flashN>0)}
+function toggleGren(){var p=G&&G.p;if(!p||G.phase!=='live'||p.act)return;
+ if(p.gren){p.gren=0;p.cook=0;p.cooking=0;toast('已收起手雷');return}
+ if(!grenAvail()){toast('破片与闪光已用完 · 补给箱可补充');return}
+ p.rl=0;p.cook=0;p.cooking=0;p.gren=1;snd.pin();
+ toast('已握雷 · 长按开火温雷、松手投出（温过头会在手里炸）',3000)}
+function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
+ p.cook+=dt;
+ if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
+  explode(p.x,p.y,130,130);dmgPlayer(55);shake=18;toast('手雷在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
+function throwG(fuse){var p=G.p;if(!p||G.phase!=='live'||p.act)return;
  var isF=!(p.rg>0)&&G.flashN>0;
  if(p.rg>0)p.rg--;else if(G.flashN>0)G.flashN--;
  else{toast('破片与闪光已用完 · 补给箱可补充');return}
  p.act=isF?'f':'n';p.gx=p.x;p.gy=p.y;p.gt=0;
+ p.fuse=(fuse==null?GREN_FUSE:Math.max(.3,fuse));
  p.gvx=Math.cos(p.aa)*310;p.gvy=Math.sin(p.aa)*310;
- snd.pin();updGun();tutEv('gren');toast(isF?'M84 闪光弹投出 · 致眩不杀伤':'M67 投出 · 引信 3.6 秒')}
+ p.gren=0;p.cook=0;p.cooking=0;
+ snd.pin();updGun();tutEv('gren');grenadeScare(p.x,p.y,isF);
+ toast(isF?'M84 闪光弹投出 · 致眩不杀伤':'M67 投出 · 剩余引信 '+p.fuse.toFixed(1)+' 秒')}
+/* 敌人躲雷：危险等级越高，反应越快、躲得越多 */
+function grenadeScare(x,y,isF){if(!L)return;var lv=ST.lv||1,ch=.10+.13*lv,i;
+ for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
+  if(Math.hypot(e.x-x,e.y-y)>360)continue;
+  if(Math.random()<ch)tryDodge(e,x,y,.55+Math.random()*.5)}}
 function throwFlash(){throwG()}
 function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
  if(G.stickN<=0){toast(ST.gd.optic2|0?'潜望镜次数已用完':'未携带 FlushStick（军械库可选配）');return}
@@ -2457,6 +2574,16 @@ function dmgPlayer(v){var p=G.p;if(p.hp<=0)return;
  shake=Math.min(13,shake+2.6);
  if(p.hp<=0)die()}
 function die(){if(G.over)return;G.over='dead';snd.dead();setTimeout(function(){showRes(0)},850)}
+/* 敌人躲闪：朝威胁反方向侧移一小段 */
+function tryDodge(e,tx,ty,dur){
+ if(!e||e.dead||e.sub>0||e.stun>0||e.dodgeT>0)return false;
+ var a=Math.atan2(e.y-ty,e.x-tx)+(Math.random()-.5)*1.1,
+  dist=68+Math.random()*62,nx=e.x+Math.cos(a)*dist,ny=e.y+Math.sin(a)*dist;
+ if(!freeAt(nx,ny,e.r+2)){a+=PI/2;nx=e.x+Math.cos(a)*dist;ny=e.y+Math.sin(a)*dist;
+  if(!freeAt(nx,ny,e.r+2))return false}
+ e.dx=nx;e.dy=ny;e.dodgeT=dur||.5;
+ if(!e.alert){e.alert=1;e.st='alert';e.rt=.3;alertAt(e.x,e.y);G.alerted=1}
+ return true}
 function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
  if(G.bossCmd>0)G.bossCmd-=dt;
  if(G.bossCmd>0)cfg={acc:cfg.acc*.6,rea:cfg.rea,edm:cfg.edm,ehp:cfg.ehp};
@@ -2479,6 +2606,15 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
      if(Math.hypot(e.x-p.x,e.y-p.y)<140)dmgPlayer(8)}}
    continue}
   if(e.stun>0){e.stun-=dt;e.vx=e.vy=0;continue}
+  /* 躲闪（躲雷 / 躲子弹）：向远离威胁的方向快速侧移，期间不开火 */
+  if(e.dodgeT>0){e.dodgeT-=dt;
+   var ddz=Math.hypot(e.dx-e.x,e.dy-e.y);
+   if(ddz>8){var ddz2=Math.atan2(e.dy-e.y,e.dx-e.x),spd3=e.sp*1.9,
+     sx3=e.x+Math.cos(ddz2)*spd3*dt,sy3=e.y+Math.sin(ddz2)*spd3*dt;
+    if(freeAt(sx3,sy3,e.r)){e.x=sx3;e.y=sy3;e.a=ddz2;e.vx=Math.cos(ddz2)*spd3;e.vy=Math.sin(ddz2)*spd3}
+    else e.dodgeT=0}
+   else e.dodgeT=0;
+   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;continue}
   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;
   var dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;
   if(e.losT<=0){e.losT=.17;e.canSee=d<(e.tp==='sniper'?1200:620)&&los(e.x,e.y,p.x,p.y)}
@@ -2634,7 +2770,7 @@ function updateGren(dt){var p=G.p;if(p.act!=='n'&&p.act!=='f')return;
  p.gt+=dt;var nx=p.gx+p.gvx*dt,ny=p.gy+p.gvy*dt;
  if(freeAt(nx,ny,4)){p.gx=nx;p.gy=ny}else{p.gvx*=-.3;p.gvy*=-.3}
  p.gvx*=Math.pow(.12,dt);p.gvy*=Math.pow(.12,dt);
- if(!fl&&p.gt>3.6){p.act=null;explode(p.gx,p.gy,120,125)}
+ if(!fl&&p.gt>(p.fuse||3.6)){p.act=null;explode(p.gx,p.gy,120,125)}
  else if(fl&&p.gt>1.2){p.act=null;flashBurst(p.gx,p.gy)}}
 function flashBurst(x,y){snd.boom();tone(2400,500,.3,'square',.12);
  burst(x,y,ST.low?8:18,'#fff6d8',340,420);
@@ -2736,8 +2872,12 @@ function updatePlayer(dt){var p=G.p,i;
  CAM.x=ww>0?clamp(tx,0,ww):-(kw-L.cfg.W)/2;
  CAM.y=wh>0?clamp(ty,0,wh):-(kh-L.cfg.H)/2;
  if(p.hp<=0&&!G.over)die()}
-function fireHold(on){var p=G.p;if(!on){p.wasH=0;return}
- if(G.phase!=='live')return;
+function fireHold(on){var p=G.p;if(G.phase!=='live')return;
+ if(p.gren){                       /* 持雷：长按温雷，松手投出 */
+  if(on){p.cooking=1}
+  else if(p.cooking){p.cooking=0;throwG(GREN_FUSE-p.cook)}
+  return}
+ if(!on){p.wasH=0;return}
  if(cur().w.au){fire();return}
  if(!p.wasH){fire();p.wasH=1}}
 function updParticles(dt){var i;
@@ -3074,6 +3214,17 @@ function draw(){if(!G||!L)return;
  for(i=0;i<L.dr.length;i++){var ddd=L.dr[i];if(vis(ddd.x+ddd.w/2,ddd.y+ddd.h/2,90))drawDoor(ddd)}
  if(G.al)for(i=0;i<G.al.length;i++)if(vis(G.al[i].x,G.al[i].y,24))drawAlly(G.al[i]);
  drawP();
+ /* 持雷温雷进度环 */
+ if(G.p.gren&&vis(G.p.x,G.p.y,60)){var gp=G.p,ck=clamp(gp.cook/GREN_FUSE,0,1);
+  ctx.save();ctx.translate(gp.x,gp.y);
+  ctx.strokeStyle='rgba(0,0,0,.55)';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,25,0,TAU);ctx.stroke();
+  ctx.strokeStyle=ck>.72?'#ff6a4a':'#e2a93e';ctx.lineWidth=3;ctx.beginPath();
+  ctx.arc(0,0,25,-PI/2,-PI/2+TAU*ck);ctx.stroke();
+  if(ck>.72){ctx.strokeStyle='rgba(255,106,74,'+(.35+.35*Math.sin(G.t*22))+')';ctx.lineWidth=6;
+   ctx.beginPath();ctx.arc(0,0,30,0,TAU);ctx.stroke()}
+  ctx.fillStyle=ck>.72?'#ff8a70':'#e2a93e';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+  ctx.fillText(gp.cooking?('温雷 '+gp.cook.toFixed(1)+'s'):'持雷 · 按住开火',0,-32);
+  ctx.restore();ctx.textAlign='left'}
  for(i=0;i<POOL.b.length;i++){var b=POOL.b[i];if(!b.a||!vis(b.x,b.y,170))continue;
   var bsp=Math.hypot(b.vx,b.vy)||1,lf=1-b.tm/(b.lm||.4),
    tl=(b.own===0?110:160)*clamp(lf+.3,.35,1);
@@ -3377,7 +3528,9 @@ function updHud(){var p=G.p,g=cur(),i;
   if(dpr)pr=(touchUI?'点「互动」':'按 '+kLabel(KM.act))+
    (dpr.type==='metal'?' 破门（加固门 · 建议破门弹）':(dpr.type==='glass'?' 砸门':' 踹门'))+
    (G.stickyN>0?'（自动使用破门弹）':' · 连按两三次')}
- if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…';
+ if(G.p.gren){pr=p.cooking?('温雷中 '+p.cook.toFixed(1)+' / '+GREN_FUSE.toFixed(1)+' 秒 · 松手投出'):
+   ('持雷 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
+ if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…  '+Math.round(Math.min(1,G.wt/1)*100)+'%';
  if(G.al&&G.al.length){var as='';
   for(i=0;i<G.al.length;i++){var av=G.al[i];
    as+=(i?" ｜ ":"")+"<span style=\"color:"+(av.down?"#c8574a":"#8ee08e")+"\">"+(av.n.split(" · ")[1]||"Bravo")+" "+(av.down?"后撤 "+Math.max(0,Math.ceil(16-av.dt2))+"s":Math.max(0,Math.round(av.hp)))+"</span>"}
@@ -3417,16 +3570,19 @@ function step(dt){if(!G)return;
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
  if(G.p.act==='n'||G.p.act==='f')updateGren(dt);
- updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);
+ updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /*  win check：踏入撤离区即可（新兵训练不判定撤离） */
  if(G.exitOpen&&!G.tut){var eR=G.exit,
   cx=clamp(G.p.x,eR[0],eR[0]+eR[2]),cy=clamp(G.p.y,eR[1],eR[1]+eR[3]),
   d=Math.hypot(G.p.x-cx,G.p.y-cy);
-  if(d<10){G.wt+=dt;if(G.wt>1.1&&!G.over&&!G.asked){
-   if(hostLeft()>0&&!G.abandon){G.asked=1;stopLoop();show('sAsk');setScr('ask');
-    $('askT').textContent='Bravo-2：撤离点就绪。楼内尚有 '+hostLeft()+' 名平民被扣押未解救——请示：是否携带人质一并撤离？'}
-   else{G.over='win';showRes(1)}}}else G.wt=0}
+  if(d<16){
+   G.wt+=dt;
+   if(G.wt>1&&!G.over&&ST.scr==='play'){
+    /* 修复：作答过「人质处置」后也必须能撤离（此前 asked 置 1 会永久堵死胜利） */
+    if(hostLeft()>0&&!G.abandon&&!G.asked){G.asked=1;stopLoop();show('sAsk');setScr('ask');
+     $('askT').textContent='Bravo-2：撤离点就绪。楼内尚有 '+hostLeft()+' 名平民被扣押未解救——请示：是否携带人质一并撤离？'}
+    else{G.over='win';showRes(1)}}}else G.wt=0}
  if(!G.over&&L.cfg.exam&&G.t>L.cfg.exam){G.over='late';stopLoop();toast('考核超时 · 不合格 · 可重新申请',3200);showRes(0);return}
  if(!G.over&&!G.tut&&G.t-(G.lastSv||0)>=5){G.lastSv=G.t;saveLv()}
  updHud()}
@@ -3466,19 +3622,45 @@ function setScr(s){ST.scr=s;
  if(s!=='play')stopLoop();else{LT0=performance.now();ACC2=0;if(!RAF)RAF=requestAnimationFrame(frame)}}
 function stopLoop(){if(RAF){cancelAnimationFrame(RAF);RAF=0}}
 function fmt(s){s=Math.max(0,Math.round(s));return (s/60|0)+':'+('0'+(s%60)).slice(-2)}
+function lvPlayable(i){var c=LS[i];return (i+1)<=ST.unl&&rankOf(ST.xp)>=(c.rq||0)}
+function lvLockWhy(i){var c=LS[i];
+ if((i+1)>ST.unl)return '完成 OP-0'+i+' 后解锁';
+ if(rankOf(ST.xp)<(c.rq||0))return '需晋升 '+RKLAD[c.rq][0]+'（还需 '+Math.max(0,c.rq?RKLAD[c.rq][1]-ST.xp:0)+' 经验）';
+ return ''}
+/* ---- AI 扫荡：通关后可派 AI 小队按基准时间清剿，回来直接给经验 ---- */
+function sweepXp(i){return 40+i*22}
+function sweepSlot(v){return ST.swp&&ST.swp[v]}
+function startSweep(v){ST.swp=ST.swp||{};ST.swp[v]=Date.now()+LS[v-1].par*1000;save();renderLv();
+ toast('AI 小队出发扫荡 OP-0'+v+' · '+fmt(LS[v-1].par)+' 后归队（可关掉页面，时间照样走）',3200)}
+function collectSweep(v){var xp=sweepXp(v-1);if(ST.swp)delete ST.swp[v];save();addXp(xp);
+ toast('AI 扫荡归队 · 经验 +'+xp,2600);renderLv()}
+function sweepTick(){if(!ST.swp)return;var k,done=0;
+ for(k in ST.swp){if(Date.now()>=ST.swp[k]){var v=+k;var xp=sweepXp(v-1);delete ST.swp[k];addXp(xp);done++}}
+ if(done){save();toast('AI 扫荡归队 · 经验 +'+sweepXp(0)+' ×'+done,2600);renderLv()}}
+function sweepLabels(){var btns=document.querySelectorAll('.swp'),i;
+ for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv'),s=sweepSlot(v);
+  if(!s)continue;var left=s-Date.now();
+  if(left>0){b.textContent='扫荡中 '+fmt(left/1000);b.disabled=true;b.classList.add('on')}}}
+setInterval(function(){
+ if(ST.scr!=='menu'||!ST.swp)return;
+ var k,n=0;for(k in ST.swp)n++;
+ if(!n)return;
+ sweepTick();sweepLabels();
+},1000);
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
- renderRank();renderLvRail();
+ renderRank();renderLvRail();sweepTick();
+ if($('chipW'))$('chipW').textContent=WP.length;
  /* 只遍历 5 张主线地图；OP-06 考核单独由 lvCard6() 渲染，避免重复卡片 */
- LS.forEach(function(c,i){var locked=(i+1)>ST.unl;
+ LS.forEach(function(c,i){var ok=lvPlayable(i),locked=!ok,why=lvLockWhy(i);
   var b=mk('div','card'+(locked?' lock':''));
   var no=mk('div','no');no.textContent='0'+(i+1);b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
   var sc=mk('div','sc');sc.textContent=c.nm;b.appendChild(sc);
   var df=mk('div','dftag');
-  df.textContent=(i<5?('难度 '+DIFF_NAME[i]+' · 推荐 '+LV_REC[i]):'考核 · 完成后解锁英雄武器');
+  df.textContent='难度 '+DIFF_NAME[i]+' · 需要 '+RKLAD[c.rq||0][0];
   b.appendChild(df);
   var ob=mk('div','ob');
-  ob.textContent=locked?('完成 OP-0'+(i===5?1:i)+' 后解锁'):(c.obj[0]+' → '+c.obj[c.obj.length-1]);
+  ob.textContent=locked?why:(c.obj[0]+' → '+c.obj[c.obj.length-1]);
   b.appendChild(ob);
   var mt=mk('div','mt');
   var st=mk('span','st');st.textContent='★★★★★'.slice(0,i+1)+'☆☆☆☆☆'.slice(0,4-i);mt.appendChild(st);
@@ -3489,15 +3671,26 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   mt.appendChild(bs);
   var tg=mk('span','badge');tg.className='badge';tg.textContent='基准 '+fmt(c.par);mt.appendChild(tg);
   b.appendChild(mt);
+  /* 通关后可派 AI 扫荡 */
+  if(bb){
+   var s=sweepSlot(i+1),sb=mk('button','btn sm swp');
+   sb.setAttribute('data-lv',''+(i+1));
+   if(!s){sb.textContent='AI 扫荡 +'+sweepXp(i)+'（'+fmt(c.par)+'）';
+    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();aInit();snd.ui();startSweep(i+1)})}
+   else if(Date.now()<s){sb.textContent='扫荡中 '+fmt((s-Date.now())/1000);sb.disabled=true;sb.classList.add('on')}
+   else{sb.textContent='领取扫荡经验 +'+sweepXp(i);
+    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();snd.ui();collectSweep(i+1)})}
+   b.appendChild(sb)}
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
-  var locked=ST.unl<2;
+  var need=LS6[5].rq||0,locked=ST.unl<2||rankOf(ST.xp)<need;
   var b=mk('div','card'+(locked?' lock':''));b.style.borderStyle='dashed';
   var no=mk('div','no');no.textContent='06';b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=LS6[5].code;b.appendChild(e2);
   var sc=mk('div','sc');sc.textContent=LS6[5].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
-  var ob=mk('div','ob');ob.textContent=ST.hero===1?'英雄队员「燕锋」与 QBZ-191 已解锁 · 可重考':'完成第一战后解锁 · 猎鹰突击队招募剧情（约5分钟）';b.appendChild(ob);
+  var ob=mk('div','ob');ob.textContent=ST.hero===1?'英雄队员「燕锋」与 QBZ-191 已解锁 · 可重考'
+   :(ST.unl<2?'完成第一战后解锁 · 猎鹰突击队招募剧情（约5分钟）':'需晋升 '+RKLAD[need][0]+' 才能参加考核');b.appendChild(ob);
   var mt=mk('div','mt');
   var bs=mk('span','badge');bs.textContent=ST.hero===1?'已通过':(locked?'未解锁':'考核');bs.className='badge'+(ST.hero===1?' p':'');mt.appendChild(bs);
   b.appendChild(mt);
@@ -3871,7 +4064,12 @@ function openArs(){show('sArs');setScr('ars');CCLS=WM[ST.sel].cls;renderGear();
 function bind(id,fn){var el=$(id);if(!el)return;
  el.addEventListener('click',function(e){e.preventDefault();aInit();snd.ui();fn()})}
 bind('bEnter',function(){if(!ST.name){askName();return}show('sMenu');setScr('menu');renderLv()});
-bind('bStart',function(){if(!ST.name){askName();return}ST.lv=ST.unl;brief()});
+bind('bStart',function(){if(!ST.name){askName();return}
+ var pick=-1,i;
+ for(i=0;i<5;i++){if(lvPlayable(i)&&!ST.best[''+(i+1)]){pick=i;break}}
+ if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
+ if(pick<0)pick=0;
+ ST.lv=pick+1;brief()});
 bind('bTutBtn',function(){if(!ST.name){askName();return}startTut()});
 bind('bNameOk',function(){submitName($('nameIn')&&$('nameIn').value)});
 bind('bNameDef',function(){submitName('新兵')});
@@ -3894,7 +4092,10 @@ bind('bFx',function(){ST.fx=ST.fx==='auto'?'low':'auto';
 bind('bBack1',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bBack2',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bToArs',openArs);
-bind('bDeploy',function(){ST.lv=ST.unl;brief()});
+bind('bDeploy',function(){var pick=-1,i;
+ for(i=0;i<5;i++){if(lvPlayable(i)&&!ST.best[''+(i+1)]){pick=i;break}}
+ if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
+ ST.lv=(pick<0?0:pick)+1;brief()});
 bind('bSetP',function(){var o=WM[ST.sel];
  if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-06）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls==='pistol'){$('dI').textContent='手枪只能配为副武器——主武器需步枪／冲锋枪／霰弹枪／狙击枪。';
@@ -3922,8 +4123,9 @@ bind('bHint',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
 bind('bAskCarry',function(){show(null);setScr('play');
  var n9=0;L.civ.forEach(function(c){if(!c.down&&!c.f){c.f=1;c.fol=1;G.sec2++;G.sc+=80;n9++}});
  for(var q9=0;q9<Math.min(n9,3);q9++)ksAdd('✔','人质随队获救',80,'good');
+ G.asked=0;G.wt=0;   /* 允许再次判定撤离 */
  feed('Bravo-2：收到，全员结阵护送人质撤离',1);toast('人质已随队 · 返回撤离点完成撤离',2800)});
-bind('bAskLeave',function(){show(null);setScr('play');G.abandon=1;
+bind('bAskLeave',function(){show(null);setScr('play');G.abandon=1;G.asked=0;G.wt=0;
  feed('指挥官：放弃人质，立即撤离。此事已记入 ROE 报告。',0);toast('已放弃人质 · 结算 −260',2600)});
 bind('bHint2',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
 D.addEventListener('pagehide',function(){saveLv()});
@@ -3940,7 +4142,7 @@ bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){clearLv(ST.lv);startLv()});
 bind('bQuit',function(){saveLv();show('sMenu');setScr('menu');renderLv()});
 bind('bAgain',function(){clearLv(ST.lv);startLv()});
-bind('bNext',function(){if(ST.lv<5){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
+bind('bNext',function(){if(ST.lv<5&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
 bind('bHome',function(){show('sMenu');setScr('menu');renderLv()});
 Array.prototype.forEach.call($('tabs').children,function(b){
  b.addEventListener('click',function(){aInit();snd.ui();CCLS=b.getAttribute('data-c');
