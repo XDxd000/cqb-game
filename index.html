@@ -111,6 +111,13 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .vr b{width:28px;font-weight:400}
 .vbar{width:clamp(86px,22vw,150px);height:8px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
 .vbar i{display:block;height:100%;width:100%}
+/* 小队血量：与玩家体力/护甲同一列，细条 + 数值 */
+.avr{margin-bottom:2px}
+.avr b{width:34px;font-size:10px;color:#8fc0d8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avr .vbar{height:6px}
+.avr em{font-style:normal;font-size:10px;color:#a9bfcd;min-width:24px;text-align:right}
+.avr.down b{color:#c8574a}
+.avr.down em{color:#c8574a}
 #hpF{background:linear-gradient(90deg,#a63a2c,#d8503f)}
 #arF{background:linear-gradient(90deg,#2f6489,#5fa8d3)}
 #eq{font-size:10.5px;color:#93a8b6}
@@ -1397,7 +1404,7 @@ var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:9
  intel:'新兵入队第一课：把所有会用到的键位过一遍，再进真正的战场。',
  obj:['按提示完成 13 项基础操作'],roe:'训练场没有实弹对抗，不会失败'};
 var FUD=[
- {dr:[[360,250,20,80,0,'wood'],[360,500,20,100,1,'wood'],[760,200,20,100,1,'wood'],
+ {dr:[[360,250,20,80,0,'wood'],[360,500,20,100,0,'wood'],[760,200,20,100,0,'wood'],
    [760,510,20,100,0,'metal'],[210,250,90,20,0,'wood']],
   ty:{'130,380':'bed','880,120':'desk','500,700':'sofa','1060,710':'shelf','250,660':'fridge'},
   sf:[['table',430,120,96,52],['chair',408,132,30,30],['chair',538,132,30,30],
@@ -1418,10 +1425,10 @@ var FUD=[
    ['vending',300,120,42,66],['crates',700,760,46,42],['papers',560,430,64,40],
    ['papers',1120,360,60,38],['watercooler',1420,760,26,36],['plant',60,760,34,34]],
   lp:[[800,495,140],[480,495,100],[1090,495,100],[95,150,110],[1500,880,110]]},
- {dr:[[129,380,80,24,1,'wood'],[387,380,80,24,0,'wood'],[645,380,80,24,1,'metal'],
-   [903,380,80,24,0,'wood'],[1161,380,80,24,1,'wood'],
-   [129,480,80,20,0,'wood'],[387,480,80,20,1,'wood'],[645,480,80,20,0,'wood'],
-   [903,480,80,20,1,'metal'],[1161,480,80,20,0,'wood']],
+ {dr:[[129,380,80,24,0,'wood'],[387,380,80,24,0,'wood'],[645,380,80,24,0,'metal'],
+   [903,380,80,24,0,'wood'],[1161,380,80,24,0,'wood'],
+   [129,480,80,20,0,'wood'],[387,480,80,20,0,'wood'],[645,480,80,20,0,'wood'],
+   [903,480,80,20,0,'metal'],[1161,480,80,20,0,'wood']],
   ty:{'90,150':'sofa','348,150':'sofa','606,150':'sofa','864,150':'sofa','1122,150':'sofa',
    '90,660':'sofa','348,660':'sofa','606,660':'sofa','864,660':'sofa','1122,660':'sofa'},
   sf:[['ktvtable',139,236,60,36],['ktvtable',397,236,60,36],['ktvtable',655,236,60,36],
@@ -1446,7 +1453,7 @@ var FUD=[
    ['tyre',1480,880,40,40],['crates',1200,760,50,44],['crates',1590,420,46,40],
    ['crates',300,700,46,40],['papers',1000,600,60,38],['pallet',200,760,64,34]],
   lp:[[300,80,210],[1200,80,210],[900,940,180]]},
- {dr:[[620,670,20,70,1,'metal'],[840,560,20,80,0,'metal']],
+ {dr:[[620,670,20,70,0,'metal'],[840,560,20,80,0,'metal']],
   ty:{'300,180':'sandbag','210,760':'sandbag','1300,180':'sandbag','1520,940':'sandbag',
    '640,620':'console','930,620':'sandbag'},
   sf:[['crates',1100,500,46,38],['crates',700,880,46,38],['barrel',1000,900,24,24],
@@ -1842,7 +1849,8 @@ function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  var av=EARM[tp]||0,ap=ARM[av];
  return{tp:tp,hp:b.hp*mul,mh:b.hp*mul,r:b.r,sp:b.sp,acc:b.acc,dm:b.dm,ar:ap.v,arv:av,arn:ap.n,
  x:x,y:y,vx:0,vy:0,a:0,st:'patrol',ph:Math.random()*TAU,hx:x,hy:y,sw:.5,hurt:0,
- sub:0,dead:0,dt:0,dis:0,alert:0,rt:0,losT:0,canSee:0,pf:Math.random()*TAU}}
+ sub:0,dead:0,dt:0,dis:0,alert:0,rt:0,losT:0,canSee:0,pf:Math.random()*TAU,
+ nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6}}
 function FUDfor(i){return FUD[i-1]}
 var TH={apartment:{f:'#3a322b',f2:'#453b32',w:'#6d635a',w2:'#413a33'},
  mall:{f:'#39414a',f2:'#434b55',w:'#7f8992',w2:'#4b545d'},
@@ -2018,6 +2026,12 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
   var lg1=g.createRadialGradient(lgw[0],lgw[1],2,lgw[0],lgw[1],lgw[2]);
   lg1.addColorStop(0,'rgba(255,214,140,.15)');lg1.addColorStop(1,'rgba(255,214,140,0)');
   g.fillStyle=lg1;g.beginPath();g.arc(lgw[0],lgw[1],lgw[2],0,TAU);g.fill()}
+/* 统一描边：所有实体障碍（墙 + 家具）补一圈暗边与顶部高光，避免与地板同色看不出而撞上去 */
+g.save();g.lineWidth=1.2;
+for(k=0;k<ws.length;k++){var wo=ws[k];if(wo.w<3||wo.h<3)continue;
+ g.strokeStyle='rgba(0,0,0,.42)';g.strokeRect(wo.x+.5,wo.y+.5,wo.w-1,wo.h-1);
+ g.strokeStyle='rgba(255,255,255,.06)';g.strokeRect(wo.x+1.6,wo.y+1.6,wo.w-3.2,wo.h-3.2)}
+g.restore();
  cwNoDoors();
  /* 门扇开向自动判定：把门扇转到 90° 后取末端点，落在墙里就换铰链侧或换向 */
  for(k=0;k<drs.length;k++){var dq=drs[k],okp=0,hi2,si2,lf=dq.hor?dq.w:dq.h;
@@ -2111,7 +2125,7 @@ function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,6)-1],ws=[],raw=c.wl([]),k,rn
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
    sp:Math.round(208*(1+of.mob)*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,rg:thrCfg?1:2,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
-   act:null,gx:0,gy:0,gvx:0,gvy:0,gt:0,fuse:3.6,gren:0,cook:0,cooking:0,
+   act:null,gx:0,gy:0,gvx:0,gvy:0,gt:0,fuse:3.6,gren:0,cook:0,cooking:0,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
 }
 
@@ -2645,10 +2659,17 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     continue}
    var mv=e.sp*mul;
    if(freeAt(e.x+Math.cos(want)*mv*dt,e.y+Math.sin(want)*mv*dt,e.r)){e.vx=Math.cos(want)*mv;e.vy=Math.sin(want)*mv}
-   else{e.vx=Math.cos(want+1.7)*mv*.55;e.vy=Math.sin(want+1.7)*mv*.55}
+   else if(!moveToward(e,e.x+Math.cos(want)*mv*4,e.y+Math.sin(want)*mv*4,mv,dt)){
+    e.vx=Math.cos(want+1.7)*mv*.55;e.vy=Math.sin(want+1.7)*mv*.55}
    var da=ta-e.a;while(da>PI)da-=TAU;while(da<-PI)da+=TAU;
    e.a+=clamp(da,-dt*4.5,dt*4.5);
    e.sw-=dt;
+   /* 敌方投雷：距离合适 + 有视线时按概率投，危险等级越高越频繁 */
+   if(e.nade>0&&e.canSee&&e.alert&&G.phase==='live'&&!L.cfg.exam&&!L.cfg.tgt&&(G.eg?G.eg.length:0)<3){
+    e.ndC=(e.ndC==null?(3+Math.random()*5):(e.ndC-dt));
+    if(e.ndC<=0){e.ndC=5+Math.random()*8;
+     var ndC=0.12+0.08*(ST.lv||1);
+     if(d>170&&d<470&&Math.random()<ndC&&los(e.x,e.y,p.x,p.y))throwEnemyNade(e)}}
    if(e.canSee&&e.sw<=0&&G.phase==='live'&&shootCnt<G.shootCap&&!(e.stun>0)&&!L.cfg.exam){
     shootCnt++;G.nc=0;
     e.sw=e.tp==='rush'?(.24+Math.random()*.14):(.34+Math.random()*.44);
@@ -2664,8 +2685,10 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     burst(e.x+Math.cos(off)*(e.r+3),e.y+Math.sin(off)*(e.r+3),2,'#ffcf6a',80,130)}}
   var ed=doorNear(e.x,e.y,48);if(ed&&!ed.open&&(e.alert||e.st!=='patrol'))openDoor(ed,'e');
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
-  if(freeAt(nx,e.y,e.r))e.x=nx;else e.vx=0;
-  if(freeAt(e.x,ny,e.r))e.y=ny;else e.vy=0;
+  if(freeAt(nx,ny,e.r)){e.x=nx;e.y=ny}
+  else{var mm=Math.hypot(e.vx,e.vy);
+   if(mm>.6){if(!moveToward(e,e.x+e.vx*4,e.y+e.vy*4,mm,dt)){e.vx*=.25;e.vy*=.25}}
+   else{e.vx=0;e.vy=0}}
   for(j=0;j<L.en.length;j++){if(j===i)continue;var o=L.en[j];if(o.dead)continue;
    var ox=e.x-o.x,oy=e.y-o.y,od=Math.hypot(ox,oy),mn=e.r+o.r+2;
    if(od>0&&od<mn){var pu=(mn-od)*.45,sx=ox/od*pu,sy=oy/od*pu;
@@ -2781,14 +2804,15 @@ function flashBurst(x,y){snd.boom();tone(2400,500,.3,'square',.12);
  if(G.al)for(i=0;i<G.al.length;i++){var al=G.al[i];
   if(!al.down&&Math.hypot(al.x-x,al.y-y)<150)al.sw=Math.max(al.sw,.6)}
  noiseAt(x,y,560);feed('M84 闪光：目标被致眩',1)}
-function explode(x,y,r,dm){var i;snd.boom();shake=15;
+function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
  burst(x,y,ST.low?10:28,'#ffb84d',400,620);smoke(x,y,ST.low?3:8);
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead)continue;
   var d=Math.hypot(e.x-x,e.y-y);
   if(d<r&&los(x,y,e.x,e.y)){if(!e.alert){e.alert=1;e.st='engage'}hitEnemy(e,dm*(1-d/r),0)}}
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down||c.f)continue;
   var dc=Math.hypot(c.x-x,c.y-y);
-  if(dc<r*.85&&los(x,y,c.x,c.y)){c.down=1;G.civD++;G.roe++;G.sc-=400;ksAdd('☢','平民伤亡 · 手雷波及',-400,'bad');toast('ROE 违规 · 手雷波及平民',3200)}}
+  if(dc<r*.85&&los(x,y,c.x,c.y)){c.down=1;if(!byEnemy){G.civD++;G.roe++;G.sc-=400;ksAdd('☢','平民伤亡 · 手雷波及',-400,'bad');toast('ROE 违规 · 手雷波及平民',3200)}
+   else{feed('敌方手雷波及平民',0)}}}
  var dp=Math.hypot(G.p.x-x,G.p.y-y);
  if(dp<r*.9)dmgPlayer(dm*.5*(1-dp/r));
  noiseAt(x,y,r+340);
@@ -2803,11 +2827,7 @@ function updCiv(dt){var p=G.p,i;
   if(c.f&&c.fol){var dx=p.x-c.x,dy=p.y-c.y,d=Math.hypot(dx,dy)||1;
    /* 掉队过远时只在镜头外悄悄归队，镜头内则靠提速追上来 */
    if(d>2600&&!vis(c.x,c.y,0)){c.x=p.x+(i?20:-20);c.y=p.y+(i?14:-14);c.stuck=0;continue}
-   if(d>46){var cs=clamp(150*d/300,150,430),vx=dx/d*cs,vy=dy/d*cs,mv=0;
-    if(freeAt(c.x+vx*dt,c.y+vy*dt,c.r)){c.x+=vx*dt;c.y+=vy*dt;mv=1}
-    if(!mv&&freeAt(c.x+vx*dt,c.y,c.r)){c.x+=vx*dt;mv=1}
-    if(!mv&&freeAt(c.x,c.y+vy*dt,c.r)){c.y+=vy*dt;mv=1}
-    if(!mv&&freeAt(c.x+vx*dt*.9,c.y+vy*dt*.9,c.r)){c.x+=vx*dt*.9;c.y+=vy*dt*.9;mv=1}
+   if(d>46){var cs=clamp(150*d/300,150,430),mv=moveToward(c,p.x,p.y,cs,dt);
     if(mv)c.stuck=0;
     else{c.stuck=(c.stuck||0)+dt;
      var cd=doorNear(c.x,c.y,54);if(cd&&!cd.open)openDoor(cd,'c');
@@ -2819,8 +2839,21 @@ function updCiv(dt){var p=G.p,i;
       else if(freeAt(p.x,p.y,c.r)){c.x=p.x;c.y=p.y}
       feed('平民重新跟上 · 留意跟随路线',0)}}}
    else c.stuck=0}}}
-function updRein(dt){var c=L.cfg;if(!c.rein||G.phase!=='live'||G.reinLeft<=0||G.over)return;
- G.rt-=dt;if(G.rt>0)return;
+/* SECTION: enemy-grenade 敌方投掷物 */
+function throwEnemyNade(e){if(!G.eg)G.eg=[];
+ var p=G.p,tx=p.x+p.vx*.45,ty=p.y+p.vy*.45;
+ var a=Math.atan2(ty-e.y,tx-e.x),dd=Math.hypot(tx-e.x,ty-e.y);
+ var v=clamp(dd*1.15,150,330);
+ G.eg.push({x:e.x,y:e.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,fuse:2.2+Math.random()*.8,r:5});
+ e.sw=Math.max(e.sw,1.15);e.nade=Math.max(0,(e.nade||0)-1);
+ snd.pin();feed('敌方投出手雷！快散开',0);say(ename(e)||'佣兵','吃颗雷！','#c05040')}
+function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
+ for(i=0;i<G.eg.length;i++){g2=G.eg[i];g2.t+=dt;
+  var nx=g2.x+g2.vx*dt,ny=g2.y+g2.vy*dt;
+  if(freeAt(nx,ny,4)){g2.x=nx;g2.y=ny}else{g2.vx*=-.35;g2.vy*=-.35}
+  var fr=Math.pow(.18,dt);g2.vx*=fr;g2.vy*=fr;
+  if(g2.t>=g2.fuse){G.eg.splice(i--,1);explode(g2.x,g2.y,115,95,1);snd.boom()}}}
+function updRein(dt){var c=L.cfg;if(!c.rein||G.phase!=='live'||G.reinLeft<=0||G.over)return; G.rt-=dt;if(G.rt>0)return;
  G.rt=c.rein.iv;var al=0,i;for(i=0;i<L.en.length;i++)if(!L.en[i].dead)al++;
  if(al>=12){G.rt=2.5;return}
  var tp=Math.random()<.4?'grunt':'rush',ok=0,ex=0,ey=0;
@@ -2947,10 +2980,29 @@ function initAllies(){if(!G)return;G.al=[];
    qst:'follow',qd:0,sx9:0,sy9:0,aggro:1,ord:'follow'})}
  if(G.al.length)feed('Bravo 编入小队 · 默认跟队并自动交火，按 E 调整战术指令'+(ST.hero===1&&!L.cfg.exam?' · 猎鹰「燕锋」':''),1)}
 function allySlot(a){var p=G.p,base=p.aa,
- off=a.i===0?{d:-34,s:46}:(a.i>=2?{d:-70,s:6}:{d:-42,s:-52});
+ off=a.i===0?{d:-52,s:58}:(a.i>=2?{d:-88,s:10}:{d:-58,s:-62});
  var sx=p.x+Math.cos(base+PI/2)*off.s-Math.cos(base)*-off.d,
   sy=p.y+Math.sin(base+PI/2)*off.s-Math.sin(base)*-off.d;
- if(!freeAt(sx,sy,a.r))return{x:p.x,y:p.y};return{x:sx,y:sy}}
+ if(freeAt(sx,sy,a.r))return{x:sx,y:sy};
+ /* 槽位落在墙里：沿玩家周围找最近的安全落点，绝不返回玩家自身坐标（否则会站进玩家身体里） */
+ var ang=Math.atan2(a.y-p.y,a.x-p.x),k,aa,tx,ty;
+ for(k=0;k<8;k++){aa=ang+k*PI/4;tx=p.x+Math.cos(aa)*64;ty=p.y+Math.sin(aa)*64;
+  if(freeAt(tx,ty,a.r))return{x:tx,y:ty}}
+ return{x:p.x-Math.cos(base)*70,y:p.y-Math.sin(base)*70}}
+/* 带角度扇面的移动：直线走不通就绕，避免卡在墙角/家具边 */
+var STEER_OFF=[0,.42,-.42,.85,-.85,1.25,-1.25,1.7,-1.7,2.2,-2.2];
+function moveToward(o,tx,ty,spd,dt){var a0=Math.atan2(ty-o.y,tx-o.x),d=spd*dt,i,ang,nx,ny;
+ for(i=0;i<STEER_OFF.length;i++){ang=a0+STEER_OFF[i];
+  nx=o.x+Math.cos(ang)*d;ny=o.y+Math.sin(ang)*d;
+  if(freeAt(nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;return true}}
+ return false}
+/* 卡进实体内部时，向外螺旋找最近空位并平滑挤出 */
+function pushFreeObj(o,dt,spd){if(freeAt(o.x,o.y,o.r))return true;
+ var i,ang,rr,step=Math.max(2,(spd||160)*dt*2);
+ for(rr=step;rr<=o.r*3.2;rr+=step)for(i=0;i<8;i++){ang=i*PI/4;
+  var nx=o.x+Math.cos(ang)*rr,ny=o.y+Math.sin(ang)*rr;
+  if(freeAt(nx,ny,o.r)){o.x+=(nx-o.x)*.45;o.y+=(ny-o.y)*.45;return true}}
+ return false}
  function d0(a,b){return Math.hypot(b.x-a.x,b.y-a.y)}
  function allyBlockCiv(a,tg){var i,ax=a.x,ay=a.y,dx=tg.x-ax,dy=tg.y-ay,l2=dx*dx+dy*dy||1;
   for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down||!c.f)continue;
@@ -2978,8 +3030,9 @@ function allySlot(a){var p=G.p,base=p.aa,
 function cqb(a,dt,p){a.qd-=dt;
  if(a.rally||a.lost){a.qst='follow';return}
  if(a.qst==='follow'){
-  var d8=doorNear(a.x,a.y,74);
-  if(d8&&!d8.open&&G.phase==='live'&&Math.hypot(p.x-a.x,p.y-a.y)<340&&(a.mode===1||a.aggro)){a.qst='stack';a.qd=.3+a.i*.9}
+  /* 只有「破门编队」指令、或队友与玩家失散时才自动破门；否则门留给玩家自己处理 */
+  var d8=doorNear(a.x,a.y,74),farP=Math.hypot(p.x-a.x,p.y-a.y);
+  if(d8&&!d8.open&&G.phase==='live'&&(a.ord==='breach'||(a.lost&&farP>380))&&(a.mode===1||a.aggro)){a.qst='stack';a.qd=.3+a.i*.9}
   return}
  if(a.qst==='stack'){
   var d9=doorNear(a.x,a.y,170);
@@ -3043,21 +3096,30 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
    else if(td>ide*1.2){want=1;wx=tg.x;wy=tg.y}
    else if(td<ide*.55){want=1;wx=a.x*2-tg.x;wy=a.y*2-tg.y}
    else{want=.5;wx=a.x+Math.cos(G.t*.7+a.ph)*(tg.y-a.y)*.4;wy=a.y-Math.cos(G.t*.7+a.ph)*(tg.x-a.x)*.4}}
-  else if(dsp>52){want=1;wx=sl.x;wy=sl.y}
+  else if(dsp>44){want=1;wx=sl.x;wy=sl.y}
   if(a.qst==='hold'&&!a.rally){want=0;wx=a.x;wy=a.y}
   if(a.rally&&!tg){var eR=G.exit;want=1;wx=eR[0]+eR[2]/2+(a.i?26:-26);wy=eR[1]+eR[3]/2;dsp=1}
   if(a.qst==='stack'&&a.sx9!==undefined&&!tg){want=1;wx=a.sx9;wy=a.sy9;d0(a,{x:wx,y:wy})<14||(dsp=1)}
   a.stuck=(a._lx!==undefined&&Math.abs(a.x-a._lx)+Math.abs(a.y-a._ly)<.4&&d0(a,{x:wx,y:wy})>34)?1:0;
   a._lx=a.x;a._ly=a.y;
   if(want>0){var au=Math.atan2(wy-a.y,wx-a.x),vv=a.sp*(a.lost?1.35:want)*(a.catch||1);
-   if(freeAt(a.x+Math.cos(au)*vv*dt,a.y+Math.sin(au)*vv*dt,a.r)){a.x+=Math.cos(au)*vv*dt;a.y+=Math.sin(au)*vv*dt}
-   else if(freeAt(a.x+Math.cos(au)*vv*dt,a.y,a.r)){a.x+=Math.cos(au)*vv*dt}
-   else if(freeAt(a.x,a.y+Math.sin(au)*vv*dt,a.r)){a.y+=Math.sin(au)*vv*dt}
-   a.mv=1}
+   if(!moveToward(a,wx,wy,vv,dt))a.stuckT=(a.stuckT||0)+dt;
+   else a.mv=1}
   else a.mv=0;
+  /* 保持个人空间：不与玩家、队友重叠 */
+  if(dpp<40){var ax0=a.x-p.x,ay0=a.y-p.y,al0=Math.hypot(ax0,ay0)||1,ps0=(40-dpp)*.55;
+   if(freeAt(a.x+ax0/al0*ps0,a.y+ay0/al0*ps0,a.r)){a.x+=ax0/al0*ps0;a.y+=ay0/al0*ps0}}
+  for(var sI=0;sI<G.al.length;sI++){var oA=G.al[sI];if(oA===a||oA.down)continue;
+   var ox1=a.x-oA.x,oy1=a.y-oA.y,od1=Math.hypot(ox1,oy1),mn1=a.r+oA.r+4;
+   if(od1>0&&od1<mn1){var pu1=(mn1-od1)*.35,nx1=ox1/od1*pu1,ny1=oy1/od1*pu1;
+    if(freeAt(a.x+nx1,a.y+ny1,a.r)){a.x+=nx1;a.y+=ny1}}}
+  if(!freeAt(a.x,a.y,a.r))pushFreeObj(a,dt,a.sp);
   if(want>0&&a.stuck){a.stuckT=(a.stuckT||0)+dt;
-   if(a.stuckT>.9){var psx=a.x-Math.cos(au)*7,psy=a.y-Math.sin(au)*7;
-    if(freeAt(psx,psy,a.r)){a.x=psx;a.y=psy}a.stuckT=0}}
+   if(a.stuckT>.7){ /* 侧向脱困 */
+    var pa=Math.atan2(wy-a.y,wx-a.x)+((a.i%2)?1:-1)*1.35,
+     sx1=a.x+Math.cos(pa)*14,sy1=a.y+Math.sin(pa)*14;
+    if(freeAt(sx1,sy1,a.r)){a.x=sx1;a.y=sy1}
+    a.stuckT=0}}
   else a.stuck=0;
   if(a.lost)want=1.35;
   if(mode===0&&tg&&d0(a,tg)>310)tg=null;
@@ -3225,6 +3287,16 @@ function draw(){if(!G||!L)return;
   ctx.fillStyle=ck>.72?'#ff8a70':'#e2a93e';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
   ctx.fillText(gp.cooking?('温雷 '+gp.cook.toFixed(1)+'s'):'持雷 · 按住开火',0,-32);
   ctx.restore();ctx.textAlign='left'}
+ /* 敌方手雷：地面红圈 + 引信倒计时 */
+ if(G.eg&&G.eg.length)for(var eg2=0;eg2<G.eg.length;eg2++){var gg=G.eg[eg2];if(!vis(gg.x,gg.y,120))continue;
+  var lf2=clamp(1-gg.t/gg.fuse,0,1),pulse=.5+.5*Math.sin(G.t*16);
+  ctx.save();ctx.translate(gg.x,gg.y);
+  ctx.fillStyle='rgba(200,60,40,'+(.10+.16*pulse)+')';ctx.beginPath();ctx.arc(0,0,115,0,TAU);ctx.fill();
+  ctx.strokeStyle='rgba(230,80,60,'+(.45+.4*pulse)+')';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,115,0,TAU);ctx.stroke();
+  ctx.fillStyle='#2a2e31';ctx.beginPath();ctx.arc(0,0,5,0,TAU);ctx.fill();
+  ctx.strokeStyle='#ff6a4a';ctx.lineWidth=2.4;ctx.beginPath();
+  ctx.arc(0,0,9,-PI/2,-PI/2+TAU*lf2);ctx.stroke();
+  ctx.restore()}
  for(i=0;i<POOL.b.length;i++){var b=POOL.b[i];if(!b.a||!vis(b.x,b.y,170))continue;
   var bsp=Math.hypot(b.vx,b.vy)||1,lf=1-b.tm/(b.lm||.4),
    tl=(b.own===0?110:160)*clamp(lf+.3,.35,1);
@@ -3532,8 +3604,12 @@ function updHud(){var p=G.p,g=cur(),i;
    ('持雷 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
  if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…  '+Math.round(Math.min(1,G.wt/1)*100)+'%';
  if(G.al&&G.al.length){var as='';
-  for(i=0;i<G.al.length;i++){var av=G.al[i];
-   as+=(i?" ｜ ":"")+"<span style=\"color:"+(av.down?"#c8574a":"#8ee08e")+"\">"+(av.n.split(" · ")[1]||"Bravo")+" "+(av.down?"后撤 "+Math.max(0,Math.ceil(16-av.dt2))+"s":Math.max(0,Math.round(av.hp)))+"</span>"}
+  for(i=0;i<G.al.length;i++){var av=G.al[i],rn2=(av.n.split(" · ")[1]||"Bravo"),
+   hp2=Math.max(0,Math.round(av.hp)),pc2=clamp(hp2/av.mhp*100,0,100),
+   col2=av.down?'#6b3a33':(pc2>55?'#6fbf73':(pc2>25?'#d8b25a':'#d06a56'));
+   as+='<div class="vr avr'+(av.down?' down':'')+'"><b>'+rn2+'</b>'+
+    '<span class="vbar"><i style="width:'+pc2.toFixed(1)+'%;background:'+col2+'"></i></span>'+
+    '<em>'+(av.down?('倒地 '+Math.max(0,Math.ceil(16-av.dt2))+'s'):hp2)+'</em></div>'}
   if(as!==HD.al){HD.al=as;var ae=$("alv");if(ae)ae.innerHTML=as}}
  else if(HD.al!==''){$("alv").innerHTML="";HD.al=""}
  if(G.sc!==HD.sc2){HD.sc2=G.sc;var kt=$('ksTot');if(kt)kt.textContent='作战分 '+G.sc}
@@ -3570,7 +3646,7 @@ function step(dt){if(!G)return;
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
  if(G.p.act==='n'||G.p.act==='f')updateGren(dt);
- updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);
+ updateDoors(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /*  win check：踏入撤离区即可（新兵训练不判定撤离） */
  if(G.exitOpen&&!G.tut){var eR=G.exit,
