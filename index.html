@@ -5753,7 +5753,7 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':(o.hero?' 【解锁条件：通过猎鹰招募考核 OP-06】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】'));
+ $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成剧情任务 OP-06「猎鹰招募」后，全部国产枪族自动解锁】':(o.hero?' 【解锁条件：通过猎鹰招募考核 OP-06】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】')));
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
