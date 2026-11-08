@@ -4462,7 +4462,7 @@ function openBoard(){
  lbFetch(function(){lbRender();try{lbSubmit()}catch(e){}})
 }
 function lbAskCfg(){
- var v=prompt('粘贴排行榜服务器地址（Cloudflare Worker 的 https://…workers.dev）','');
+ var v=prompt('粘贴排行榜服务器地址（例如 https://cqb-roster.pages.dev/api）','');
  if(v==null)return;
  v=String(v).trim().replace(/\/+$/,'');
  if(!/^https?:\/\//.test(v)){toast('地址需要以 https:// 开头',2600);return}
