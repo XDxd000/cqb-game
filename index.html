@@ -4391,7 +4391,7 @@ function lbFetch(cb){
  LB.busy=1;lbRender();
  var ac=null;
  try{ac=new AbortController()}catch(e){}
- var to=setTimeout(function(){try{if(ac)ac.abort()}catch(e){}},7000);
+ var to=setTimeout(function(){try{if(ac)ac.abort()}catch(e){}},15000);
  try{
   fetch(api+'/board',{cache:'no-store',signal:ac?ac.signal:undefined})
   .then(function(r){if(!r.ok)throw new Error('http');return r.json()})
