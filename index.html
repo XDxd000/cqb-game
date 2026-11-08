@@ -3690,12 +3690,23 @@ function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
  p.cook+=dt;
  if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
   explode(p.x,p.y,130,120);dmgPlayer(55);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
-/* 投掷目标 = 准星所指位置（撞墙则落在墙前，最短 90、最长 THROW_MAX） */
+/* 投掷目标 = 准星所指的那个点（桌面取鼠标世界坐标，触屏取瞄准射线落点）；
+   超出最大投掷距离则截断，墙挡住则落在墙前。 */
 function throwTarget(){
- var p=G.p,ax=p.aa,dx=Math.cos(ax),dy=Math.sin(ax);
- var hd=rayHit(p.x,p.y,dx*THROW_MAX,dy*THROW_MAX);
- var dist=clamp(hd-14,90,THROW_MAX);
- return {x:p.x+dx*dist,y:p.y+dy*dist,dist:dist}}
+ var p=G.p,tx,ty;
+ if(!touchUI){tx=CAM.x+MS.x;ty=CAM.y+MS.y}
+ else{
+  var lr=Math.min(cur().w.rn,5200),hd0=rayHit(p.x,p.y,Math.cos(p.aa)*lr,Math.sin(p.aa)*lr);
+  tx=p.x+Math.cos(p.aa)*hd0;ty=p.y+Math.sin(p.aa)*hd0}
+ var dx=tx-p.x,dy=ty-p.y,d=Math.hypot(dx,dy),ux,uy;
+ if(d<1){ux=Math.cos(p.aa);uy=Math.sin(p.aa);d=0}
+ else{ux=dx/d;uy=dy/d}
+ var dist=Math.min(d,THROW_MAX);
+ /* 墙挡住：落点在墙前 16px */
+ if(dist>1){var hd=rayHit(p.x,p.y,ux*dist,uy*dist);
+  if(hd<dist)dist=Math.max(0,hd-16)}
+ if(dist<60)dist=60;            /* 最短投掷距离 */
+ return {x:p.x+ux*dist,y:p.y+uy*dist,dist:dist}}
 function throwG(fuse){
  var p=G.p;if(!p||G.phase!=='live'||p.act)return;
  if(!p.actItem||!p.bl[p.actItem])p.actItem=firstThrow(p);
@@ -4906,6 +4917,22 @@ function draw(){if(!G||!L)return;
   ctx.fillStyle=ck>.72?'#ff8a70':'#e2a93e';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
   ctx.fillText(gp.cooking?('温雷 '+gp.cook.toFixed(1)+'s'):'持雷 · 按住开火',0,-32);
   ctx.restore();ctx.textAlign='left'}
+ /* 投掷落点预览：落点就是准星所指的位置 */
+ if(G.p.gren&&G.phase==='live'&&!G.p.act){
+  var tp=throwTarget(),px2=tp.x-CAM.x,py2=tp.y-CAM.y,i2,n2=12;
+  ctx.save();
+  ctx.strokeStyle='rgba(226,169,62,.42)';ctx.lineWidth=1.2;ctx.setLineDash([5,5]);
+  ctx.beginPath();ctx.moveTo(G.p.x-CAM.x,G.p.y-CAM.y);
+  for(i2=1;i2<=n2;i2++){var kk=i2/n2;
+   ctx.lineTo((G.p.x+(tp.x-G.p.x)*kk)-CAM.x,
+    (G.p.y+(tp.y-G.p.y)*kk)-CAM.y-(Math.sin(Math.PI*kk)*THROW_ARC)*.6)}
+  ctx.stroke();ctx.setLineDash([]);
+  ctx.strokeStyle='rgba(226,169,62,.9)';ctx.lineWidth=1.6;
+  ctx.beginPath();ctx.arc(px2,py2,9,0,TAU);ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(px2-14,py2);ctx.lineTo(px2-5,py2);ctx.moveTo(px2+5,py2);ctx.lineTo(px2+14,py2);
+  ctx.moveTo(px2,py2-14);ctx.lineTo(px2,py2-5);ctx.moveTo(px2,py2+5);ctx.lineTo(px2,py2+14);
+  ctx.stroke();ctx.restore()}
  /* 敌方手雷：地面红圈 + 引信倒计时 */
  if(G.eg&&G.eg.length)for(var eg2=0;eg2<G.eg.length;eg2++){var gg=G.eg[eg2];if(!vis(gg.x,gg.y,120))continue;
   var lf2=clamp(1-gg.t/gg.fuse,0,1),pulse=.5+.5*Math.sin(G.t*16);
@@ -5752,6 +5779,12 @@ var PATCHES=[
    '第三章结束后解锁新的出战方式「联合编队」：燕锋出击，格雷作为 AI 僚机随行——自动跟随、自动交火，不占用武器槽。',
    '出战队员选择扩展为四选一：普通队员 / 燕锋 / 格雷 / 联合编队（按解锁进度逐张开放）。',
    '第二章档案改写为「交换军官」：格雷的交换档案压了三个月，直到你通过考核那天才由沈钺签字。'
+  ]},
+ {v:5,d:'2026-11-08',t:'投掷落点修正',
+  items:[
+   '修复投掷物落点与准星不一致：现在落点就是你枪械准星所指的那个点（桌面用鼠标世界坐标，触屏用瞄准射线落点）。',
+   '保留三条限制：最短 60 像素、最远 660 像素、中途有墙则落在墙前 16 像素。',
+   '持雷时新增虚线弹道与落点十字预览，扔之前能看清会落在哪。'
   ]}
 ];
 function pushPatchMail(){
