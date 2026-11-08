@@ -3752,12 +3752,16 @@ function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
 function updVis(dt){if(!G||!L)return;
  G._vT=(G._vT==null?0:G._vT-dt);if(G._vT>0)return;G._vT=.12;
  var p=G.p,i,o;
+ /* 小地图只显示真正「看到过」的东西：必须有过视线，穿墙不算 */
  for(i=0;i<L.en.length;i++){o=L.en[i];if(o.dead)continue;
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<130||los(p.x,p.y,o.x,o.y))?1:0}
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<130||los(p.x,p.y,o.x,o.y))?1:0;
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}
  for(i=0;i<L.civ.length;i++){o=L.civ[i];if(o.down)continue;
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<110||los(p.x,p.y,o.x,o.y))?1:0}
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<110||los(p.x,p.y,o.x,o.y))?1:0;
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}
  for(i=0;i<L.cr.length;i++){o=L.cr[i];
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<150||los(p.x,p.y,o.x,o.y))?1:0}}
+  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<150||los(p.x,p.y,o.x,o.y))?1:0;
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}}
 /* 门洞机关：绊雷在有人跨过洞口时起爆（可叠加伤害）；阻门器由爆炸摧毁 */
 function inDoor(o,d){return o.x>d.x-6&&o.x<d.x+d.w+6&&o.y>d.y-6&&o.y<d.y+d.h+6}
 function doorTick(dt){if(!L)return;var i,j;
@@ -4600,6 +4604,14 @@ function drawSub(e){
  ctx.fillStyle='#e6d78a';ctx.font='10px sans-serif';ctx.textAlign='center';
  ctx.fillText('投降 · F',0,e.r+16);
  ctx.textAlign='left';ctx.restore()}
+/* 手电光锥：沿射线采样墙体，遇到障碍就被切断（不再穿墙） */
+function lightRays(px,py,aa,sp,len,n){
+ var pts=[],j,ang,d;n=n||26;
+ for(j=0;j<=n;j++){ang=aa-sp+(2*sp)*j/n;
+  d=rayHit(px,py,Math.cos(ang)*len,Math.sin(ang)*len);
+  d=Math.max(14,d-8);
+  pts.push([px+Math.cos(ang)*d,py+Math.sin(ang)*d])}
+ return pts}
 function lighting(){var c=L.cfg.dk,s=.5,pw=(G.p.x-CAM.x)*s,ph=(G.p.y-CAM.y)*s;
  lc.setTransform(1,0,0,1,0,0);lc.globalCompositeOperation='source-over';
  /* 每帧先清空光照层：否则暗色会逐帧叠加，屏幕会越来越黑直到只剩手电范围 */
@@ -4619,7 +4631,9 @@ function lighting(){var c=L.cfg.dk,s=.5,pw=(G.p.x-CAM.x)*s,ph=(G.p.y-CAM.y)*s;
   g2.addColorStop(0,'rgba(255,255,255,'+(gdHas('light',1)?.96:.84)+')');
   g2.addColorStop(1,'rgba(255,255,255,0)');
   lc.fillStyle=g2;lc.beginPath();
-  lc.arc(pw,ph,fl*s,aa-sp,aa+sp);lc.lineTo(pw,ph);lc.closePath();lc.fill();
+  var lrp=lightRays(G.p.x,G.p.y,aa,sp,fl,28),lrj;lc.moveTo(pw,ph);
+  for(lrj=0;lrj<lrp.length;lrj++)lc.lineTo((lrp[lrj][0]-CAM.x)*s,(lrp[lrj][1]-CAM.y)*s);
+  lc.closePath();lc.fill();
  }
  var i;if(L.neon.length)for(i=0;i<L.neon.length;i++){var n=L.neon[i],
   nx=(n.x-CAM.x)*s,ny=(n.y-CAM.y)*s,pu=.45+.5*Math.sin(G.t*n.s+n.p),
@@ -4644,7 +4658,9 @@ function drawLight(){
  lg.addColorStop(.55,'rgba(255,240,200,'+(gdHas('light',1)?.09:.06)+')');
  lg.addColorStop(1,'rgba(255,240,200,0)');
  ctx.fillStyle=lg;ctx.beginPath();ctx.moveTo(lx,ly);
- ctx.arc(lx,ly,len,p.aa-sp,p.aa+sp);ctx.closePath();ctx.fill();
+ var lrp2=lightRays(p.x,p.y,p.aa,sp,len,26),lrj2;
+ for(lrj2=0;lrj2<lrp2.length;lrj2++)ctx.lineTo(lrp2[lrj2][0]-CAM.x,lrp2[lrj2][1]-CAM.y);
+ ctx.closePath();ctx.fill();
  /* 灯头亮点 */
  var hx=lx+Math.cos(p.aa)*10,hy=ly+Math.sin(p.aa)*10;
  ctx.fillStyle='rgba(255,252,236,.9)';ctx.beginPath();ctx.arc(hx,hy,2.1,0,TAU);ctx.fill();
@@ -4737,13 +4753,12 @@ function updHud(){var p=G.p,g=cur(),i;
  if(pr!==HD.pr){HD.pr=pr;var el=$('prompt');el.textContent=pr;el.style.opacity=pr?'1':'0'}
  var mw=$('mm').width,mh=$('mm').height,s2=L.sc;
  mmCtx.clearRect(0,0,mw,mh);mmCtx.drawImage(L.mmc,0,0);
- for(i=0;i<L.cr.length;i++){if(L.cr[i].got)continue;mmCtx.fillStyle='#9fb46e';
+ for(i=0;i<L.cr.length;i++){if(L.cr[i].got||!L.cr[i]._seen)continue;mmCtx.fillStyle='#9fb46e';
   mmCtx.fillRect(L.cr[i].x*s2-1.6,L.cr[i].y*s2-1.6,3.2,3.2)}
- for(i=0;i<L.civ.length;i++){var cc=L.civ[i];
+ for(i=0;i<L.civ.length;i++){var cc=L.civ[i];if(!cc._seen)continue;
   mmCtx.fillStyle=cc.down?'#8a4038':(cc.f?'#8ee08e':'#d9c87a');
   mmCtx.fillRect(cc.x*s2-1.8,cc.y*s2-1.8,3.6,3.6)}
- for(i=0;i<L.en.length;i++){var ee=L.en[i];if(ee.dead)continue;
-  if(ee._vis===0&&!ee.alert)continue;   /* 小地图也只显示看得见或已暴露的敌人 */
+ for(i=0;i<L.en.length;i++){var ee=L.en[i];if(ee.dead||!ee._seen)continue;
   mmCtx.fillStyle=ee.sub>0?'#e6d78a':(ee.tp==='boss'?'#ff5a4a':(ee.tp==='sniper'?'#7fd0ff':'#e06a52'));
   mmCtx.fillRect(ee.x*s2-2,ee.y*s2-2,4,4)}
  mmCtx.fillStyle=G.exitOpen?'rgba(140,224,142,.45)':'rgba(120,130,135,.25)';
