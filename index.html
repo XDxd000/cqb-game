@@ -21,8 +21,6 @@ body{background:var(--bg);color:var(--txt);overflow:hidden;overscroll-behavior:n
 #cv{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:block;background:#05070a}
 body.noc,body.noc #cv,body.noc #hud,body.noc #hud *,body.noc #ksBox,body.noc #kbar,body.noc #comms{cursor:none
 }
-/* 开镜隐藏 HUD */
-body.scoped #hud .ht,body.scoped #hud .hb,body.scoped #kbar,body.scoped #voice,body.scoped #prompt{opacity:0 !important;transition:opacity .12s}
 .hidden{display:none!important}
 .screen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:30;display:none;overflow:auto;overscroll-behavior:contain;
  background:radial-gradient(120% 90% at 18% 0%,rgba(28,42,52,.97),rgba(6,9,12,.99) 62%)}
@@ -190,6 +188,140 @@ body.noc #hud,body.noc #hud *{cursor:none}
  .heroRow{flex-wrap:wrap}
  .heroRow b{min-width:0}
 }
+/* SECTION: style-board 全服排行榜
+   表头/名次/称号胶囊三件套；称号颜色分七档，金色 reserved（只手工授予）。 */
+.bdTop{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:4px 0 12px}
+.bdStat{font-size:11.5px;color:#7f939f;letter-spacing:.04em}
+.bdStat b{color:#9dbb85;font-weight:600}
+.bdStat .warn{color:#d8a15a}
+.bdStat .bad{color:#d8503f}
+.bdWrap{border:1px solid var(--line);border-radius:6px;overflow:hidden;
+ background:linear-gradient(180deg,rgba(16,24,30,.94),rgba(8,12,16,.94));box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.bdScroll{overflow-x:auto}
+.bdTbl{width:100%;border-collapse:collapse;min-width:620px}
+.bdTbl th{font-size:9.5px;letter-spacing:.16em;color:#6d818d;font-weight:600;text-align:left;white-space:nowrap;
+ padding:9px 10px;background:rgba(255,255,255,.032);border-bottom:1px solid var(--line)}
+.bdTbl td{padding:8px 10px;border-bottom:1px solid #16212a;font-size:12.5px;color:#c9d8e2;vertical-align:middle}
+.bdTbl tr:last-child td{border-bottom:0}
+.bdTbl tbody tr:hover td{background:rgba(147,172,109,.05)}
+.bdTbl tr.me td{background:rgba(226,169,62,.075);box-shadow:inset 2px 0 0 var(--amber)}
+.bdTbl .no{width:46px;font-variant-numeric:tabular-nums;color:#7f939f;font-weight:800;font-size:13px}
+.bdTbl .no.g1{color:#f0c265;text-shadow:0 0 10px rgba(240,194,101,.45)}
+.bdTbl .no.g2{color:#d3dde6}
+.bdTbl .no.g3{color:#c98d5c}
+.bdTbl .nm{font-weight:600;color:#e6f0f6;white-space:nowrap}
+.bdTbl tr.me .nm{color:#f0d890}
+.bdTbl .nm i{font-style:normal;font-size:9px;color:#e2a93e;border:1px solid #6b5a2e;border-radius:3px;
+ padding:0 4px;margin-left:6px;vertical-align:1px}
+.bdTbl .rk{white-space:nowrap;font-size:11.5px;color:#93a8b6}
+.bdTbl .rk b{color:#cfdde6;font-weight:600}
+.bdTbl .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;color:#cfdde6}
+.bdTbl .num.sm{font-size:11.5px;color:#8ba0ae}
+.bdTbl .dim{color:#61737f}
+.bdEmpty{padding:34px 18px;text-align:center;color:#6d818d;font-size:12.5px;line-height:1.9}
+.bdEmpty b{display:block;color:#9db0bd;font-size:14px;margin-bottom:6px;letter-spacing:.08em}
+/* 称号胶囊：金色单独预留，用渐变+描边+外发光与其余颜色拉开档次 */
+.ttl{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;line-height:1.75;
+ border:1px solid #3b4a55;color:#93a3b0;background:rgba(147,163,176,.10);
+ font-size:11.5px;letter-spacing:.06em;white-space:nowrap}
+.ttl u{text-decoration:none;font-size:8.5px;opacity:.7;letter-spacing:.12em}
+.ttl.none{border-style:dashed;color:#5f7079;background:none}
+.ttl.gold{border-color:#8a6a2c;color:#f5d182;font-weight:700;letter-spacing:.12em;
+ background:linear-gradient(180deg,rgba(245,209,130,.24),rgba(226,169,62,.07));
+ box-shadow:0 0 0 1px rgba(245,209,130,.14),0 0 16px rgba(240,194,101,.22)}
+.ttl.violet{border-color:#5b3f86;color:#c3a2f3;background:rgba(183,140,235,.13)}
+.ttl.crimson{border-color:#7d3038;color:#ee7d86;background:rgba(226,96,107,.13)}
+.ttl.amber{border-color:#7d5220;color:#f0a755;background:rgba(232,148,60,.13)}
+.ttl.azure{border-color:#25657a;color:#6cc7e3;background:rgba(79,184,216,.13)}
+.ttl.jade{border-color:#356245;color:#8ac79b;background:rgba(111,181,131,.13)}
+.ttl.steel{border-color:#3b4a55;color:#a3b3bf;background:rgba(147,163,176,.10)}
+/* 称号等级图例 */
+.legend{margin-top:14px;padding:11px 13px;border:1px solid #1d2831;border-radius:5px;background:rgba(10,15,19,.6)}
+.legend .lt{font-size:10px;letter-spacing:.18em;color:#6d818d;margin-bottom:8px}
+.legend .lg{display:flex;flex-wrap:wrap;gap:7px}
+.legend .it{display:flex;align-items:center;gap:6px;font-size:11px;color:#7f939f}
+@media (max-width:560px){
+ .bdTbl{min-width:0}
+ .bdTbl .hideSm{display:none}
+ .bdTbl td,.bdTbl th{padding:7px 7px}
+}
+/* SECTION: style-menu2 主菜单：顶部身份条 + 图标工具条 + 背景艺术字 */
+#sMenu{background:#080b0e}
+.menuBg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ background:radial-gradient(120% 90% at 18% 0%,rgba(28,42,52,.97),rgba(6,9,12,.99) 62%)}
+.menuBg .bgTtl{position:absolute;left:50%;top:23%;transform:translateX(-50%) rotate(-7deg);
+ font-size:clamp(48px,12.4vw,158px);font-weight:900;letter-spacing:.10em;line-height:1;white-space:nowrap;
+ color:rgba(226,169,62,.085);-webkit-text-stroke:1.3px rgba(240,200,120,.20);
+ text-shadow:0 0 48px rgba(226,169,62,.10)}
+.menuBg .bgSub{position:absolute;left:50%;top:calc(23% + clamp(50px,13vw,168px));
+ transform:translateX(-50%) rotate(-7deg);white-space:nowrap;
+ font-size:clamp(8px,1.3vw,12px);letter-spacing:.66em;color:rgba(147,172,109,.17)}
+.menuBg .bgLead{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(92vw,900px);
+ margin:0;font-size:12px;line-height:1.95;text-align:center;color:rgba(139,160,174,.16);
+ -webkit-mask-image:linear-gradient(180deg,transparent,#000 45%);mask-image:linear-gradient(180deg,transparent,#000 45%)}
+#sMenu .wrap{position:relative;z-index:1}
+/* 玩家身份条 */
+.pbar{display:flex;align-items:center;gap:13px;padding:10px 14px;border:1px solid #24323d;border-radius:8px;
+ background:linear-gradient(135deg,rgba(24,34,42,.95),rgba(11,17,22,.95));box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.pbadge{width:56px;height:56px;flex:0 0 56px;padding:0;border-radius:50%;border:1px solid #6b5a2e;cursor:pointer;
+ background:radial-gradient(circle at 50% 38%,#2c3523,#12181d 72%);display:flex;align-items:center;justify-content:center;
+ box-shadow:0 0 18px rgba(226,169,62,.16);transition:border-color .15s,box-shadow .15s}
+.pbadge:hover{border-color:var(--amber);box-shadow:0 0 26px rgba(226,169,62,.32)}
+.pbadge svg{width:40px;height:40px;display:block}
+.pinfo{flex:1 1 auto;min-width:0}
+.pname{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.pname b{font-size:16px;color:#eaf2f7;letter-spacing:.05em}
+.pname .prk{font-size:12px;letter-spacing:.16em;color:#e2a93e}
+.pname .pkc{font-size:10px;letter-spacing:.08em;color:#7f939f}
+.pxp{display:flex;align-items:center;gap:9px;margin-top:5px}
+.pbarIn{flex:0 1 260px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.pbarIn i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6f9d55,#e2a93e);transition:width .25s}
+.pxp .pn{font-size:10.5px;color:#7f939f;font-variant-numeric:tabular-nums}
+.pnext{margin-top:4px;font-size:11.5px;color:#8ba0ae;letter-spacing:.02em}
+.pnext b{color:#d8c48c;font-weight:600}
+.pmore{flex:0 0 auto;min-height:34px;padding:0 12px;font-size:11px;letter-spacing:.06em;color:#9fb2bf;
+ background:#131b21;border:1px solid var(--line2);border-radius:3px;cursor:pointer}
+.pmore:hover{border-color:var(--amber);color:var(--amber)}
+#rankCard{margin-top:8px}
+/* 主操作 + 图标条 */
+.actRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 4px}
+.actMain{min-height:58px;padding:0 36px;font-size:16px;letter-spacing:.16em;
+ box-shadow:0 10px 26px rgba(47,74,44,.32)}
+.iconBar{display:flex;gap:7px;flex-wrap:wrap}
+.ic{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+ min-width:62px;height:58px;padding:0 8px;border:1px solid var(--line2);border-radius:4px;
+ background:linear-gradient(180deg,#141d24,#0d1418);color:#9fb2bf;cursor:pointer;
+ transition:border-color .15s,color .15s,transform .1s}
+.ic:hover{border-color:var(--olive);color:#dce7ee}
+.ic:active{transform:translateY(1px)}
+.ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.ic span{font-size:9.5px;letter-spacing:.05em;line-height:1}
+.ic.on{border-color:var(--amber);color:var(--amber)}
+@media (max-width:620px){
+ .pbar{flex-wrap:wrap;gap:10px}
+ .pmore{order:3;margin-left:69px}
+ .actMain{flex:1 1 100%}
+ .iconBar{flex:1 1 100%;justify-content:space-between}
+ .ic{flex:1 1 0;min-width:0}
+ .menuBg .bgTtl{top:16%}
+}
+/* 设置页 */
+.setList{display:flex;flex-direction:column;gap:8px;margin:10px 0 4px}
+.setRow{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid #22303a;border-radius:5px;
+ background:linear-gradient(180deg,rgba(16,24,30,.85),rgba(10,15,19,.85))}
+.setRow>div:first-child{flex:1 1 auto;min-width:0}
+.setRow b{display:block;font-size:13px;color:#dce7ee;font-weight:600;letter-spacing:.03em}
+.setRow i{display:block;font-style:normal;font-size:11px;color:#7f939f;margin-top:3px;line-height:1.55}
+.setRow .btn{flex:0 0 auto}
+.seg{display:flex;gap:4px;flex:0 0 auto}
+.seg button{min-height:32px;padding:0 10px;font-size:11px;border:1px solid var(--line2);border-radius:3px;
+ background:#131b21;color:#9fb2bf;cursor:pointer}
+.seg button.on{border-color:var(--amber);color:var(--amber)}
+/* 简报页顶部图标 + 折叠设置 */
+.briefTop{display:flex;justify-content:flex-end;gap:6px;margin:-4px 0 6px}
+.briefSet{margin:6px 0 2px;padding:10px 12px;border:1px solid #22303a;border-radius:5px;background:rgba(10,15,19,.7)}
+.briefSet .setRow{border:0;background:none;padding:0}
+@media (max-width:620px){ .setRow{flex-wrap:wrap} .setRow .seg{width:100%} }
 /* SECTION: style-touch */
 #touch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:22;display:none;pointer-events:none}
 body.touch #touch.on{display:block}
@@ -352,6 +484,8 @@ body.touch #touch.on{display:block}
 #rankHud .rhX{color:#7f939f;font-variant-numeric:tabular-nums}
 .rankUpBanner{margin:10px 0 0;padding:9px 13px;border:1px solid #5c4a25;border-radius:4px;
  background:linear-gradient(90deg,rgba(72,58,24,.55),rgba(20,24,28,.2));font-size:12.5px;color:#f0d890;letter-spacing:.06em}
+.rankUpBanner.down{border-color:#6d2f2a;color:#eb9086;
+ background:linear-gradient(90deg,rgba(96,38,32,.5),rgba(20,24,28,.2))}
 /* SECTION: style-res */
 .res{max-width:580px;margin:5vh auto 0}
 .rate{font-size:clamp(56px,16vw,104px);font-weight:800;line-height:1;color:var(--amber)}
@@ -511,6 +645,37 @@ table.rt td:last-child{text-align:right;font-weight:600}
 </style>
 </head>
 <body>
+<!-- SECTION: icon-sprite 界面图标（线性风格，统一 24×24 网格） -->
+<svg id="sprite" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="ic-ars" viewBox="0 0 24 24">
+    <path d="M2 12.5h6.2l1.6-2.6h6.4l1.1 2.6H22v2.1h-4.6l-1.3 2.9h-3l-1.1-2.1H9.2L7.2 17H2z"/>
+    <path d="M10.4 9.9V7.6h3.2v2.3"/>
+  </symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24">
+    <path d="M4 19.4A2.4 2.4 0 0 1 6.4 17H20"/>
+    <path d="M6.4 2H20v20H6.4A2.4 2.4 0 0 1 4 19.6V4.4A2.4 2.4 0 0 1 6.4 2z"/>
+    <path d="M8.5 6.5h8M8.5 10h5.5"/>
+  </symbol>
+  <symbol id="ic-award" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.6"/>
+    <path d="M8.4 13.4 7 22l5-2.6 5 2.6-1.4-8.6"/>
+  </symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24">
+    <path d="M12 2.6l2.7 5.9 6.3.7-4.7 4.3 1.3 6.2L12 16.6 6.4 19.7l1.3-6.2L3 9.2l6.3-.7z"/>
+  </symbol>
+  <symbol id="ic-gear" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="3.1"/>
+    <path d="M19.1 14.4a1.6 1.6 0 0 0 .3 1.8l.1.1a1.9 1.9 0 1 1-2.7 2.7l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a1.9 1.9 0 1 1-3.8 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a1.9 1.9 0 1 1-2.7-2.7l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H2.9a1.9 1.9 0 1 1 0-3.8h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a1.9 1.9 0 1 1 2.7-2.7l.1.1a1.6 1.6 0 0 0 1.8.3h.1a1.6 1.6 0 0 0 1-1.5V2.9a1.9 1.9 0 1 1 3.8 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a1.9 1.9 0 1 1 2.7 2.7l-.1.1a1.6 1.6 0 0 0-.3 1.8v.1a1.6 1.6 0 0 0 1.5 1h.2a1.9 1.9 0 1 1 0 3.8h-.1a1.6 1.6 0 0 0-1.5 1z"/>
+  </symbol>
+  <symbol id="ic-back" viewBox="0 0 24 24">
+    <path d="M15 5l-7 7 7 7"/>
+  </symbol>
+  <symbol id="ic-refresh" viewBox="0 0 24 24">
+    <path d="M21 12a9 9 0 1 1-2.6-6.4"/>
+    <path d="M21 4v5h-5"/>
+  </symbol>
+</svg>
+
 <!-- SECTION: canvas -->
 <canvas id="cv"></canvas>
 
@@ -673,31 +838,48 @@ table.rt td:last-child{text-align:right;font-weight:600}
 </div></section>
 
 <!-- SECTION: markup-menu -->
-<section class="screen" id="sMenu"><div class="wrap">  <div class="eyebrow">Tactical CQB · 现实轻武器资料 · 单文件网页</div>
-  <h1>战术突袭 <b>（页游）</b></h1>
-  <p class="lead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
-军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次，所以先看清「离下一级还差多少经验」再决定打哪一关。
-界面参考《严阵以待》（Ready or Not）的任务简报 / 命令轮盘 / 交战规则，
-以及《战争雷霆》手游的战斗信息流与评级结算。敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
-  <div class="bar">
-    <button class="btn p" id="bStart">开始行动</button>
-    <button class="btn" id="bArs">军械库 · 选枪</button>
-    <button class="btn" id="bHelp">作战手册</button>
-    <button class="btn" id="bTutBtn">新兵训练</button>
-    <button class="btn sm" id="bKeys">键位设置</button>
-    <button class="btn sm on" id="bHint">键位提示：开</button>
-    <button class="btn sm on" id="bAud">音效 开</button>
-    <button class="btn sm on" id="bFx">画质：自适应</button>
-    <button class="btn sm" id="bHero">英雄队员</button>
+<section class="screen" id="sMenu">
+  <!-- 底层背景：艺术字标题斜压在页游介绍上方，pointer-events:none，不影响任何操作 -->
+  <div class="menuBg" aria-hidden="true">
+    <div class="bgTtl">战术突袭</div>
+    <div class="bgSub">TACTICAL CQB OPERATION</div>
+    <p class="bgLead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
+军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
+界面参考《严阵以待》（Ready or Not）的任务简报 / 命令轮盘 / 交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
+敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
   </div>
-  <h3>军衔 · 晋升与武器解锁</h3>
-  <div class="rankCard" id="rankCard"></div>
-  <h3>作战序列 <span class="h3sub">由易到难 · 依次解锁</span></h3>
-  <div class="lvRail" id="lvRail"></div>
-  <div class="grid" id="lvList"></div>
-  <div class="note">武器参数口径：取自公开文献与厂商页面，部分为区间值或近似值，可能因型号批次、弹种与测量口径不同而与官方数据存在差异；
+
+  <div class="wrap">
+    <!-- 顶部：代号 + 军衔（点击徽章展开完整阶梯） -->
+    <div class="pbar">
+      <button class="pbadge" id="bRank" aria-expanded="false" title="点击展开军衔阶梯"></button>
+      <div class="pinfo">
+        <div class="pname"><b id="pName">新兵</b><span class="prk" id="pRank">列兵</span><span class="pkc" id="pPeak"></span></div>
+        <div class="pxp"><span class="pbarIn"><i id="pFill"></i></span><span class="pn" id="pXp">0 / 300</span></div>
+        <div class="pnext" id="pNext">距 <b>上等兵</b> 还需 300 分</div>
+      </div>
+      <button class="pmore" id="bRank2">军衔详情 ▾</button>
+    </div>
+    <div class="rankCard hidden" id="rankCard"></div>
+
+    <!-- 主操作行：开始行动 + 五个图标 -->
+    <div class="actRow">
+      <button class="btn p actMain" id="bStart">开始行动</button>
+      <div class="iconBar">
+        <button class="ic" id="bArs" title="军械库 · 选枪"><svg><use href="#ic-ars"/></svg><span>军械库</span></button>
+        <button class="ic" id="bHelp" title="作战手册"><svg><use href="#ic-book"/></svg><span>手册</span></button>
+        <button class="ic" id="bBoard" title="全服排行榜"><svg><use href="#ic-award"/></svg><span>排行</span></button>
+        <button class="ic" id="bHero" title="英雄队员"><svg><use href="#ic-star"/></svg><span>英雄</span></button>
+        <button class="ic" id="bSet" title="设置"><svg><use href="#ic-gear"/></svg><span>设置</span></button>
+      </div>
+    </div>
+
+    <h3>作战序列 <span class="h3sub">由易到难 · 依次解锁</span></h3>
+    <div class="grid" id="lvList"></div>
+    <div class="note">武器参数口径：取自公开文献与厂商页面，部分为区间值或近似值，可能因型号批次、弹种与测量口径不同而与官方数据存在差异；
 游戏内的伤害、射速、后坐为可玩性平衡后的模拟数值，不代表真实弹道性能。本作为虚构战术演练，不构成任何现实操作指导。</div>
-</div></section>
+  </div>
+</section>
 
 <!-- SECTION: markup-arsenal -->
 <section class="screen" id="sArs"><div class="wrap">
@@ -749,17 +931,74 @@ table.rt td:last-child{text-align:right;font-weight:600}
   </div>
 </div></section>
 
+<!-- SECTION: markup-board -->
+<section class="screen" id="sBoard"><div class="wrap">
+  <div class="eyebrow">GLOBAL ROSTER · 全服作战序列</div>
+  <h1>全服排行榜</h1>
+  <p class="lead">所有在册特勤的军衔分对照。任务失败会扣分、军衔会下调，但<strong>已经解锁的枪械与区域永不回收</strong>——掉的只是名次，不是装备。</p>
+  <div class="bdTop">
+    <button class="btn sm" id="bBdRefresh">刷新名单</button>
+    <button class="btn sm" id="bBdCopy">复制名单</button>
+    <button class="btn sm hidden" id="bBdCfg">接通服务器</button>
+    <span class="bdStat" id="bdStat">正在读取…</span>
+  </div>
+  <div class="bdWrap"><div class="bdScroll"><table class="bdTbl">
+    <thead><tr>
+      <th>#</th><th>称号</th><th>代号</th><th>军衔</th>
+      <th class="hideSm">历史最高</th><th style="text-align:right">军衔分</th>
+      <th class="hideSm" style="text-align:right">通关</th><th class="hideSm" style="text-align:right">胜／负</th>
+    </tr></thead>
+    <tbody id="bdBody"></tbody>
+  </table></div></div>
+  <div class="legend"><div class="lt">称号等级 · 颜色阶梯</div><div class="lg" id="bdLegend"></div></div>
+  <div class="bar">
+    <button class="btn" id="bBoardBack">返回</button>
+  </div>
+  <div class="note" id="bdNote">称号由制作者手工授予，颜色等级按军功值自动排序；金色单独预留，不参与自动分配。</div>
+</div></section>
+
+<!-- SECTION: markup-set 设置 -->
+<section class="screen" id="sSet"><div class="wrap" style="max-width:660px">
+  <div class="eyebrow">SYSTEM · 设置</div>
+  <h1>设置</h1>
+  <p class="lead">画面、操作、音效与新兵训练统一收在这里。改动即时生效并保存到本机，<strong>不会影响军衔分与已解锁内容</strong>。</p>
+  <div class="setList">
+    <div class="setRow"><div><b>键位设置</b><i>自定义移动、据枪、换弹、投掷、轮盘等按键</i></div>
+      <button class="btn sm" id="bSetKeys">修改键位</button></div>
+    <div class="setRow"><div><b>键位提示</b><i>屏幕底部常驻一行按键提示</i></div>
+      <button class="btn sm on" id="bSetHint">开</button></div>
+    <div class="setRow"><div><b>音效</b><i>枪声、脚步、界面提示音</i></div>
+      <button class="btn sm on" id="bSetAud">开</button></div>
+    <div class="setRow"><div><b>画质</b><i>自适应会按帧率自动降级，低画质更省电</i></div>
+      <button class="btn sm on" id="bSetFx">自适应</button></div>
+    <div class="setRow"><div><b>操作布局</b><i>自动识别设备，也可手动指定</i></div>
+      <div class="seg"><button id="bSetUiA">自动</button><button id="bSetUiK">键鼠</button><button id="bSetUiT">触屏</button></div></div>
+    <div class="setRow"><div><b>新兵训练</b><i>重打一遍靶场教学：不扣分、不给分、不动进度</i></div>
+      <button class="btn sm" id="bSetTut">重新训练</button></div>
+    <div class="setRow"><div><b>排行榜服务器</b><i id="setApiTxt">尚未接通</i></div>
+      <button class="btn sm" id="bSetApi">配置</button></div>
+  </div>
+  <div class="bar"><button class="btn" id="bSetBack">返回</button></div>
+  <div class="note">键位与触屏布局保存在本机浏览器，换设备需要重新调整；音效与画质同理。</div>
+</div></section>
+
 <!-- SECTION: markup-brief -->
 <section class="screen" id="sBrief"><div class="wrap" style="max-width:780px">
+  <div class="briefTop">
+    <button class="ic" id="bBriefBoard" title="全服排行榜"><svg><use href="#ic-award"/></svg><span>排行</span></button>
+    <button class="ic" id="bBriefSet" title="任务设置"><svg><use href="#ic-gear"/></svg><span>设置</span></button>
+  </div>
   <div class="eyebrow" id="fC">MISSION</div>
   <h1 id="fN">—</h1>
   <div class="briefWho" id="fWho"></div>
   <p class="lead" id="fI">—</p>
+  <div class="briefSet hidden" id="briefSet">
+    <div class="setRow"><div><b>编队配置</b><i id="fAlly">全程单人作战：AI 队员已取消，场上只有你一个人</i></div></div>
+    <div class="setRow"><div><b>交战规则提醒</b><i>误伤平民会下调评级并追加军衔分处罚</i></div></div>
+  </div>
   <div class="hr"></div>
   <h3>行动目标</h3>
   <div id="fO" style="display:grid;gap:7px;font-size:13px;color:#b5c6d2"></div>
-  <h3>编队配置</h3>
-  <div class="bar"><button class="btn sm" id="bAlly">AI 队员</button></div>
   <h3>敌情与场地</h3>
   <table class="sp"><tbody>
     <tr><td>守敌规模</td><td id="fE">—</td></tr>
@@ -1251,39 +1490,73 @@ function rankBadgeSvg(r){var i,s='<svg viewBox="0 0 40 40" aria-hidden="true">',
  s+='<path d="M20 4 L23.4 12.9 L32.9 13.5 L25.5 19.5 L27.9 28.9 L20 23.8 L12.1 28.9 L14.5 19.5 L7.1 13.5 L16.6 12.9 Z" fill="#c8352a" stroke="#e0574a" stroke-width="1.1" stroke-linejoin="round"/>';
  for(i=0;i<n;i++)s+='<rect x="'+(20-w/2+i*4.2+0.8).toFixed(1)+'" y="31.4" width="2.6" height="5.4" rx="1" fill="#c9a24c"/>';
  return s+'</svg>'}
-/* 军衔卡片：当前等级 + 距下一级所需经验 + 下一级解锁的枪械 + 七级阶梯 */
+/* 军衔卡片：当前等级 + 距下一级所需经验 + 下一级解锁的枪械 + 七级阶梯
+   军衔分可因任务失败下调，但峰值 xpm 决定解锁，所以这里同时给出「历史最高」。 */
 function renderRank(){var el=$('rankCard');if(!el)return;
- var r=rankOf(ST.xp),cur=RKLAD[r],next=RKLAD[r+1],
+ var r=rankOf(ST.xp),pk=rankPk(),cur=RKLAD[r],next=RKLAD[r+1],
   pct=next?clamp((ST.xp-cur[1])/(next[1]-cur[1])*100,0,100):100,
   h='';
  h+='<div class="rankTop">';
- h+='<div class="rankBadge">'+rankBadgeSvg(r)+'</div>';
+ h+='<div class="rankBadge">'+rankBadgeSvg(pk)+'</div>';
  h+='<div class="rankMeta">';
  h+='<div class="rankNow"><b>'+cur[0]+'</b><span>军衔 '+(r+1)+' / '+RKLAD.length+'</span>'+
+  (pk>r?('<span style="color:#7f939f;font-size:11px">历史最高 · '+RKLAD[pk][0]+'</span>'):'')+
   (ST.name?('<span class="who">代号 · '+ST.name+'</span>'):'')+'</div>';
  h+='<div class="xpbar"><i style="width:'+pct.toFixed(1)+'%"></i></div>';
- h+='<div class="rankNextRow"><span>经验 <b>'+ST.xp+'</b>'+(next?(' / '+next[1]):' · 已满级')+'</span>'+
-  '<span>'+(next?('距 <b>'+next[0]+'</b> 还需 '+(next[1]-ST.xp)+' 经验'):'已达最高军衔，全部武器解锁')+'</span></div>';
+ h+='<div class="rankNextRow"><span>军衔分 <b>'+ST.xp+'</b>'+(next?(' / '+next[1]):' · 已满级')+
+  (pk>r?('（峰值 '+ST.xpm+'）'):'')+'</span>'+
+  '<span>'+(next?('距 <b>'+next[0]+'</b> 还需 '+(next[1]-ST.xp)+' 分'):'已达最高军衔，全部武器解锁')+'</span></div>';
  h+='</div>';
- /* 找到「下一个会解锁枪械」的军衔，而不是简单的下一级——避免出现「晋升中士无新枪」的空档 */
+ /* 找到「下一个会解锁枪械」的军衔，而不是简单的下一级——避免出现「晋升中士无新枪」的空档
+    起点用峰值 pk：已经解锁过的档次不再重复提示，降级也不会把枪收回去 */
  var nxtU=-1,i2;
- for(i2=r+1;i2<RKLAD.length;i2++){if(weaponsAtXp(RKLAD[i2][1]).length){nxtU=i2;break}}
+ for(i2=pk+1;i2<RKLAD.length;i2++){if(weaponsAtXp(RKLAD[i2][1]).length){nxtU=i2;break}}
  var nw=nxtU>=0?weaponsAtXp(RKLAD[nxtU][1]):[];
- h+='<div class="rankUnlock"><div class="t">'+(nxtU>=0?('晋升 '+RKLAD[nxtU][0]+'（'+RKLAD[nxtU][1]+' 经验）解锁'):'解锁状态')+'</div><div class="w">';
+ h+='<div class="rankUnlock"><div class="t">'+(nxtU>=0?('晋升 '+RKLAD[nxtU][0]+'（'+RKLAD[nxtU][1]+' 分）解锁'):'解锁状态')+'</div><div class="w">';
  if(nxtU>=0){
   h+=nw.map(function(n){return '<em>'+n+'</em>'}).join(' · ');
-  if(nxtU>r+1)h+='<div class="none">还需 '+(RKLAD[nxtU][1]-ST.xp)+' 经验（下一级 '+RKLAD[r+1][0]+' 暂无新枪）</div>';
+  if(nxtU>pk+1)h+='<div class="none">还需 '+(RKLAD[nxtU][1]-ST.xp)+' 分（中间 '+RKLAD[pk+1][0]+' 暂无新枪）</div>';
  }else h+='<span class="none">全部枪械已解锁</span>';
  h+='</div></div>';
  h+='</div><div class="rankRail">';
  RKLAD.forEach(function(k,i){
-  h+='<div class="rankStep '+(i<r?'done':(i===r?'now':''))+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
+  h+='<div class="rankStep '+(i<pk?'done':(i===pk?'now':''))+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
  return el.innerHTML=h+'</div>'}
-/* 作战序列阶梯：把 5 张地图按难度铺开，标出已完成 / 当前 / 未解锁 / 军衔不足 */
+/* 顶部身份条：代号 / 当前军衔 / 进度 / 距下一级提示（军衔阶梯默认折叠） */
+function renderPbar(){
+ var r=rankOf(ST.xp),pk=rankPk(),cur=RKLAD[r],next=RKLAD[r+1],
+  pct=next?clamp((ST.xp-cur[1])/(next[1]-cur[1])*100,0,100):100;
+ var nm=$('pName');if(nm)nm.textContent=ST.name||'新兵';
+ var rk=$('pRank');if(rk)rk.textContent=cur[0];
+ var pkEl=$('pPeak');if(pkEl)pkEl.textContent=(pk>r?('历史最高 '+RKLAD[pk][0]):'');
+ var fl=$('pFill');if(fl)fl.style.width=pct.toFixed(1)+'%';
+ var xp=$('pXp');if(xp)xp.textContent=next?(ST.xp+' / '+next[1]):(ST.xp+' · 满级');
+ var nx=$('pNext');
+ if(nx)nx.innerHTML=next
+  ?('距 <b>'+next[0]+'</b> 还需 '+(next[1]-ST.xp)+' 分'+(pk>r?' · 已解锁装备保留':''))
+  :'已达最高军衔 <b>'+cur[0]+'</b> · 全部枪械解锁';
+ var bd=$('bRank');if(bd&&bd.innerHTML.indexOf('<svg')<0)bd.innerHTML=rankBadgeSvg(pk);
+ else if(bd)bd.innerHTML=rankBadgeSvg(pk)}
+function toggleRank(force){
+ var el=$('rankCard'),b=$('bRank');if(!el)return;
+ var open=force==null?!el.classList.contains('hidden'):!!force;
+ el.classList.toggle('hidden',!open);
+ if(open)renderRank();
+ if(b)b.setAttribute('aria-expanded',open?'true':'false');
+ var m=$('bRank2');if(m)m.textContent=open?'军衔详情 ▴':'军衔详情 ▾'}
+function openSet(){
+ show('sSet');setScr('set');
+ var t=$('setApiTxt');if(t)t.textContent=lbApi()?('已接通 · '+lbApi()):'尚未接通（排行榜仅本机可见）';
+ syncHint();syncAud();syncFx();renderUiMode()}
+function syncAud(){var a=$('bSetAud'),b=$('bAud2');
+ if(a){a.textContent=ST.aud?'开':'关';a.classList.toggle('on',!!ST.aud)}
+ if(b)b.textContent=ST.aud?'音效 开':'音效 关'}
+function syncFx(){var f=$('bSetFx');if(!f)return;
+ f.textContent=ST.fx==='low'?'低（强制）':'自适应';f.classList.toggle('on',ST.fx!=='low')}
 function renderLvRail(){var el=$('lvRail');if(!el)return;
  var h='',i;
  for(i=0;i<LS.length;i++){
-  var done=!!ST.best[''+(i+1)],unl=(i+1)<=ST.unl,rankOk=rankOf(ST.xp)>=(LS[i].rq||0),
+  var done=!!ST.best[''+(i+1)],unl=(i+1)<=ST.unl,rankOk=rankPk()>=(LS[i].rq||0),
    cur=unl&&rankOk&&(i+1)===ST.unl&&!done,
    cls=done?'done':(cur?'cur':((!unl||!rankOk)?'lock':''));
   var st=done?'已通过':(cur?'当前任务':(!unl?'未解锁':(!rankOk?('需 '+RKLAD[LS[i].rq][0]):'可重打')));
@@ -1702,13 +1975,20 @@ function softSprite(g,x,y,w,h,t){
 
 /* SECTION: state */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
- xp:0,gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,throwable:0,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
+ xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',
+ gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,throwable:0,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
   if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,6);
   if(jd&&jd.b)ST.best=jd.b;
   if(jd&&jd.x)ST.xp=Math.max(0,jd.x|0);
+  if(jd&&jd.xm)ST.xpm=Math.max(0,jd.xm|0);
+  if(jd&&typeof jd.pid==='string'&&/^[a-z0-9]{6,20}$/.test(jd.pid))ST.pid=jd.pid;
+  if(jd&&jd.tw)ST.tw=Math.max(0,jd.tw|0);
+  if(jd&&jd.tl)ST.tl=Math.max(0,jd.tl|0);
+  if(jd&&jd.tk)ST.tk=Math.max(0,jd.tk|0);
+  if(jd&&typeof jd.lb==='string')ST.lbapi=jd.lb;
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
   if(jd&&jd.tu)ST.tut=1;
   if(jd&&(jd.ui==='kb'||jd.ui==='touch'||jd.ui==='auto'))ST.ui=jd.ui;
@@ -1723,7 +2003,16 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&typeof jd.h==='number')ST.hint=jd.h?1:0;
   if(jd&&jd.hr)ST.hero=1;
   if(jd&&jd.tcf)ST.tcfraw=jd.tcf;}}catch(e){}
+/* 玩家唯一标识：排行榜靠它区分同名玩家，并把同一个人的多次上传合并成一行 */
+function mkPid(){var s='',a='abcdefghijkmnpqrstuvwxyz23456789',i;
+ for(i=0;i<12;i++)s+=a.charAt((Math.random()*a.length)|0);
+ return s}
+if(!ST.pid)ST.pid=mkPid();
+/* 峰值军衔分：解锁判定只看「历史最高」，所以掉分不会把枪和关卡收回去 */
+if(ST.xpm<ST.xp)ST.xpm=ST.xp;
 function tierOfXp(){return tierOf(ST.xp)}
+function tierPk(){return tierOf(ST.xpm)}
+function rankPk(){return rankOf(ST.xpm)}
 function gunOk(id){var o=WM[id];if(!o)return false;
  if(o.hero)return ST.hero===1;
  /* 国产枪族：只能在剧情任务里现场使用；用过的永久解锁（少校授权不能替代） */
@@ -1731,17 +2020,25 @@ function gunOk(id){var o=WM[id];if(!o)return false;
   if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
   return !!(ST.hw&&ST.hw[id])}
  if(ST.hw&&ST.hw[id])return true;    /* 少校授权（仅非国产装备） */
- return (o.tk==null?0:o.tk)<=tierOfXp()}
+ return (o.tk==null?0:o.tk)<=tierPk()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'m4a1';
  if(!gunOk(ST.load[0]))ST.load[0]='m4a1';
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
- x:ST.xp,gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
+ x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,
+ gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
-function addXp(v){var b=rankOf(ST.xp);ST.xp+=v;var a=rankOf(ST.xp);
+/* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
+function addXp(v){
+ var b=rankOf(ST.xp);
+ ST.xp=Math.max(0,Math.round(ST.xp+v));
+ if(ST.xp>ST.xpm)ST.xpm=ST.xp;
+ var a=rankOf(ST.xp);
+ if($('pName'))try{renderPbar()}catch(e){}
  if(a>b){var wl=weaponsAtXp(RKLAD[a][1]);
-  toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}}
+  toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}
+ else if(a<b){toast('军衔下调 '+RKLAD[b][0]+' → '+RKLAD[a][0]+' · 已解锁装备保留',3400)}}
 /* SECTION: autosave */
 function saveLv(){if(!G||G.phase!=='live'||G.over)return;
  if(G.tut)return;
@@ -1845,7 +2142,7 @@ function applyUI(quiet){
  try{renderUiMode()}catch(e){}
  if(!quiet)toast(touchUI?'操作界面：触屏 · 虚拟摇杆 + 屏幕按钮':'操作界面：电脑键鼠 · WASD + 鼠标瞄准',2400)}
 function renderUiMode(){
- var mode=ST.ui||'auto',ids={bUiAuto:'auto',bUiKb:'kb',bUiTouch:'touch'},id;
+ var mode=ST.ui||'auto',ids={bUiAuto:'auto',bUiKb:'kb',bUiTouch:'touch',bSetUiA:'auto',bSetUiK:'kb',bSetUiT:'touch'},id;
  for(id in ids){var el=$(id);if(el)el.classList.toggle('on',mode===ids[id])}
  var d=$('uiDet');
  if(d)d.textContent='检测到'+(isTouch?'触屏设备':'鼠标键盘设备')+' · 当前界面：'+(touchUI?'触屏':'电脑键鼠')+
@@ -2475,7 +2772,6 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
   ST.hw=ST.hw||{};ST.hw[w1.id]=1;save();
   toast('英雄使用记录 · '+w1.n+' 已永久解锁',2600);feed('国产装备解锁：'+w1.n,1)}
  if(p.rl>0||p.sw>0||p.kd>0)return;
- if(p.scope)p.scope=0;   /* 开火即退出瞄准镜 */
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
  var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa;
@@ -3109,17 +3405,12 @@ function updatePlayer(dt){var p=G.p,i;
  if(kb('left')||KEY.arrowleft)mx-=1;if(kb('right')||KEY.arrowright)mx+=1;
  mx+=sm.dx;my+=sm.dy;
  var ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;ml=1}
- p.aim=((p.scope||MS.r||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
- /* 狙击镜：右键切换瞄准镜，再点右键或开火退出 */
- var adsNow=(MS.r||kb('adsAlt')||BF.ads)?1:0;
- if(cur().w.cls==='sniper'){
-  if(adsNow&&!p._adsPrev){p.scope=p.scope?0:1;if(p.scope)snd.ui()}
- }else if(p.scope)p.scope=0;
- p._adsPrev=adsNow;
+ p.aim=((MS.r||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
+ /* 狙击枪与步枪／手枪一致：右键据枪 */
  p.run=BF.sp||(kb('sprint')?1:0);
  var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
- var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.scope?.42:1);
+ var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1);
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -3629,31 +3920,6 @@ function draw(){if(!G||!L)return;
   ctx.lineTo(G.p.x+Math.cos(G.p.aa)*hd,G.p.y+Math.sin(G.p.aa)*hd);ctx.stroke()}
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
- /* 狙击镜：除镜内圆形视野外，主画面全部遮蔽 */
- if(G.p&&G.p.scope){
-  var scx=VW/2,scy=VH/2,scr=Math.min(VW,VH)*.18;
-  ctx.save();
-  ctx.fillStyle='rgba(2,3,5,.985)';
-  ctx.beginPath();ctx.rect(0,0,VW,VH);ctx.arc(scx,scy,scr,0,TAU,true);ctx.fill();
-  ctx.lineWidth=10;ctx.strokeStyle='rgba(0,0,0,1)';
-  ctx.beginPath();ctx.arc(scx,scy,scr+5,0,TAU);ctx.stroke();
-  ctx.lineWidth=1.6;ctx.strokeStyle='rgba(130,150,160,.5)';
-  ctx.beginPath();ctx.arc(scx,scy,scr,0,TAU);ctx.stroke();
-  /* 准星：与步枪/手枪同尺寸，跟着瞄准方向走 */
-  var acx=MS.x,acy=MS.y;
-  if(touchUI||!MS.r){acx=VW/2+Math.cos(G.p.aa)*0;acy=VH/2}
-  acx=(typeof MS.x==='number')?MS.x:VW/2;acy=(typeof MS.y==='number')?MS.y:VH/2;
-  var chh=9,chg=3;
-  ctx.strokeStyle='rgba(232,244,250,.92)';ctx.lineWidth=1.4;
-  ctx.beginPath();
-  ctx.moveTo(acx-chh-chg,acy);ctx.lineTo(acx-chg,acy);
-  ctx.moveTo(acx+chg,acy);ctx.lineTo(acx+chh+chg,acy);
-  ctx.moveTo(acx,acy-chh-chg);ctx.lineTo(acx,acy-chg);
-  ctx.moveTo(acx,acy+chg);ctx.lineTo(acx,acy+chh+chg);ctx.stroke();
-  ctx.fillStyle='rgba(232,244,250,.95)';ctx.beginPath();ctx.arc(acx,acy,1.4,0,TAU);ctx.fill();
-  ctx.restore()}
- /* 开镜时隐藏 HUD */
- D.body.classList.toggle('scoped',!!(G.p&&G.p.scope));
  drawALRT();
  if(G.p.act==='n'||G.p.act==='f'){var pg=toScreen(G.p.gx,G.p.gy);
   ctx.strokeStyle='rgba(240,200,120,.8)';ctx.lineWidth=1.4;
@@ -4056,14 +4322,150 @@ function frame(t){RAF=requestAnimationFrame(frame);
   if(ACC2>.08)ACC2=0;
   draw()}}
 
+/* SECTION: board 全服排行榜
+   GitHub Pages 是纯静态的，不能写库，所以排行榜走一个免费的 Cloudflare Worker：
+     GET  <api>/board    → {list:[{id,nm,xp,xm,w,l,k,cl,sc,t}],n}
+     POST <api>/submit   → 合并本机战绩，返回同样的名单
+   没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
+var LB={api:'',data:null,ts:0,busy:0,off:'',lastPush:0};
+/* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
+   g:'gold' 是预留档，只手工授予，不会自动发给任何人。 */
+var TITLES={
+ /* 示例：'小迪不是叉滴':{n:'夜枭',g:'gold'}, */
+};
+/* 称号颜色阶梯：数组顺序＝等级高低（金最高）。c 用于图例色块，s 是自动称号文本 */
+var TCOL=[
+ {k:'gold',   s:'元勋', n:'金 · 元勋',   c:'#f5d182', d:'预留 · 仅手工授予'},
+ {k:'violet', s:'传奇', n:'紫晶 · 传奇', c:'#c3a2f3', d:'军功 ≥ 24000'},
+ {k:'crimson',s:'精锐', n:'绯红 · 精锐', c:'#ee7d86', d:'军功 ≥ 16500'},
+ {k:'amber',  s:'老练', n:'鎏橙 · 老练', c:'#f0a755', d:'军功 ≥ 10000'},
+ {k:'azure',  s:'合格', n:'青蓝 · 合格', c:'#6cc7e3', d:'军功 ≥ 5200'},
+ {k:'jade',   s:'新锐', n:'松绿 · 新锐', c:'#8ac79b', d:'军功 ≥ 1600'},
+ {k:'steel',  s:'待训', n:'钢灰 · 待训', c:'#a3b3bf', d:'军功 < 1600'}
+];
+var TTH=[1600,5200,10000,16500,24000];
+function meritOf(r){
+ var xm=Math.max(r.xp|0,r.xm|0),w=r.w|0,l=r.l|0,k=r.k|0,cl=r.cl|0,sc=r.sc|0,
+  tot=w+l,wr=tot?w/tot:0,kd=l?Math.min(3,k/l):(k?1.5:0);
+ return Math.round(xm+w*55+cl*70+wr*260+kd*90+Math.min(600,sc/10))}
+function autoGrade(m){var i,g=TCOL[TCOL.length-1].k;
+ for(i=0;i<TTH.length;i++)if(m>=TTH[i])g=TCOL[TCOL.length-2-i].k;
+ return g}
+function tcol(k){var i;for(i=0;i<TCOL.length;i++)if(TCOL[i].k===k)return TCOL[i];return TCOL[TCOL.length-1]}
+function titleOf(r){var m=meritOf(r),t=TITLES[r.id]||TITLES[r.nm];
+ if(t&&t.n){var g=t.g&&tcol(t.g)?t.g:autoGrade(m);
+  return {n:t.n,g:g,manual:1,merit:m}}
+ var ag=autoGrade(m);
+ return {n:tcol(ag).s,g:ag,manual:0,merit:m}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function lbApi(){return (ST.lbapi||LB.api||'').replace(/\/+$/,'')}
+/* 本机战绩快照：排行榜、称号算法、名单导出都读它 */
+function lbRec(){
+ var cl=0,sc=0,k2;
+ for(k2 in ST.best)if(ST.best[k2]){cl++;sc+=(ST.best[k2].sc|0)}
+ return {id:ST.pid,nm:(ST.name||'新兵'),xp:ST.xp|0,xm:(ST.xpm>ST.xp?ST.xpm:ST.xp)|0,
+  w:ST.tw|0,l:ST.tl|0,k:ST.tk|0,cl:cl,sc:sc,t:Date.now()}}
+function lbSubmit(){
+ var api=lbApi();if(!api)return;
+ var now=Date.now();if(now-LB.lastPush<20000)return;LB.lastPush=now;
+ try{
+  fetch(api+'/submit',{method:'POST',cache:'no-store',
+   headers:{'Content-Type':'application/json'},body:JSON.stringify(lbRec())})
+  .then(function(r){return r.ok?r.json():null})
+  .then(function(j){if(j&&j.list){LB.data=j.list;LB.ts=Date.now();LB.off='';
+    if(ST.scr==='board')lbRender()}})
+  .catch(function(){LB.off='提交失败，稍后自动重试'});
+ }catch(e){LB.off='当前环境不支持联网'}}
+function lbFetch(cb){
+ var api=lbApi();
+ if(!api){LB.off='尚未接通服务器';lbRender();return}
+ LB.busy=1;
+ try{
+  fetch(api+'/board',{cache:'no-store'})
+  .then(function(r){if(!r.ok)throw new Error('http');return r.json()})
+  .then(function(j){LB.data=(j&&j.list)||(j instanceof Array?j:[]);LB.ts=Date.now();LB.off='';LB.busy=0;
+   if(ST.scr==='board')lbRender();if(cb)cb()})
+  .catch(function(){LB.busy=0;LB.off='服务器未响应（离线显示本机战绩）';
+   if(ST.scr==='board')lbRender();if(cb)cb()});
+ }catch(e){LB.busy=0;LB.off='当前环境不支持联网';lbRender()}}
+function lbRows(){
+ var rows=[],seen={},i,r,me=lbRec(),found=0;
+ if(LB.data&&LB.data.length)for(i=0;i<LB.data.length;i++){
+  r=LB.data[i];if(!r||!r.id||seen[r.id])continue;
+  seen[r.id]=1;
+  if(r.id===ST.pid){r=me;found=1}     /* 自己以本机实时数据为准 */
+  rows.push(r)}
+ if(!found)rows.push(me);
+ rows.sort(function(a,b){return (b.xp|0)-(a.xp|0)||(b.xm|0)-(a.xm|0)||(b.sc|0)-(a.sc|0)||
+  String(a.nm).localeCompare(String(b.nm))});
+ return rows}
+function lbRenderLegend(){var el=$('bdLegend');if(!el)return;
+ el.innerHTML=TCOL.map(function(c){
+  return '<span class="it"><span class="ttl '+c.k+'">'+c.s+'</span>'+c.d+'</span>'}).join('')}
+function lbRender(){
+ var tb=$('bdBody');if(!tb)return;
+ var rows=lbRows(),h='',i;
+ for(i=0;i<rows.length;i++){
+  var r=rows[i],t=titleOf(r),me=r.id===ST.pid,
+   xp=r.xp|0,xm=Math.max(r.xp|0,r.xm|0),rk=rankOf(xp),pk=rankOf(xm);
+  h+='<tr'+(me?' class="me"':'')+'>';
+  h+='<td class="no'+(i===0?' g1':i===1?' g2':i===2?' g3':'')+'">'+(i+1)+'</td>';
+  h+='<td><span class="ttl '+t.g+'">'+esc(t.n)+'</span></td>';
+  h+='<td class="nm">'+esc(r.nm)+(me?' <i>你</i>':'')+'</td>';
+  h+='<td class="rk"><b>'+RKLAD[rk][0]+'</b></td>';
+  h+='<td class="rk hideSm">'+RKLAD[pk][0]+(pk>rk?' <span class="dim">↓</span>':'')+'</td>';
+  h+='<td class="num">'+xp+'</td>';
+  h+='<td class="num sm hideSm">'+(r.cl|0)+'</td>';
+  h+='<td class="num sm hideSm">'+(r.w|0)+'／'+(r.l|0)+'</td>';
+  h+='</tr>'}
+ if(!rows.length)h='<tr><td colspan="8"><div class="bdEmpty"><b>暂无登记</b>完成一次任务后自动上榜</div></td></tr>';
+ tb.innerHTML=h;
+ var st=$('bdStat'),api=lbApi();
+ if(st){
+  var when=LB.ts?new Date(LB.ts):null,tm=when?(('0'+when.getHours()).slice(-2)+':'+
+   ('0'+when.getMinutes()).slice(-2)+':'+('0'+when.getSeconds()).slice(-2)):'';
+  if(!api)st.innerHTML='<span class="warn">离线</span> · 仅供本机查看';
+  else if(LB.busy)st.textContent='正在读取名单…';
+  else if(LB.off)st.innerHTML='<span class="warn">离线</span> · '+esc(LB.off);
+  else st.innerHTML='已登记 <b>'+rows.length+'</b> 人 · 更新于 '+tm}
+ var cfg=$('bBdCfg');if(cfg)cfg.classList.toggle('hidden',!!api);
+ var nt=$('bdNote');
+ if(nt)nt.textContent='军衔分随战果升降：任务获胜加分，失败按关卡难度扣 '+
+  (48)+'–'+(48+6*20)+' 分（击杀可抵扣一部分）。扣分只影响名次，历史最高军衔解锁的枪械与区域不会被收回。';
+}
+function lbCopy(){
+ var rows=lbRows(),out=['#\t称号\t代号\t军衔\t历史最高\t军衔分\t通关\t胜/负\t军功'],i;
+ for(i=0;i<rows.length;i++){
+  var r=rows[i],t=titleOf(r),xp=r.xp|0,xm=Math.max(r.xp|0,r.xm|0);
+  out.push([i+1,t.n+'('+tcol(t.g).n.split(' · ')[0]+')',r.nm,RKLAD[rankOf(xp)][0],RKLAD[rankOf(xm)][0],
+   xp,(r.cl|0),(r.w|0)+'/'+(r.l|0),t.merit].join('\t'))}
+ var txt=out.join('\n'),ok=0;
+ try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt);ok=1}}catch(e){}
+ if(!ok){try{var ta=D.createElement('textarea');ta.value=txt;D.body.appendChild(ta);
+  ta.select();D.execCommand('copy');D.body.removeChild(ta);ok=1}catch(e){}}
+ toast(ok?('已复制 '+rows.length+' 人的名单'):'复制失败，请手动截屏',2600)}
+function openBoard(){
+ show('sBoard');setScr('board');
+ lbRenderLegend();lbRender();
+ lbFetch(function(){lbRender();try{lbSubmit()}catch(e){}})
+}
+function lbAskCfg(){
+ var v=prompt('粘贴排行榜服务器地址（Cloudflare Worker 的 https://…workers.dev）','');
+ if(v==null)return;
+ v=String(v).trim().replace(/\/+$/,'');
+ if(!/^https?:\/\//.test(v)){toast('地址需要以 https:// 开头',2600);return}
+ ST.lbapi=v;save();lbFetch(function(){lbRender()});toast('已接通行榜服务器',2600)}
+
 /* SECTION: flow */
-function show(id){['sBoot','sMenu','sArs','sHero','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
+function show(id){['sBoot','sMenu','sArs','sHero','sBoard','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
  if(id)$(id).classList.add('on')}
 function openKm(){ST.kmFrom=ST.scr;show('sKeys');setScr('keys');renderKm();updHint()}
 function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=='undefined'&&TP_draft){tpRevert();}
  editMode=false;
  var tc=$('touch');if(tc&&tc.children)Array.prototype.forEach.call(tc.children,function(x){if(x.style)x.style.outline=''});
  if(ST.kmFrom==='pause'){show('sPause');setScr('pause')}
+ else if(ST.kmFrom==='set'){openSet()}
  else{show('sMenu');setScr('menu');renderLv()}}
 var KM_B={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
  gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',wheel:'e',med:'v',cover:'c',
@@ -4077,10 +4479,10 @@ function setScr(s){ST.scr=s;
  if(s!=='play')stopLoop();else{LT0=performance.now();ACC2=0;if(!RAF)RAF=requestAnimationFrame(frame)}}
 function stopLoop(){if(RAF){cancelAnimationFrame(RAF);RAF=0}}
 function fmt(s){s=Math.max(0,Math.round(s));return (s/60|0)+':'+('0'+(s%60)).slice(-2)}
-function lvPlayable(i){var c=LS[i];return (i+1)<=ST.unl&&rankOf(ST.xp)>=(c.rq||0)}
+function lvPlayable(i){var c=LS[i];return (i+1)<=ST.unl&&rankPk()>=(c.rq||0)}
 function lvLockWhy(i){var c=LS[i];
  if((i+1)>ST.unl)return '完成 OP-0'+i+' 后解锁';
- if(rankOf(ST.xp)<(c.rq||0))return '需晋升 '+RKLAD[c.rq][0]+'（还需 '+Math.max(0,c.rq?RKLAD[c.rq][1]-ST.xp:0)+' 经验）';
+ if(rankPk()<(c.rq||0))return '需晋升 '+RKLAD[c.rq][0]+'（还需 '+Math.max(0,c.rq?RKLAD[c.rq][1]-ST.xp:0)+' 分）';
  return ''}
 /* ---- AI 扫荡：通关后可派 AI 小队按基准时间清剿，回来直接给经验 ---- */
 function sweepXp(i){return 40+i*22}
@@ -4103,7 +4505,9 @@ setInterval(function(){
  sweepTick();sweepLabels();
 },1000);
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
- renderRank();renderLvRail();sweepTick();
+ renderPbar();
+ if($('rankCard')&&!$('rankCard').classList.contains('hidden'))renderRank();
+ renderLvRail();sweepTick();
  if($('chipW'))$('chipW').textContent=WP.length;
  if($('chipR'))$('chipR').textContent=RKLAD.length;
  /* 只遍历 5 张主线地图；OP-06 考核单独由 lvCard6() 渲染，避免重复卡片 */
@@ -4146,7 +4550,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
-  var need=LS6[6].rq||0,locked=ST.unl<2||rankOf(ST.xp)<need;
+  var need=LS6[6].rq||0,locked=ST.unl<2||rankPk()<need;
   var b=mk('div','card'+(locked?' lock':''));b.style.borderStyle='dashed';
   var no=mk('div','no');no.textContent='07';b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=LS6[6].code;b.appendChild(e2);
@@ -4352,6 +4756,7 @@ function askName(){show('sName');setScr('name');
  setTimeout(function(){try{el.focus();el.select()}catch(e){}},140)}
 function submitName(v){v=String(v||'').replace(/\s+/g,' ').trim().slice(0,12);
  ST.name=v||'新兵';save();
+ try{lbSubmit()}catch(e){}
  if(ST.tut===1){show('sMenu');setScr('menu');renderLv();toast2('欢迎归队，'+ST.name)}
  else{aInit();startTut()}}
 function brief2Exam(){show('sBrief');setScr('brief');
@@ -4361,7 +4766,7 @@ function brief2Exam(){show('sBrief');setScr('brief');
  $('fE').textContent='12 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
  $('fP').textContent=fmt(c.par)+' 内完成为满分基准';$('fG').textContent=c.roe;
- var ba=$('bAlly');ba.textContent='AI 队员：Bravo-2 突击 ×1（固定）';ba.classList.add('on');
+ var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
  var cb=$('bCont');cb.classList.add('hidden');
  $('bDeploy').textContent='进入实弹考核'}
 /* 任务简报顶部：显示登记代号 + 军衔 + 本场编队 */
@@ -4382,8 +4787,7 @@ function brief(){var c=LS6[ST.lv-1];
  $('fH').textContent=c.hint+'（当前主武器：'+WM[ST.load[0]].n+'）';
  $('fP').textContent=fmt(c.par)+' 内完成为满分基准';
  $('fG').textContent=c.roe;
- var ba=$('bAlly');ba.textContent='AI 队员：'+(ST.ally?'开（Bravo-2 突击 · Bravo-3 精确）':'关（单人 +150 分）');
- ba.classList.toggle('on',!!ST.ally);
+ var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
  var cs=loadLv(ST.lv),cb=$('bCont');
  if(cs){cb.classList.remove('hidden');
   cb.textContent='继续任务（'+fmt(cs.t)+'）'}
@@ -4451,20 +4855,27 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  $('r6').textContent=sc;
  $('rNote').textContent=win?(G.civD?'存在平民伤亡，评级已下调一级——S 级要求零 ROE 违规。':
    '零 ROE 违规，评估良好。'+(ST.lv<6?'下一区域：'+LS[ST.lv].nm:''))
-  :'角色阵亡。换弹节奏与掩体利用决定存活时间；也可在军械库换一把更可控的武器，或让 AI 队员先上前压制。';
- /* 任务经验：胜利给固定经验（评级越高越多），失败也给少量，保证军衔能持续推进 */
- var rk0=rankOf(G.xp0==null?ST.xp:G.xp0);
- if(win)addXp(110+stv*30);else addXp(15);
- var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1];
- $('r7').textContent=RKLAD[rk0][0]+(rk1>rk0?(' → '+RKLAD[rk1][0]):'')+' · 经验 '+ST.xp+(nxr2?(' / '+nxr2[1]):'（满级）');
+  :'角色阵亡。换弹节奏与掩体利用决定存活时间；也可在军械库换一把更可控的武器。';
+ /* 战绩账本：胜/负与累计击毙，排行榜与称号算法都读这三个值 */
+ if(win)ST.tw=(ST.tw||0)+1;else ST.tl=(ST.tl||0)+1;
+ ST.tk=(ST.tk||0)+G.killed;
+ /* 军衔分：胜利加分，失败按难度扣分。峰值 xpm 只增不减，所以扣分不会回收任何装备 */
+ var rk0=rankOf(G.xp0==null?ST.xp:G.xp0),delta;
+ if(win){delta=110+stv*30;addXp(delta)}
+ else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
+ var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0;
+ $('r7').textContent=RKLAD[rk0][0]+(up||dn?(' → '+RKLAD[rk1][0]):'')+
+  ' · 军衔分 '+(delta>0?'+':'')+delta+' → '+ST.xp+(nxr2?(' / '+nxr2[1]):'（满级）');
  var promo=$('rPromo');
- if(promo){
-  if(rk1>rk0){var wl=weaponsAtXp(RKLAD[rk1][1]);promo.classList.remove('hidden');
+ if(promo){promo.classList.remove('down');
+  if(up){var wl=weaponsAtXp(RKLAD[rk1][1]);promo.classList.remove('hidden');
    promo.textContent='↑ 军衔晋升 '+RKLAD[rk1][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 称号提升')}
+  else if(dn){promo.classList.remove('hidden');promo.classList.add('down');
+   promo.textContent='↓ 军衔下调 '+RKLAD[rk1][0]+' · 军衔分 −'+(-delta)+
+    ' · 已解锁的枪械与区域全部保留'}
   else promo.classList.add('hidden')}
- var gained=ST.xp-(G.xp0||0),ak=0;
- if(G.al)G.al.forEach(function(a){ak+=a.kills||0});
- $('rNote').textContent+=(' ｜ 本场经验 +'+gained+' · '+rankName(ST.xp)+(G.al&&G.al.length?(' · 队友击毙 '+ak+' 名'):''));
+ $('rNote').textContent+=(' ｜ 军衔分 '+(delta>0?'+':'')+delta+' · '+rankName(ST.xp)+
+  (ST.xpm>ST.xp?('（峰值 '+RKLAD[rankPk()][0]+'）'):''));
  $('bNext').classList.toggle('hidden',!(win&&ST.lv<6));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
  if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;save();
@@ -4473,10 +4884,18 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
   var key=''+ST.lv,ob=ST.best[key];
   if(!ob||ob.sc<sc){ST.best[key]={sc:sc,rate:rate,time:sec}}
   save();snd.cheer()}else snd.dead()
- clearLv(ST.lv)}
+ clearLv(ST.lv);
+ try{lbSubmit()}catch(e){}
+ renderRank()}
+/* 失败扣分：基础分随关卡难度递增，击杀可抵扣一部分，放弃人质额外加罚 */
+function failPen(lv,ab){
+ var base=48+(clamp(lv,1,7)-1)*20,
+  cut=Math.min(Math.round(base*.4),(G&&G.killed?G.killed*4:0)),
+  pen=base-cut+(ab?45:0);
+ return Math.max(20,Math.min(240,Math.round(pen)))}
 function togAud(){ST.aud=ST.aud?0:1;
- $('bAud').textContent=ST.aud?'音效 开':'音效 关';$('bAud').classList.toggle('on',!!ST.aud);
- var a2=$('bAud2');if(a2)a2.textContent=ST.aud?'音效 开':'音效 关'}
+ var ab=$('bAud');if(ab){ab.textContent=ST.aud?'音效 开':'音效 关';ab.classList.toggle('on',!!ST.aud)}
+ syncAud()}
 
 /* SECTION: arsenal */
 var CCLS='rifle';
@@ -4582,6 +5001,11 @@ bind('bArs',openArs);
 bind('bHero',openHero);
 bind('bHeroBack',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bHelp',function(){show('sHelp');setScr('help')});
+bind('bBoard',openBoard);
+bind('bBoardBack',function(){show('sMenu');setScr('menu');renderLv()});
+bind('bBdRefresh',function(){lbFetch(function(){lbRender()})});
+bind('bBdCopy',lbCopy);
+bind('bBdCfg',lbAskCfg);
 bind('bHelpC',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bAud',togAud);bind('bAud2',function(){togAud();$('bAud2').textContent=ST.aud?'音效 开':'音效 关'});
 bind('bFx',function(){ST.fx=ST.fx==='auto'?'low':'auto';
@@ -4616,7 +5040,24 @@ D.addEventListener('keydown',function(e){if(!$('dramaBox').classList.contains('o
  if(e.code==='Space'||e.key===' '||e.code==='Enter'||e.key==='Enter'){e.preventDefault();drgNext()}});
 bind('bAlly',function(){ST.ally=ST.ally?0:1;save();brief()});
 function syncHint(){['bHint','bHint2'].forEach(function(id){var el=$(id);if(!el)return;
-  el.textContent='键位提示：'+(ST.hint?'开':'关');el.classList.toggle('on',!!ST.hint)})}
+  el.textContent='键位提示：'+(ST.hint?'开':'关');el.classList.toggle('on',!!ST.hint)});
+ var s=$('bSetHint');if(s){s.textContent=ST.hint?'开':'关';s.classList.toggle('on',!!ST.hint)}}
+bind('bRank',function(){toggleRank()});
+bind('bRank2',function(){toggleRank()});
+bind('bSet',openSet);
+bind('bSetBack',function(){show('sMenu');setScr('menu');renderLv()});
+bind('bSetKeys',openKm);
+bind('bSetHint',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
+bind('bSetAud',togAud);
+bind('bSetFx',function(){ST.fx=ST.fx==='auto'?'low':'auto';
+ ST.low=(ST.fx==='low')?1:0;save();syncFx();resize()});
+bind('bSetUiA',function(){ST.ui='auto';save();applyUI()});
+bind('bSetUiK',function(){ST.ui='kb';save();applyUI()});
+bind('bSetUiT',function(){ST.ui='touch';save();applyUI()});
+bind('bSetTut',function(){if(!ST.name){askName();return}startTut()});
+bind('bSetApi',lbAskCfg);
+bind('bBriefSet',function(){var e=$('briefSet');if(e)e.classList.toggle('hidden')});
+bind('bBriefBoard',openBoard);
 bind('bHint',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
 bind('bAskCarry',function(){show(null);setScr('play');
  var n9=0;L.civ.forEach(function(c){if(!c.down&&!c.f){c.f=1;c.fol=1;G.sec2++;G.sc+=80;n9++}});
