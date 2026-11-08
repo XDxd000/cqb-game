@@ -4890,24 +4890,25 @@ function lbAskCfg(){
  ST.lbapi=v;save();lbFetch(function(){lbRender()});toast('已接通行榜服务器',2600)}
 
 /* SECTION: flow */
-/* 开启动画：代号 + 头衔 与 AI 形象，播完自动上拉进入任务列表 */
+/* 开启动画：代号 + 头衔 与 AI 形象。
+   动画播完先铺好「任务选择」界面，再整体上拉揭开——落点就是选关界面，不停在启动页 */
 var introPlayed=0;
 function playIntro(cb){
  var el=$('intro');
- if(!el||introPlayed){if(introPlayed&&cb)cb();return}
+ if(!el||introPlayed){if(cb)cb();return}
  introPlayed=1;
  var n=$('inName'),r=$('inRole');
  if(n)n.textContent=ST.name||'新兵';
- if(r)r.textContent=ST.dev?'开发者':rankName(ST.xp);
+ if(r){r.textContent=(ST.dev||TITLES[ST.name])?'开发者':rankName(ST.xp)}
  el.classList.remove('hidden','up');
  try{snd.ui()}catch(e){}
  setTimeout(function(){
-  el.classList.add('up');
+  if(cb)cb();                       /* ① 先把任务选择界面铺在动画下面 */
+  el.classList.add('up');           /* ② 上拉揭开，直接露出选关界面 */
   setTimeout(function(){
    el.classList.add('hidden');
-   el.style.transform='';
-   if(cb)cb()
-  },680)
+   el.style.transform=''
+  },720)
  },1900)}
 function goMenu(){show('sMenu');setScr('menu');renderLv()}
 function show(id){['sBoot','sMenu','sArs','sHero','sBoard','sMail','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
