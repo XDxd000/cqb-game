@@ -204,7 +204,8 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .bdTbl td{padding:8px 10px;border-bottom:1px solid #16212a;font-size:12.5px;color:#c9d8e2;vertical-align:middle}
 .bdTbl tr:last-child td{border-bottom:0}
 .bdTbl tbody tr:hover td{background:rgba(147,172,109,.05)}
-.bdTbl tr.me td{background:rgba(226,169,62,.075);box-shadow:inset 2px 0 0 var(--amber)}
+.bdTbl tr.me td{background:rgba(226,169,62,.045);box-shadow:inset 0 1px 0 rgba(226,169,62,.10),inset 0 -1px 0 rgba(226,169,62,.10)}
+.bdTbl tr.me td:first-child{box-shadow:inset 2px 0 0 var(--amber),inset 0 1px 0 rgba(226,169,62,.10),inset 0 -1px 0 rgba(226,169,62,.10)}
 .bdTbl .no{width:46px;font-variant-numeric:tabular-nums;color:#7f939f;font-weight:800;font-size:13px}
 .bdTbl .no.g1{color:#f0c265;text-shadow:0 0 10px rgba(240,194,101,.45)}
 .bdTbl .no.g2{color:#d3dde6}
@@ -249,17 +250,22 @@ body.noc #hud,body.noc #hud *{cursor:none}
 #sMenu{background:#080b0e}
 .menuBg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
  background:radial-gradient(120% 90% at 18% 0%,rgba(28,42,52,.97),rgba(6,9,12,.99) 62%)}
-.menuBg .bgTtl{position:absolute;left:50%;top:23%;transform:translateX(-50%) rotate(-7deg);
- font-size:clamp(48px,12.4vw,158px);font-weight:900;letter-spacing:.10em;line-height:1;white-space:nowrap;
- color:rgba(226,169,62,.085);-webkit-text-stroke:1.3px rgba(240,200,120,.20);
- text-shadow:0 0 48px rgba(226,169,62,.10)}
-.menuBg .bgSub{position:absolute;left:50%;top:calc(23% + clamp(50px,13vw,168px));
- transform:translateX(-50%) rotate(-7deg);white-space:nowrap;
- font-size:clamp(8px,1.3vw,12px);letter-spacing:.66em;color:rgba(147,172,109,.17)}
-.menuBg .bgLead{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(92vw,900px);
- margin:0;font-size:12px;line-height:1.95;text-align:center;color:rgba(139,160,174,.16);
+/* 标题 / 副标题 / 介绍 组成一个贴底的水印块，避免压住上方的身份条与地图卡片 */
+.menuBg .bgWrap{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+ width:min(94vw,1020px);text-align:center;pointer-events:none}
+.menuBg .bgTtl{display:block;transform:rotate(-7deg);transform-origin:50% 70%;
+ font-size:clamp(44px,8.6vw,112px);font-weight:900;letter-spacing:.14em;line-height:1;white-space:nowrap;
+ color:rgba(226,169,62,.085);-webkit-text-stroke:1.2px rgba(240,200,120,.16);
+ text-shadow:0 0 52px rgba(226,169,62,.09)}
+.menuBg .bgSub{display:block;margin-top:10px;transform:rotate(-7deg);
+ font-size:clamp(7px,.85vw,10px);letter-spacing:.62em;color:rgba(147,172,109,.16);white-space:nowrap}
+.menuBg .bgLead{margin:14px 0 0;font-size:12px;line-height:1.95;text-align:center;color:rgba(139,160,174,.13);
  -webkit-mask-image:linear-gradient(180deg,transparent,#000 45%);mask-image:linear-gradient(180deg,transparent,#000 45%)}
-#sMenu .wrap{position:relative;z-index:1}
+#sMenu .wrap{position:relative;z-index:1;padding-bottom:230px}
+@media (max-height:760px){
+ #sMenu .wrap{padding-bottom:150px}
+ .menuBg .bgLead{display:none}
+}
 /* 玩家身份条 */
 .pbar{display:flex;align-items:center;gap:13px;padding:10px 14px;border:1px solid #24323d;border-radius:8px;
  background:linear-gradient(135deg,rgba(24,34,42,.95),rgba(11,17,22,.95));box-shadow:0 8px 24px rgba(0,0,0,.3)}
@@ -841,12 +847,14 @@ table.rt td:last-child{text-align:right;font-weight:600}
 <section class="screen" id="sMenu">
   <!-- 底层背景：艺术字标题斜压在页游介绍上方，pointer-events:none，不影响任何操作 -->
   <div class="menuBg" aria-hidden="true">
-    <div class="bgTtl">战术突袭</div>
-    <div class="bgSub">TACTICAL CQB OPERATION</div>
-    <p class="bgLead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
+    <div class="bgWrap">
+      <div class="bgTtl">战术突袭</div>
+      <div class="bgSub">TACTICAL CQB OPERATION</div>
+      <p class="bgLead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
 界面参考《严阵以待》（Ready or Not）的任务简报 / 命令轮盘 / 交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
+    </div>
   </div>
 
   <div class="wrap">
@@ -4327,7 +4335,7 @@ function frame(t){RAF=requestAnimationFrame(frame);
      GET  <api>/board    → {list:[{id,nm,xp,xm,w,l,k,cl,sc,t}],n}
      POST <api>/submit   → 合并本机战绩，返回同样的名单
    没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
-var LB={api:'https://cqb-board.2336008943.workers.dev',data:null,ts:0,busy:0,off:'',lastPush:0};
+var LB={api:'https://inspiring-cendol-1a142c.netlify.app',data:null,ts:0,busy:0,off:'',lastPush:0};
 /* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。 */
 var TITLES={
@@ -4380,15 +4388,18 @@ function lbSubmit(){
 function lbFetch(cb){
  var api=lbApi();
  if(!api){LB.off='尚未接通服务器';lbRender();return}
- LB.busy=1;
+ LB.busy=1;lbRender();
+ var ac=null;
+ try{ac=new AbortController()}catch(e){}
+ var to=setTimeout(function(){try{if(ac)ac.abort()}catch(e){}},7000);
  try{
-  fetch(api+'/board',{cache:'no-store'})
+  fetch(api+'/board',{cache:'no-store',signal:ac?ac.signal:undefined})
   .then(function(r){if(!r.ok)throw new Error('http');return r.json()})
-  .then(function(j){LB.data=(j&&j.list)||(j instanceof Array?j:[]);LB.ts=Date.now();LB.off='';LB.busy=0;
+  .then(function(j){clearTimeout(to);LB.data=(j&&j.list)||(j instanceof Array?j:[]);LB.ts=Date.now();LB.off='';LB.busy=0;
    if(ST.scr==='board')lbRender();if(cb)cb()})
-  .catch(function(){LB.busy=0;LB.off='服务器未响应（离线显示本机战绩）';
+  .catch(function(){clearTimeout(to);LB.busy=0;LB.off='服务器未响应（离线显示本机战绩）';
    if(ST.scr==='board')lbRender();if(cb)cb()});
- }catch(e){LB.busy=0;LB.off='当前环境不支持联网';lbRender()}}
+ }catch(e){clearTimeout(to);LB.busy=0;LB.off='当前环境不支持联网';lbRender()}}
 function lbRows(){
  var rows=[],seen={},i,r,me=lbRec(),found=0;
  if(LB.data&&LB.data.length)for(i=0;i<LB.data.length;i++){
@@ -4426,10 +4437,10 @@ function lbRender(){
   var when=LB.ts?new Date(LB.ts):null,tm=when?(('0'+when.getHours()).slice(-2)+':'+
    ('0'+when.getMinutes()).slice(-2)+':'+('0'+when.getSeconds()).slice(-2)):'';
   if(!api)st.innerHTML='<span class="warn">离线</span> · 仅供本机查看';
-  else if(LB.busy)st.textContent='正在读取名单…';
+  else if(LB.busy)st.innerHTML='正在读取名单…';
   else if(LB.off)st.innerHTML='<span class="warn">离线</span> · '+esc(LB.off);
-  else st.innerHTML='已登记 <b>'+rows.length+'</b> 人 · 更新于 '+tm}
- var cfg=$('bBdCfg');if(cfg)cfg.classList.toggle('hidden',!!api);
+  else st.innerHTML='已登记 <b>'+rows.length+'</b> 人'+(tm?(' · 更新于 '+tm):'');
+ } var cfg=$('bBdCfg');if(cfg)cfg.classList.toggle('hidden',!!api);
  var nt=$('bdNote');
  if(nt)nt.textContent='军衔分随战果升降：任务获胜加分，失败按关卡难度扣 '+
   (48)+'–'+(48+6*20)+' 分（击杀可抵扣一部分）。扣分只影响名次，历史最高军衔解锁的枪械与区域不会被收回。';
