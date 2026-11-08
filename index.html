@@ -229,6 +229,13 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .promoLine{margin:2px 0 12px;padding:9px 12px;border:1px solid #1e2b34;border-left:2px solid #a8dcff;
  border-radius:5px;background:rgba(14,22,28,.7);font-size:11.5px;color:#9db4c4;line-height:1.7}
 .promoLine b{color:#dff0fa}
+/* 更新公告列表：图标 + 序号 + 正文 */
+.ptList{margin:6px 0 4px}
+.ptLi{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #17222a;font-size:12px;line-height:1.8;color:#a8bcc9}
+.ptLi:last-child{border-bottom:0}
+.ptLi i{flex:0 0 20px;height:20px;border-radius:50%;border:1px solid #2b4152;color:#8fb0c4;
+ font-style:normal;font-size:10.5px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.ptLi span{flex:1}
 .cardRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .card .rep{border-color:#3a4a5a;color:#bcd2e0}
 @media (max-width:520px){
@@ -1273,7 +1280,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 <section class="screen" id="sMail"><div class="wrap" style="max-width:820px">
   <div class="eyebrow">INBOX · 行动报告</div>
   <h1>邮件</h1>
-  <p class="lead">AI 小队代行扫荡结束后，会在这里收到一份行动简报。<b>归队即自动结算经验</b>，不需要你守在任务列表里等。</p>
+  <p class="lead">AI 小队代行扫荡结束后，会在这里收到一份行动简报。<b>归队即自动结算经验</b>，不需要你守在任务列表里等。版本更新时，这里还会收到一封<b>更新公告</b>，写清这次改了什么。</p>
   <div id="mlList"></div>
   <div id="mlDetail" class="hidden"></div>
   <div class="bar">
@@ -2450,7 +2457,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
- swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,diff:5,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,pv:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,op:'norm',
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2474,6 +2481,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
  if(jd&&jd.at&&typeof jd.at==='object')ST.att=jd.at;
  if(jd&&jd.t0)ST.t0=+jd.t0||0;
  if(jd&&jd.sv)ST.sv=jd.sv|0;
+ if(jd&&jd.pv)ST.pv=jd.pv|0;
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
   if(jd&&jd.df)ST.diff=jd.df;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
@@ -2524,7 +2532,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
- sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -3434,13 +3442,16 @@ function showNotice(t){
  try{
   if(W.__noticeEl){try{W.__noticeEl.remove()}catch(e){};W.__noticeEl=null}
   var b=D.createElement('div');
-  b.style.cssText='position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:998;'+
+  b.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:998;'+
    'max-width:min(680px,92vw);cursor:pointer;background:rgba(12,20,26,.97);border:1px solid #2b4152;'+
    'border-left:2px solid #a8dcff;border-radius:8px;padding:11px 15px;font-size:12px;color:#cfe0ea;'+
    'line-height:1.75;box-shadow:0 14px 38px rgba(0,0,0,.55)';
   b.innerHTML=t+'<span style="display:block;margin-top:5px;font-size:10.5px;color:#7f939f">点此关闭</span>';
   b.onclick=function(){try{b.remove()}catch(e){};if(W.__noticeEl===b)W.__noticeEl=null};
   D.body.appendChild(b);W.__noticeEl=b;
+  /* 下一次点击任意位置即收起，避免长期挡界面 */
+  setTimeout(function(){try{D.addEventListener('click',function(){
+   try{b.remove()}catch(e){};if(W.__noticeEl===b)W.__noticeEl=null},{once:true})}catch(e){}},0);
   setTimeout(function(){try{b.remove()}catch(e){};if(W.__noticeEl===b)W.__noticeEl=null},15000)}catch(e){}}
 function feed(txt,good){var f=$('feed'),r=mk('div','frow'+(good?' g':''));r.textContent=txt;
  f.insertBefore(r,f.firstChild);while(f.children.length>6)f.removeChild(f.lastChild);
@@ -5520,6 +5531,25 @@ function syncMailBadge(){
  var n=mailUnread();
  b.textContent=n>99?'99+':(''+n);
  b.style.display=n?'inline-flex':'none'}
+/* 更新公告：版本号递增即给全体玩家投递一封更新邮件 */
+var PATCHES=[
+ {v:1,d:'2026-11-08',t:'剧情重置 · 音效与配装重做',
+  items:[
+   '剧情与五区战役进度已重置：全体玩家从 OP-01 重新推进，通过 OP-06「猎鹰招募」后重新解锁英雄队员「燕锋」与国产枪族。军衔分、已授权解锁的枪械与训练场进度保留。',
+   '枪声与投掷物音效全部重做：按口径分档合成，室内带混响、远距离衰减变闷；换弹、弹匣入位、拔销、投掷、落地、震爆、闪光各有独立音效。',
+   '全部 36 把枪加入弹匣配置：STANAG 20/30/40/60、AK 30/45/75 弹鼓、国产 5.8mm 30 发（不通用北约弹匣）、P90 50 发、霰弹 6/8 发、手枪 15/17/24/33 等。容量、换弹时间与机动随弹匣变化。',
+   '枪械改件按平台隔离：北约 1913 导轨、国产专用接口、AK 侧轨、手枪专用四套互不通用，军械库只显示当前枪械能装的件。',
+   '地图选择界面新增「出战队员」选择（普通队员／英雄队员·燕锋），难度改为可展开的折叠卡，五档一次选定。',
+   '招募活动：11 月 15 日 23:59 前注册并登上排行榜的玩家，自动授予「体验官」头衔。',
+   '修复：军械库切换改件时的脚本报错、错误提示条不再常驻；未登记代号的记录不再上榜。'
+  ]}
+];
+function pushPatchMail(){
+ var pv=ST.pv|0,p=null,i;
+ for(i=0;i<PATCHES.length;i++)if(PATCHES[i].v>pv)p=PATCHES[i];
+ if(!p)return;
+ addMail({kind:'patch',v:p.v,title:p.t,date:p.d,items:p.items});
+ ST.pv=p.v;save();syncMailBadge()}
 function fmtTs(t){
  var d=new Date(t);
  return ('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)+' '+
@@ -5536,9 +5566,11 @@ function renderMail(){
  for(i=0;i<arr.length;i++){
   var m=arr[i];
   h+='<button class="mlItem'+(m.r?'':' un')+'" data-i="'+i+'">'+
-   '<span class="mlIc">'+(m.kind==='sweep'?'▣':'✉')+'</span>'+
-   '<span class="mlMid"><b>'+esc(m.nm)+'</b><i>'+esc(m.code)+' · 行动报告</i></span>'+
-   '<span class="mlRt">+'+m.xp+'<u>'+fmtTs(m.t)+'</u></span></button>'}
+   '<span class="mlIc">'+(m.kind==='sweep'?'▣':(m.kind==='patch'?'✦':'✉'))+'</span>'+
+   '<span class="mlMid"><b>'+esc(m.kind==='patch'?m.title:m.nm)+'</b><i>'+
+    (m.kind==='patch'?('更新公告 · '+esc(m.date||'')+' · v'+(m.v||1)):(esc(m.code)+' · 行动报告'))+
+   '</i></span>'+
+   '<span class="mlRt">'+(m.kind==='patch'?('告示<u>'+fmtTs(m.t)+'</u>'):('+'+m.xp+'<u>'+fmtTs(m.t)+'</u>'))+'</span></button>'}
  l.innerHTML=h;
  Array.prototype.forEach.call(l.children,function(b){
   b.addEventListener('click',function(e){e.preventDefault();openMailItem(+b.getAttribute('data-i'))})});
@@ -5549,6 +5581,17 @@ function openMailItem(i){
  var l=$('mlList'),d=$('mlDetail');
  l.classList.add('hidden');d.classList.remove('hidden');
  $('bMailBack').classList.remove('hidden');
+ if(m.kind==='patch'){
+  var li='',ii;
+  for(ii=0;ii<(m.items||[]).length;ii++)
+   li+='<div class="ptLi"><i>'+(ii+1)+'</i><span>'+esc(m.items[ii])+'</span></div>';
+  d.innerHTML='<div class="eyebrow">PATCH NOTES · 更新公告</div>'+
+   '<h1>'+esc(m.date||'')+' · '+esc(m.title||'版本更新')+'</h1>'+
+   '<div class="briefWho"><span class="cmd"><span class="lbl">签发</span><b>行动指挥部</b>'+
+    '<span class="rk">v'+(m.v||1)+'</span></span><span class="sq">全体在册特勤</span></div>'+
+   '<div class="hr"></div><h3>本次更新内容</h3><div class="ptList">'+li+'</div>'+
+   '<div class="bfNote">公告保存在本机邮箱（最多 30 封）。版本号变化时会自动投递新的公告。</div>';
+  return}
  d.innerHTML=
   '<div class="eyebrow">AFTER ACTION REPORT · 行动报告</div>'+
   '<h1>'+esc(m.code)+' · '+esc(String(m.nm).split(' · ')[0])+'</h1>'+
@@ -6644,6 +6687,8 @@ function toast2(s){toast(s,1800)}
   D.addEventListener('touchstart',un,true);D.addEventListener('pointerdown',un,true);
   D.addEventListener('click',un,true)})();
 resize();setScr('boot');renderLv();showDtl();updHint();
+/* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
+try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
  '请从 OP-01 开始重新推进五个区域，并通过 OP-06「猎鹰招募」——通过后英雄队员「燕锋」与国产枪族会一并重新解锁。军衔分、已授权解锁的枪械与训练场进度保留。');
 applyUI(true);
