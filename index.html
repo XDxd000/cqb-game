@@ -1534,10 +1534,15 @@ var PI=Math.PI,TAU=PI*2;
  if(css){var st=D.createElement('style');st.appendChild(D.createTextNode(css));(D.head||D.body).appendChild(st)}
 }catch(e){}})();
 /* 全局错误兜底：老机型出问题时页面可见提示而非白屏 */
-(function(){var shown=false;function esb(m){if(shown||!D.body)return;shown=true;
- try{var b=D.createElement('div');b.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:999;max-width:92vw;'+
+(function(){var shown=false;function esb(m){if(!D.body)return;
+ try{console.error('[cqb] '+m)}catch(e){}
+ if(shown)return;shown=true;
+ try{var b=D.createElement('div');b.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:999;max-width:92vw;cursor:pointer;'+
   'background:rgba(30,12,10,.94);color:#ffb0a0;border:1px solid #7a3028;border-radius:8px;padding:9px 14px;font-size:12px;';
-  b.textContent='页面出现异常：'+String(m).slice(0,120)+'（截图反馈可加速修复）';D.body.appendChild(b)}catch(e){}}
+  b.textContent='页面出现异常：'+String(m).slice(0,120)+'（点此关闭 · 截图反馈可加速修复）';
+  b.onclick=function(){try{b.remove()}catch(e){}};
+  D.body.appendChild(b);
+  setTimeout(function(){try{b.remove()}catch(e){}},8000)}catch(e){}}
  W.addEventListener('error',function(ev){esb((ev.message||'脚本错误')+' L'+(ev.lineno||0))});
  W.addEventListener('unhandledrejection',function(ev){esb(ev.reason&&ev.reason.message||'异步错误')})})();
 
