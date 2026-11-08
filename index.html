@@ -4335,7 +4335,7 @@ function frame(t){RAF=requestAnimationFrame(frame);
      GET  <api>/board    → {list:[{id,nm,xp,xm,w,l,k,cl,sc,t}],n}
      POST <api>/submit   → 合并本机战绩，返回同样的名单
    没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
-var LB={api:'https://inspiring-cendol-1a142c.netlify.app',data:null,ts:0,busy:0,off:'',lastPush:0};
+var LB={api:'https://inspiring-cendol-1a142c.netlify.app/api',data:null,ts:0,busy:0,off:'',lastPush:0};
 /* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。 */
 var TITLES={
