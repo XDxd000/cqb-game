@@ -3313,12 +3313,12 @@ function rgLoadOf(){
   (WM[r[1]]&&WM[r[1]].cls!=='pistol')?r[1]:d[1],
   (WM[r[2]]&&WM[r[2]].cls==='pistol')?r[2]:d[2]]}
 function setRgSlot(i,id){var a=rgLoadOf().slice();a[i]=id;ST.rgLoad=a;save();renderRangeLoad()}
-/* SECTION: difficulty 五个难度档 */var DIFF=[
- {k:1,n:'新兵',s:'轻松',xp:.8,acc:.85,hp:.85,t:1.35,d:'敌人反应慢、血量低，时限最宽松'},
- {k:2,n:'常规',s:'标准',xp:1.0,acc:1.0,hp:1.0,t:1.15,d:'标准交战强度'},
- {k:3,n:'老兵',s:'困难',xp:1.3,acc:1.12,hp:1.15,t:1.0,d:'敌人更准、更耐打'},
- {k:4,n:'精英',s:'极难',xp:1.6,acc:1.24,hp:1.30,t:.9,d:'高反应高精度，补枪要快'},
- {k:5,n:'噩梦',s:'地狱',xp:2.0,acc:1.38,hp:1.50,t:.8,d:'通关此档才能解锁下一区域'}
+/* SECTION: difficulty 五个难度档（最高档「现实」：一枪致命，敌我通用） */var DIFF=[
+ {k:1,n:'新兵',s:'训练',xp:.8,acc:.72,hp:.80,t:1.50,d:'敌人反应迟缓、命中率低，中弹只掉少量体力'},
+ {k:2,n:'常规',s:'标准',xp:1.0,acc:.92,hp:1.00,t:1.20,d:'标准交战强度，护甲能扛住两三发'},
+ {k:3,n:'老兵',s:'困难',xp:1.35,acc:1.05,hp:1.15,t:1.00,d:'敌人更准、更耐打，补枪要快'},
+ {k:4,n:'精英',s:'极难',xp:1.80,acc:1.18,hp:1.35,t:.90,d:'高反应高精度，暴露两秒就会被击穿护甲'},
+ {k:5,n:'现实',s:'一枪致命',xp:2.60,acc:1.30,hp:1.00,t:.85,ohk:1,d:'一发致命：你与敌人中弹即倒，护甲不再保命；通关此档才能解锁下一区域'}
 ];
 function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[1]}
 function diffOf(r){return r&&r.k||2}
@@ -3877,7 +3877,8 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
  if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
  if(!e.alert&&!L.cfg.exam&&!L.cfg.tgt){e.alert=1;e.rt=L.cfg.rea*(.7+Math.random()*.6)*(G.alertMod||1);e.st='alert';
   G.alerted=1;snd.alert();feed('敌方发现你 · 交火开始',0)}
- if(ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
+ if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk){e.hp=0;e.hurt=.2}
+ else if(ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
   e.hp-=dm;e.hurt=.2}
  else if(ins&&arv===3&&head&&wp&&(wp.ap||0)>=.7&&Math.random()<ins*.4){e.hp=0}
  else e.hp-=dm;
@@ -3953,6 +3954,12 @@ function resetTargets(){ if(!allTargetsDown())return false;
 function dmgPlayer(v){var p=G.p;if(p.hp<=0)return;
  if(G.tut)return;
  G.nc=0;
+ /* 现实难度：任何伤害都直接致命，护甲不再抵扣 */
+ if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk){
+  p.ar=0;p.hp=0;G.dmg+=v;
+  $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
+  dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
+  shake=13;toast('现实难度 · 一发致命',1800);die();return}
  var a=Math.min(p.ar,v*.7);p.ar=Math.max(0,p.ar-a);p.hp=Math.max(0,p.hp-(v-a));G.dmg+=v;
  $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
  dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
@@ -5681,6 +5688,13 @@ var PATCHES=[
    '格雷被动：护甲 +12、换弹 −15%、移速 +2%；出战三武器槽，默认主武器为新增的 SA80 A2（L85A2）。',
    '出战队员选择扩展为三选一：普通队员 / 燕锋 / 格雷（未解锁的显示解锁条件）。',
    '招募剧情加长：新增 5 句，结尾由沈钺直接交代机场行动与两层结构。'
+  ]},
+ {v:3,d:'2026-11-08',t:'难度重做 · 新增「现实」一枪致命',
+  items:[
+   '五档难度重新配平：新兵（敌人迟缓、中弹掉血少）／常规（护甲能扛两三发）／老兵（更准更耐打）／精英（暴露两秒即被击穿）／现实。',
+   '最高档「现实」：一发致命——你和敌人中弹即倒，护甲不再抵扣任何伤害，敌人血量形同虚设。',
+   '现实档的经验系数上调到 2.6 倍，通关同样解锁下一区域；其他四档的命中率、血量与时限系数也一并重调。',
+   '剧情考核、训练场与靶场固定为标准强度，不受「现实」档影响。'
   ]}
 ];
 function pushPatchMail(){
@@ -6510,8 +6524,8 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
    var wasTop=isCleared(ST.lv,5);
    markClear(ST.lv,DF.k);
    if(DF.k>=5&&!wasTop){
-    toast('噩梦难度通关 · '+(ST.lv<6?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
-    feed('难度成就：噩梦通关',1)}}}
+    toast('现实难度通关 · '+(ST.lv<6?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
+    feed('难度成就：现实难度通关',1)}}}
  else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
  var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0;
  $('r7').textContent=RKLAD[rk0][0]+(up||dn?(' → '+RKLAD[rk1][0]):'')+
