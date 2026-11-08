@@ -759,7 +759,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     </svg></button>
   <button class="tb" id="tR">换弹</button>
   <button class="tb" id="tS">切枪</button>
-  <button class="tb" id="tQ">轮盘</button>
+  <button class="tb" id="tQ">枪灯</button>
   <button class="tb" id="tG">手雷</button>
   <button class="tb" id="tE">互动</button>
   <button class="tb" id="tAim">据枪</button>
@@ -843,7 +843,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn p" id="bNameOk">确认代号 · 进入新兵训练</button>
     <button class="btn sm" id="bNameDef">用默认代号「新兵」</button>
   </div>
-  <div class="note">接下来是约 2 分钟的新兵训练：靶场里只有你一个人，系统会一步步带你把移动、据枪、射击、换弹、切枪、投掷、互动、战术轮盘、医疗、掩护、暂停全部过一遍。训练不消耗经验，也不会失败。</div>
+  <div class="note">接下来是约 2 分钟的新兵训练：靶场里只有你一个人，系统会一步步带你把移动、据枪、射击、换弹、切枪、投掷、互动、枪灯、医疗、掩护、暂停全部过一遍。训练不消耗经验，也不会失败。</div>
 </div></section>
 
 <!-- SECTION: markup-tutdone -->
@@ -856,7 +856,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <tr><td>据枪 / 开火</td><td><span class="tutKey">右键</span> 据枪 · <span class="tutKey">左键</span> 开火</td></tr>
     <tr><td>换弹 / 切枪</td><td><span class="tutKey">R</span> 换弹 · <span class="tutKey">1</span><span class="tutKey">2</span> 主副 · <span class="tutKey">Q</span> 快切</td></tr>
     <tr><td>投掷 / 互动</td><td><span class="tutKey">B</span> 投掷 · <span class="tutKey">F</span> 互动</td></tr>
-    <tr><td>小队 / 医疗</td><td><span class="tutKey">E</span> 命令轮盘 · <span class="tutKey">H</span> 医疗</td></tr>
+    <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">X</span> 观察门 · <span class="tutKey">H</span> 医疗</td></tr>
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
     <tr><td>系统</td><td><span class="tutKey">P</span> 暂停 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
@@ -873,7 +873,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div class="bgSub">TACTICAL CQB OPERATION</div>
       <p class="bgLead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
-界面参考《严阵以待》（Ready or Not）的任务简报 / 命令轮盘 / 交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
+界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
     </div>
   </div>
@@ -992,7 +992,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h1>设置</h1>
   <p class="lead">画面、操作、音效与新兵训练统一收在这里。改动即时生效并保存到本机，<strong>不会影响军衔分与已解锁内容</strong>。</p>
   <div class="setList">
-    <div class="setRow"><div><b>键位设置</b><i>自定义移动、据枪、换弹、投掷、轮盘等按键</i></div>
+    <div class="setRow"><div><b>键位设置</b><i>自定义移动、据枪、换弹、投掷、枪灯等按键</i></div>
       <button class="btn sm" id="bSetKeys">修改键位</button></div>
     <div class="setRow"><div><b>键位提示</b><i>屏幕底部常驻一行按键提示</i></div>
       <button class="btn sm on" id="bSetHint">开</button></div>
@@ -1186,9 +1186,11 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>你是一名虚构反恐小队的突击手。每关任务：清除区域内全部武装守敌，随后前往撤离点停留 1 秒完成撤离。
 掩体（墙体、柜台、集装箱、沙袋）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
 场景中会有被扣押的平民：靠近后互动可将其解救，他们会跟随你——<b style="color:#e08a7b">走火误伤平民按 ROE 违规重扣分并下调评级</b>，这正是现实交战规则。</p>
-  <h3>命令轮盘（参考《严阵以待》）</h3>
-  <p>按 <span class="kbd">E</span>（或触屏“轮盘”键）打开战术轮盘，给 AI 队员下达<b style="color:#dce7ee">跟随／突击／固守／掩护／搜索／破门编队</b>指令；队员默认会跟着你并自动开火。
-角色之间的喊话（你喝令投降、队员报告目标与状态）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
+  <h3>战术枪灯与配件</h3>
+  <p>按 <span class="kbd">L</span>（或触屏“枪灯”键）开关枪口战术灯。军械库选 <b style="color:#dce7ee">标准 500 lm</b> 时光锥较短，
+  选 <b style="color:#dce7ee">TLR-1 HL 1000 lm</b> 时光锥更长、亮度更高，贴脸照射可让敌人短暂致眩。
+  <b style="color:#dce7ee">消焰器</b>会把枪口焰压掉（开火不再有火光暴露位置，但弹道仍然可见）；<b style="color:#dce7ee">MX3 制退器</b>后坐更小、枪口两侧会有明显的侧向焰流。</p>
+  <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>难度曲线</h3>
   <p>01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 KTV（昏暗、贴脸伏击）→ 04 港口（长视野交叉火力 + 重装）→ 05 沙漠地堡（全兵种 + 持续增援 + 指挥官）。</p>
   <h3>武器与厂商</h3>
@@ -2235,7 +2237,7 @@ function renderTp(){var l=$('tpList');if(!l)return;l.innerHTML='';
    var tc2=$('touch');if(tc2&&tc2.children)Array.prototype.forEach.call(tc2.children,function(x){if(x.style)x.style.outline=''});applyTP()}),
    tg2('放弃更改',0,function(){tpRevert();editMode=false;
    var tc3=$('touch');if(tc3&&tc3.children)Array.prototype.forEach.call(tc3.children,function(x){if(x.style)x.style.outline=''});applyTP()})],TP_draft?'拖动后必须点保存才长期生效':'拖动键位或摇杆后这里会变成待保存');}
- var names={fire:'开火',reload:'换弹',swap:'切枪',wheel:'轮盘',gren:'投掷',act:'互动',
+ var names={fire:'开火',reload:'换弹',swap:'切枪',wheel:'枪灯',gren:'投掷',act:'互动',
   aim:'据枪',spr:'疾跑',med:'医疗',cov:'掩护'};
  var vr=row('按钮显隐',[]);
  for(var kk in TP){if(kk==='stickL'||kk==='stickR')continue;
@@ -2591,7 +2593,7 @@ g.restore();
    sp:Math.round(208*(1+of.mob)*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.5,air:0,landed:0,fuseT:0,
-   fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',eg:[],
+   fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
   /* 战术腰封：按军衔容量从玩家配置里取投掷物 */
   G.p.bl=beltCounts();
@@ -2644,13 +2646,14 @@ function pushFree(o,dt,speed){var i,an,rd,bx=0,by=0,ok=0;
 
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',wheel:'e',fireAlt:'',adsAlt:'',
+ gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',fireAlt:'',adsAlt:'',
  med:'h',cover:'g',mute:'m'};
 var KM_ACT=[
  ['up','前进'],['down','后退'],['left','向左'],['right','向右'],
  ['sprint','疾跑'],['reload','换弹'],
  ['gun1','持主武器'],['gun2','持副武器'],['swap','快速切枪'],
- ['gren','投掷手雷'],['act','互动（解救／缴械／补给）'],['wheel','命令轮盘'],
+ ['gren','投掷手雷'],['act','互动（解救／缴械／补给）'],['light','战术枪灯开关'],
+ ['scout','观察关门（潜望镜）'],
  ['med','快捷命令：呼叫医疗'],['cover','快捷命令：掩护射击'],
  ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认鼠标右键）'],
  ['mute','音效开关']];
@@ -2696,10 +2699,10 @@ function updHint(){var h=$('keysHint');if(!h)return;
  '<div><span class="kbd">鼠标</span> 瞄准 · <span class="kbd">左键</span> 射击 · <span class="kbd">右键</span> 据枪（精度↑ 移速↓）</div>',
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
  '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('swap')+' 快速切枪</div>',
- '<div>'+K('gren')+' 手雷 · '+K('act')+' 互动 · '+K('wheel')+' 命令轮盘</div>',
+ '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>',
  '<div>'+K('med')+' 呼叫医疗 · '+K('cover')+' 掩护射击 · <span class="kbd">Esc</span>／<span class="kbd">P</span> 暂停</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
- '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火（圆钮＝换弹／切枪／手雷／互动／轮盘）</div>'];
+ '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火（圆钮＝换弹／切枪／手雷／互动／枪灯）</div>'];
  h.innerHTML=rows.filter(function(x){return x}).join('')}
 
 /* SECTION: input */
@@ -2723,11 +2726,12 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('gun2'))swGun(1);
    else if(kb('swap'))swGun(G.p.wi===0?1:0);
    else if(kb('act'))interact();
-   else if(kb('wheel'))wheel(!$('comms').classList.contains('on'));
+   else if(kb('light'))togLight();
+   else if(kb('scout'))com('scout');
    else if(kb('med'))com('med');
    else if(kb('cover'))com('cov');
    else if(kb('mute'))togAud();}
-  if(k==='escape')$('comms').classList.remove('on')}},{passive:false});
+  if(k==='escape')closeThrowPick()}},{passive:false});
 D.addEventListener('keyup',function(e){KEY[kNorm(e)]=0});
 D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0});
 function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_ACT[i][1];return a}
@@ -2778,7 +2782,7 @@ bindT('tR',function(){tryReload()});
 bindT('tS',function(){swGun(G&&G.p.wi===0?1:0)});
 bindT('tG',function(){toggleGren()});
 bindT('tE',function(){interact()});
-bindT('tQ',function(){wheel(!$('comms').classList.contains('on'))});
+bindT('tQ',function(){togLight()});
 bindT('tAim',function(v){BF.ads=v},1);
 bindT('tSpr',function(v){BF.sp=v},1);
 bindT('tMed',function(){com('med')});
@@ -2793,7 +2797,7 @@ function feed(txt,good){var f=$('feed'),r=mk('div','frow'+(good?' g':''));r.text
 function cur(){return G.p.guns[G.p.wi]}
 function updGun(){var g=cur(),p=G.p;
  $('amW').textContent=g.w.n;
- var thr=beltText(p);
+ var thr=beltText(p)+(p.light?' · 枪灯 开':' · 枪灯 关');
  $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
   (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''))}
 /* 腰封内容文本，HUD 与军械库共用 */
@@ -3002,38 +3006,14 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
   if((ST.gd.breach|0)&&G.stickyN<2)G.stickyN++;else beltResupply();
   snd.sec();
   feed('补给箱：弹药 +2 匣 · 投掷 +1 · 医疗 +1 · 护甲 +30',1);updGun()}}
-/* 战术轮盘：8 项，取消「喊话」——喊话改为人物自动触发 */
-var CMDS=[
- {k:'follow',n:'跟随',s:'默认 · 跟队并自动交火',c:'tm'},
- {k:'breach',n:'突击清剿',s:'切角推进 · 主动压上',c:'tm'},
- {k:'hold',  n:'原地固守',s:'不移动，仍会开火',c:'tm'},
- {k:'cover', n:'火力掩护',s:'贴身压制 · 不脱离',c:'tm'},
- {k:'srch',  n:'战术搜索',s:'主动索敌 · 隔墙抵近',c:'tm'},
- {k:'t3',    n:'破门编队',s:'门口列队待突入',c:'tm'},
- {k:'med',   n:'战术医疗',s:'恢复 45 点体力',c:'sf'},
- {k:'scout', n:'观察关门',s:'FlushStick 侦察门内',c:'sf'}
-];
-var ORD_NAME={follow:'跟随',breach:'突击清剿',hold:'原地固守',cover:'火力掩护',srch:'战术搜索',t3:'破门编队'};
-var TEAM_PUSH=[],SOLO_PUSH=[];
-function wheel(on){var el=$('comms');
- if(on){tutEv('wheel');
-  var cur=(G&&G.al&&G.al[0]&&G.al[0].ord)||'follow';
-  TEAM_PUSH=[];SOLO_PUSH=[];
-  CMDS.forEach(function(cd){
-   if(cd.k==='follow')return;      /* 跟随指令移除：队员自动编队跟随 */
-   var b=mk('button','c '+cd.c+(cd.k===cur?' on':''));
-   b.innerHTML='<b>'+cd.n+'</b><i>'+cd.s+'</i>';
-   var run=function(e){e.preventDefault();e.stopPropagation();com(cd.k);wheel(0)};
-   b.addEventListener('click',run);b.addEventListener('touchstart',run,{passive:false});
-   (cd.c==='sf'?SOLO_PUSH:TEAM_PUSH).push(b)});
-  el.innerHTML='<div class="wh"><b>战术指令</b><span>当前 · '+(ORD_NAME[cur]||'跟随')+'</span></div>'+
-   '<div class="wsec">小队指令 · 对两名 AI 队员同时生效</div><div class="wg" id="wgT"></div>'+
-   '<div class="wsec">个人动作</div><div class="wg" id="wgS"></div>'+
-   '<div class="wf">按 E 关闭</div>';
-  TEAM_PUSH.forEach(function(b){$('wgT').appendChild(b)});
-  SOLO_PUSH.forEach(function(b){$('wgS').appendChild(b)});
-  el.classList.add('on')}
- else el.classList.remove('on')}
+/* 战术枪灯：L 键（或触屏「枪灯」）开关，亮度与射程随军械库所选型号 */
+function togLight(){
+ var p=G&&G.p;if(!p||G.phase!=='live')return;
+ p.light=p.light?0:1;
+ try{snd.ui()}catch(e){}
+ toast(p.light?('战术枪灯 开 · '+(gdHas('light',1)?'TLR-1 HL 1000 lm':'标准 500 lm')):
+  '战术枪灯 关 · 视野收窄',1600);
+ try{updGun()}catch(e){}}
 function com(k){var p=G.p,i;if(!p)return;
  if(k==='med')tutEv('med');else if(k==='cov')tutEv('cov');
  if(k==='sur'){playerShout();return}
@@ -4066,6 +4046,7 @@ function draw(){if(!G||!L)return;
   ctx.lineTo(G.p.x+Math.cos(G.p.aa)*hd,G.p.y+Math.sin(G.p.aa)*hd);ctx.stroke()}
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
+ drawLight();
  drawALRT();
  /* 投掷物：飞行弧线 + 三种独立模型 + 落点提示 + 引信环 */
  if(G.p.act){
@@ -4195,12 +4176,21 @@ function drawThrowModel(g,x,y,t,rot){
 function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit);
  drawSoldier(p.x,p.y,p.aa,{body:of.look,helm:shade(of.look,-.02),cls:w1.cls,
   mv:Math.hypot(p.vx,p.vy)>10,accent:'#e2a93e'});
- /* 枪口焰 */
+ /* 枪口焰：装消焰器基本看不到火（弹道照常），装制退器有主焰 + 两侧泄流 */
  if(p.kd>Math.max(.015,60/w1.rpm)-.05){
   var gl=w1.cls==='sniper'?25:(w1.cls==='pistol'?9:(w1.cls==='shotgun'?17:20)),mw=7.6+gl;
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.aa);
-  ctx.fillStyle='rgba(255,220,140,.92)';ctx.beginPath();
-  ctx.moveTo(mw,1);ctx.lineTo(mw+12,-6);ctx.lineTo(mw+17,1);ctx.lineTo(mw+12,8);ctx.closePath();ctx.fill();
+  if(gdHas('muzzle',0)){
+   if(!ST.low){
+    ctx.fillStyle='rgba(255,214,140,.14)';ctx.beginPath();
+    ctx.moveTo(mw,1);ctx.lineTo(mw+5,-1.6);ctx.lineTo(mw+7,1);ctx.lineTo(mw+5,3.6);ctx.closePath();ctx.fill()}
+  }else{
+   ctx.fillStyle='rgba(255,220,140,.92)';ctx.beginPath();
+   ctx.moveTo(mw,1);ctx.lineTo(mw+12,-6);ctx.lineTo(mw+17,1);ctx.lineTo(mw+12,8);ctx.closePath();ctx.fill();
+   ctx.fillStyle='rgba(255,238,196,.55)';
+   ctx.beginPath();ctx.moveTo(mw+1,0);ctx.lineTo(mw-5,-9);ctx.lineTo(mw+3,-1.5);ctx.closePath();ctx.fill();
+   ctx.beginPath();ctx.moveTo(mw+1,0);ctx.lineTo(mw-5,9);ctx.lineTo(mw+3,1.5);ctx.closePath();ctx.fill();
+  }
   ctx.restore()}
  drawNameTag(p.x,p.y-31,ST.name||'你','#f0d890')}
 function drawAlly(a){var fv=a.rjT>0?clamp(Math.abs(a.rjT-.29)/.29,0,1):1;
@@ -4338,12 +4328,17 @@ function lighting(){var c=L.cfg.dk,s=.5,pw=(G.p.x-CAM.x)*s,ph=(G.p.y-CAM.y)*s;
  gr.addColorStop(0,'rgba(255,255,255,.92)');gr.addColorStop(.55,'rgba(255,255,255,.35)');
  gr.addColorStop(1,'rgba(255,255,255,0)');
  lc.fillStyle=gr;lc.beginPath();lc.arc(pw,ph,140*s,0,TAU);lc.fill();
- var fl=Math.min(560,cur().w.rn*1.15),aa=G.p.aa;
- var tx=(G.p.x+Math.cos(aa)*fl*.5-CAM.x)*s,ty=(G.p.y+Math.sin(aa)*fl*.5-CAM.y)*s;
- var g2=lc.createRadialGradient(tx,ty,4,tx,ty,fl*.55*s);
- g2.addColorStop(0,'rgba(255,255,255,.85)');g2.addColorStop(1,'rgba(255,255,255,0)');
- lc.fillStyle=g2;lc.beginPath();
- lc.arc(pw,ph,fl*s,aa-.4,aa+.4);lc.lineTo(pw,ph);lc.closePath();lc.fill();
+ /* 战术枪灯：只有开着才有光锥，亮度/射程随型号 */
+ if(G.p.light){
+  var pw3=gdHas('light',1)?1.55:1.0,
+   fl=Math.min(780,cur().w.rn*1.15*pw3),aa=G.p.aa,sp=gdHas('light',1)?.44:.36;
+  var tx=(G.p.x+Math.cos(aa)*fl*.5-CAM.x)*s,ty=(G.p.y+Math.sin(aa)*fl*.5-CAM.y)*s;
+  var g2=lc.createRadialGradient(tx,ty,4,tx,ty,fl*.55*s);
+  g2.addColorStop(0,'rgba(255,255,255,'+(gdHas('light',1)?.96:.84)+')');
+  g2.addColorStop(1,'rgba(255,255,255,0)');
+  lc.fillStyle=g2;lc.beginPath();
+  lc.arc(pw,ph,fl*s,aa-sp,aa+sp);lc.lineTo(pw,ph);lc.closePath();lc.fill();
+ }
  var i;if(L.neon.length)for(i=0;i<L.neon.length;i++){var n=L.neon[i],
   nx=(n.x-CAM.x)*s,ny=(n.y-CAM.y)*s,pu=.45+.5*Math.sin(G.t*n.s+n.p),
   g3=lc.createRadialGradient(nx,ny,2,nx,ny,n.r*s);
@@ -4358,6 +4353,20 @@ function lighting(){var c=L.cfg.dk,s=.5,pw=(G.p.x-CAM.x)*s,ph=(G.p.y-CAM.y)*s;
    g4.addColorStop(1,'rgba(0,0,0,0)');
    ctx.fillStyle=g4;ctx.beginPath();ctx.arc(mx,my,m.r,0,TAU);ctx.fill()}
   ctx.restore()}}
+function drawLight(){
+ var p=G&&G.p;if(!p||!p.light)return;
+ var lx=p.x-CAM.x,ly=p.y-CAM.y,len=gdHas('light',1)?430:300,sp=gdHas('light',1)?.34:.28;
+ ctx.save();ctx.globalCompositeOperation='lighter';
+ var lg=ctx.createRadialGradient(lx,ly,10,lx,ly,len);
+ lg.addColorStop(0,'rgba(255,247,220,'+(gdHas('light',1)?.20:.14)+')');
+ lg.addColorStop(.55,'rgba(255,240,200,'+(gdHas('light',1)?.09:.06)+')');
+ lg.addColorStop(1,'rgba(255,240,200,0)');
+ ctx.fillStyle=lg;ctx.beginPath();ctx.moveTo(lx,ly);
+ ctx.arc(lx,ly,len,p.aa-sp,p.aa+sp);ctx.closePath();ctx.fill();
+ /* 灯头亮点 */
+ var hx=lx+Math.cos(p.aa)*10,hy=ly+Math.sin(p.aa)*10;
+ ctx.fillStyle='rgba(255,252,236,.9)';ctx.beginPath();ctx.arc(hx,hy,2.1,0,TAU);ctx.fill();
+ ctx.restore()}
 function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
  var mvq=Math.hypot(p.vx,p.vy)/p.sp,cone=g.sp*(1+mvq*1.1)*(p.aim?(gdHas('optic',1)?.47:.55):1)*(g.cls==='sniper'&&!p.aim?2.1:1);
  if(g.au)cone*=(gdHas('grip',1)?.82:1);
@@ -4387,7 +4396,7 @@ function updKbar(){var el=$('kbar');if(!el)return;
  if(el._sig!==sig){el._sig=sig;
   el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · 右键据枪</div>'+
    '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+K('gun1')+'/'+K('gun2')+' 主副 · '+K('swap')+' 切枪</div>'+
-   '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('wheel')+' 命令轮盘</div>'+
+   '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>'+
    '<div>'+K('med')+' 医疗 · '+K('cover')+' 掩护 · P 暂停</div>'}}
 function updHud(){var p=G.p,g=cur(),i;
  if(p.hp!==HD.hp){HD.hp=p.hp;$('hpF').style.width=clamp(p.hp/p.mhp*100,0,100)+'%';
@@ -4657,7 +4666,7 @@ function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=
  else if(ST.kmFrom==='set'){openSet()}
  else{show('sMenu');setScr('menu');renderLv()}}
 var KM_B={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',wheel:'e',med:'v',cover:'c',
+ gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',med:'v',cover:'c',
  fireAlt:'',adsAlt:'',mute:'m'};
 function kmApply(src){for(var a in KM_DEF)KM[a]=src[a]!==undefined?src[a]:'';save();renderKm();updHint()}
 function setScr(s){ST.scr=s;
@@ -4880,7 +4889,6 @@ var TUTS=[
  {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
  {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。',g:'完成 1 次互动',n:1},
  {k:'kills',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
- {k:'wheel',t:'战术轮盘',d:'按 <b>E</b> 打开战术轮盘。实战里用它给 AI 队员下达跟随／突击／掩护等指令；训练场没有队员，先熟悉按键与轮盘布局。',g:'打开 1 次轮盘',n:1},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
  {k:'cov',t:'掩护射击',d:'按 <b>G</b>：换弹加速、散布收紧，适合压制窗口。',g:'触发 1 次掩护',n:1},
  {k:'pause',t:'暂停与键位',d:'按 <b>P</b> 暂停：看键位、切音效、重开本关。<b>M</b> 可以随时开关音效。',g:'暂停 1 次',n:1}
@@ -5020,7 +5028,7 @@ function startCont(){var sv=loadLv(ST.lv);show(null);setScr('play');aInit();
 function pause(on){if(on){if(ST.scr!=='play')return;
   tutEv('pause');
   if(TUT.done)return;
-  wheel(0);show('sPause');setScr('pause');$('bAud2').textContent=ST.aud?'音效 开':'音效 关'}
+  closeThrowPick();show('sPause');setScr('pause');$('bAud2').textContent=ST.aud?'音效 开':'音效 关'}
  else{show(null);setScr('play')}}
 function showRes(win){stopLoop();setScr('res');show('sRes');
  var c=LS6[ST.lv-1],p=G.p,sec=Math.floor(G.t),shots=p.shots||0,
@@ -5293,7 +5301,7 @@ bind('bUiTouch',function(){ST.ui='touch';save();applyUI()});
 bind('bKmClose',closeKm);
 bind('bKmDef',function(){kmApply(KM_DEF);toast2('已恢复默认键位')});
 bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空，鼠标左键射击与右键据枪仍可用')});
-bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手机械键方案（轮盘 E、手雷 B）')});
+bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手机械键方案（枪灯 L、手雷 B）')});
 bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){clearLv(ST.lv);startLv()});
 bind('bQuit',function(){saveLv();show('sMenu');setScr('menu');renderLv()});
