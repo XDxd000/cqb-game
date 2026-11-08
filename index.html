@@ -420,6 +420,30 @@ body.noc #hud,body.noc #hud *{cursor:none}
  #intro .inWrap{flex-direction:column;text-align:center;gap:14px}
  .inArt{width:96px;height:96px;flex:none}
 }
+/* SECTION: style-rangeexit 训练场撤离点 */
+#rExit{position:fixed;top:0;left:0;right:0;bottom:0;z-index:52;display:-ms-flexbox;display:flex;
+ align-items:center;justify-content:center;background:rgba(4,7,10,.72);backdrop-filter:blur(3px)}
+#rExit .rxBox{width:min(560px,92vw);padding:22px 24px 18px;border-radius:10px;
+ background:linear-gradient(180deg,#141d24,#0b1116);border:1px solid #33454f;
+ box-shadow:0 26px 60px rgba(0,0,0,.6),inset 0 0 0 1px rgba(147,172,109,.08)}
+#rExit .rxK{font-size:9.5px;letter-spacing:.34em;color:#7d93a6}
+#rExit h2{margin:8px 0 6px;font-size:22px;letter-spacing:.06em;color:#eaf3f8;font-weight:800}
+#rExit p{margin:0 0 16px;font-size:11.5px;line-height:1.75;color:#8ba0ae}
+#rExit .rxRow{display:-ms-flexbox;display:flex;gap:10px}
+#rExit .rxBtn{flex:1 1 0;display:-ms-flexbox;display:flex;flex-direction:column;gap:3px;
+ padding:14px 14px;text-align:left;cursor:pointer;border-radius:6px;
+ border:1px solid #4c6a34;background:linear-gradient(180deg,#243021,#141b16);color:#dce7ee;
+ transition:border-color .14s,transform .1s}
+#rExit .rxBtn:hover{border-color:#a9cd87}
+#rExit .rxBtn:active{transform:translateY(1px)}
+#rExit .rxBtn b{font-size:10px;letter-spacing:.2em;color:#9dbb85}
+#rExit .rxBtn span{font-size:14px;font-weight:700;color:#f0f6fa;letter-spacing:.04em}
+#rExit .rxBtn i{font-style:normal;font-size:10px;color:#7f939f}
+#rExit .rxBtn.ghost{border-color:#3a4a56;background:linear-gradient(180deg,#1a232a,#0f1519)}
+#rExit .rxBtn.ghost:hover{border-color:#7d93a6}
+#rExit .rxBtn.ghost b{color:#8fa6b4}
+#rExit .rxTip{margin-top:14px;text-align:center;font-size:10px;color:#62798a;letter-spacing:.06em}
+@media (max-width:520px){#rExit .rxRow{flex-direction:column}}
 /* SECTION: style-touch */
 #touch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:22;display:none;pointer-events:none}
 body.touch #touch.on{display:block}
@@ -806,6 +830,20 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div class="inRole" id="inRole">列兵</div>
       <div class="inBy">与 <b>DeepSeek</b> 深度求索 联合开发</div>
     </div>
+  </div>
+</div>
+
+<!-- SECTION: markup-rangeexit 训练场撤离点 -->
+<div id="rExit" class="hidden">
+  <div class="rxBox">
+    <div class="rxK">TRAINING RANGE · 靶场撤离点</div>
+    <h2>结束训练？</h2>
+    <p>靶标会每 2.4 秒自动立起，可以一直练。离开前可以先调整装备。</p>
+    <div class="rxRow">
+      <button class="rxBtn" id="rxEquip"><b>A</b><span>配置装备</span><i>换枪 · 配件 · 战术腰封</i></button>
+      <button class="rxBtn ghost" id="rxQuit"><b>B</b><span>退出训练场</span><i>回到任务列表</i></button>
+    </div>
+    <div class="rxTip">按 <span class="kbd">A</span> / <span class="kbd">B</span> 也可选择 · <span class="kbd">ESC</span> 返回靶场</div>
   </div>
 </div>
 
@@ -1958,7 +1996,7 @@ var RANGE_LV={code:'OP-00 · FIRING RANGE',nm:'训练场 · 自由射击',W:1500
  zn:[[320,120,1160,700]],st:[150,450],ex:[60,400,44,70],
  threat:'无对抗 · 人形靶不还击',terr:'室内靶场 · 15–45 m 靶道',
  hint:'自由练习：全部枪械可用，配件与腰封按军械库配置带入',
- intel:'训练场不设任务目标：想练哪把枪就换哪把，想打多久打多久。退出请按 P → 返回任务列表。',
+ intel:'训练场不设任务目标：靶标被击倒后 2.4 秒自动立起，可以一直练。离开时走到左侧撤离点，可选「配置装备」或「退出训练场」。',
  obj:['自由射击练习（不计分、不消耗经验）'],roe:'训练场没有实弹对抗，不会失败'};
 var FUD=[
  {dr:[[360,250,20,80,0,'wood'],[360,500,20,100,0,'wood'],[760,200,20,100,0,'wood'],
@@ -2855,6 +2893,11 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    var bk=+k-1,bb=beltList();
    if(bk<beltCap()&&bb[bk]){pickThrow(bb[bk]);return}
   }
+  if(rangeExitOpen()){
+   if(k==='a'){rangeExitEquip();return}
+   if(k==='b'){rangeExitQuit();return}
+   if(k==='escape'||k==='p'){closeRangeExit();return}
+   return}
   if(ST.scr==='play'){
    if(k==='escape'||k==='p'){pause(1)}
    else if(kb('reload'))tryReload();
@@ -3283,14 +3326,16 @@ function allTargetsDown(){var i;if(!L||!L.cfg||!(L.cfg.tgt||L.cfg.exam))return f
  if(!L.en.length)return false;
  for(i=0;i<L.en.length;i++)if(!L.en[i].dead)return false;
  return true}
-function resetTargets(){
- if(!allTargetsDown())return false;
+/* 单个靶标复位（训练场自动立起时调用） */
+function reviveTarget(e){
+ if(!e)return;
+ e.dead=0;e.dt=0;e.reviveT=0;e.hp=e.mh;e.hurt=0;e.alert=0;e.canSee=0;e.st='patrol';
+ e.vx=e.vy=0;e.sub=0;e.stun=0;e.dodgeT=0;e.a=Math.PI;
+ if(e.rail){e.x=e.rail.x0;e.y=e.rail.y0}
+ if(G){G.killed=Math.max(0,(G.killed||0)-1);G.exitOpen=0}}
+function resetTargets(){ if(!allTargetsDown())return false;
  var n=0,i;
- for(i=0;i<L.en.length;i++){var e=L.en[i];
-  e.dead=0;e.dt=0;e.hp=e.mh;e.hurt=0;e.alert=0;e.canSee=0;e.st='patrol';e.vx=e.vy=0;
-  e.sub=0;e.stun=0;e.dodgeT=0;e.a=Math.PI;
-  if(e.rail){e.x=e.rail.x0;e.y=e.rail.y0}
-  n++}
+ for(i=0;i<L.en.length;i++){reviveTarget(L.en[i]);n++}
  G.killed=0;G.exitOpen=0;
  toast('靶标复位 ×'+n+' · 继续练习',1800);feed('靶标已重新立起',1);snd.sec();
  return true}
@@ -3317,7 +3362,13 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
  if(G.bossCmd>0)G.bossCmd-=dt;
  if(G.bossCmd>0)cfg={acc:cfg.acc*.6,rea:cfg.rea,edm:cfg.edm,ehp:cfg.ehp};
  for(i=0;i<L.en.length;i++){var e=L.en[i];
-  if(e.dead){e.dt+=dt;continue}
+  if(e.dead){
+   e.dt+=dt;
+   /* 训练场：靶标倒下 2.4 秒后自动立起，方便不间断练枪 */
+   if(L.cfg&&L.cfg.range&&L.cfg.tgt){
+    e.reviveT=(e.reviveT||0)+dt;
+    if(e.reviveT>=2.4)reviveTarget(e)}
+   continue}
   /* 靶场人形靶：只沿轨道横移，不寻路、不开火 */
   if((L.cfg.exam||L.cfg.tgt)&&!e.fight){
    e.hurt=Math.max(0,e.hurt-dt);
@@ -4581,7 +4632,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
  var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
- var ot=G.exitOpen?((L.cfg.range||L.cfg.tutorial)?'全部靶标击倒 · 按 F 重置靶标（或按 P 退出）':'前往撤离点（停留 1 秒）'):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):'')));
+ var ot=G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 P 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):'')));
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
  if(ot!==HD.ob){HD.ob=ot;$('objT').textContent=ot}
  var bd=56,pr='';
@@ -4644,6 +4695,11 @@ function step(dt){if(!G)return;
  if(G.p.act)updateGren(dt);
  updateDoors(dt);doorTick(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
+ /* 训练场：走到撤离点弹出「配置装备 / 退出训练场」 */
+ if(L.cfg.range&&!G.over&&ST.scr==='play'){
+  var rx=G.exit,rcx=clamp(G.p.x,rx[0],rx[0]+rx[2]),rcy=clamp(G.p.y,rx[1],rx[1]+rx[3]);
+  if(Math.hypot(G.p.x-rcx,G.p.y-rcy)<16){if(!G.rxCool)openRangeExit()}
+  else G.rxCool=0}
  /*  win check：踏入撤离区即可（新兵训练不判定撤离） */
  if(G.exitOpen&&!G.tut&&!L.cfg.range){var eR=G.exit,
   cx=clamp(G.p.x,eR[0],eR[0]+eR[2]),cy=clamp(G.p.y,eR[1],eR[1]+eR[3]),
@@ -5279,8 +5335,8 @@ function briefRange(){
  $('fE').textContent='8 个人形靶 · 无对抗 · 补给箱 2 个';
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
  $('fH').textContent=c.hint+'（当前主武器：'+WM[ST.load[0]].n+'）';
- $('fP').textContent='不设时间基准';$('fG').textContent=c.roe;
- var fa=$('fAlly');if(fa)fa.textContent='训练场为单人沙盒：全部枪械开放，投掷物与配件按军械库配置带入';
+ $('fP').textContent='不设时间基准';$('fG').textContent='靶标倒下 2.4 秒自动立起 · 撤离点可选配装或退出';
+ var fa=$('fAlly');if(fa)fa.textContent='训练场为单人沙盒：全部枪械开放，投掷物与配件按军械库配置带入；撤离点可随时「配置装备 / 退出训练场」';
  $('bCont').classList.add('hidden');
  var go=$('bGo');if(go)go.textContent='进入训练场';
  show('sBrief');setScr('brief')}
@@ -5296,9 +5352,29 @@ function startRange(){
  $('goS').textContent='训练场 · 自由射击';
  $('hurt').style.opacity='0';
  HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
- G.xp0=ST.xp;updGun();updHud();LOWD=0;resize();snd.go();
+ G.xp0=ST.xp;G.exitOpen=1;G.rxCool=0;updGun();updHud();LOWD=0;resize();snd.go();
  toast('训练场已开放 · 全部枪械可用；按 P 可随时退出',3200)}
-function leaveRange(){RANGEMODE=0;ST.rangeSel=0}
+function leaveRange(){RANGEMODE=0;ST.rangeSel=0;ST.fromRange=0}
+/* 训练场撤离点：A 配置装备 / B 退出训练场 */
+function rangeExitOpen(){var el=$('rExit');return !!(el&&!el.classList.contains('hidden'))}
+function openRangeExit(){
+ if(rangeExitOpen())return;
+ var el=$('rExit');if(!el)return;
+ el.classList.remove('hidden');
+ if(G)G.rxCool=1;
+ stopLoop();try{snd.ui()}catch(e){}}
+function closeRangeExit(){
+ var el=$('rExit');if(el)el.classList.add('hidden');
+ if(ST.scr==='play')setScr('play')}
+function rangeExitEquip(){
+ var el=$('rExit');if(el)el.classList.add('hidden');
+ saveLv();stopLoop();
+ RANGEMODE=1;ST.rangeSel=1;ST.fromRange=1;
+ openArs();toast('训练场配装 · 换好后点「返回」直接回到靶场',2600)}
+function rangeExitQuit(){
+ var el=$('rExit');if(el)el.classList.add('hidden');
+ saveLv();leaveRange();goMenu();
+ toast('已退出训练场',1800)}
 function brief(){var c=LS6[ST.lv-1];
  leaveRange();
  var go=$('bGo');if(go)go.textContent='进入战场';
@@ -5568,7 +5644,11 @@ bind('bAud',togAud);bind('bAud2',function(){togAud();$('bAud2').textContent=ST.a
 bind('bFx',function(){ST.fx=ST.fx==='auto'?'low':'auto';
  ST.low=(ST.fx==='low')?1:0;$('bFx').textContent='画质：'+(ST.fx==='low'?'低（强制）':'自适应');
  $('bFx').classList.toggle('on',ST.fx==='auto');resize()});
-bind('bBack1',function(){show('sMenu');setScr('menu');renderLv()});
+bind('bBack1',function(){
+ if(ST.fromRange){ST.fromRange=0;startRange();return}
+ show('sMenu');setScr('menu');renderLv()});
+bind('rxEquip',rangeExitEquip);
+bind('rxQuit',rangeExitQuit);
 bind('bBack2',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bToArs',openArs);
 bind('bDeploy',function(){var pick=-1,i;
