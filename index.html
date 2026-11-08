@@ -698,6 +698,17 @@ table.rt td:last-child{text-align:right;font-weight:600}
 #dramaBox{position:fixed;top:0;left:0;right:0;bottom:0;z-index:40;display:none;overflow:hidden;
  background:radial-gradient(120% 92% at 50% 18%,#0e161b,#04070a 74%)}
 #dramaBox.on{display:flex;flex-direction:column}
+/* 剧情场景层：办公室 / 靶场 / 训练楼，canvas 剪影随剧情切换 */
+#dScene{position:absolute;left:0;right:0;top:0;bottom:0;z-index:1;pointer-events:none;
+ opacity:.72;transition:opacity .55s ease}
+#dScene canvas{display:block;width:100%;height:100%}
+#dScnTag{position:absolute;left:clamp(14px,3vw,28px);top:58px;font-size:10px;letter-spacing:.3em;
+ padding:3px 9px;color:#7890a0;background:rgba(4,8,11,.5);border-left:2px solid #2b3b46;
+ transition:opacity .4s ease}
+/* 转场黑幕：剧情 → 考核简报 */
+#fadeOut{position:fixed;left:0;right:0;top:0;bottom:0;z-index:60;background:#04070a;
+ opacity:0;pointer-events:none;transition:opacity .42s ease}
+#fadeOut.on{opacity:1}
 #dramaBox:before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;
  background-image:linear-gradient(rgba(150,190,210,.05) 1px,transparent 1px),
   linear-gradient(90deg,rgba(150,190,210,.05) 1px,transparent 1px);
@@ -1362,6 +1373,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <span class="mid" id="dMid">虚构演绎 · 致敬我国特种警察部队，不代表任何真实单位与行动</span>
     <button class="btn sm" id="dSkip">跳过剧情</button>
   </div>
+  <div id="dScene"><canvas id="dArt"></canvas><span id="dScnTag"></span></div>
   <div id="dStage">
     <div id="dWhoRow">
       <div id="dBadge">鹰</div>
@@ -1398,6 +1410,7 @@ Remington、Benelli、Franchi、Barrett、Accuracy International、CheyTac）与
   <p>地图预渲染为单张离屏画布、仅绘制视口内对象、子弹与粒子走对象池、低帧率自动降画质，单帧绘制量与关卡规模解耦。右上角实时显示帧率。</p>
   <div class="bar"><button class="btn p" id="bHelpC">明白了</button></div>
 </div></section>
+<div id="fadeOut"></div>
 
 <script>
 /* SECTION: boot-consts */
@@ -5315,14 +5328,14 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  lvCard0();
  lvCard6()}
 var DRG=[
-['旁白','猎鹰突击队驻地 · 三楼办公室 · 上午 08:12'],
+['旁白','猎鹰突击队驻地 · 三楼办公室 · 上午 08:12','office'],
 ['旁白','桌上摊着一张只有编号的调令，窗外晨雾还没散。'],
 ['燕锋','坐。别站得像根电线杆——今天不是来罚你的。'],
 ['燕锋','调令上写「预备队员」。这个词的意思是：我们还没决定要不要你。'],
 ['你','那我今天要做什么？'],
 ['燕锋','三步：先在办公室把话讲清楚，再去靶场把枪摸熟，最后进训练楼打实弹。'],
 ['燕锋','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人不该上街。顺序不能反。'],
-['旁白','—— 办公室谈话结束 · 转入靶场 ——'],
+['旁白','—— 办公室谈话结束 · 转入靶场 ——','range'],
 ['旁白','招募中心 · 上午 08:40 · 你接到一封只有编号的调令'],
 ['燕锋','来了？我是燕锋，负责今天这一课。别紧张——猎鹰不挑天才，挑靠得住的人。'],
 ['燕锋','先说好：接下来五分钟，讲枪、讲战术、讲心性。最后实弹考核。中途想走现在就可以走。'],
@@ -5350,7 +5363,7 @@ var DRG=[
 {Q:'Q1',O:['按规程短点射压制','0.5 秒辨识：枪口朝向与手部形状','喊话命令其趴下再动作']},['考官','答得可以。犹豫会死人，但扣错的扳机杀的是自己人。'],
 ['考官','甄别题二：撤离点遭火力压制，一名人质落在掩体外三米。'],
 {Q:'Q2',O:['掩护火力压住，自己冲出去拖','呼叫队友交替掩护，全队一起拖','先清掉压制点再回头']},['燕锋','标准只有一个：人质要带出来，队友也不能白死。顺序和手段，体现你怎么想。'],
-['旁白','第五幕 · 实弹环境（训练楼 · 三层房间与走廊）'],
+['旁白','第五幕 · 实弹环境（训练楼 · 三层房间与走廊）','building'],
 ['燕锋','靶场取消了。今天的考题是这栋楼——十二名持械“佣兵”，还有两名人质在里面。'],
 ['燕锋','Bravo-2 归你指挥，我跟你一起进。记住三件事：破门前先看门缝、人质优先、收得住手。'],
 ['旁白','第六幕 · 考核确认'],
@@ -5373,7 +5386,7 @@ function drgSpeaker(name){var S=DRG_SPK[name]||{g:(name||'？').charAt(0),role:'
  b.style.boxShadow='0 0 26px '+S.col+'55,inset 0 0 12px rgba(0,0,0,.62)';
  $('dWho').textContent=name==='旁白'?'旁白':name;$('dWho').style.color=S.col;
  $('dRole').textContent=S.role}
-function playDrama(){drgI=0;drgDone=false;drgT0=performance.now();drgL=0;drgBuf='';
+function playDrama(){drgI=0;drgDone=false;drgT0=performance.now();drgL=0;drgBuf='';drgScn='';
  $('dramaBox').classList.add('on');$('dOpts').innerHTML='';$('dNext').classList.remove('on');
  cancelAnimationFrame(drgR);drgType();drgR=requestAnimationFrame(drgLoop)}
 function drgEnd(){cancelAnimationFrame(drgR);drgDone=true;
@@ -5428,16 +5441,135 @@ function drgProg(){
  $('dTime').textContent=fmt(Math.floor((performance.now()-drgT0)/1000));
  var ch='',i;for(i=0;i<=drgI&&i<DRG.length;i++){var s=DRG[i];
   if(s&&!s.O&&!s.T&&/^第[一二三四五六]幕/.test(String(s[1])))ch=String(s[1]).split(' · ')[0]}
- $('dAct').textContent='猎鹰招募 · '+(ch||'序幕')}
+ $('dAct').textContent='猎鹰招募 · '+(ch||'序幕');
+ var scn=drgSceneOf(drgI);
+ if(scn!==drgScn){drgScn=scn;drgPaint(scn)}}
+var drgScn='',drgSzW=0;
+function drgSceneOf(i){
+ var sc='office',k,s;
+ for(k=0;k<=i&&k<DRG.length;k++){s=DRG[k];if(s&&typeof s!=='string'&&s[2])sc=s[2]}
+ return sc}
+function drgPaint(sc){
+ var cv=$('dArt');if(!cv||!cv.parentNode)return;
+ var r=cv.parentNode.getBoundingClientRect();
+ var W=Math.max(360,Math.round(r.width||900)),H=Math.max(240,Math.round(r.height||560));
+ var dpr=Math.min(2,window.devicePixelRatio||1);
+ cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+ var g=cv.getContext('2d');if(!g)return;
+ drgSzW=W;
+ g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+ if(sc==='range')drgArtRange(g,W,H);
+ else if(sc==='building')drgArtBlock(g,W,H);
+ else drgArtOffice(g,W,H);
+ var tg=$('dScnTag');
+ if(tg)tg.textContent={'office':'OFFICE · 三楼办公室','range':'FIRING RANGE · 室内靶道','building':'TRAINING BLOCK · 训练楼'}[sc]||''}
+/* 办公室：窗外晨雾 + 百叶、教官剪影、桌上只有编号的调令 */
+function drgArtOffice(g,W,H){
+ var gr=g.createLinearGradient(0,0,0,H);
+ gr.addColorStop(0,'#1d2830');gr.addColorStop(.62,'#111a20');gr.addColorStop(1,'#0a0f13');
+ g.fillStyle=gr;g.fillRect(0,0,W,H);
+ var wx=W*.58,wy=H*.13,ww=W*.30,wh=H*.34,y;
+ g.fillStyle='#22323d';g.fillRect(wx-10,wy-10,ww+20,wh+20);
+ var wg=g.createLinearGradient(0,wy,0,wy+wh);
+ wg.addColorStop(0,'#8fb2c4');wg.addColorStop(.55,'#5d8296');wg.addColorStop(1,'#3a5866');
+ g.fillStyle=wg;g.fillRect(wx,wy,ww,wh);
+ g.fillStyle='rgba(9,14,18,.55)';
+ for(y=wy+2;y<wy+wh;y+=9)g.fillRect(wx,y,ww,4);
+ g.strokeStyle='#1b2a34';g.lineWidth=5;g.strokeRect(wx,wy,ww,wh);
+ g.beginPath();g.moveTo(wx+ww/2,wy);g.lineTo(wx+ww/2,wy+wh);
+ g.moveTo(wx,wy+wh*.46);g.lineTo(wx+ww,wy+wh*.46);g.stroke();
+ var px=W*.34,py=H*.46;
+ g.fillStyle='#0e151a';
+ g.beginPath();g.arc(px,py-H*.10,H*.032,0,Math.PI*2);g.fill();
+ g.beginPath();g.moveTo(px-H*.075,py+H*.26);g.lineTo(px+H*.075,py+H*.26);
+ g.lineTo(px+H*.048,py-H*.086);g.lineTo(px-H*.048,py-H*.086);g.closePath();g.fill();
+ var lg=g.createRadialGradient(W*.20,H*.05,8,W*.22,H*.34,H*.50);
+ lg.addColorStop(0,'rgba(236,206,146,.30)');lg.addColorStop(1,'rgba(236,206,146,0)');
+ g.fillStyle=lg;g.fillRect(0,0,W,H);
+ g.fillStyle='#161e24';g.fillRect(W*.06,H*.66,W*.70,H*.12);
+ g.fillStyle='#222e36';g.fillRect(W*.06,H*.655,W*.70,H*.012);
+ g.fillStyle='rgba(236,230,208,.85)';g.fillRect(W*.26,H*.60,W*.085,H*.055);
+ g.fillStyle='rgba(236,230,208,.45)';g.fillRect(W*.37,H*.618,W*.06,H*.037);
+ g.fillStyle='#0f151a';g.fillRect(W*.60,H*.545,W*.085,H*.115);
+ g.fillStyle='rgba(150,196,214,.20)';g.fillRect(W*.612,H*.557,W*.061,H*.09);
+ g.fillStyle='#0b1114';g.fillRect(W*.44,H*.76,W*.07,H*.08);
+ g.fillStyle='rgba(0,0,0,.42)';g.fillRect(0,H*.80,W,H*.20)}
+/* 靶道：顶灯、透视地线、三个人形靶 */
+function drgArtRange(g,W,H){
+ var gr=g.createLinearGradient(0,0,0,H);
+ gr.addColorStop(0,'#182430');gr.addColorStop(.55,'#101a21');gr.addColorStop(1,'#080d11');
+ g.fillStyle=gr;g.fillRect(0,0,W,H);
+ var hz=H*.36,i,x,y;
+ for(i=0;i<4;i++){var lx=W*(.14+i*.24),lg=g.createRadialGradient(lx,H*.12,2,lx,H*.12,H*.32);
+  lg.addColorStop(0,'rgba(206,232,244,.32)');lg.addColorStop(1,'rgba(206,232,244,0)');
+  g.fillStyle=lg;g.fillRect(lx-H*.32,0,H*.64,H*.52);
+  g.fillStyle='rgba(222,242,250,.55)';g.fillRect(lx-16,H*.115,32,4)}
+ g.fillStyle='rgba(120,150,166,.05)';g.fillRect(0,hz,W,H-hz);
+ g.strokeStyle='rgba(150,184,200,.10)';g.lineWidth=1;
+ for(i=0;i<=10;i++){x=i/10*W;g.beginPath();g.moveTo(x,H);g.lineTo(W*.5+(x-W*.5)*.16,hz);g.stroke()}
+ for(i=1;i<=4;i++){y=hz+(H-hz)*Math.pow(i/4,1.6);g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
+ var xs=[.24,.50,.76],ys=[.46,.54,.50],ss=[.9,1.1,.95];
+ for(i=0;i<3;i++){
+  var cx=W*xs[i],cy=H*ys[i],rr=H*.03*ss[i];
+  g.fillStyle='#2b3742';
+  g.beginPath();g.arc(cx,cy-rr*2.4,rr,0,Math.PI*2);g.fill();
+  g.beginPath();g.moveTo(cx-rr*1.85,cy+rr*3.6);g.lineTo(cx+rr*1.85,cy+rr*3.6);
+  g.lineTo(cx+rr*1.05,cy-rr*1.3);g.lineTo(cx-rr*1.05,cy-rr*1.3);g.closePath();g.fill();
+  g.strokeStyle='rgba(196,222,236,.22)';g.lineWidth=1.5;
+  g.beginPath();g.arc(cx,cy+rr*.5,rr*1.15,0,Math.PI*2);g.stroke();
+  g.strokeStyle='rgba(226,126,96,.40)';
+  g.beginPath();g.arc(cx,cy+rr*.5,rr*.62,0,Math.PI*2);g.stroke();
+  g.fillStyle='rgba(226,126,96,.30)';
+  g.beginPath();g.arc(cx,cy+rr*.5,rr*.2,0,Math.PI*2);g.fill();
+  g.strokeStyle='rgba(160,190,206,.20)';g.beginPath();
+  g.moveTo(cx,cy+rr*3.6);g.lineTo(cx,cy+rr*4.8);g.stroke()}
+ g.fillStyle='rgba(226,196,132,.42)';g.fillRect(0,H*.80,W,3);
+ g.fillStyle='rgba(226,196,132,.05)';g.fillRect(0,H*.80,W,H*.05)}
+/* 训练楼：尽头透光的走廊 + 两扇门 */
+function drgArtBlock(g,W,H){
+ var gr=g.createLinearGradient(0,0,0,H);
+ gr.addColorStop(0,'#0f161b');gr.addColorStop(1,'#04070a');
+ g.fillStyle=gr;g.fillRect(0,0,W,H);
+ var vx=W*.5,vy=H*.44,i;
+ g.fillStyle='#131b21';
+ g.beginPath();g.moveTo(0,H);g.lineTo(vx-W*.11,vy);g.lineTo(vx+W*.11,vy);g.lineTo(W,H);g.closePath();g.fill();
+ g.strokeStyle='rgba(150,184,200,.11)';g.lineWidth=1;
+ for(i=0;i<=6;i++){var yf=vy+(H-vy)*Math.pow(i/6,1.6);g.beginPath();g.moveTo(0,yf);g.lineTo(W,yf);g.stroke()}
+ for(i=0;i<=8;i++){var xf=i/8*W;g.beginPath();g.moveTo(xf,H);g.lineTo(vx+(xf-vx)*.2,vy);g.stroke()}
+ var ds=[[.055,.17],[.775,.17]];
+ for(i=0;i<2;i++){var dx=W*ds[i][0],dw=W*ds[i][1],dy=vy+(H-vy)*.16,dh=(H-vy)*.50;
+  g.fillStyle='#070b0e';g.fillRect(dx,dy,dw,dh);
+  g.strokeStyle='#283742';g.lineWidth=3;g.strokeRect(dx,dy,dw,dh);
+  g.fillStyle='rgba(226,196,132,.16)';g.fillRect(dx+dw*.10,dy+6,dw*.80,2);
+  var sg=g.createLinearGradient(0,dy+dh,0,dy+dh+(H-vy)*.18);
+  sg.addColorStop(0,'rgba(226,196,132,.10)');sg.addColorStop(1,'rgba(226,196,132,0)');
+  g.fillStyle=sg;g.fillRect(dx-dw*.15,dy+dh,dw*1.3,(H-vy)*.18)}
+ var lg=g.createRadialGradient(vx,vy,2,vx,vy,H*.55);
+ lg.addColorStop(0,'rgba(206,232,244,.20)');lg.addColorStop(1,'rgba(206,232,244,0)');
+ g.fillStyle=lg;g.fillRect(0,0,W,H);
+ g.fillStyle='rgba(206,232,244,.30)';g.fillRect(vx-W*.028,vy-H*.13,W*.056,H*.13);
+ g.strokeStyle='rgba(150,184,200,.18)';g.lineWidth=2;
+ g.strokeRect(vx-W*.038,vy-H*.145,W*.076,H*.145);
+ g.fillStyle='rgba(206,232,244,.10)';g.fillRect(vx-W*.06,vy,W*.12,(H-vy)*.18)}
 var drgTick=0;
 function drgLoop(){if(drgDone)return;drgR=requestAnimationFrame(drgLoop);
  var seg=drgCur();
  if(++drgTick%18===0)$('dTime').textContent=fmt(Math.floor((performance.now()-drgT0)/1000));
+ if(drgTick%60===0){var cvv=$('dArt');
+  if(cvv&&cvv.parentNode){var rr=cvv.parentNode.getBoundingClientRect();
+   if(Math.abs(Math.round(rr.width)-drgSzW)>4)drgPaint(drgScn||'office')}}
  if(!seg||seg.O||seg.T)return;
  if(drgL<drgBuf.length){drgL+=1;$('dTxt').textContent=drgBuf.slice(0,drgL);
   if(drgL>=drgBuf.length)$('dNext').classList.add('on')}}
-function dStartExam(){show(null);
- ST.lv=7;brief2Exam()}
+/* 黑幕转场：先淡入黑，再切画面，最后淡出 */
+function fadeTo(fn){
+ var f=$('fadeOut');
+ if(!f){fn();return}
+ f.classList.add('on');
+ setTimeout(function(){
+  try{fn()}catch(e){}
+  setTimeout(function(){f.classList.remove('on')},140)},430)}
+function dStartExam(){fadeTo(function(){show(null);ST.lv=7;brief2Exam()})}
 /* SECTION: tutorial 新兵训练
    一座靶场里的 13 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
 var TUTS=[
