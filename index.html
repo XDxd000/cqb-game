@@ -771,6 +771,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 #dDossier .dsFoot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;
  border-top:1px solid #1a242c;padding-top:13px}
 #dDossier .dsHint{font-size:10.5px;color:#62798a;letter-spacing:.06em}
+#dDossier .dsBtns{display:flex;gap:8px;flex-wrap:wrap}
 #dramaBox:before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;
  background-image:linear-gradient(rgba(150,190,210,.05) 1px,transparent 1px),
   linear-gradient(90deg,rgba(150,190,210,.05) 1px,transparent 1px);
@@ -1465,7 +1466,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <h2 id="dsTtl">—</h2>
     <div id="dsBody"></div>
     <div class="dsFoot"><span class="dsHint">读完点右侧按钮，进入招募现场</span>
-      <button class="btn p" id="dsGo">进入招募现场</button></div>
+      <span class="dsBtns"><button class="btn" id="dsBack">返回</button>
+      <button class="btn p" id="dsGo">进入招募现场</button></span></div>
   </div></div>
   <div id="dStage">
     <div id="dWhoRow">
@@ -5832,6 +5834,11 @@ function drgStartStory(){
  $('dramaBox').classList.remove('bgmode');
  drgI=0;drgScn='';drgT0=performance.now();drgType();
  cancelAnimationFrame(drgR);drgR=requestAnimationFrame(drgLoop)}
+/* 从招收档案直接返回任务列表：不进入剧情，也不跳考核 */
+function drgQuit(){
+ cancelAnimationFrame(drgR);drgDone=true;
+ $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');
+ goMenu()}
 function drgEnd(){cancelAnimationFrame(drgR);drgDone=true;
  $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');dStartExam()}
 function drgType(){var seg=drgCur();
@@ -6601,9 +6608,13 @@ $('dSkip').addEventListener('click',function(e){e.preventDefault();snd.ui();
  toast('已跳过剧情 · 直接进入考核说明',2200);drgEnd()});
 (function(){var g=$('dsGo');if(!g)return;
  g.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();drgStartStory()})})();
+(function(){var b=$('dsBack');if(!b)return;
+ b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();drgQuit()})})();
 D.addEventListener('keydown',function(e){if(!$('dramaBox').classList.contains('on'))return;
+ var bg=$('dramaBox').classList.contains('bgmode');
+ if(bg&&(e.key==='Escape'||e.code==='Escape')){e.preventDefault();drgQuit();return}
  if(e.code==='Space'||e.key===' '||e.code==='Enter'||e.key==='Enter'){e.preventDefault();
-  if($('dramaBox').classList.contains('bgmode'))drgStartStory();else drgNext()}});
+  if(bg)drgStartStory();else drgNext()}});
 bind('bAlly',function(){ST.ally=ST.ally?0:1;save();brief()});
 function syncHint(){['bHint','bHint2'].forEach(function(id){var el=$(id);if(!el)return;
   el.textContent='键位提示：'+(ST.hint?'开':'关');el.classList.toggle('on',!!ST.hint)});
