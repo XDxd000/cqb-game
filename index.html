@@ -1260,6 +1260,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div class="seg"><button id="bSetUiA">自动</button><button id="bSetUiK">键鼠</button><button id="bSetUiT">触屏</button></div></div>
     <div class="setRow"><div><b>新兵训练</b><i>重打一遍靶场教学：不扣分、不给分、不动进度</i></div>
       <button class="btn sm" id="bSetTut">重新训练</button></div>
+    <div class="setRow"><div><b>剧情与战役进度</b><i>清空剧情通关、区域解锁与成绩记录，从 OP-01 重新推一遍（军衔分与已解锁枪械保留）</i></div>
+      <button class="btn sm" id="bResetStory">重置进度</button></div>
     <div class="setRow"><div><b>排行榜服务器</b><i id="setApiTxt">尚未接通</i></div>
       <button class="btn sm" id="bSetApi">配置</button></div>
   </div>
@@ -2448,7 +2450,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
- swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,diff:5,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,op:'norm',
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2471,6 +2473,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
  if(jd&&jd.mg&&typeof jd.mg==='object')ST.mag=jd.mg;
  if(jd&&jd.at&&typeof jd.at==='object')ST.att=jd.at;
  if(jd&&jd.t0)ST.t0=+jd.t0||0;
+ if(jd&&jd.sv)ST.sv=jd.sv|0;
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
   if(jd&&jd.df)ST.diff=jd.df;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
@@ -2490,6 +2493,12 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.hr)ST.hero=1;
  if(jd&&jd.op==='hero')ST.op='hero';
   if(jd&&jd.tcf)ST.tcfraw=jd.tcf;}}catch(e){}
+/* ---- 剧情版本：这个数字加一，所有玩家的剧情与战役进度会在下次打开时重置 ---- */
+var STORY_VER=2;
+function storyReset(){
+ ST.hero=0;ST.storyDone=0;ST.unl=1;ST.best={};ST.clr=[];
+ ST.swp=null;ST.swpN=0;ST.op='norm';ST.inStory=0;ST.sv=STORY_VER;save()}
+if((ST.sv|0)<STORY_VER){storyReset();W.__sr=1}
 /* 玩家唯一标识：排行榜靠它区分同名玩家，并把同一个人的多次上传合并成一行 */
 function mkPid(){var s='',a='abcdefghijkmnpqrstuvwxyz23456789',i;
  for(i=0;i<12;i++)s+=a.charAt((Math.random()*a.length)|0);
@@ -2515,7 +2524,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
- sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -3420,6 +3429,19 @@ bindT('tCov',function(){com('cov')});
 /* SECTION: actions */
 function toast(s,ms){var e=$('roes');e.textContent=s;e.style.opacity='1';
  clearTimeout(toast.t);toast.t=setTimeout(function(){e.style.opacity='0'},ms||2300)}
+/* 全局提示条：不依赖 HUD，菜单里也看得见 */
+function showNotice(t){
+ try{
+  if(W.__noticeEl){try{W.__noticeEl.remove()}catch(e){};W.__noticeEl=null}
+  var b=D.createElement('div');
+  b.style.cssText='position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:998;'+
+   'max-width:min(680px,92vw);cursor:pointer;background:rgba(12,20,26,.97);border:1px solid #2b4152;'+
+   'border-left:2px solid #a8dcff;border-radius:8px;padding:11px 15px;font-size:12px;color:#cfe0ea;'+
+   'line-height:1.75;box-shadow:0 14px 38px rgba(0,0,0,.55)';
+  b.innerHTML=t+'<span style="display:block;margin-top:5px;font-size:10.5px;color:#7f939f">点此关闭</span>';
+  b.onclick=function(){try{b.remove()}catch(e){};if(W.__noticeEl===b)W.__noticeEl=null};
+  D.body.appendChild(b);W.__noticeEl=b;
+  setTimeout(function(){try{b.remove()}catch(e){};if(W.__noticeEl===b)W.__noticeEl=null},15000)}catch(e){}}
 function feed(txt,good){var f=$('feed'),r=mk('div','frow'+(good?' g':''));r.textContent=txt;
  f.insertBefore(r,f.firstChild);while(f.children.length>6)f.removeChild(f.lastChild);
  setTimeout(function(){if(r.parentNode)r.parentNode.removeChild(r)},5600)}
@@ -6556,6 +6578,15 @@ bind('bSetUiA',function(){ST.ui='auto';save();applyUI()});
 bind('bSetUiK',function(){ST.ui='kb';save();applyUI()});
 bind('bSetUiT',function(){ST.ui='touch';save();applyUI()});
 bind('bSetTut',function(){if(!ST.name){askName();return}startTut()});
+bind('bResetStory',function(){var b=$('bResetStory');
+ if(b&&b.getAttribute('data-arm')==='1'){
+  b.removeAttribute('data-arm');b.textContent='重置进度';
+  storyReset();renderLv();
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始，通过 OP-06 后重新解锁英雄队员与国产枪族。');
+  goMenu();return}
+ if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
+ setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
+  b.removeAttribute('data-arm');b.textContent='重置进度'}},4000)});
 bind('bSetApi',lbAskCfg);
 bind('bBriefSet',function(){var e=$('briefSet');if(e)e.classList.toggle('hidden')});
 bind('bBriefBoard',openBoard);
@@ -6613,6 +6644,8 @@ function toast2(s){toast(s,1800)}
   D.addEventListener('touchstart',un,true);D.addEventListener('pointerdown',un,true);
   D.addEventListener('click',un,true)})();
 resize();setScr('boot');renderLv();showDtl();updHint();
+if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
+ '请从 OP-01 开始重新推进五个区域，并通过 OP-06「猎鹰招募」——通过后英雄队员「燕锋」与国产枪族会一并重新解锁。军衔分、已授权解锁的枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
