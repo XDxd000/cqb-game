@@ -226,6 +226,22 @@ body.noc #hud,body.noc #hud *{cursor:none}
  border:1px solid #3b4a55;color:#93a3b0;background:rgba(147,163,176,.10);
  font-size:11.5px;letter-spacing:.06em;white-space:nowrap}
 .ttl u{text-decoration:none;font-size:8.5px;opacity:.7;letter-spacing:.12em}
+/* 多头衔：小胶囊横排，限宽两行内，避免撑破表格 */
+.ttlWrap{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;max-width:190px;vertical-align:middle}
+.ttlWrap .ttl.x{font-size:9.5px;padding:1px 6px;letter-spacing:.02em;line-height:1.6}
+.ttlWrap .ttl.x.dev{letter-spacing:.04em;box-shadow:0 0 0 1px rgba(255,215,106,.22),0 0 10px rgba(255,215,106,.3)}
+.ttlWrap .ttl.x.tester{color:#bfe4ff}
+/* 难度选择条 */
+.diffRow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 0 4px;
+ padding:9px 11px;border:1px solid #24323d;border-radius:6px;background:rgba(12,18,23,.6)}
+.diffRow.hidden{display:none}
+.diffRow .dfL{font-size:9.5px;letter-spacing:.2em;color:#7d93a6;margin-right:4px}
+.diffRow .dfB{padding:5px 12px;font-size:11.5px;border-radius:4px;cursor:pointer;
+ border:1px solid #2f4048;background:linear-gradient(180deg,#151e25,#0d1317);color:#9fb2bf}
+.diffRow .dfB:hover{border-color:#93ac6d;color:#dce7ee}
+.diffRow .dfB.on{border-color:#93ac6d;color:#eaf6dc;background:linear-gradient(180deg,#2b3a24,#16201a);
+ box-shadow:0 0 0 1px rgba(147,172,109,.18)}
+.diffRow .dfD{flex:1 1 100%;font-size:10px;color:#6d818d;letter-spacing:.02em}
 .ttl.none{border-style:dashed;color:#5f7079;background:none}
 .ttl.gold{border-color:#8a6a2c;color:#f5d182;font-weight:700;letter-spacing:.12em;
  background:linear-gradient(180deg,rgba(245,209,130,.24),rgba(226,169,62,.07));
@@ -2175,6 +2191,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2190,6 +2207,11 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&typeof jd.lb==='string')ST.lbapi=jd.lb;
   if(jd&&jd.dv)ST.dev=1;
   if(jd&&jd.ml&&jd.ml.length)ST.mail=jd.ml.slice(0,30);
+  if(jd&&jd.sd)ST.storyDone=1;
+  if(jd&&jd.cl&&jd.cl.length===5)ST.clr=jd.cl;
+  if(jd&&jd.hl&&jd.hl.length)ST.heroLoad=jd.hl;
+  if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
+  if(jd&&jd.df)ST.diff=jd.df;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
    return (x==='frag'||x==='stun'||x==='flash')?x:''});
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
@@ -2218,11 +2240,11 @@ function tierPk(){return tierOf(ST.xpm)}
 function rankPk(){return rankOf(ST.xpm)}
 function gunOk(id){var o=WM[id];if(!o)return false;
  if(RANGEMODE)return true;          /* 训练场：全部枪械开放 */
- if(o.hero)return ST.hero===1;
- /* 国产枪族：只能在剧情任务里现场使用；用过的永久解锁（少校授权不能替代） */
+ /* 国产枪族：剧情任务内可直接使用；通关剧情后全部永久解锁 */
  if(/国产/.test(o.cn||'')){
   if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
-  return !!(ST.hw&&ST.hw[id])}
+  return ST.storyDone===1}
+ if(o.hero)return ST.hero===1;
  if(ST.hw&&ST.hw[id])return true;    /* 少校授权（仅非国产装备） */
  return (o.tk==null?0:o.tk)<=tierPk()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
@@ -2231,6 +2253,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -2610,7 +2633,18 @@ function paintTrim(g,c,FU,ws){var i,d;
    g.fillRect(d[0]-3,d[1]+d[3],d[2]+6,2);
    g.fillStyle='rgba(0,0,0,.35)';g.fillRect(d[0]+d[2]/2-1,d[1],2,d[3]);
    g.fillStyle='rgba(180,190,200,.10)';g.fillRect(d[0]+d[2]/2-2,d[1]+2,4,d[3]-4)}}}
-function build(idx,ovr){var c=ovr||LS6[clamp(idx,1,7)-1],ws=[],raw=c.wl([]),k,rnd=rngOf(c.sd);
+function build(idx,ovr){
+ var c0=ovr||LS6[clamp(idx,1,7)-1],c=c0,ck;
+ /* 难度：只作用于普通作战任务；剧情／教学／训练场固定标准强度 */
+ if(!c0.recruit&&!c0.tutorial&&!c0.range){
+  var DFd=diffDef(ST.diff);
+  c={};for(ck in c0)c[ck]=c0[ck];
+  c.acc=(c0.acc||1)*DFd.acc;
+  c.ehp=(c0.ehp||1)*DFd.hp;
+  c.par=diffPar(c0,DFd.k);
+  c.diff=DFd.k;
+ }
+ var ws=[],raw=c.wl([]),k,rnd=rngOf(c.sd);
  THc=TH[c.th];L=null;
  for(k=0;k<raw.length;k++){var rr=raw[k];if(rr[2]>0&&rr[3]>0)ws.push({x:rr[0],y:rr[1],w:rr[2],h:rr[3]})}
  var base=D.createElement('canvas');base.width=c.W;base.height=c.H;
@@ -2757,6 +2791,8 @@ g.restore();
  rebuildCW();
  var guns=[WM[ST.load[0]]&&gunOk(ST.load[0])?WM[ST.load[0]]:WM.m4a1,
   WM[ST.load[1]]&&gunOk(ST.load[1])?WM[ST.load[1]]:WM.g19];
+ /* 剧情任务：统一配发国产枪族（与普通作战任务的装备体系分离） */
+ if(c.recruit)guns=[WM.qbz191||WM.m4a1,WM.qsz19||WM.g19];
  var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20);
  var brc=ST.gd.breach|0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
@@ -2773,6 +2809,26 @@ g.restore();
   G.p.bl=beltCounts();
   G.p.actItem=firstThrow(G.p);
 }
+
+/* SECTION: difficulty 五个难度档 */
+var DIFF=[
+ {k:1,n:'新兵',s:'轻松',xp:.8,acc:.85,hp:.85,t:1.35,d:'敌人反应慢、血量低，时限最宽松'},
+ {k:2,n:'常规',s:'标准',xp:1.0,acc:1.0,hp:1.0,t:1.15,d:'标准交战强度'},
+ {k:3,n:'老兵',s:'困难',xp:1.3,acc:1.12,hp:1.15,t:1.0,d:'敌人更准、更耐打'},
+ {k:4,n:'精英',s:'极难',xp:1.6,acc:1.24,hp:1.30,t:.9,d:'高反应高精度，补枪要快'},
+ {k:5,n:'噩梦',s:'地狱',xp:2.0,acc:1.38,hp:1.50,t:.8,d:'通关此档才能解锁下一区域'}
+];
+function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[1]}
+function diffOf(r){return r&&r.k||2}
+/* 通关记录：ST.clr[地图-1] 是 5 位位掩码 */
+function clrMask(m){ST.clr=ST.clr||[];return ST.clr[m-1]|0}
+function isCleared(m,d){return (clrMask(m)&(1<<((d||1)-1)))!==0}
+function markClear(m,d){
+ ST.clr=ST.clr||[];
+ ST.clr[m-1]=(ST.clr[m-1]|0)|(1<<((d||1)-1));
+ if((d||1)>=5&&m<7)ST.unl=Math.max(ST.unl,m+1);
+ save()}
+function diffPar(c,d){return Math.max(40,Math.round((c.par||120)*diffDef(d).t))}
 
 /* SECTION: collision */
 var CW=[],CWo=null;
@@ -3386,6 +3442,10 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
      if(Math.hypot(e.x-p.x,e.y-p.y)<140)dmgPlayer(8)}}
    continue}
   if(e.stun>0){e.stun-=dt;e.vx=e.vy=0;continue}
+  /* 致盲：震爆/闪光之后一段时间完全无法行动（不移动、不转向、不开火） */
+  if(e.blind>0){e.blind-=dt;e.vx=e.vy=0;e.canSee=0;e.sw=Math.max(e.sw,0);
+   if(e.blind<=0){e.blind=0}
+   continue}
   /* 躲闪（躲雷 / 躲子弹）：向远离威胁的方向快速侧移，期间不开火 */
   if(e.dodgeT>0){e.dodgeT-=dt;
    var ddz=Math.hypot(e.dx-e.x,e.dy-e.y);
@@ -3605,11 +3665,24 @@ function stunBurst(x,y,t){t=t||throwDef('stun');snd.boom();tone(1800,400,.25,'sq
   var d2=Math.hypot(e.x-x,e.y-y);
   if(d2<t.r&&los(x,y,e.x,e.y)){
    e.stun=Math.max(e.stun||0,t.stun*(1-d2/t.r)+.7);
+   e.blind=Math.max(e.blind||0,t.stun*(1-d2/t.r)+1.0);
    e.alert=1;e.st='alert';e.rt=1.2;e.hx=e.x;e.hy=e.y;
-   if(t.dmg)hitEnemy(e,t.dmg*(1-d2/t.r),0)}}
+   e.vx=e.vy=0;
+   if(t.dmg)hitEnemy(e,t.dmg*(1-d2/t.r),0)}
+  if(d2<t.r*1.25)enemyBlindShout(e,d2<t.r)}
  var dp=Math.hypot(G.p.x-x,G.p.y-y);
  if(dp<t.r*.8){G.p.aimT=Math.max(G.p.aimT,1.1);shake=Math.max(shake,10)}
  noiseAt(x,y,t.r+220);feed('M84 震爆：'+t.stun.toFixed(1)+' 秒致眩',1)}
+/* 被震爆/闪光波及的敌人：抱头喊叫 + 短暂失能 */
+var BLIND_SHOUT=['我的眼睛！','看不见了——','闪光！捂脸！！','耳朵嗡嗡的……','谁把灯关了！','我瞎了！掩护我！'];
+function enemyBlindShout(e,hit){
+ if(!e||e.dead||e.sub>0)return;
+ if(e.shoutT&&G.t-e.shoutT<2.2)return;
+ e.shoutT=G.t;
+ var nm=ename(e)||'佣兵';
+ say(nm,BLIND_SHOUT[(Math.random()*BLIND_SHOUT.length)|0],hit?'#ffd76a':'#c9b98a');
+ if(Math.random()<.7)feed(nm+(hit?' 被震得捂脸大叫':' 那边传来喊叫'),0);
+ noiseAt(e.x,e.y,260)}
 function flashBurst(x,y,t){t=t||throwDef('flash');snd.boom();tone(2400,500,.3,'square',.12);
  burst(x,y,ST.low?8:18,'#fff6d8',340,420);
  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
@@ -3617,7 +3690,9 @@ function flashBurst(x,y,t){t=t||throwDef('flash');snd.boom();tone(2400,500,.3,'s
   var d2=Math.hypot(e.x-x,e.y-y);
   if(d2<t.r&&los(x,y,e.x,e.y)){
    e.stun=Math.max(e.stun||0,t.stun*(1-d2/t.r)+.9);
-   e.alert=1;e.st='alert';e.rt=1.4;e.hx=e.x;e.hy=e.y}}
+   e.blind=Math.max(e.blind||0,t.stun*(1-d2/t.r)+1.4);
+   e.alert=1;e.st='alert';e.rt=1.4;e.hx=e.x;e.hy=e.y;e.vx=e.vy=0}
+  if(d2<t.r*1.25)enemyBlindShout(e,d2<t.r)}
  if(G.al)for(i=0;i<G.al.length;i++){var al=G.al[i];
   if(!al.down&&Math.hypot(al.x-x,al.y-y)<t.r*.6)al.sw=Math.max(al.sw,.6)}
  var dp2=Math.hypot(G.p.x-x,G.p.y-y);
@@ -4739,8 +4814,9 @@ var LB={api:'https://cqb-roster.pages.dev/api',data:null,ts:0,busy:0,off:'',last
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。
    g:'tester' = 游戏体验官（预留色，仅手工授予） */
 var TITLES={
- /* 开发者：由开发者在对话中确认后手工写入（全班可见） */
- '小迪不是叉滴':{n:'开发者',g:'dev'},
+ /* 开发者：由开发者在对话中确认后手工写入（全班可见）
+    t 为可叠加的头衔数组，按顺序显示；g 缺省则按军功自动定级 */
+ '小迪不是叉滴':{t:[['开发者','dev'],['体验官','tester']]},
  /* 游戏体验官名单：新测试玩家加入后把代号加在这里，例如
     '同学代号':{n:'游戏体验官',g:'tester'}, */
 };
@@ -4775,15 +4851,26 @@ function tcol(k){
 function titleOf(r){
  var m=meritOf(r);
  /* 开发者头衔：只认本机（ST.dev 由本机浏览器写入） */
- if(ST.dev&&r.id===ST.pid)return {n:'开发者',g:'dev',manual:1,merit:m};
+ if(ST.dev&&r.id===ST.pid)return {n:'开发者',g:'dev',titles:[['开发者','dev']],manual:1,merit:m};
  var t=TITLES[r.id]||TITLES[r.nm];
- if(t&&t.n){var g=t.g&&tcol(t.g)?t.g:autoGrade(m);
-  return {n:t.n,g:g,manual:1,merit:m}}
+ if(t){
+  var list=[];
+  if(t.t&&t.t.length)list=t.t.slice();
+  else if(t.n)list=[[t.n,t.g||autoGrade(m)]];
+  if(list.length){
+   var g0=(list[0][1]&&tcol(list[0][1]))?list[0][1]:autoGrade(m);
+   return {n:list[0][0],g:g0,titles:list,manual:1,merit:m}}}
  /* 元勋：晋升到上校（最高军衔）即自动获得 */
  if(rankOf(Math.max(r.xp|0,r.xm|0))>=RKLAD.length-1)
-  return {n:'元勋',g:'gold',manual:0,merit:m};
+  return {n:'元勋',g:'gold',titles:[['元勋','gold']],manual:0,merit:m};
  var ag=autoGrade(m);
- return {n:tcol(ag).s,g:ag,manual:0,merit:m}}
+ return {n:tcol(ag).s,g:ag,titles:[[tcol(ag).s,ag]],manual:0,merit:m}}
+/* 多头衔渲染：单个用大胶囊，多个用小胶囊横排 */
+function ttlHTML(t){
+ var list=(t.titles&&t.titles.length)?t.titles:[[t.n,t.g]],h='',i;
+ if(list.length<=1)return '<span class="ttl '+esc(list[0][1])+'">'+esc(list[0][0])+'</span>';
+ for(i=0;i<list.length;i++)h+='<span class="ttl x '+esc(list[i][1])+'">'+esc(list[i][0])+'</span>';
+ return '<span class="ttlWrap">'+h+'</span>'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function lbApi(){return (ST.lbapi||LB.api||'').replace(/\/+$/,'')}
@@ -4843,7 +4930,7 @@ function lbRender(){
    xp=r.xp|0,xm=Math.max(r.xp|0,r.xm|0),rk=rankOf(xp),pk=rankOf(xm);
   h+='<tr'+(me?' class="me"':'')+'>';
   h+='<td class="no'+(i===0?' g1':i===1?' g2':i===2?' g3':'')+'">'+(i+1)+'</td>';
-  h+='<td><span class="ttl '+t.g+'">'+esc(t.n)+'</span></td>';
+  h+='<td>'+ttlHTML(t)+'</td>';
   h+='<td class="nm">'+esc(r.nm)+(me?' <i>你</i>':'')+'</td>';
   h+='<td class="rk"><b>'+RKLAD[rk][0]+'</b></td>';
   h+='<td class="rk hideSm">'+RKLAD[pk][0]+(pk>rk?' <span class="dim">↓</span>':'')+'</td>';
@@ -4939,22 +5026,36 @@ function lvLockWhy(i){var c=LS[i];
  return ''}
 /* ---- AI 扫荡：通关后可派 AI 小队按基准时间清剿 ----
    归队时间到了就自动结算经验并发一封行动简报邮件，玩家在别的任务里也不耽误 */
-function sweepXp(i){return 40+i*22}
-function sweepSlot(v){return ST.swp&&ST.swp[v]}
-function startSweep(v){ST.swp=ST.swp||{};ST.swp[v]=Date.now()+LS[v-1].par*1000;save();renderLv();
- toast('AI 小队出发扫荡 OP-0'+v+' · '+fmt(LS[v-1].par)+' 后自动归队并寄回简报（期间可照常打别的任务）',3600)}
-function collectSweep(v){var xp=sweepXp(v-1);if(ST.swp)delete ST.swp[v];save();addXp(xp);
+function sweepXp(i,d){return Math.round((40+i*22)*diffDef(d||1).xp)}
+function swpKey(v,d){return v+'|'+(d||1)}
+function swpToday(){
+ var d=new Date(),k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+ if(ST.swpDay!==k){ST.swpDay=k;ST.swpN=0;save()}
+ return ST.swpN|0}
+function swpLeft(){return Math.max(0,3-swpToday())}
+function sweepSlot(v,d){return ST.swp&&ST.swp[swpKey(v,d)]}
+function sweepAny(){var k,n=0;for(k in (ST.swp||{}))n++;return n}
+function startSweep(v,d){
+ d=d||ST.diff||1;
+ if(!isCleared(v,d)){toast('该难度还没通关 · 不能派 AI 扫荡',2800);return}
+ if(swpLeft()<=0){toast('今日扫荡 3 次已用完 · 每日 00:00（北京时间）刷新',3200);return}
+ var par=diffPar(LS6[v-1],d);
+ ST.swp=ST.swp||{};
+ ST.swp[swpKey(v,d)]=Date.now()+par*1000;
+ swpToday();ST.swpN=(swpToday()+1);save();renderLv();
+ toast('AI 小队出发 · OP-0'+v+' '+diffDef(d).n+' · '+fmt(par)+' 后自动归队（今日剩余 '+swpLeft()+' 次）',3800)}
+function collectSweep(v,d){var xp=sweepXp(v-1,d);if(ST.swp)delete ST.swp[swpKey(v,d)];save();addXp(xp);
  toast('AI 扫荡归队 · 经验 +'+xp,2600);renderLv()}
 function sweepTick(){
  if(!ST.swp)return 0;
  var k,now=Date.now(),done=[];
- for(k in ST.swp){if(now>=ST.swp[k]){done.push(+k);delete ST.swp[k]}}
+ for(k in ST.swp){if(now>=ST.swp[k]){var pt=k.split('|');done.push({v:+pt[0],d:+(pt[1]||1)});delete ST.swp[k]}}
  if(!done.length)return 0;
  save();
- done.forEach(function(v){
-  var xp=sweepXp(v-1),c=LS[v-1]||{code:'OP-0'+v,nm:'未知区域',par:120};
+ done.forEach(function(it){
+  var xp=sweepXp(it.v-1,it.d),c=LS6[it.v-1]||{code:'OP-0'+it.v,nm:'未知区域',par:120};
   addXp(xp);
-  addMail({kind:'sweep',lv:v,xp:xp,code:c.code,nm:c.nm,par:c.par,
+  addMail({kind:'sweep',lv:it.v,diff:it.d,xp:xp,code:c.code,nm:c.nm,par:c.par,
    squad:'Bravo-2 突击 · Bravo-3 精确'})
  });
  return done.length}
@@ -5027,7 +5128,7 @@ function openMailBack(){
  $('mlList').classList.remove('hidden');
  renderMail()}
 function sweepLabels(){var btns=document.querySelectorAll('.swp'),i;
- for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv'),s=sweepSlot(v);
+ for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv'),s=sweepSlot(v,ST.diff||1);
   if(!s)continue;var left=s-Date.now();
   if(left>0){b.textContent='扫荡中 '+fmt(left/1000);b.disabled=true;b.classList.add('on')}}}
 setInterval(function(){
@@ -5065,13 +5166,16 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   /* 通关后可派 AI 扫荡 */
   if(bb){
    var rowS=mk('div','cardRow');
-   var s=sweepSlot(i+1),sb=mk('button','btn sm swp');
+   var sd=ST.diff||1,s=sweepSlot(i+1,sd),sb=mk('button','btn sm swp');
    sb.setAttribute('data-lv',''+(i+1));
-   if(!s){sb.textContent='AI 扫荡 +'+sweepXp(i)+'（'+fmt(c.par)+'）';
-    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();aInit();snd.ui();startSweep(i+1)})}
+   if(!isCleared(i+1,sd)){
+    sb.textContent='AI 扫荡（需先通关'+diffDef(sd).n+'）';sb.disabled=true;sb.classList.add('dis');
+   }else if(!s){
+    sb.textContent='AI 扫荡 +'+sweepXp(i,sd)+'（'+fmt(diffPar(c,sd))+'）';
+    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();aInit();snd.ui();startSweep(i+1,sd)})}
    else if(Date.now()<s){sb.textContent='扫荡中 '+fmt((s-Date.now())/1000);sb.disabled=true;sb.classList.add('on')}
-   else{sb.textContent='领取扫荡经验 +'+sweepXp(i);
-    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();snd.ui();collectSweep(i+1)})}
+   else{sb.textContent='领取扫荡经验 +'+sweepXp(i,sd);
+    sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();snd.ui();collectSweep(i+1,sd)})}
    rowS.appendChild(sb);
    /* 再次游玩：直接重开这一关（不影响扫荡计时） */
    var rb=mk('button','btn sm rep');rb.textContent='再次游玩';
@@ -5310,6 +5414,7 @@ function submitName(v){v=String(v||'').replace(/\s+/g,' ').trim().slice(0,12);
  else{aInit();startTut()}}
 function brief2Exam(){leaveRange();
  show('sBrief');setScr('brief');
+ var dr0=$('diffRow');if(dr0)dr0.classList.add('hidden');
  var go0=$('bGo');if(go0)go0.textContent='进入战场';
  var c=LS6[6];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
  renderWho('你 · Bravo-2 突击（实弹环境）');
@@ -5327,6 +5432,19 @@ function renderWho(squad){
  w.innerHTML='<span class="cmd"><span class="lbl">行动指挥官</span><b>'+nm+'</b>'+
   '<span class="rk">'+rankName(ST.xp)+'</span></span>'+
   '<span class="sq">编队 · '+(squad||'你一人')+'</span>'}
+/* 难度选择条：简报页底部一行 5 档 */
+function renderDiffRow(){
+ var bp=$('bGo');if(!bp||!bp.parentNode)return;
+ var dr=$('diffRow');
+ if(!dr){dr=mk('div','diffRow');dr.id='diffRow';bp.parentNode.insertBefore(dr,bp)}
+ dr.classList.remove('hidden');dr.innerHTML='<span class="dfL">难度</span>';
+ DIFF.forEach(function(d){
+  var b=mk('button','dfB'+(ST.diff===d.k?' on':''));
+  b.textContent=d.n;b.title=d.d;
+  b.addEventListener('click',function(e){e.preventDefault();snd.ui();ST.diff=d.k;save();
+   if(ST.rangeSel)briefRange();else brief()});
+  dr.appendChild(b)});
+ var dl=mk('span','dfD');dl.textContent=diffDef(ST.diff).d;dr.appendChild(dl)}
 /* ---- 训练场：完成新兵训练后开放的自由练习沙盒 ---- */
 function openRange(){
  if(ST.tut!==1){toast('完成新兵训练后才能进入训练场',2800);return}
@@ -5391,8 +5509,9 @@ function brief(){var c=LS6[ST.lv-1];
  $('fE').textContent=tot+' 人'+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv);
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
  $('fH').textContent=c.hint+'（当前主武器：'+WM[ST.load[0]].n+'）';
- $('fP').textContent=fmt(c.par)+' 内完成为满分基准';
+ $('fP').textContent=fmt(diffPar(c,ST.diff))+' 内完成为满分基准（'+diffDef(ST.diff).n+'）';
  $('fG').textContent=c.roe;
+ renderDiffRow();
  var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
  var cs=loadLv(ST.lv),cb=$('bCont');
  if(cs){cb.classList.remove('hidden');
@@ -5467,7 +5586,14 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  ST.tk=(ST.tk||0)+G.killed;
  /* 军衔分：胜利加分，失败按难度扣分。峰值 xpm 只增不减，所以扣分不会回收任何装备 */
  var rk0=rankOf(G.xp0==null?ST.xp:G.xp0),delta;
- if(win){delta=110+stv*30;addXp(delta)}
+ var DF=diffDef((L.cfg&&L.cfg.diff)||1);
+ if(win){delta=Math.round((110+stv*30)*DF.xp);addXp(delta);
+  if(L.cfg&&!L.cfg.recruit&&!L.cfg.tutorial&&!L.cfg.range){
+   var wasTop=isCleared(ST.lv,5);
+   markClear(ST.lv,DF.k);
+   if(DF.k>=5&&!wasTop){
+    toast('噩梦难度通关 · '+(ST.lv<6?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
+    feed('难度成就：噩梦通关',1)}}}
  else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
  var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0;
  $('r7').textContent=RKLAD[rk0][0]+(up||dn?(' → '+RKLAD[rk1][0]):'')+
@@ -5484,7 +5610,8 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
   (ST.xpm>ST.xp?('（峰值 '+RKLAD[rankPk()][0]+'）'):''));
  $('bNext').classList.toggle('hidden',!(win&&ST.lv<6));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
- if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;save();
+ if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;ST.storyDone=1;save();
+  try{toast('剧情完成 · 国产枪族全部解锁',3200)}catch(e){}
   $('rTtl').textContent='猎鹰招募通过 · QBZ-191 与英雄队员「燕锋」已解锁';}
  if(win){ST.unl=Math.min(6,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
