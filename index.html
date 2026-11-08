@@ -3755,13 +3755,13 @@ function updVis(dt){if(!G||!L)return;
  /* 小地图只显示真正「看到过」的东西：必须有过视线，穿墙不算 */
  for(i=0;i<L.en.length;i++){o=L.en[i];if(o.dead)continue;
   o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<130||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
  for(i=0;i<L.civ.length;i++){o=L.civ[i];if(o.down)continue;
   o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<110||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
  for(i=0;i<L.cr.length;i++){o=L.cr[i];
   o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<150||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40))o._seen=1}}
+  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}}
 /* 门洞机关：绊雷在有人跨过洞口时起爆（可叠加伤害）；阻门器由爆炸摧毁 */
 function inDoor(o,d){return o.x>d.x-6&&o.x<d.x+d.w+6&&o.y>d.y-6&&o.y<d.y+d.h+6}
 function doorTick(dt){if(!L)return;var i,j;
@@ -4754,13 +4754,13 @@ function updHud(){var p=G.p,g=cur(),i;
  var mw=$('mm').width,mh=$('mm').height,s2=L.sc;
  mmCtx.clearRect(0,0,mw,mh);mmCtx.drawImage(L.mmc,0,0);
  for(i=0;i<L.cr.length;i++){if(L.cr[i].got||!L.cr[i]._seen)continue;mmCtx.fillStyle='#9fb46e';
-  mmCtx.fillRect(L.cr[i].x*s2-1.6,L.cr[i].y*s2-1.6,3.2,3.2)}
+  mmCtx.fillRect((L.cr[i]._sx!=null?L.cr[i]._sx:L.cr[i].x)*s2-1.6,(L.cr[i]._sy!=null?L.cr[i]._sy:L.cr[i].y)*s2-1.6,3.2,3.2)}
  for(i=0;i<L.civ.length;i++){var cc=L.civ[i];if(!cc._seen)continue;
   mmCtx.fillStyle=cc.down?'#8a4038':(cc.f?'#8ee08e':'#d9c87a');
-  mmCtx.fillRect(cc.x*s2-1.8,cc.y*s2-1.8,3.6,3.6)}
+  mmCtx.fillRect((cc._sx!=null?cc._sx:cc.x)*s2-1.8,(cc._sy!=null?cc._sy:cc.y)*s2-1.8,3.6,3.6)}
  for(i=0;i<L.en.length;i++){var ee=L.en[i];if(ee.dead||!ee._seen)continue;
   mmCtx.fillStyle=ee.sub>0?'#e6d78a':(ee.tp==='boss'?'#ff5a4a':(ee.tp==='sniper'?'#7fd0ff':'#e06a52'));
-  mmCtx.fillRect(ee.x*s2-2,ee.y*s2-2,4,4)}
+  mmCtx.fillRect((ee._sx!=null?ee._sx:ee.x)*s2-2,(ee._sy!=null?ee._sy:ee.y)*s2-2,4,4)}
  mmCtx.fillStyle=G.exitOpen?'rgba(140,224,142,.45)':'rgba(120,130,135,.25)';
  mmCtx.fillRect(G.exit[0]*s2,G.exit[1]*s2,G.exit[2]*s2,G.exit[3]*s2);
  if(G.al)for(i=0;i<G.al.length;i++){var ag=G.al[i];if(ag.down)continue;
