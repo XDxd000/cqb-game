@@ -1539,7 +1539,7 @@ function renderPbar(){
  else if(bd)bd.innerHTML=rankBadgeSvg(pk)}
 function toggleRank(force){
  var el=$('rankCard'),b=$('bRank');if(!el)return;
- var open=force==null?!el.classList.contains('hidden'):!!force;
+ var open=(force===undefined||force===null)?el.classList.contains('hidden'):!!force;
  el.classList.toggle('hidden',!open);
  if(open)renderRank();
  if(b)b.setAttribute('aria-expanded',open?'true':'false');
