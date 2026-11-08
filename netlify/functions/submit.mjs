@@ -1,8 +1,8 @@
 // 战术突袭 · 战绩上报（Netlify Functions v2）
-// 路由：POST /api/submit  存储：Netlify Blobs
+// 路由：POST /api/submit
+// 存储：Netlify Blobs，一人一个 key（p:<id>），写入只碰自己那条，天然无竞态
 import { getStore } from '@netlify/blobs';
 
-const MAXP = 400;
 const MAXB = 2048;
 const MAX_XP = 60000;
 
@@ -32,24 +32,6 @@ function san(raw) {
   };
 }
 
-function merge(list, rec) {
-  const i = list.findIndex((x) => x && x.id === rec.id);
-  if (i < 0) { list.push(rec); return true; }
-  const o = list[i];
-  const n = {
-    id: rec.id, nm: rec.nm,
-    xp: Math.max(o.xp | 0, rec.xp), xm: Math.max(o.xm | 0, rec.xm),
-    w: Math.max(o.w | 0, rec.w), l: Math.max(o.l | 0, rec.l),
-    k: Math.max(o.k | 0, rec.k), cl: Math.max(o.cl | 0, rec.cl),
-    sc: Math.max(o.sc | 0, rec.sc), t: rec.t
-  };
-  const same = o.nm === n.nm && (o.xp | 0) === n.xp && (o.xm | 0) === n.xm &&
-    (o.w | 0) === n.w && (o.l | 0) === n.l && (o.k | 0) === n.k &&
-    (o.cl | 0) === n.cl && (o.sc | 0) === n.sc;
-  list[i] = n;
-  return !same;
-}
-
 export const config = { path: '/api/submit' };
 
 export default async (req) => {
@@ -65,13 +47,21 @@ export default async (req) => {
 
   try {
     const store = getStore('cqb-board');
-    const cur = (await store.get('board', { type: 'json' })) || [];
-    const list = Array.isArray(cur) ? cur.filter((x) => x && x.id) : [];
-    const changed = merge(list, rec);
-    list.sort((x, y) => (y.xp | 0) - (x.xp | 0) || (y.xm | 0) - (x.xm | 0));
-    const cut = list.slice(0, MAXP);
-    if (changed) await store.setJSON('board', cut);
-    return new Response(JSON.stringify({ list: cut, n: cut.length }), { headers: CORS });
+    const key = 'p:' + rec.id;
+    let old = null;
+    try { old = await store.get(key, { type: 'json' }); } catch (e) { old = null; }
+    // 与旧纪录取高值合并：重传不会把战绩改小
+    if (old && old.id) {
+      rec.xp = Math.max(old.xp | 0, rec.xp);
+      rec.xm = Math.max(old.xm | 0, rec.xm);
+      rec.w = Math.max(old.w | 0, rec.w);
+      rec.l = Math.max(old.l | 0, rec.l);
+      rec.k = Math.max(old.k | 0, rec.k);
+      rec.cl = Math.max(old.cl | 0, rec.cl);
+      rec.sc = Math.max(old.sc | 0, rec.sc);
+    }
+    await store.setJSON(key, rec);
+    return new Response(JSON.stringify({ ok: true, rec }), { headers: CORS });
   } catch (e) {
     return new Response(JSON.stringify({ error: String((e && e.message) || e) }), { status: 500, headers: CORS });
   }
