@@ -328,6 +328,26 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .briefSet{margin:6px 0 2px;padding:10px 12px;border:1px solid #22303a;border-radius:5px;background:rgba(10,15,19,.7)}
 .briefSet .setRow{border:0;background:none;padding:0}
 @media (max-width:620px){ .setRow{flex-wrap:wrap} .setRow .seg{width:100%} }
+/* SECTION: style-throwpick 长按投掷键呼出的腰封选择面板 */
+#throwPick{position:fixed;left:50%;bottom:118px;transform:translateX(-50%) translateY(10px);
+ z-index:24;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;gap:8px;
+ max-width:min(92vw,560px);padding:12px 14px;border-radius:10px;
+ background:rgba(10,15,19,.94);border:1px solid #3a4a3a;
+ box-shadow:0 18px 44px rgba(0,0,0,.55),inset 0 0 0 1px rgba(147,172,109,.08);
+ opacity:0;pointer-events:none;transition:opacity .12s,transform .12s}
+#throwPick.on{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+#throwPick .tpT{width:100%;font-size:10px;letter-spacing:.2em;color:#93ac6d;margin-bottom:2px}
+#throwPick .tpI{position:relative;display:-ms-flexbox;display:flex;flex-direction:column;
+ align-items:flex-start;gap:1px;min-width:86px;padding:8px 27px 8px 11px;
+ background:linear-gradient(180deg,#161f26,#0e1418);border:1px solid #2a3a44;
+ border-left:3px solid #566;border-radius:5px;color:#dce7ee;cursor:pointer;text-align:left}
+#throwPick .tpI b{font-size:12.5px;letter-spacing:.06em}
+#throwPick .tpI i{font-style:normal;font-size:10.5px;color:#93a8b6}
+#throwPick .tpI u{position:absolute;right:7px;top:6px;text-decoration:none;font-size:9.5px;
+ color:#6d818d;border:1px solid #2a3a44;border-radius:3px;padding:0 4px}
+#throwPick .tpI.on{border-color:#93ac6d;background:rgba(52,74,40,.9)}
+#throwPick .tpI.dis{opacity:.4}
+#throwPick .tpTip{width:100%;font-size:10px;color:#6d818d;margin-top:2px}
 /* SECTION: style-touch */
 #touch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:22;display:none;pointer-events:none}
 body.touch #touch.on{display:block}
@@ -688,6 +708,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 <!-- SECTION: markup-hud -->
 <div id="hud">
   <div id="darkv"></div>
+  <div id="throwPick"></div>
   <div class="ht">
     <div id="obj"><div id="objT">目标</div><div id="objS">
       <span>残敌 <i id="sE">0</i></span><span>时间 <i id="sT">0:00</i></span>
@@ -1591,9 +1612,6 @@ var GD=[
  {id:'plate',n:'防弹插板',mk:'3M（美国）／ESAI（美国）／Hesco（加拿大）',
   info:'NIJ III 级碳化硼/陶瓷复合插板可抵御步枪弹；ESAI HIKS、3M Advanced Balle B 为商用代表。重插板增加护甲但降低机动。',
   opts:[{n:'NIJ IIIA 软板',d:'护甲 +20，移速 −4%'},{n:'NIJ IV 陶瓷板',d:'护甲 +45，移速 −11%'}]},
- {id:'throwable',n:'投掷物',mk:'ESA Defense（美国）／Nammo（挪威）／L3Harris（美国）',
-  info:'M67 破片手雷（L3Harris）、M84  stun 闪光弹（Sonic Blast Devices）、M18 烟雾弹（Nammo）。战术上闪光先入、烟雾遮蔽转移。',
-  opts:[{n:'M67 破片 ×2',d:'默认杀伤配置'},{n:'M67 ×1 + M84 闪光 ×2',d:'KTV／室内关建议：致眩 3.5 秒'}]},
  {id:'breach',n:'破门装具',mk:'Ensign Safety（英国）／PAX Land（瑞典）／Ammunition Research（美国）',
   info:'现实破门三件套：机械破障工具（Halligan）、散弹破门弹（Frangible，Ammunition Research 制造）、线性切割索（Donitz Flex Linear Charge）。公寓与地堡的关门可用破门弹轰开。',
   opts:[{n:'机械撬棍',d:'破门速度 ×2'},{n:'破门弹 ×2',d:'瞬间开门，波及门后敌人'}]},
@@ -1983,8 +2001,8 @@ function softSprite(g,x,y,w,h,t){
 
 /* SECTION: state */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
- xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',
- gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,throwable:0,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
+ xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,
+ gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
@@ -1997,6 +2015,8 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.tl)ST.tl=Math.max(0,jd.tl|0);
   if(jd&&jd.tk)ST.tk=Math.max(0,jd.tk|0);
   if(jd&&typeof jd.lb==='string')ST.lbapi=jd.lb;
+  if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
+   return (x==='frag'||x==='stun'||x==='flash')?x:''});
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
   if(jd&&jd.tu)ST.tut=1;
   if(jd&&(jd.ui==='kb'||jd.ui==='touch'||jd.ui==='auto'))ST.ui=jd.ui;
@@ -2034,7 +2054,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[0]))ST.load[0]='m4a1';
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
- x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,
+ x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -2052,7 +2072,7 @@ function saveLv(){if(!G||G.phase!=='live'||G.over)return;
  if(G.tut)return;
  if(ST.scr!=='play'&&ST.scr!=='pause')return;
  try{var p=G.p,sv={lv:ST.lv,t:Math.round(G.t*10)/10,ts:Date.now(),
-  p:{x:Math.round(p.x),y:Math.round(p.y),hp:p.hp,ar:p.ar,rg:p.rg,md:p.md,
+  p:{x:Math.round(p.x),y:Math.round(p.y),hp:p.hp,ar:p.ar,rg:p.bl,ai:p.actItem,md:p.md,
    shots:p.shots||0,wi:p.wi,guns:p.guns.map(function(g){return[g.am,g.res]})},
   c:{k:G.killed,d:G.disarmed,s:G.sec2,cv:G.civD,sc:Math.round(G.sc),h:G.hits,
    dm:Math.round(G.dmg),r:G.reinLeft,ex:G.exitOpen?1:0,b:G.bossDown?1:0},
@@ -2068,7 +2088,9 @@ function loadLv(i){try{var j=JSON.parse(localStorage.getItem('ta5_lv2'+i));
  return j}catch(e){return null}}
 function clearLv(i){try{localStorage.removeItem('ta5_lv2'+i)}catch(e){}}
 function applyLv(sv){var p=G.p,j;
- p.x=sv.p.x;p.y=sv.p.y;p.hp=sv.p.hp;p.ar=sv.p.ar;p.rg=sv.p.rg;p.md=sv.p.md;
+ p.x=sv.p.x;p.y=sv.p.y;p.hp=sv.p.hp;p.ar=sv.p.ar;p.md=sv.p.md;
+ if(sv.p.rg&&typeof sv.p.rg==='object')p.bl=sv.p.rg;
+ if(sv.p.ai)p.actItem=sv.p.ai;
  p.shots=sv.p.shots||0;p.wi=sv.p.wi||0;
  for(j=0;j<p.guns.length&&j<sv.p.guns.length;j++){p.guns[j].am=sv.p.guns[j][0];p.guns[j].res=sv.p.guns[j][1]}
  G.t=sv.t;G.killed=sv.c.k;G.disarmed=sv.c.d;G.sec2=sv.c.s;G.civD=sv.c.cv;G.sc=sv.c.sc;
@@ -2560,16 +2582,20 @@ g.restore();
  var guns=[WM[ST.load[0]]&&gunOk(ST.load[0])?WM[ST.load[0]]:WM.m4a1,
   WM[ST.load[1]]&&gunOk(ST.load[1])?WM[ST.load[1]]:WM.g19];
  var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20);
- var thrCfg=ST.gd.throwable|0,brc=ST.gd.breach|0;
+ var brc=ST.gd.breach|0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:idx>=4?3:2,bossDown:0,alertMod:1+of.alert,
-  flashN:thrCfg?2:0,stickyN:brc?2:0,stickN:(ST.gd.optic2|0)?2:0,dn2:0,allyOn:ST.ally!==0,
+  stickyN:brc?2:0,stickN:(ST.gd.optic2|0)?2:0,dn2:0,allyOn:ST.ally!==0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
    sp:Math.round(208*(1+of.mob)*(pl?1-.11:1-.04)),vx:0,vy:0,
-   wi:0,rg:thrCfg?1:2,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
-   act:null,gx:0,gy:0,gvx:0,gvy:0,gt:0,fuse:3.6,gren:0,cook:0,cooking:0,eg:[],
+   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
+   act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.5,air:0,landed:0,fuseT:0,
+   fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
+  /* 战术腰封：按军衔容量从玩家配置里取投掷物 */
+  G.p.bl=beltCounts();
+  G.p.actItem=firstThrow(G.p);
 }
 
 /* SECTION: collision */
@@ -2686,13 +2712,16 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
   return}
  var fresh=!KEY[k];KEY[k]=1;
  if(fresh){
+  if(throwPickOpen()&&k.length===1&&k>='1'&&k<='9'){
+   var bk=+k-1,bb=beltList();
+   if(bk<beltCap()&&bb[bk]){pickThrow(bb[bk]);return}
+  }
   if(ST.scr==='play'){
    if(k==='escape'||k==='p'){pause(1)}
    else if(kb('reload'))tryReload();
    else if(kb('gun1'))swGun(0);
    else if(kb('gun2'))swGun(1);
    else if(kb('swap'))swGun(G.p.wi===0?1:0);
-   else if(kb('gren'))toggleGren();
    else if(kb('act'))interact();
    else if(kb('wheel'))wheel(!$('comms').classList.contains('on'));
    else if(kb('med'))com('med');
@@ -2764,9 +2793,21 @@ function feed(txt,good){var f=$('feed'),r=mk('div','frow'+(good?' g':''));r.text
 function cur(){return G.p.guns[G.p.wi]}
 function updGun(){var g=cur(),p=G.p;
  $('amW').textContent=g.w.n;
- var thr=(ST.gd.throwable|0)?('M67 ×'+p.rg+' · M84 闪光 ×'+G.flashN):('M67 手雷 ×'+p.rg);
+ var thr=beltText(p);
  $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
   (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''))}
+/* 腰封内容文本，HUD 与军械库共用 */
+function beltText(p){
+ var o=['frag','stun','flash'],s=[],i;
+ if(!p||!p.bl)return '投掷物 空';
+ for(i=0;i<3;i++)if(p.bl[o[i]])s.push(throwDef(o[i]).s+'×'+p.bl[o[i]]);
+ return s.length?s.join(' · '):'投掷物 空'}
+/* 补给：给腰封里第一个未满的槽位 +1 */
+function beltResupply(){
+ var p=G&&G.p;if(!p||!p.bl)return false;
+ var b=beltList(),cap=beltCap(),i,id;
+ for(i=0;i<cap;i++){id=b[i];if(id&&p.bl[id]<3){p.bl[id]++;return true}}
+ return false}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
  p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
@@ -2814,28 +2855,95 @@ function noiseAt(x,y,rad){if(!L)return;var i;
   if(se.dead||se.sub>0||se.alert)continue;
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    se.hx=x;se.hy=y}}}
-/* ---- 手雷：切雷 → 长按温雷 → 松手投出 ---- */
-var GREN_FUSE=3.6;
-function grenAvail(){var p=G.p;return (p.rg>0)||(G.flashN>0)}
-function toggleGren(){var p=G&&G.p;if(!p||G.phase!=='live'||p.act)return;
- if(p.gren){p.gren=0;p.cook=0;p.cooking=0;toast('已收起手雷');return}
- if(!grenAvail()){toast('破片与闪光已用完 · 补给箱可补充');return}
- p.rl=0;p.cook=0;p.cooking=0;p.gren=1;snd.pin();
- toast('已握雷 · 长按开火温雷、松手投出（温过头会在手里炸）',3000)}
+/* ---- 战术投掷物：腰封槽位 → 长按选择 → 长按开火温雷 → 松手投向准星 ---- */
+var GREN_FUSE=3.4, THROW_MAX=660, THROW_ARC=64;
+var THROW=[
+ {id:'frag', n:'M67 破片手雷', s:'破片', col:'#5c6b3a', hi:'#93ac6d', ring:'#8fae5d',
+  r:132, dmg:120, fuse:3.4, stun:0,  d:'杀伤半径 132 · 伤害 120 · 引信 3.4 秒'},
+ {id:'stun', n:'M84 震爆弹',  s:'震爆', col:'#7d7052', hi:'#e2c06a', ring:'#d8b25a',
+  r:190, dmg:18,  fuse:1.7, stun:4.2, d:'致眩 4.2 秒 · 微量伤害 · 引信 1.7 秒'},
+ {id:'flash',n:'M18 闪光弹',  s:'闪光', col:'#8d959c', hi:'#dfe9f2', ring:'#cfe6ff',
+  r:300, dmg:0,   fuse:1.4, stun:6.0, d:'超大范围致盲 6 秒 · 无伤害 · 引信 1.4 秒'}
+];
+function throwDef(id){for(var i=0;i<THROW.length;i++)if(THROW[i].id===id)return THROW[i];return THROW[0]}
+function defBelt(){return ['frag','frag','stun','','','']}
+function beltList(){return (ST.belt&&ST.belt.length===6)?ST.belt:defBelt()}
+/* 腰封容量随「历史最高军衔」增长：2 → 6 格（掉分不会缩容） */
+function beltCap(){return clamp(2+Math.floor(rankPk()/3),2,6)}
+function beltCounts(){var b=beltList(),cap=beltCap(),o={frag:0,stun:0,flash:0},i,id;
+ for(i=0;i<cap;i++){id=b[i];if(id&&o[id]!=null)o[id]++}
+ return o}
+function grenAvail(){var p=G&&G.p;if(!p||!p.bl)return false;return !!(p.bl.frag||p.bl.stun||p.bl.flash)}
+function firstThrow(p){if(p.bl.frag)return 'frag';if(p.bl.stun)return 'stun';if(p.bl.flash)return 'flash';return ''}
+function activeThrow(){var p=G&&G.p;if(!p||!p.actItem)return null;return throwDef(p.actItem)}
+function toggleGren(){
+ var p=G&&G.p;if(!p||G.phase!=='live'||p.act)return;
+ if(p.gren){p.gren=0;p.cook=0;p.cooking=0;toast('已收起投掷物');return}
+ if(!grenAvail()){toast('腰封已空 · 补给箱可补充');return}
+ if(!p.actItem||!p.bl[p.actItem])p.actItem=firstThrow(p);
+ p.rl=0;p.cook=0;p.cooking=0;p.gren=1;snd.pin();updGun();
+ toast('已握 '+throwDef(p.actItem).s+' · 长按开火温雷、松手投向准星',2600)}
+/* 长按投掷键呼出的选择面板 → 选中后立即握雷 */
+function pickThrow(id){
+ var p=G&&G.p;if(!p||!p.bl||!p.bl[id])return;
+ p.actItem=id;p.cook=0;p.cooking=0;p.gren=1;snd.ui();updGun();closeThrowPick();
+ toast('已选择 '+throwDef(id).n+' ×'+p.bl[id],1600)}
+function openThrowPick(){
+ var el=$('throwPick');if(!el)return;if(G&&G.p&&G.p.act)return;
+ el.innerHTML='';el.classList.add('on');
+ var p=G.p,b=beltList(),cap=beltCap(),i;
+ var hd=mk('div','tpT');hd.textContent='战术腰封 · 选择投掷物';el.appendChild(hd);
+ for(i=0;i<cap;i++){
+  (function(i){var id=b[i]||'',t=id?throwDef(id):null;
+   var it=mk('button','tpI'+(id&&p.bl&&p.bl[id]?'':' dis')+(G.p.actItem===id?' on':''));
+   it.innerHTML='<b>'+(t?t.s:'空')+'</b><i>'+(t?('×'+(p.bl&&p.bl[id]||0)):'—')+'</i>'+
+    '<u>'+(i+1)+'</u>';
+   if(t)it.style.borderLeftColor=t.ring;
+   it.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(t)pickThrow(id)});
+   el.appendChild(it)})(i)}
+ var tip=mk('div','tpTip');tip.textContent='点选 · 或按 1-'+cap+' · 容量 '+cap+' 格（军衔越高越多）';
+ el.appendChild(tip)}
+function closeThrowPick(){var el=$('throwPick');if(el){el.classList.remove('on');el.innerHTML=''}}
+function throwPickOpen(){var el=$('throwPick');return !!(el&&el.classList.contains('on'))}
+/* 长按投掷键 → 打开腰封选择面板；短按 → 握雷/收雷 */
+var grenHold=0,grenWasHeld=0;
+function updGrenHold(dt){
+ if(!G||G.phase!=='live'){grenWasHeld=0;grenHold=0;if(throwPickOpen())closeThrowPick();return}
+ var held=!!kb('gren');
+ if(held){
+  if(!grenWasHeld)grenHold=0;
+  grenHold+=dt;
+  if(grenHold>=.30&&!throwPickOpen())openThrowPick();
+ }else if(grenWasHeld){
+  if(throwPickOpen())closeThrowPick();
+  else if(grenHold<.30)toggleGren();
+ }
+ grenWasHeld=held?1:0}
 function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
  p.cook+=dt;
  if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
-  explode(p.x,p.y,130,130);dmgPlayer(55);shake=18;toast('手雷在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
-function throwG(fuse){var p=G.p;if(!p||G.phase!=='live'||p.act)return;
- var isF=!(p.rg>0)&&G.flashN>0;
- if(p.rg>0)p.rg--;else if(G.flashN>0)G.flashN--;
- else{toast('破片与闪光已用完 · 补给箱可补充');return}
- p.act=isF?'f':'n';p.gx=p.x;p.gy=p.y;p.gt=0;
- p.fuse=(fuse==null?GREN_FUSE:Math.max(.3,fuse));
- p.gvx=Math.cos(p.aa)*310;p.gvy=Math.sin(p.aa)*310;
- p.gren=0;p.cook=0;p.cooking=0;
- snd.pin();updGun();tutEv('gren');grenadeScare(p.x,p.y,isF);
- toast(isF?'M84 闪光弹投出 · 致眩不杀伤':'M67 投出 · 剩余引信 '+p.fuse.toFixed(1)+' 秒')}
+  explode(p.x,p.y,130,120);dmgPlayer(55);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
+/* 投掷目标 = 准星所指位置（撞墙则落在墙前，最短 90、最长 THROW_MAX） */
+function throwTarget(){
+ var p=G.p,ax=p.aa,dx=Math.cos(ax),dy=Math.sin(ax);
+ var hd=rayHit(p.x,p.y,dx*THROW_MAX,dy*THROW_MAX);
+ var dist=clamp(hd-14,90,THROW_MAX);
+ return {x:p.x+dx*dist,y:p.y+dy*dist,dist:dist}}
+function throwG(fuse){
+ var p=G.p;if(!p||G.phase!=='live'||p.act)return;
+ if(!p.actItem||!p.bl[p.actItem])p.actItem=firstThrow(p);
+ var id=p.actItem;
+ if(!id||!p.bl[id]){toast('腰封已空 · 补给箱可补充');return}
+ p.bl[id]--;if(!p.bl[id])p.actItem=firstThrow(p);
+ var tgt=throwTarget(),t=throwDef(id);
+ p.act=1;p.gid=id;
+ p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;p.tx=tgt.x;p.ty=tgt.y;
+ p.gt=0;p.travel=clamp(tgt.dist/620,.34,.95);p.air=0;p.landed=0;p.fuseT=0;
+ p.fuse=(fuse==null?t.fuse:Math.max(.25,fuse));
+ p.gren=0;p.cook=0;p.cooking=0;p.throwT=.32;
+ snd.pin();updGun();tutEv('gren');
+ grenadeScare(p.x,p.y,id!=='frag');grenadeScare(tgt.x,tgt.y,id!=='frag');
+ toast(t.n+' 投出 · 引信 '+p.fuse.toFixed(1)+' 秒',2200)}
 /* 敌人躲雷：危险等级越高，反应越快、躲得越多 */
 function grenadeScare(x,y,isF){if(!L)return;var lv=ST.lv||1,ch=.10+.13*lv,i;
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
@@ -2889,9 +2997,9 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
    dmgPlayer(9);checkOpen();return}
   e2.dead=1;e2.dis=1;G.disarmed++;G.sc+=140;ksAdd('◆','缴械 '+ename(e2),140,'good');addXp(25);snd.sec();
   feed('缴械 '+ename(e2)+' · ROE 合规 +140',1);checkOpen()}
-   else{best.o.got=1;var g=cur();g.res+=g.w.cap*2;p.rg=Math.min(4,p.rg+1);p.md++;
+   else{best.o.got=1;var g=cur();g.res+=g.w.cap*2;p.md++;
   p.ar=Math.min(p.mar,p.ar+30);
-  if((ST.gd.breach|0)&&G.stickyN<2)G.stickyN++;else if(G.flashN<2)G.flashN++;
+  if((ST.gd.breach|0)&&G.stickyN<2)G.stickyN++;else beltResupply();
   snd.sec();
   feed('补给箱：弹药 +2 匣 · 投掷 +1 · 医疗 +1 · 护甲 +30',1);updGun()}}
 /* 战术轮盘：8 项，取消「喊话」——喊话改为人物自动触发 */
@@ -3285,22 +3393,51 @@ function civHit(c,dm){c.down=1;
  else{G.civD++;G.roe++;G.sc-=400;snd.dead();
   toast('ROE 违规 · 误伤平民（-400）',3200);feed('警告：平民伤亡',0)}
  burst(c.x,c.y,10,'#8c2f24',130,400)}
-function updateGren(dt){var p=G.p;if(p.act!=='n'&&p.act!=='f')return;
- var fl=p.act==='f';
- p.gt+=dt;var nx=p.gx+p.gvx*dt,ny=p.gy+p.gvy*dt;
- if(freeAt(nx,ny,4)){p.gx=nx;p.gy=ny}else{p.gvx*=-.3;p.gvy*=-.3}
- p.gvx*=Math.pow(.12,dt);p.gvy*=Math.pow(.12,dt);
- if(!fl&&p.gt>(p.fuse||3.6)){p.act=null;explode(p.gx,p.gy,120,125)}
- else if(fl&&p.gt>1.2){p.act=null;flashBurst(p.gx,p.gy)}}
-function flashBurst(x,y){snd.boom();tone(2400,500,.3,'square',.12);
+/* 投掷物飞行：起点 → 准星落点，抛物线弧高 + 落地后引信倒计时 */
+function updateGren(dt){var p=G.p;if(!p||!p.act)return;
+ if(!p.landed){
+  p.gt+=dt;
+  var k=clamp(p.gt/(p.travel||.5),0,1);
+  p.gx=p.sx+(p.tx-p.sx)*k;
+  p.gy=p.sy+(p.ty-p.sy)*k;
+  p.air=Math.sin(Math.PI*k)*THROW_ARC;
+  if(k>=1){p.landed=1;p.air=0;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;
+   if(!ST.low){burst(p.gx,p.gy,3,'#8a8f7a',60,120)}}
+ }else{
+  p.fuseT+=dt;
+  if(p.fuseT>=(p.fuse||3.4)){var id=p.gid||'frag';p.act=null;p.landed=0;p.air=0;
+   detonateThrow(id,p.gx,p.gy)}
+ }
+}
+function detonateThrow(id,x,y){
+ if(id==='stun')stunBurst(x,y,throwDef('stun'));
+ else if(id==='flash')flashBurst(x,y,throwDef('flash'));
+ else explode(x,y,132,120)}
+function stunBurst(x,y,t){t=t||throwDef('stun');snd.boom();tone(1800,400,.25,'square',.14);
+ shake=8;burst(x,y,ST.low?10:22,'#ffe9b0',360,460);
+ var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
+  if(e.dead||e.sub>0)continue;
+  var d2=Math.hypot(e.x-x,e.y-y);
+  if(d2<t.r&&los(x,y,e.x,e.y)){
+   e.stun=Math.max(e.stun||0,t.stun*(1-d2/t.r)+.7);
+   e.alert=1;e.st='alert';e.rt=1.2;e.hx=e.x;e.hy=e.y;
+   if(t.dmg)hitEnemy(e,t.dmg*(1-d2/t.r),0)}}
+ var dp=Math.hypot(G.p.x-x,G.p.y-y);
+ if(dp<t.r*.8){G.p.aimT=Math.max(G.p.aimT,1.1);shake=Math.max(shake,10)}
+ noiseAt(x,y,t.r+220);feed('M84 震爆：'+t.stun.toFixed(1)+' 秒致眩',1)}
+function flashBurst(x,y,t){t=t||throwDef('flash');snd.boom();tone(2400,500,.3,'square',.12);
  burst(x,y,ST.low?8:18,'#fff6d8',340,420);
  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead||e.sub>0)continue;
   var d2=Math.hypot(e.x-x,e.y-y);
-  if(d2<250&&los(x,y,e.x,e.y)){e.stun=3.4*(1-d2/250)+.8;e.alert=1;e.st='alert';e.rt=1.2;e.hx=e.x;e.hy=e.y}}
+  if(d2<t.r&&los(x,y,e.x,e.y)){
+   e.stun=Math.max(e.stun||0,t.stun*(1-d2/t.r)+.9);
+   e.alert=1;e.st='alert';e.rt=1.4;e.hx=e.x;e.hy=e.y}}
  if(G.al)for(i=0;i<G.al.length;i++){var al=G.al[i];
-  if(!al.down&&Math.hypot(al.x-x,al.y-y)<150)al.sw=Math.max(al.sw,.6)}
- noiseAt(x,y,560);feed('M84 闪光：目标被致眩',1)}
+  if(!al.down&&Math.hypot(al.x-x,al.y-y)<t.r*.6)al.sw=Math.max(al.sw,.6)}
+ var dp2=Math.hypot(G.p.x-x,G.p.y-y);
+ if(dp2<t.r*.7){G.p.aimT=Math.max(G.p.aimT,1.6);shake=Math.max(shake,12)}
+ noiseAt(x,y,t.r+300);feed('M18 闪光：目标被致盲',1)}
 function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
  burst(x,y,ST.low?10:28,'#ffb84d',400,620);smoke(x,y,ST.low?3:8);
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead)continue;
@@ -3429,6 +3566,7 @@ function updatePlayer(dt){var p=G.p,i;
  else if(!touchUI){var wx=CAM.x+MS.x,wy=CAM.y+MS.y;
   if(wx!==p.x||wy!==p.y)p.aa=Math.atan2(wy-p.y,wx-p.x)}
  p.kd-=dt;if(p.kd<0)p.kd=0;
+ if(p.throwT>0)p.throwT=Math.max(0,p.throwT-dt);
  p.sw-=dt;if(p.sw<0)p.sw=0;
  p.aimT=Math.max(0,p.aimT-dt);
  if(p.rl>0){var mul=p.aimT>0?1.8:1;p.rl-=dt*mul;
@@ -3929,11 +4067,31 @@ function draw(){if(!G||!L)return;
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
  drawALRT();
- if(G.p.act==='n'||G.p.act==='f'){var pg=toScreen(G.p.gx,G.p.gy);
-  ctx.strokeStyle='rgba(240,200,120,.8)';ctx.lineWidth=1.4;
-  ctx.beginPath();ctx.arc(pg.x,pg.y,5,0,TAU);ctx.stroke();
-  ctx.fillStyle='rgba(240,200,120,.9)';ctx.font='10px sans-serif';ctx.textAlign='center';
-  ctx.fillText((G.p.act==='f'?Math.max(0,1.2-G.p.gt):(3.6-G.p.gt)).toFixed(1),pg.x,pg.y-8)}
+ /* 投掷物：飞行弧线 + 三种独立模型 + 落点提示 + 引信环 */
+ if(G.p.act){
+  var gq=G.p,tq=throwDef(gq.gid),pgq=toScreen(gq.gx,gq.gy),tpq=toScreen(gq.tx,gq.ty);
+  ctx.save();
+  if(!gq.landed){
+   ctx.strokeStyle='rgba(240,200,120,.30)';ctx.lineWidth=1;ctx.setLineDash([5,5]);
+   ctx.beginPath();ctx.arc(tpq.x,tpq.y,Math.min(46,tq.r*.36),0,TAU);ctx.stroke();ctx.setLineDash([]);
+   ctx.fillStyle='rgba(240,200,120,.55)';ctx.beginPath();ctx.arc(tpq.x,tpq.y,2,0,TAU);ctx.fill();
+  }
+  ctx.fillStyle='rgba(0,0,0,'+(.30-Math.min(.2,gq.air/420)).toFixed(2)+')';
+  ctx.beginPath();ctx.ellipse(pgq.x,pgq.y,7,3.4,0,0,TAU);ctx.fill();
+  drawThrowModel(ctx,pgq.x,pgq.y-gq.air,tq,gq.gt*9);
+  if(gq.landed){
+   var lfq=clamp(gq.fuseT/(gq.fuse||3.4),0,1);
+   ctx.strokeStyle=lfq>.7?'#ff6a4a':tq.ring;ctx.lineWidth=2;ctx.globalAlpha=.85;
+   ctx.beginPath();ctx.arc(pgq.x,pgq.y,10,-PI/2,-PI/2+TAU*(1-lfq));ctx.stroke();ctx.globalAlpha=1;
+   ctx.fillStyle='#ffe6b8';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+   ctx.fillText(Math.max(0,gq.fuse-gq.fuseT).toFixed(1),pgq.x,pgq.y-14)
+  }
+  ctx.restore();ctx.textAlign='left'}
+ /* 投掷动作：手臂挥出的残影弧线 */
+ if(G.p.throwT>0){var pth=G.p,kth=clamp(G.p.throwT/.32,0,1);
+  ctx.save();ctx.strokeStyle='rgba(232,200,140,'+(.55*kth)+')';ctx.lineWidth=3;
+  ctx.lineCap='round';ctx.beginPath();
+  ctx.arc(pth.x,pth.y,26,pth.aa-0.9-kth*0.5,pth.aa-0.9+kth*0.5);ctx.stroke();ctx.restore()}
  if(G.phase==='live'){crosshair();drawMarkers()}}
 function toScreen(x,y){return{x:x-CAM.x+(Math.random()-.5)*0,y:y-CAM.y}}
 /* SECTION: models 俯视角士兵模型（头盔/携板背心/战术裤/武器/队标） */
@@ -4014,6 +4172,26 @@ function drawNameTag(x,y,txt,col){
  ctx.strokeStyle='rgba(90,120,140,.35)';ctx.lineWidth=1;ctx.strokeRect(x-w/2+.5,y-5.5,w-1,12);
  ctx.fillStyle=col||'#dce7ee';ctx.fillText(txt,x,y+.6);
  ctx.textAlign='left';ctx.textBaseline='alphabetic'}
+/* 三种投掷物的矢量模型：破片球体 / 震爆圆筒 / 闪光盘筒 */
+function drawThrowModel(g,x,y,t,rot){
+ g.save();g.translate(x,y);g.rotate(rot||0);
+ if(t.id==='frag'){
+  g.fillStyle=t.col;g.beginPath();g.arc(0,0,5.4,0,TAU);g.fill();
+  g.strokeStyle='rgba(0,0,0,.5)';g.lineWidth=1;g.stroke();
+  g.strokeStyle='rgba(255,255,255,.20)';g.lineWidth=1;
+  g.beginPath();g.moveTo(-4,-2);g.lineTo(4,2);g.moveTo(-4,2);g.lineTo(4,-2);g.stroke();
+  g.fillStyle='#c9c2a3';g.fillRect(-1.6,-8,3.2,3);
+  g.fillStyle='rgba(255,255,255,.25)';g.beginPath();g.arc(-1.8,-1.8,1.5,0,TAU);g.fill();
+ }else{
+  g.fillStyle=t.col;g.beginPath();
+  if(g.roundRect){g.roundRect(-4.6,-6,9.2,12,2.4)}else{g.rect(-4.6,-6,9.2,12)}
+  g.fill();g.strokeStyle='rgba(0,0,0,.5)';g.lineWidth=1;g.stroke();
+  g.fillStyle='rgba(255,255,255,.28)';
+  for(var i2=0;i2<3;i2++){g.beginPath();g.arc(-2.4+i2*2.4,0,1,0,TAU);g.fill()}
+  g.fillStyle=t.hi;g.fillRect(-4.6,-6,9.2,1.6);
+  g.fillStyle='#c9c2a3';g.fillRect(-1.5,-8,3,2.2);
+ }
+ g.restore()}
 function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit);
  drawSoldier(p.x,p.y,p.aa,{body:of.look,helm:shade(of.look,-.02),cls:w1.cls,
   mv:Math.hypot(p.vx,p.vy)>10,accent:'#e2a93e'});
@@ -4236,7 +4414,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(str!==HD.h){HD.h=str;$('sT').textContent=str}
  var hv=G.sec2+'/'+L.civ.length+(G.civD?(' · 伤亡 '+G.civD):'');
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
- var eqt='M67 手雷 ×'+p.rg+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
+ var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var ot=G.exitOpen?'前往撤离点（停留 1 秒）':((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):'')));
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
@@ -4298,8 +4476,8 @@ function step(dt){if(!G)return;
   updatePlayer(dt);updHud();return}
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
- if(G.p.act==='n'||G.p.act==='f')updateGren(dt);
- updateDoors(dt);doorTick(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);
+ if(G.p.act)updateGren(dt);
+ updateDoors(dt);doorTick(dt);updateEn(dt);updateAllies(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /*  win check：踏入撤离区即可（新兵训练不判定撤离） */
  if(G.exitOpen&&!G.tut){var eR=G.exit,
@@ -4699,7 +4877,7 @@ var TUTS=[
  {k:'kills',t:'射击',d:'<b>鼠标左键</b>开火，打倒 2 个人形靶。',g:'击倒 2 个人形靶',n:2},
  {k:'reload',t:'换弹',d:'弹匣打空会自动换弹；也可以随时按 <b>R</b> 手动换弹。',g:'完成 1 次换弹',n:1},
  {k:'swap',t:'切枪',d:'按 <b>1 / 2</b> 切换主副武器，<b>Q</b> 快速切回上一把。',g:'切换 1 次武器',n:1},
- {k:'gren',t:'投掷',d:'按 <b>B</b> 投出投掷物：破片杀伤，M84 闪光致眩。',g:'投出 1 枚投掷物',n:1},
+ {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
  {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。',g:'完成 1 次互动',n:1},
  {k:'kills',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'wheel',t:'战术轮盘',d:'按 <b>E</b> 打开战术轮盘。实战里用它给 AI 队员下达跟随／突击／掩护等指令；训练场没有队员，先熟悉按键与轮盘布局。',g:'打开 1 次轮盘',n:1},
@@ -4964,7 +5142,9 @@ function showDtl(){var o=WM[ST.sel];if(!o)return;
 function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
  GD.forEach(function(g){var st=ST.gd[g.id]|0;
   var row=mk('div','kmrow');
-  var lb=mk('span','lba');lb.innerHTML='<b style="color:#dce7ee">'+g.n+'</b><br><span style="font-size:10px;color:#7c919f">'+g.mk+'</span>';
+  var lb=mk('span','lba');lb.style.cssText='flex:0 0 92px;width:92px;line-height:1.4';
+  lb.innerHTML='<b style="color:#dce7ee;font-size:11.5px">'+g.n+'</b><br>'+
+   '<span style="font-size:9.5px;color:#7c919f">'+g.mk.split('（')[0].split('／')[0].slice(0,14)+'</span>';
   row.appendChild(lb);
   g.opts.forEach(function(op,j){var bt=mk('button','kbd'+(st===j?' on':''));
    bt.textContent=op.n;bt.style.cssText='flex:1 1 auto;min-width:0;font-size:10px;padding:5px 4px';
@@ -4973,6 +5153,27 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   gl.appendChild(row);
   var ip=mk('div');ip.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.55;margin:1px 0 6px';
   ip.textContent='当前：'+g.opts[st].d+' — '+g.info;gl.appendChild(ip)})}
+ /* 战术腰封：容量随军衔，最多 6 格，点槽位循环切换 */
+ if(gl){
+  var cap=beltCap(),b=beltList(),j2;
+  var w1=mk('div','kmrow');w1.style.cssText='align-items:flex-start;padding-top:2px';
+  var lb1=mk('span','lba');
+  lb1.innerHTML='<b style="color:#dce7ee">战术腰封</b><br><span style="font-size:10px;color:#7c919f">容量 '+cap+' 格 · 军衔越高越多</span>';
+  w1.appendChild(lb1);gl.appendChild(w1);
+  var bar=mk('div','kmrow');bar.style.cssText='flex-wrap:wrap;gap:5px';
+  for(j2=0;j2<6;j2++){(function(si){
+   var locked=si>=cap,id=b[si]||'',t=id?throwDef(id):null;
+   var bt=mk('button','kbd'+(id?' on':''));
+   bt.style.cssText='flex:0 0 auto;min-width:62px;font-size:10.5px;padding:7px 6px;'+(locked?'opacity:.32;cursor:not-allowed':'');
+   bt.textContent=locked?'锁':(t?t.s:'空');
+   if(t)bt.style.borderColor=t.ring;
+   bt.addEventListener('click',function(e){e.preventDefault();snd.ui();cycleSlot(si);renderGear()});
+   bar.appendChild(bt)})(j2)}
+  gl.appendChild(bar);
+  var ip2=mk('div');ip2.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.6;margin:1px 0 6px';
+  ip2.innerHTML='点击槽位循环切换：<b>空 → 破片 → 震爆 → 闪光</b>。容量由历史最高军衔决定（列兵／上等兵 2 格，上校 6 格）。<br>'+
+   '对局中<b>长按投掷键</b>可随时重新挑选，短按切换握持。';
+  gl.appendChild(ip2)}
  var ol=$('ofList');if(ol){ol.innerHTML='';
   OUTF.forEach(function(o){var bt=mk('button','kbd'+(ST.outfit===o.id?' on':''));
    bt.style.cssText='flex:1 1 46%';bt.textContent=o.n.split(' ')[0]+'·'+(o.id===ST.outfit?'用':'选');
@@ -4983,6 +5184,11 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   ofi.innerHTML='<b style="color:#cbb073">'+of.n+'</b> · '+of.mk+'<br>'+of.info+
    '<br><b>效果</b>：'+of.note+' · 护甲 +'+of.arm+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 被发现延迟'+(of.alert>=0?'+':'')+(of.alert*100|0)+'%';
   ol.appendChild(ofi)}}
+function cycleSlot(i){
+ var cap=beltCap();if(i>=cap)return;
+ var b=beltList().slice(),order=['','frag','stun','flash'],cur=b[i]||'';
+ b[i]=order[(order.indexOf(cur)+1)%order.length];
+ ST.belt=b;save()}
 function openArs(){show('sArs');setScr('ars');CCLS=WM[ST.sel].cls;renderGear();
  Array.prototype.forEach.call($('tabs').children,function(b){
   b.classList.toggle('on',b.getAttribute('data-c')===CCLS)});
@@ -5125,6 +5331,14 @@ function toast2(s){toast(s,1800)}
 resize();setScr('boot');renderLv();showDtl();updHint();
 applyUI(true);
 initTouchUI();syncHint();
+/* 触屏：长按投掷按钮呼出腰封选择面板 */
+(function(){var el=$('tG');if(!el)return;var t0=0;
+ function dn(){t0=Date.now()}
+ function up(){if(Date.now()-t0>320)openThrowPick()}
+ el.addEventListener('touchstart',dn,{passive:true});
+ el.addEventListener('touchend',up,{passive:true});
+ el.addEventListener('mousedown',dn);
+ el.addEventListener('mouseup',up)})();
 /* 兜底：只要玩家真的用手指点了屏幕，就强制切到触屏布局（防止个别浏览器把手机会话识别成鼠标） */
 D.addEventListener('touchstart',function(){if(touchUI)return;
  touchUI=true;D.body.classList.add('touch');applyTP();
