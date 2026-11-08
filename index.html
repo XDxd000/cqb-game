@@ -1151,6 +1151,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <span class="opL">出战队员</span>
       <button class="opB on" id="bOpNorm"><span>普通队员</span><b>你自己 · 主武器 + 副武器</b></button>
       <button class="opB" id="bOpHero"><span>英雄队员 · 燕锋</span><b>通过 OP-06 后解锁</b></button>
+      <button class="opB" id="bOpGrey"><span>英雄队员 · 格雷</span><b>通关机场后解锁</b></button>
     </div>
     <div class="opTip" id="opTip"></div>
 
@@ -1709,6 +1710,13 @@ w({id:'mp7a2',n:'HK MP7A2 冲锋枪',cls:'smg',cn:'德国',g:'▢',
  rg:'约 200 m（公开口径）',wt:'空枪约 1.9 kg',
  it:'紧凑型个人防卫武器，射速高、后坐小，适合狭小空间与快速切角；穿甲弹型对软质护甲有优势。',
  dmg:22,rpm:950,cap:40,rl:1.9,sp:.020,bs:1180,rn:1900,au:1,kk:.98,mb:-.03,pen:.2,pl:1,tk:2}),
+w({id:'l85a2',n:'SA80 A2（L85A2）',cls:'rifle',cn:'英国',g:'▣',
+ mk:'BAE Systems（英国·皇家兵工厂）',
+ cal:'5.56×45mm NATO',rt:'短行程活塞导气，单/连发，约 610–775 发/分',
+ mg:'30 发 STANAG 弹匣',br:'518 mm（20.4 in）',mz:'约 940 m/s',
+ rg:'约 400 m（公开口径）',wt:'空枪约 4.1 kg（含光学瞄具）',
+ it:'英国陆军制式无托步枪，A2 型由 HK 参与改进后可靠性大幅提升；出厂标配 SUSAT／ACOG 类光学，重心靠后、连发可控，是 SAS 与英军步兵的共同装备。',
+ dmg:29,rpm:650,cap:30,rl:2.4,sp:.022,bs:1580,rn:2700,au:1,kk:1.02,mb:.02,pen:0,pl:1,tk:3}),
 w({id:'m24',n:'M24 狙击步枪',cls:'sniper',cn:'美国',g:'◈',
  mk:'Remington Arms（美国）',
  cal:'7.62×51mm NATO',rt:'旋转后拉枪机，单发',
@@ -2182,7 +2190,7 @@ var LS=[
 /* SECTION: data-airport 机场：首张双层地图（1F 航站楼 ↔ 2F 商业层），走楼梯上下
    两层各自是一张完整的关卡配置，通过 alt 互相引用；切换时保留血量、弹药与任务进度。 */
 var AIR_F1={code:'OP-06 · AIRPORT',nm:'机场 · 航站楼 1F',W:1700,H:1000,dk:.16,th:'port',sd:66,par:300,rq:2,
- flIdx:0,flName:'1F',flTotal:2,up:[628,600],
+ flIdx:0,flName:'1F',flTotal:2,air:1,up:[628,600],
  fl:[[20,20,1660,960]],
  wl:function(a){ring(a,1700,1000,20);
   /* 值机岛：三排柜台，中间留 120 的过道 */
@@ -2210,7 +2218,7 @@ var AIR_F1={code:'OP-06 · AIRPORT',nm:'机场 · 航站楼 1F',W:1700,H:1000,dk
  civ:[[600,880],[1450,760]],st:[120,930],ex:[66,876,150,84],
  zn:[[700,120,900,320],[700,560,900,380],[120,560,470,320]]};
 var AIR_F2={code:'OP-06 · AIRPORT',nm:'机场 · 商业层 2F',W:1700,H:1000,dk:.18,th:'port',sd:67,par:300,rq:2,
- flIdx:1,flName:'2F',flTotal:2,dn:[628,600],
+ flIdx:1,flName:'2F',flTotal:2,air:1,dn:[628,600],
  fl:[[20,20,1660,960]],
  wl:function(a){ring(a,1700,1000,20);
   /* 商业街：一排店面隔断 */
@@ -2515,7 +2523,7 @@ var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,pv:0,diff:5,
- gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,op:'norm',
+ gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,op:'norm',
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
@@ -2556,6 +2564,8 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&typeof jd.a==='number')ST.ally=jd.a?1:0;
   if(jd&&typeof jd.h==='number')ST.hint=jd.h?1:0;
   if(jd&&jd.hr)ST.hero=1;
+ if(jd&&jd.h2)ST.hero2=1;
+ if(jd&&jd.hl2&&jd.hl2.length)ST.hero2Load=jd.hl2;
  if(jd&&jd.op==='hero')ST.op='hero';
   if(jd&&jd.tcf)ST.tcfraw=jd.tcf;}}catch(e){}
 /* ---- 剧情版本：这个数字加一，所有玩家的剧情与战役进度会在下次打开时重置 ---- */
@@ -2590,7 +2600,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
- gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
+ gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
 function addXp(v){
@@ -3235,20 +3245,21 @@ g.restore();
  if(c.range){var rgl=rgLoadOf();guns=[pickGun(rgl[0],'m4a1'),pickGun(rgl[1],'m4a1'),pickGun(rgl[2],'g19')]}
  else if(c.recruit)guns=[WM.qbz191||WM.m4a1,WM.qsz19||WM.g19];
  /* 英雄队员：两把主武器 + 一把副武器（三把可切换） */
- else if(heroActive()){
-  var hl=heroLoadOf();
-  guns=[pickGun(hl[0],'m4a1'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}
+ else if(curOp()!=='norm'){
+  var hl;
+  if(greyActive()){hl=heroLoadOf2();guns=[pickGun(hl[0],'l85a2'),pickGun(hl[1],'l85a2'),pickGun(hl[2],'g19')]}
+  else{hl=heroLoadOf();guns=[pickGun(hl[0],'m4a1'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}}
  /* 弹匣：按当前选择的弹匣替换容量/换弹/机动 */
  guns=guns.map(magGun);
- var heroB=heroActive()?1:0;
- var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0);
+ var heroB=heroActive()?1:0,greyB=greyActive()?1:0;
+ var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0)+(greyB?12:0);
  var brc=ST.gd.breach|0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:idx>=4?3:2,bossDown:0,alertMod:1+of.alert,
   stickyN:brc?2:0,stickN:(ST.gd.optic2|0)?2:0,dn2:0,allyOn:ST.ally!==0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
-   sp:Math.round(208*(1+of.mob+(heroB?.04:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
+   sp:Math.round(208*(1+of.mob+(heroB?.04:0)+(greyB?.02:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.5,air:0,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
@@ -3260,8 +3271,24 @@ g.restore();
 
 /* ---- 英雄队员三武器槽 ---- */
 /* 当前出战队员：普通队员（你）／英雄队员（燕锋，需通过 OP-06 猎鹰招募） */
-function heroActive(){return ST.hero===1&&ST.op==='hero'}
-function setOp(op){ST.op=(op==='hero'&&ST.hero===1)?'hero':'norm';save();renderOpRow()}
+function curOp(){
+ if(ST.op==='grey'&&ST.hero2===1)return 'grey';
+ if((ST.op==='hero'||ST.op==='yan')&&ST.hero===1)return 'yan';
+ return 'norm'}
+function heroActive(){return curOp()==='yan'}
+function greyActive(){return curOp()==='grey'}
+function setOp(op){
+ var v='norm';
+ if(op==='grey'&&ST.hero2===1)v='grey';
+ else if((op==='hero'||op==='yan')&&ST.hero===1)v='yan';
+ ST.op=v;save();renderOpRow()}
+function heroLoadOf2(){
+ var m1=(WM[ST.load[0]]&&WM[ST.load[0]].cls!=='pistol')?ST.load[0]:'l85a2';
+ var d=[m1,'l85a2','g19'],h=ST.hero2Load;
+ if(!h||h.length<3)return d;
+ return [WM[h[0]]?h[0]:d[0],WM[h[1]]?h[1]:d[1],WM[h[2]]?h[2]:d[2]]}
+function setHeroSlot2(i,id){var h=heroLoadOf2().slice();h[i]=id;ST.hero2Load=h;save();
+ try{renderHero()}catch(e){}}
 function heroLoadOf(){
  var m1=ST.load[0]||'m4a1',m2=ST.load[1],pd=WM[m2]&&WM[m2].cls==='pistol'?m2:'g19';
  if(!m2||WM[m2].cls==='pistol')m2=(WM.scarh?'scarh':'m4a1');
@@ -3544,7 +3571,7 @@ function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)retur
  p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
  tutEv('reload');   /* 按了就算完成教学步骤，弹匣满时也生效 */
- if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl;snd.rl1();tutEv('reload')}
+ if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl*(greyActive()?.85:1);snd.rl1();tutEv('reload')}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  tutEv('fire');
  var g=cur(),w1=g.w;
@@ -4987,7 +5014,7 @@ function drawThrowModel(g,x,y,t,rot){
   g.fillStyle='#c9c2a3';g.fillRect(-1.5,-8,3,2.2);
  }
  g.restore()}
-function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit),hb=heroActive(),bd=hb?'#41503b':of.look;
+function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit),hb=heroActive(),gb=greyActive(),bd=gb?'#3d4450':(hb?'#41503b':of.look);
  drawSoldier(p.x,p.y,p.aa,{body:bd,helm:shade(bd,-.02),cls:w1.cls,
   mv:Math.hypot(p.vx,p.vy)>10,accent:'#e2a93e'});
  /* 枪口焰：装消焰器基本看不到火（弹道照常），装制退器有主焰 + 两侧泄流 */
@@ -5006,7 +5033,7 @@ function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit),hb=heroActive(),bd=hb?
    ctx.beginPath();ctx.moveTo(mw+1,0);ctx.lineTo(mw-5,9);ctx.lineTo(mw+3,1.5);ctx.closePath();ctx.fill();
   }
   ctx.restore()}
- drawNameTag(p.x,p.y-31,hb?'燕锋':(ST.name||'你'),'#f0d890')}
+ drawNameTag(p.x,p.y-31,gb?'格雷':(hb?'燕锋':(ST.name||'你')),'#f0d890')}
 function drawAlly(a){var fv=a.rjT>0?clamp(Math.abs(a.rjT-.29)/.29,0,1):1;
  if(a.down){ctx.save();ctx.globalAlpha=.8*fv;ctx.fillStyle='#2c3338';
   ctx.beginPath();ctx.ellipse(a.x,a.y,a.r*1.15,a.r*.62,0,0,TAU);ctx.fill();
@@ -5644,6 +5671,16 @@ var PATCHES=[
    '地图选择界面新增「出战队员」选择（普通队员／英雄队员·燕锋），难度改为可展开的折叠卡，五档一次选定。',
    '招募活动：11 月 15 日 23:59 前注册并登上排行榜的玩家，自动授予「体验官」头衔。',
    '修复：军械库切换改件时的脚本报错、错误提示条不再常驻；未登记代号的记录不再上榜。'
+  ]},
+ {v:2,d:'2026-11-08',t:'机场双层行动 · SAS 指挥官格雷',
+  items:[
+   '新地图「OP-06 · AIRPORT 机场」：1700×1000 双层结构，1F 航站楼（值机岛、安检口、行李转盘）与 2F 商业层（店面、候机区、控制室），19 名守敌分两层部署。',
+   '首张可以上下楼的地图：中央楼梯按 F 上下楼，血量、弹药、投掷物、计时与击毙数全部保留；另一层敌人状态冻结保存，回来时不会复活。',
+   '胜利条件改为两层清空后回 1F 前门撤离；HUD 常驻【1F】/【2F】楼层标记，残敌数为两层合计。',
+   '新英雄队员「格雷」：英国 SAS 第 22 特别空勤团指挥官，机场行动前作为随行观察员登场（新增一条独立剧情线与档案），通关机场后编入序列。',
+   '格雷被动：护甲 +12、换弹 −15%、移速 +2%；出战三武器槽，默认主武器为新增的 SA80 A2（L85A2）。',
+   '出战队员选择扩展为三选一：普通队员 / 燕锋 / 格雷（未解锁的显示解锁条件）。',
+   '招募剧情加长：新增 5 句，结尾由沈钺直接交代机场行动与两层结构。'
   ]}
 ];
 function pushPatchMail(){
@@ -5746,19 +5783,22 @@ function renderDiffCard(){
   list.appendChild(b)})}
 /* 出战队员选择行（地图选择界面） */
 function renderOpRow(){
- var n=$('bOpNorm'),h=$('bOpHero');if(!n||!h)return;
- var un=ST.hero===1;
- if(!un&&ST.op==='hero')ST.op='norm';
- n.classList.toggle('on',ST.op!=='hero');
- h.classList.toggle('on',un&&ST.op==='hero');
- h.classList.toggle('lock',!un);
- var d=n.querySelector('b'),e=h.querySelector('b');
- if(d)d.textContent='你自己 · 主武器 + 副武器';
- if(e)e.textContent=un?'猎鹰调配 · 三武器槽':'通过 OP-06 后解锁';
+ var n=$('bOpNorm'),y=$('bOpHero'),g=$('bOpGrey');if(!n||!y||!g)return;
+ var unY=ST.hero===1,unG=ST.hero2===1,op=curOp();
+ if(op!=='norm'&&ST.op!==op)ST.op=op;
+ n.classList.toggle('on',op==='norm');
+ y.classList.toggle('on',op==='yan');y.classList.toggle('lock',!unY);
+ g.classList.toggle('on',op==='grey');g.classList.toggle('lock',!unG);
+ var ny=n.querySelector('b'),yy=y.querySelector('b'),gy=g.querySelector('b');
+ if(ny)ny.textContent='你自己 · 主武器 + 副武器';
+ if(yy)yy.textContent=unY?'猎鹰调配 · 三武器槽':'通过 OP-06 后解锁';
+ if(gy)gy.textContent=unG?'SAS 指挥官 · 三武器槽':'通关机场后解锁';
  var t=$('opTip');
- if(t)t.textContent=!un?'英雄队员「燕锋」将在通过 OP-06 猎鹰招募后编入作战序列'
-  :(ST.op==='hero'?'当前由英雄队员「燕锋」出击：三武器槽 · 护甲 +18 · 移速 +4%'
-   :'当前由你自己出击：一主一副，配装以军械库为准');
+ if(t)t.textContent=op==='yan'?'当前由英雄队员「燕锋」出击：三武器槽 · 护甲 +18 · 移速 +4%'
+  :(op==='grey'?'当前由英雄队员「格雷」出击：三武器槽 · 护甲 +12 · 换弹 −15% · 移速 +2%'
+   :(!unY?'英雄队员「燕锋」将在通过 OP-06 猎鹰招募后编入作战序列'
+    :(!unG?'英雄队员「格雷」将在通关机场后编入作战序列'
+     :'当前由你自己出击：一主一副，配装以军械库为准')));
 }
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderPbar();
@@ -5933,9 +5973,38 @@ var DRG_SPK={
  '旁白':{g:'旁',role:'行动记录',col:'#6f8494'},
  '沈钺':{g:'沈',role:'猎鹰招募教官 · 代号「沈钺」',col:'#c9a15a'},
  '燕锋':{g:'燕',role:'猎鹰突击队 · 调遣队员',col:'#e2a93e'},
+ '格雷':{g:'格',role:'SAS 第22特别空勤团 · 指挥官',col:'#7fb3d5'},
  '考官':{g:'考',role:'猎鹰考核组',col:'#c9503f'},
  '你':{g:'我',role:'新兵',col:'#93ac6d'}
 };
+/* ---- 第二条剧情线：机场行动前，SAS 指挥官「格雷」报到 ---- */
+var DRG2=[
+ {A:'机场行动 · 简报',S:'office'},
+ ['格雷','我是格雷，英国 SAS 第 22 特别空勤团。这次以观察员身份跟着你们行动。','office'],
+ ['你','观察员？','office'],
+ ['格雷','名义上是。实际是我欠你们一个人情，来还。','office'],
+ ['格雷','这栋楼我三年前走过一遍，那时候还是演习。','office'],
+ ['格雷','两层，中央一部楼梯，控制室在二层东侧，能看见整个大厅。','office'],
+ ['格雷','建议先清一层，再上二层。别反过来。','office'],
+ ['你','为什么？','office'],
+ ['格雷','从二层下来的人会堵在楼梯口，那是唯一能预判的位置。','office'],
+ ['格雷','Clear it floor by floor——一层一层来，别贪快。','office'],
+ ['你','你跟谁学的这句？','office'],
+ ['格雷','跟教我的人。他没能走出那栋楼。','office'],
+ ['格雷','所以这次我走在你后面，替你看着背后。','building'],
+ ['格雷','走吧。你带路，我压后。','building']
+];
+var DRG_BG2={t:'机场行动 · 随行观察员档案',b:[
+ '任务：赤隼把机场当作撤离通道，一层航站楼、二层商业区，人质被扣在候机区。',
+ '随行：英国 SAS 第 22 特别空勤团指挥官「格雷」，以观察员身份随队。此人参加过三次同类场站行动，擅长逐层清理。',
+ '地形：两层结构，中央单一楼梯。二层控制室可俯瞰大厅，是最危险也最关键的房间。',
+ '要求：逐层清除，两层清空后回一层前门撤离。人质优先。',
+ '备注：格雷不入编队、不听指挥，只提供建议。他的建议通常值得听。'
+]};
+var DRG_MAIN=null,DRG_BG_MAIN=null,drgAfter=null;
+function playDrama2(cb){
+ if(!DRG_MAIN){DRG_MAIN=DRG;DRG_BG_MAIN=DRG_BG}
+ DRG=DRG2;DRG_BG=DRG_BG2;drgAfter=cb||null;W.__d2=1;playDrama()}
 function drgCur(){return DRG[drgI]}
 function drgSpeaker(name){var S=DRG_SPK[name]||{g:(name||'？').charAt(0),role:'',col:'#93ac6d'};
  var b=$('dBadge');b.textContent=S.g;b.style.color=S.col;b.style.borderColor=S.col;
@@ -5964,7 +6033,10 @@ function drgQuit(){
  $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');
  goMenu()}
 function drgEnd(){cancelAnimationFrame(drgR);drgDone=true;
- $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');dStartExam()}
+ $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');
+ if(W.__d2){W.__d2=0;DRG=DRG_MAIN;DRG_BG=DRG_BG_MAIN;
+  var f=drgAfter;drgAfter=null;if(f){f();return}}
+ dStartExam()}
 function drgType(){var seg=drgCur();
  $('dOpts').innerHTML='';$('dNext').classList.remove('on');drgBuf='';drgL=0;
  if(!seg||typeof seg==='string'){drgSpeaker('旁白');drgBuf=(seg&&seg[1])||'';drgL=drgBuf.length;
@@ -6343,7 +6415,7 @@ function brief(){var c=LS6[ST.lv-1];
  leaveRange();
  var go=$('bGo');if(go)go.textContent='进入战场';
  $('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho(heroActive()?'英雄队员 燕锋 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）'));
+ renderWho(heroActive()?'英雄队员 燕锋 · 三武器槽':(greyActive()?'英雄队员 格雷 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）')));
  var o=$('fO');o.innerHTML='';
  c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  var tot=0,k;for(k in c.foe)tot+=c.foe[k];
@@ -6360,6 +6432,7 @@ function brief(){var c=LS6[ST.lv-1];
  if(cs){cb.classList.remove('hidden');
   cb.textContent='继续任务（'+fmt(cs.t)+'）'}
  else cb.classList.add('hidden');
+ if(c.air&&ST.hero2!==1){if(!ST.seenGrey){ST.seenGrey=1;save();playDrama2(function(){show('sBrief');setScr('brief')});return}}
  if(c.recruit&&ST.hero!==1){playDrama();return}
  if(c.recruit&&ST.hero===1){brief2Exam();return}
  show('sBrief');setScr('brief')}
@@ -6455,6 +6528,8 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
   (ST.xpm>ST.xp?('（峰值 '+RKLAD[rankPk()][0]+'）'):''));
  $('bNext').classList.toggle('hidden',!(win&&ST.lv<6));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
+ if(win&&ST.lv===7&&ST.hero2!==1){ST.hero2=1;save();
+  try{toast('机场行动完成 · 英雄队员「格雷」已编入序列',3400)}catch(e){}}
  if(win&&ST.lv===8&&ST.hero!==1){ST.hero=1;ST.storyDone=1;save();
   try{toast('剧情完成 · 国产枪族全部解锁',3200)}catch(e){}
   $('rTtl').textContent='猎鹰招募通过 · QBZ-191 与英雄队员「燕锋」已解锁';}
@@ -6484,15 +6559,16 @@ function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
  var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
  return ST.hu}
 function openHero(){
- if(ST.hero!==1){toast('英雄队员尚未编入序列：通过 OP-06 猎鹰招募后解锁',3000);return}
+ if(ST.hero!==1&&ST.hero2!==1){toast('英雄队员尚未编入序列：先通过 OP-06 或完成机场行动',3000);return}
  show('sHero');setScr('hero');renderHero()}
 function renderHero(){if(!$('heroList'))return;var q=heroQuota();
  $('hqLeft').textContent=q.left;
  var l=$('heroList');l.innerHTML='';
- if(ST.hero!==1){
+ if(ST.hero!==1&&ST.hero2!==1){
   var nk=mk('div','note');
   nk.textContent='尚未通过 OP-06 猎鹰招募：通过考核后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
   l.appendChild(nk);return}
+ if(ST.hero===1){
  /* 三武器槽：两主一副，进局后按 1 / 2 / 3 切换 */
  var hl=heroLoadOf(),slots=['主武器一','主武器二','副武器'];
  slots.forEach(function(lb,i){
@@ -6502,6 +6578,28 @@ function renderHero(){if(!$('heroList'))return;var q=heroQuota();
   row.appendChild(de);l.appendChild(row)});
  var tip=mk('div','note');tip.textContent='带入战场后：1 / 2 切主武器，3 切副武器，Q 快速切回上一把。下方点「主1／主2／副」即可换枪。';
  l.appendChild(tip);
+ }
+ /* 格雷：SAS 指挥官，通关机场后编入 */
+ if(ST.hero2===1){
+  var h2=heroLoadOf2(),nm2=['主武器一','主武器二','副武器'];
+  var hd2=mk('div','note');hd2.style.marginTop='10px';
+  hd2.textContent='英雄队员 · 格雷（SAS 第22特别空勤团指挥官）';l.appendChild(hd2);
+  nm2.forEach(function(lb,i){
+   var row=mk('div','heroRow');
+   var nm=mk('b');nm.textContent=lb;row.appendChild(nm);
+   var de=mk('i');de.textContent=(WM[h2[i]]?WM[h2[i]].n:h2[i])+(WM[h2[i]]&&WM[h2[i]].cn?' · '+WM[h2[i]].cn:'');
+   row.appendChild(de);
+   var bt=mk('button','btn sm');bt.textContent='换枪';
+   bt.onclick=function(e){e.preventDefault();snd.ui();
+    var pool=WP.filter(function(o){return gunOk(o.id)&&!o.hero&&(i===2?o.cls==='pistol':o.cls!=='pistol')});
+    if(!pool.length)return;var at=-1,k;
+    for(k=0;k<pool.length;k++)if(pool[k].id===h2[i])at=k;
+    setHeroSlot2(i,pool[(at+1)%pool.length].id)};
+   row.appendChild(bt);l.appendChild(row)});
+  var tp2=mk('div','note');
+  tp2.textContent='格雷被动：护甲 +12 · 换弹 −15% · 移速 +2%；出战三武器槽按 1 / 2 / 3 切换。';
+  l.appendChild(tp2);
+ }
  var wrap=mk('div','rlWrap'),list=mk('div');list.id='heroGunList';
  WP.forEach(function(o){
   var r=mk('div','rlRow');
@@ -6678,6 +6776,8 @@ bind('bDfToggle',function(){var c=$('dfCard');if(!c)return;
  var open=c.classList.toggle('open');
  if($('dfArrow'))$('dfArrow').textContent=open?'收起 ▴':'展开 ▾';
  if(open)renderDiffCard()});
+bind('bOpGrey',function(){if(ST.hero2!==1){toast('通关机场后解锁「格雷」',2600);return}
+ setOp('grey');toast('出战队员：格雷 · SAS 指挥官',2000)});
 bind('bOpHero',function(){if(ST.hero!==1){toast('通过 OP-06 猎鹰招募后解锁「燕锋」',2600);return}
  setOp('hero');toast('出战队员：燕锋 · 三武器槽',2000)});
 bind('bHeroBack',function(){show('sMenu');setScr('menu');renderLv()});
