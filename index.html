@@ -190,6 +190,37 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .rlRow .btn{flex:0 0 auto;padding:3px 8px;font-size:11px;line-height:1.5}
 .rlRow .btn.on{border-color:#4d8fb5;background:#16303d;color:#dff0fa}
 .rlRow .btn:disabled{opacity:.28}
+/* 出战队员选择行 */
+.opRow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
+.opRow .opL{font-size:10.5px;letter-spacing:.22em;color:#7d93a6;flex:0 0 auto}
+.opB{display:flex;flex-direction:column;gap:2px;align-items:flex-start;flex:1 1 190px;max-width:270px;
+ padding:8px 12px;border:1px solid #24323d;border-radius:6px;background:rgba(14,20,26,.72);
+ color:#cfe0ea;font-size:12.5px;font-weight:600;cursor:pointer;text-align:left;line-height:1.35}
+.opB span{font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.opB b{font-size:10px;font-weight:400;color:#7f939f;letter-spacing:.03em}
+.opB.on{border-color:#6f8a3e;background:linear-gradient(180deg,#1a2618,#111a12);
+ box-shadow:inset 0 0 0 1px rgba(157,187,133,.22)}
+.opB.on b{color:#9dbb85}
+.opB.lock{opacity:.45;cursor:not-allowed}
+.opTip{margin:0 0 10px;font-size:10.5px;color:#71879a;line-height:1.6}
+/* 难度折叠卡：收起时一行，点开是五档叠加 */
+.dfCard{border:1px solid #24323d;border-radius:6px;background:rgba(14,20,26,.72);margin:0 0 12px;overflow:hidden}
+.dfHead{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;background:none;
+ cursor:pointer;text-align:left;font:inherit;color:#cfe0ea}
+.dfHead .dfL{font-size:10.5px;letter-spacing:.22em;color:#7d93a6;flex:0 0 auto}
+.dfHead b{font-size:13px;color:#f0d890;font-weight:700;flex:0 0 auto}
+.dfHead i{flex:1;font-style:normal;font-size:10.5px;color:#7f939f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dfHead .dfArrow{flex:0 0 auto;font-size:10.5px;color:#8fb0c4}
+.dfList{max-height:0;overflow:hidden;transition:max-height .28s ease}
+.dfCard.open .dfList{max-height:460px}
+.dfRow{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:0;border-top:1px solid #1a242c;
+ background:none;cursor:pointer;text-align:left;font:inherit;color:#b9ccd8}
+.dfRow:hover{background:rgba(120,160,190,.07)}
+.dfRow.on{background:linear-gradient(90deg,rgba(157,187,133,.14),transparent);color:#e9f2f8}
+.dfRow .dfN{flex:0 0 58px;font-size:12.5px;font-weight:700}
+.dfRow.on .dfN{color:#9dbb85}
+.dfRow .dfT{flex:1;font-size:10.5px;color:#7f939f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dfRow .dfTag{flex:0 0 auto;font-size:9.5px;color:#6d8393;letter-spacing:.04em}
 .cardRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .card .rep{border-color:#3a4a5a;color:#bcd2e0}
 @media (max-width:520px){
@@ -1099,6 +1130,22 @@ table.rt td:last-child{text-align:right;font-weight:600}
       </div>
     </div>
 
+    <!-- 出战队员：普通队员 / 英雄队员（OP-06 通过后解锁） -->
+    <div class="opRow" id="opRow">
+      <span class="opL">出战队员</span>
+      <button class="opB on" id="bOpNorm"><span>普通队员</span><b>你自己 · 主武器 + 副武器</b></button>
+      <button class="opB" id="bOpHero"><span>英雄队员 · 燕锋</span><b>通过 OP-06 后解锁</b></button>
+    </div>
+    <div class="opTip" id="opTip"></div>
+
+    <!-- 难度：折叠成一张卡，点开是五档叠加 -->
+    <div class="dfCard" id="dfCard">
+      <button class="dfHead" id="bDfToggle">
+        <span class="dfL">难度</span><b id="dfNow">—</b><i id="dfNowD"></i><span class="dfArrow" id="dfArrow">展开 ▾</span>
+      </button>
+      <div class="dfList" id="dfList"></div>
+    </div>
+
     <h3>作战序列 <span class="h3sub">由易到难 · 依次解锁</span></h3>
     <div class="grid" id="lvList"></div>
     <div class="note">武器参数口径：取自公开文献与厂商页面，部分为区间值或近似值，可能因型号批次、弹种与测量口径不同而与官方数据存在差异；
@@ -1280,7 +1327,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 
 <!-- SECTION: markup-hero -->
 <section class="screen" id="sHero"><div class="wrap" style="max-width:760px">
-  <div class="eyebrow">HERO OPERATOR · 猎鹰突击队</div>
+  <div class="eyebrow">HERO OPERATOR · 五区行动序列</div>
   <h1>英雄队员</h1>
   <div class="heroCard">
     <div class="heroArt">
@@ -1302,15 +1349,16 @@ table.rt td:last-child{text-align:right;font-weight:600}
       </svg>
     </div>
     <div class="heroMeta">
-      <div class="heroName">燕锋<span class="heroTag">猎鹰 · 队长</span></div>
-      <div class="heroRankRow"><i>★</i> 少校 · 猎鹰突击队</div>
-      <p class="heroDesc">猎鹰突击队教官，QBZ-191 与国产枪族的使用者。少校军衔赋予他临时授权权限——可动用军械库中尚未解锁的装备。</p>
+      <div class="heroName">燕锋<span class="heroTag">猎鹰调配 · 强化训练</span></div>
+      <div class="heroRankRow"><i>★</i> 中尉 · 原猎鹰突击队突击手</div>
+      <p class="heroDesc">从猎鹰突击队调遣至五区行动序列的突击手。随调令一同移交的还有一份强化训练计划——通过 OP-06 猎鹰招募后，训练完成，他即由玩家操控出战：三武器槽（两主一副）＋ 护甲 +18 ／ 移速 +4%。调令附带的临时调阅授权，可动用军械库中尚未解锁的装备。</p>
       <div class="heroQuota">今日剩余授权 <b id="hqLeft">3</b> / 3 · 每日 00:00（北京时间）刷新</div>
     </div>
   </div>
-  <h3>装备解锁 <span class="h3sub">每次消耗 1 次授权 · 解锁后全模式可用</span></h3>
+  <h3>武器槽与装备调阅 <span class="h3sub">三槽位随时可换 · 每次调阅消耗 1 次授权</span></h3>
   <div id="heroList" class="heroList"></div>
-  <div class="bar"><button class="btn p" id="bHeroBack">返回</button></div>
+  <div class="bar"><button class="btn p" id="bHeroGo">去选择出战队员</button>
+    <button class="btn" id="bHeroBack">返回</button></div>
 </div></section>
 
 <!-- SECTION: markup-range-load -->
@@ -2033,7 +2081,7 @@ var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,
  threat:'12 名持械佣兵（含 2 名重装、2 名精确射手）· 2 名人质',
  terr:'两进式训练楼：上下三层房间 + 两道横向走廊，门多、拐角多',
  hint:'先破门再切角 · 重装兵打头用穿甲，精确射手优先压制',
- intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是带一名队员真的把人清出来。',
+ intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是独自进楼，把人清出来、把人质带出来。',
  obj:['看完猎鹰剧情讲解','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
  roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
@@ -2276,7 +2324,7 @@ var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,diff:5,
- gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
+ gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,op:'norm',
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
@@ -2312,6 +2360,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&typeof jd.a==='number')ST.ally=jd.a?1:0;
   if(jd&&typeof jd.h==='number')ST.hint=jd.h?1:0;
   if(jd&&jd.hr)ST.hero=1;
+ if(jd&&jd.op==='hero')ST.op='hero';
   if(jd&&jd.tcf)ST.tcfraw=jd.tcf;}}catch(e){}
 /* 玩家唯一标识：排行榜靠它区分同名玩家，并把同一个人的多次上传合并成一行 */
 function mkPid(){var s='',a='abcdefghijkmnpqrstuvwxyz23456789',i;
@@ -2330,7 +2379,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
   if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
   return ST.storyDone===1}
  if(o.hero)return ST.hero===1;
- if(ST.hw&&ST.hw[id])return true;    /* 少校授权（仅非国产装备） */
+ if(ST.hw&&ST.hw[id])return true;    /* 临时调阅授权（仅非国产装备） */
  return (o.tk==null?0:o.tk)<=tierPk()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'m4a1';
@@ -2339,7 +2388,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
- gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
+ gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
 function addXp(v){
@@ -2881,17 +2930,18 @@ g.restore();
  if(c.range){var rgl=rgLoadOf();guns=[pickGun(rgl[0],'m4a1'),pickGun(rgl[1],'m4a1'),pickGun(rgl[2],'g19')]}
  else if(c.recruit)guns=[WM.qbz191||WM.m4a1,WM.qsz19||WM.g19];
  /* 英雄队员：两把主武器 + 一把副武器（三把可切换） */
- else if(ST.hero===1){
+ else if(heroActive()){
   var hl=heroLoadOf();
   guns=[pickGun(hl[0],'m4a1'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}
- var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20);
+ var heroB=heroActive()?1:0;
+ var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0);
  var brc=ST.gd.breach|0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:idx>=4?3:2,bossDown:0,alertMod:1+of.alert,
   stickyN:brc?2:0,stickN:(ST.gd.optic2|0)?2:0,dn2:0,allyOn:ST.ally!==0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
-   sp:Math.round(208*(1+of.mob)*(pl?1-.11:1-.04)),vx:0,vy:0,
+   sp:Math.round(208*(1+of.mob+(heroB?.04:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.5,air:0,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
@@ -2902,6 +2952,9 @@ g.restore();
 }
 
 /* ---- 英雄队员三武器槽 ---- */
+/* 当前出战队员：普通队员（你）／英雄队员（燕锋，需通过 OP-06 猎鹰招募） */
+function heroActive(){return ST.hero===1&&ST.op==='hero'}
+function setOp(op){ST.op=(op==='hero'&&ST.hero===1)?'hero':'norm';save();renderOpRow()}
 function heroLoadOf(){
  var m1=ST.load[0]||'m4a1',m2=ST.load[1],pd=WM[m2]&&WM[m2].cls==='pistol'?m2:'g19';
  if(!m2||WM[m2].cls==='pistol')m2=(WM.scarh?'scarh':'m4a1');
@@ -3150,7 +3203,8 @@ function updGun(){var g=cur(),p=G.p;
  $('amW').textContent=g.w.n;
  var thr=beltText(p)+(p.light?' · 枪灯 开':' · 枪灯 关');
  $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
-  (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''))}
+  (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''));
+ if(typeof updKbar==='function')updKbar()}
 /* 腰封内容文本，HUD 与军械库共用 */
 function beltText(p){
  var o=['frag','stun','flash'],s=[],i;
@@ -4575,8 +4629,8 @@ function drawThrowModel(g,x,y,t,rot){
   g.fillStyle='#c9c2a3';g.fillRect(-1.5,-8,3,2.2);
  }
  g.restore()}
-function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit);
- drawSoldier(p.x,p.y,p.aa,{body:of.look,helm:shade(of.look,-.02),cls:w1.cls,
+function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit),hb=heroActive(),bd=hb?'#41503b':of.look;
+ drawSoldier(p.x,p.y,p.aa,{body:bd,helm:shade(bd,-.02),cls:w1.cls,
   mv:Math.hypot(p.vx,p.vy)>10,accent:'#e2a93e'});
  /* 枪口焰：装消焰器基本看不到火（弹道照常），装制退器有主焰 + 两侧泄流 */
  if(p.kd>Math.max(.015,60/w1.rpm)-.05){
@@ -4594,7 +4648,7 @@ function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit);
    ctx.beginPath();ctx.moveTo(mw+1,0);ctx.lineTo(mw-5,9);ctx.lineTo(mw+3,1.5);ctx.closePath();ctx.fill();
   }
   ctx.restore()}
- drawNameTag(p.x,p.y-31,ST.name||'你','#f0d890')}
+ drawNameTag(p.x,p.y-31,hb?'燕锋':(ST.name||'你'),'#f0d890')}
 function drawAlly(a){var fv=a.rjT>0?clamp(Math.abs(a.rjT-.29)/.29,0,1):1;
  if(a.down){ctx.save();ctx.globalAlpha=.8*fv;ctx.fillStyle='#2c3338';
   ctx.beginPath();ctx.ellipse(a.x,a.y,a.r*1.15,a.r*.62,0,0,TAU);ctx.fill();
@@ -5270,10 +5324,44 @@ setInterval(function(){
  if(ST.scr==='menu'){
   if(n)renderLv();else if(ST.swp)sweepLabels()}
 },1000);
+/* 难度折叠卡：收起时一行，点一次展开五档，选一档即收起 */
+function renderDiffCard(){
+ var card=$('dfCard'),now=$('dfNow'),dd=$('dfNowD'),list=$('dfList');
+ if(!card||!now||!list)return;
+ var d=diffDef(ST.diff||1);
+ now.textContent=d.n;dd.textContent=d.d;
+ list.innerHTML='';
+ DIFF.forEach(function(x){
+  var b=mk('button','dfRow'+(ST.diff===x.k?' on':''));
+  var n=mk('span','dfN');n.textContent=x.n;b.appendChild(n);
+  var t=mk('span','dfT');t.textContent=x.d;b.appendChild(t);
+  var n5=0,i;for(i=1;i<=5;i++)if(isCleared(i,x.k))n5++;
+  var g=mk('span','dfTag');g.textContent=n5?('已通关 '+n5+'/5'):'未通关';b.appendChild(g);
+  b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();
+   ST.diff=x.k;save();card.classList.remove('open');
+   if($('dfArrow'))$('dfArrow').textContent='展开 ▾';
+   renderDiffCard();renderLv();toast('难度：'+x.n+' · '+x.d,2400)});
+  list.appendChild(b)})}
+/* 出战队员选择行（地图选择界面） */
+function renderOpRow(){
+ var n=$('bOpNorm'),h=$('bOpHero');if(!n||!h)return;
+ var un=ST.hero===1;
+ if(!un&&ST.op==='hero')ST.op='norm';
+ n.classList.toggle('on',ST.op!=='hero');
+ h.classList.toggle('on',un&&ST.op==='hero');
+ h.classList.toggle('lock',!un);
+ var d=n.querySelector('b'),e=h.querySelector('b');
+ if(d)d.textContent='你自己 · 主武器 + 副武器';
+ if(e)e.textContent=un?'猎鹰调配 · 三武器槽':'通过 OP-06 后解锁';
+ var t=$('opTip');
+ if(t)t.textContent=!un?'英雄队员「燕锋」将在通过 OP-06 猎鹰招募后编入作战序列'
+  :(ST.op==='hero'?'当前由英雄队员「燕锋」出击：三武器槽 · 护甲 +18 · 移速 +4%'
+   :'当前由你自己出击：一主一副，配装以军械库为准');
+}
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderPbar();
  if($('rankCard')&&!$('rankCard').classList.contains('hidden'))renderRank();
- renderLvRail();sweepTick();syncMailBadge();
+ renderLvRail();sweepTick();syncMailBadge();renderOpRow();renderDiffCard();
  if($('chipW'))$('chipW').textContent=WP.length;
  if($('chipR'))$('chipR').textContent=RKLAD.length;
  /* 只遍历 5 张主线地图；OP-06 考核单独由 lvCard6() 渲染，避免重复卡片 */
@@ -5295,7 +5383,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   bs.textContent=cont?'进行中 '+fmt(cont.t):bb?(bb.rate+' · '+fmt(bb.time)):(locked?'未解锁':'待执行');
   if(cont)bs.className='badge b';
   mt.appendChild(bs);
-  var tg=mk('span','badge');tg.className='badge';tg.textContent='基准 '+fmt(c.par);mt.appendChild(tg);
+  var tg=mk('span','badge');tg.className='badge';tg.textContent=diffDef(ST.diff||1).n+' · '+fmt(diffPar(c,ST.diff||1));mt.appendChild(tg);
   b.appendChild(mt);
   /* 通关后可派 AI 扫荡 */
   if(bb){
@@ -5352,31 +5440,34 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  lvCard6()}
 var DRG=[
  {A:'第一幕 · 报到',S:'office'},
- ['燕锋','坐。别站着——今天不是来罚你的。','office'],
- ['燕锋','你的档案我看过：射击优秀，体能达标，两次处置零误伤。','office'],
- ['燕锋','但档案不写一件事——门后面你是什么样的人。','office'],
+ ['沈钺','坐。别站着——今天不是来罚你的。','office'],
+ ['沈钺','你的档案我看过：射击优秀，体能达标，两次处置零误伤。','office'],
+ ['沈钺','但档案不写一件事——门后面你是什么样的人。','office'],
  ['你','所以今天就是来看这个的。','office'],
- ['燕锋','今天三步：在这儿把话讲清楚，去靶场把枪摸熟，最后进训练楼打实弹。','office'],
- ['燕锋','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人我不带上街。','office'],
+ ['沈钺','今天三步：在这儿把话讲清楚，去靶场把枪摸熟，最后进训练楼打实弹。','office'],
+ ['沈钺','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人我不带上街。','office'],
  ['你','我不打算走到一半。','office'],
- ['燕锋','记住这句话。等会儿在靶场，我会再问你一次。','office'],
+ ['沈钺','记住这句话。等会儿在靶场，我会再问你一次。','office'],
+ ['沈钺','还有件事：这次不止你一个。猎鹰调了一名突击手过来，叫燕锋，跟你同一批练。','office'],
+ ['你','猎鹰的人，怎么会到这儿来？','office'],
+ ['沈钺','调令上写的是「特别强化训练」。练完，他就编进你的作战序列。','office'],
  {A:'第二幕 · 枪',S:'range'},
- ['燕锋','桌上三支，全是国产。先从你会天天带的那支说起。','range'],
- ['燕锋','QSZ-19，制式手枪，2019 年公开亮相，20 发弹匣。它是保底的，不是主力。','range'],
- ['燕锋','QBZ-03，5.8 毫米，弹道平、中距离稳。枪老，但指哪打哪。','range'],
- ['燕锋','QBZ-191，现役新一代枪族。今天考核指定的就是它。','range'],
- ['燕锋','参数背下来没用。有用的是据枪稳、贴腮实、后压匀。','range'],
- ['燕锋','枪是手的延伸。你握得像攥拳头，它就替你乱指。','range'],
+ ['沈钺','桌上三支，全是国产。先从你会天天带的那支说起。','range'],
+ ['沈钺','QSZ-19，制式手枪，2019 年公开亮相，20 发弹匣。它是保底的，不是主力。','range'],
+ ['沈钺','QBZ-03，5.8 毫米，弹道平、中距离稳。枪老，但指哪打哪。','range'],
+ ['沈钺','QBZ-191，现役新一代枪族。今天考核指定的就是它。','range'],
+ ['沈钺','参数背下来没用。有用的是据枪稳、贴腮实、后压匀。','range'],
+ ['沈钺','枪是手的延伸。你握得像攥拳头，它就替你乱指。','range'],
  ['你','这样？','range'],
- ['燕锋','再低两指。别用眼睛找枪口，用肩膀找。','range'],
+ ['沈钺','再低两指。别用眼睛找枪口，用肩膀找。','range'],
  {A:'第三幕 · 门'},
- ['燕锋','五区里最难的不是开枪，是进门。门后三米可能是刀，也可能人质就贴在刀后面。','range'],
- ['燕锋','进门之前先建房间模型：门缝、合页方向、把手温度、地上有没有拖拽痕。','range'],
- ['燕锋','破门之后两秒内必须有人进。第一个切远角，第二个补近角，后面压中间。','range'],
- ['燕锋','今天这一课只有你跟我，但道理一样——门在哪，人就跟到哪。','range'],
- ['燕锋','记住三件事：破门前先看门缝，人质优先于击毙，扳机手指永远在护圈外。','range'],
+ ['沈钺','五区里最难的不是开枪，是进门。门后三米可能是刀，也可能人质就贴在刀后面。','range'],
+ ['沈钺','进门之前先建房间模型：门缝、合页方向、把手温度、地上有没有拖拽痕。','range'],
+ ['沈钺','破门之后两秒内必须有人进。第一个切远角，第二个补近角，后面压中间。','range'],
+ ['沈钺','今天这一课只有你跟我，但道理一样——门在哪，人就跟到哪。','range'],
+ ['沈钺','记住三件事：破门前先看门缝，人质优先于击毙，扳机手指永远在护圈外。','range'],
  ['你','如果我判断错了呢？','range'],
- ['燕锋','那就错得快一点，然后立刻改。犹豫才是最贵的错误。','range'],
+ ['沈钺','那就错得快一点，然后立刻改。犹豫才是最贵的错误。','range'],
  {A:'第四幕 · 甄别'},
  ['考官','现在换我问。答案没有对错，但我会记住你怎么想。','range'],
  {Q:'Q1',P:'突入瞬间，门后一个身影举起了手臂。你只看见一个轮廓。',
@@ -5384,24 +5475,28 @@ var DRG=[
  ['考官','犹豫会死人，但扣错的扳机杀的是自己人。你至少知道先看一眼。','range'],
  {Q:'Q2',P:'撤离点遭火力压制，一名人质落在掩体外三米。',
   O:['火力压住，自己冲出去拖','呼叫交替掩护，全队一起拖','先清压制点再回头']},
- ['燕锋','标准只有一个：人质要带出来，队友也不能白死。顺序和手段，体现你怎么想。','range'],
+ ['沈钺','标准只有一个：人质要带出来，你自己也得站着回来。顺序和手段，体现你怎么想。','range'],
  {A:'第五幕 · 实弹',S:'building'},
- ['燕锋','靶场取消了。今天的考题是这栋楼：三层、两道横向走廊、十二名持械人员、两名人质。','building'],
- ['燕锋','没有射击线，没有固定靶位。清空守敌，把人质带出，从楼顶侧门撤离。','building'],
+ ['沈钺','靶场取消了。今天的考题是这栋楼：三层、两道横向走廊、十二名持械人员、两名人质。','building'],
+ ['沈钺','没有射击线，没有固定靶位。清空守敌，把人质带出，从楼顶侧门撤离。','building'],
  ['你','人质在几层？','building'],
- ['燕锋','不知道。你得自己找。','building'],
- ['燕锋','还有一条：找到人质之后，你的每一步都会写进报告。','building'],
+ ['沈钺','不知道。你得自己找。','building'],
+ ['沈钺','还有一条：找到人质之后，你的每一步都会写进报告。','building'],
+ ['燕锋','沈教官让我守侧门。你从正门进，后面交给我。','building'],
+ ['沈钺','你们两个都别抢。今天的科目是清楼，不是比谁快。','building'],
  {A:'第六幕 · 确认'},
  ['考官','考核标准：清空全部守敌，两名人质生还，从指定门撤离。任一条件不满足即为不合格。','building'],
  ['考官','装备按军衔发放，用不惯也别怨枪。','building'],
- ['燕锋','枪在右手，道理在心里。','building'],
- ['燕锋','去吧。我跟着你，最后一发我看着。','building']
+ ['燕锋','我在侧门等你。出来的时候别回头。','building'],
+ ['沈钺','枪在右手，道理在心里。','building'],
+ ['沈钺','去吧。我跟着你，最后一发我看着。','building']
 ];
 /* 招收背景：剧情开始前读的一段档案，不与任何角色对话混在一起 */
 var DRG_BG={t:'五区行动 · 第三期补充招募',b:[
  '背景：城南工业带往外，五片城区被同一伙人分段占着——公寓、商场、KTV、港口、郊野储运站。他们不喊口号，只收过路费、扣人质，把军火往外卖。半年下来，这五片地方被统称为「五区」。',
  '处置：武警与特警联合展开清剿，行动代号「五区行动」。顺序由易到难，一区一区往里推；每推进一区，对方的装备和反应都会更硬。',
  '主力：猎鹰突击队。编制不大，接的都是最里面那扇门后面的活——破门、清房、把人质带出来。',
+ '抽调：猎鹰突击队向本批训练调遣一名突击手「燕锋」，随第三期一同强化训练。训练合格后，他编入五区行动序列，由你调遣出战。',
  '你：档案上名字后面跟着「预备队员」。你从基层单位选拔上来，考核成绩排在前面，但还没有人见过你在门后是什么样。',
  '须知：人质优先于击毙；能缴械就不开枪；误伤平民按违规重处。任务失败会扣军衔分，但已经解锁的装备永不回收。',
  '今天：猎鹰第三期补充招募，考核编号 OP-06。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
@@ -5410,7 +5505,8 @@ var drgI=0,drgL=0,drgBuf='',drgR=0,drgVote=[],drgT0=0,drgDone=false;
 /* 角色卡：字形、身份、强调色 */
 var DRG_SPK={
  '旁白':{g:'旁',role:'行动记录',col:'#6f8494'},
- '燕锋':{g:'燕',role:'猎鹰教官 · 代号「燕锋」',col:'#e2a93e'},
+ '沈钺':{g:'沈',role:'猎鹰招募教官 · 代号「沈钺」',col:'#c9a15a'},
+ '燕锋':{g:'燕',role:'猎鹰突击队 · 调遣队员',col:'#e2a93e'},
  '考官':{g:'考',role:'猎鹰考核组',col:'#c9503f'},
  '你':{g:'我',role:'新兵',col:'#93ac6d'}
 };
@@ -5703,7 +5799,7 @@ function brief2Exam(){leaveRange();
  var dr0=$('diffRow');if(dr0)dr0.classList.add('hidden');
  var go0=$('bGo');if(go0)go0.textContent='进入战场';
  var c=LS6[6];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho('你 · Bravo-2 突击（实弹环境）');
+ renderWho(heroActive()?'英雄队员 燕锋 · 实弹环境':'你 · 实弹环境（单人）');
  var o=$('fO');o.innerHTML='';c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  $('fE').textContent='12 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
@@ -5816,13 +5912,14 @@ function brief(){var c=LS6[ST.lv-1];
  leaveRange();
  var go=$('bGo');if(go)go.textContent='进入战场';
  $('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）');
+ renderWho(heroActive()?'英雄队员 燕锋 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）'));
  var o=$('fO');o.innerHTML='';
  c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  var tot=0,k;for(k in c.foe)tot+=c.foe[k];
  $('fE').textContent=tot+' 人'+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv);
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
- $('fH').textContent=c.hint+'（当前主武器：'+WM[ST.load[0]].n+'）';
+ var mn=heroActive()?(WM[heroLoadOf()[0]]||WM.m4a1).n:WM[ST.load[0]].n;
+ $('fH').textContent=c.hint+'（当前主武器：'+mn+'）';
  $('fP').textContent=fmt(diffPar(c,ST.diff))+' 内完成为满分基准（'+diffDef(ST.diff).n+'）';
  $('fG').textContent=c.roe;
  renderDiffRow();
@@ -5886,7 +5983,7 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  $('rTtl').textContent=win?(ST.lv>=5?'全部区域清除 · 行动结束':(c.nm+' 已完成')):(c.nm+' · 行动失败');
  var rr=$('rRate');rr.textContent=win?rate:'F';rr.className='rate'+(win?'':' f');
  $('rStar').textContent=win?('★★★★★'.slice(0,stv)+'☆☆☆☆☆'.slice(0,5-stv)):'☆☆☆☆☆';
- $('r1').textContent=fmt(sec)+'（基准 '+fmt(c.par)+'）';
+ $('r1').textContent=fmt(sec)+'（基准 '+fmt(L&&L.cfg?L.cfg.par:c.par)+'）';
  $('r2').textContent=G.killed+' 击毙 · '+G.disarmed+' 缴械';
  $('r3').textContent=accS+'%（'+G.hits+'/'+shots+'）';
  $('r4').textContent=Math.round(G.dmg);
@@ -5946,48 +6043,59 @@ function togAud(){ST.aud=ST.aud?0:1;
 
 /* SECTION: arsenal */
 var CCLS='rifle';
-/* SECTION: hero 英雄队员界面 · 少校授权解锁（北京时间每日 0 点刷新 3 次） */
+/* SECTION: hero 英雄队员界面 · 调阅授权解锁（北京时间每日 0 点刷新 3 次） */
 function cstDay(){var t=new Date(Date.now()+8*3600e3);
  return t.getUTCFullYear()+'-'+('0'+(t.getUTCMonth()+1)).slice(-2)+'-'+('0'+t.getUTCDate()).slice(-2)}
 function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
  var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
  return ST.hu}
 function openHero(){
- if(ST.hero!==1){toast('尚未获得少校授权：通关剧情后解锁英雄队员',3000);return}
+ if(ST.hero!==1){toast('英雄队员尚未编入序列：通过 OP-06 猎鹰招募后解锁',3000);return}
  show('sHero');setScr('hero');renderHero()}
 function renderHero(){if(!$('heroList'))return;var q=heroQuota();
  $('hqLeft').textContent=q.left;
  var l=$('heroList');l.innerHTML='';
- /* 英雄三武器槽：两把主武器 + 一把副武器，进局后按 1 / 2 / 3 切换 */
- if(ST.hero===1){
-  var hl=heroLoadOf(),slots=['主武器一','主武器二','副武器'];
-  slots.forEach(function(lb,i){
-   var row=mk('div','heroRow');
-   var nm=mk('b');nm.textContent=lb;row.appendChild(nm);
-   var de=mk('i');de.textContent=(WM[hl[i]]||{}).n||hl[i];row.appendChild(de);
-   var bt=mk('button','btn sm');bt.textContent='换枪';
-   bt.onclick=function(e){e.preventDefault();snd.ui();
-    var pool=WP.filter(function(o){return gunOk(o.id)&&!o.hero&&(i===2?o.cls==='pistol':o.cls!=='pistol')});
-    if(!pool.length)return;
-    var at=-1,k;for(k=0;k<pool.length;k++)if(pool[k].id===hl[i])at=k;
-    setHeroSlot(i,pool[(at+1)%pool.length].id)};
-   row.appendChild(bt);l.appendChild(row)});
-  var tip=mk('div','note');tip.textContent='带入战场后：1 / 2 切主武器，3 切副武器，Q 快速切回上一把。';
-  l.appendChild(tip)}
- var arr=WP.filter(function(o){return !o.hero&&!/国产/.test(o.cn||'')&&!gunOk(o.id)});
- if(!arr.length){var em=mk('div','note');em.textContent='当前没有需要解锁的装备 · 军械库全部可用';l.appendChild(em);return}
- arr.forEach(function(o){
+ if(ST.hero!==1){
+  var nk=mk('div','note');
+  nk.textContent='尚未通过 OP-06 猎鹰招募：通过考核后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
+  l.appendChild(nk);return}
+ /* 三武器槽：两主一副，进局后按 1 / 2 / 3 切换 */
+ var hl=heroLoadOf(),slots=['主武器一','主武器二','副武器'];
+ slots.forEach(function(lb,i){
   var row=mk('div','heroRow');
-  var nm=mk('b');nm.textContent=o.n;row.appendChild(nm);
-  var de=mk('i');de.textContent=(o.cn||'')+(o.mk?' · '+o.mk:'');row.appendChild(de);
-  var bt=mk('button','btn sm');
-  bt.textContent=q.left>0?'授权解锁（-1）':'今日次数已用完';
-  bt.disabled=q.left<=0;
-  bt.onclick=function(){var qq=heroQuota();if(qq.left<=0)return;
-   qq.left--;ST.hw=ST.hw||{};ST.hw[o.id]=1;save();aInit();snd.sec();
-   toast('少校授权 · '+o.n+' 已解锁（全模式可用）',2600);renderHero();
-   if(typeof renderArs==='function')try{renderArs()}catch(e){} };
-  row.appendChild(bt);l.appendChild(row)})}
+  var nm=mk('b');nm.textContent=lb;row.appendChild(nm);
+  var de=mk('i');de.textContent=(WM[hl[i]]?WM[hl[i]].n:hl[i])+(WM[hl[i]]&&WM[hl[i]].cn?' · '+WM[hl[i]].cn:'');
+  row.appendChild(de);l.appendChild(row)});
+ var tip=mk('div','note');tip.textContent='带入战场后：1 / 2 切主武器，3 切副武器，Q 快速切回上一把。下方点「主1／主2／副」即可换枪。';
+ l.appendChild(tip);
+ var wrap=mk('div','rlWrap'),list=mk('div');list.id='heroGunList';
+ WP.forEach(function(o){
+  var r=mk('div','rlRow');
+  var n=mk('span','rn');n.textContent=o.n;r.appendChild(n);
+  var c=mk('span','rc');c.textContent=(o.cn||'');r.appendChild(c);
+  var un=gunOk(o.id);
+  for(var j=0;j<3;j++){
+   var okSlot=(j===2)?o.cls==='pistol':o.cls!=='pistol';
+   var b=mk('button','btn sm');
+   b.textContent=(j===2?'副':'主'+(j+1));
+   b.disabled=!okSlot||!un;
+   if(un&&okSlot&&hl[j]===o.id)b.classList.add('on');
+   b.onclick=(function(jj,id){return function(e){e.preventDefault();snd.ui();setHeroSlot(jj,id)}})(j,o.id);
+   r.appendChild(b)}
+  if(!un){
+   if(/国产/.test(o.cn||'')){
+    var tg2=mk('span','rc');tg2.style.flex='0 0 64px';tg2.textContent='剧情解锁';r.appendChild(tg2)
+   }else{
+    var uq=mk('button','btn sm');
+    uq.textContent=q.left>0?'授权 -1':'—';
+    uq.disabled=q.left<=0;
+    uq.onclick=function(){var qq=heroQuota();if(qq.left<=0)return;
+     qq.left--;ST.hw=ST.hw||{};ST.hw[o.id]=1;save();aInit();snd.sec();
+     toast('授权调阅 · '+o.n+' 已解锁（全模式可用）',2600);renderHero();
+     try{renderArs()}catch(e){}};
+    r.appendChild(uq)}}
+  list.appendChild(r)});
+ wrap.appendChild(list);l.appendChild(wrap)}
 function renderArs(){var lst=$('wpList');lst.innerHTML='';
  WP.filter(function(o){return o.cls===CCLS}).forEach(function(o){
   var r=mk('button','wrow'+((o.id===ST.load[0]||o.id===ST.load[1])?' sel':''));
@@ -6091,7 +6199,15 @@ bind('bTutArs',function(){openArs()});
   toast('已跳过新兵训练',1800);tutFinish()})})();
 bind('bArs',openArs);
 bind('bHero',openHero);
+bind('bOpNorm',function(){setOp('norm');toast('出战队员：你自己',1600)});
+bind('bDfToggle',function(){var c=$('dfCard');if(!c)return;
+ var open=c.classList.toggle('open');
+ if($('dfArrow'))$('dfArrow').textContent=open?'收起 ▴':'展开 ▾';
+ if(open)renderDiffCard()});
+bind('bOpHero',function(){if(ST.hero!==1){toast('通过 OP-06 猎鹰招募后解锁「燕锋」',2600);return}
+ setOp('hero');toast('出战队员：燕锋 · 三武器槽',2000)});
 bind('bHeroBack',function(){show('sMenu');setScr('menu');renderLv()});
+bind('bHeroGo',function(){goMenu();toast('在地图上方选择出战队员',2200)});
 bind('bHelp',function(){show('sHelp');setScr('help')});
 bind('bBoard',openBoard);
 bind('bMail',openMail);
@@ -6173,7 +6289,7 @@ bind('bAskCarry',function(){show(null);setScr('play');
  var n9=0;L.civ.forEach(function(c){if(!c.down&&!c.f){c.f=1;c.fol=1;G.sec2++;G.sc+=80;n9++}});
  for(var q9=0;q9<Math.min(n9,3);q9++)ksAdd('✔','人质随队获救',80,'good');
  G.asked=0;G.wt=0;   /* 允许再次判定撤离 */
- feed('Bravo-2：收到，全员结阵护送人质撤离',1);toast('人质已随队 · 返回撤离点完成撤离',2800)});
+ feed('指挥部：收到，人质随队，返回撤离点完成撤离',1);toast('人质已随队 · 返回撤离点完成撤离',2800)});
 bind('bAskLeave',function(){show(null);setScr('play');G.abandon=1;G.asked=0;G.wt=0;
  feed('指挥官：放弃人质，立即撤离。此事已记入 ROE 报告。',0);toast('已放弃人质 · 结算 −260',2600)});
 bind('bHint2',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
