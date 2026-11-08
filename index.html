@@ -3107,6 +3107,7 @@ function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
  feed('FlushStick 观察：门内 '+n+' 个武装目标',1);snd.ui();updGun()}
 function ename(e){return{grunt:'步枪兵',rush:'冲锋兵',heavy:'重装佣兵',sniper:'精确射手',boss:'赤隼指挥官'}[e.tp]}
 function interact(){var p=G.p;if(!p||G.phase!=='live')return;
+ if(allTargetsDown()){resetTargets();return}
  tutEv('act');
  var i,best=null,bd=56;
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.f||c.down)continue;
@@ -3191,7 +3192,7 @@ function teamCmd(k){var i;
  else if(k==='srch')set({mode:1,search:1,aggro:1,qst:'follow',ord:'srch'});
  else if(k==='t3')set({mode:1,search:0,aggro:1,qst:'follow',ord:'t3'});
  feed('你：'+CMDT[k],1);toast(CMDT[k],2200);snd.ui();
- if(G.al&&G.al.length)allySay(G.al[0],'收到，'+(ORD_NAME[k]||'明白'),1);
+ if(G.al&&G.al.length)allySay(G.al[0],'收到，'+(CMDT[k]||'明白'),1);
  if(L.cfg&&L.cfg.exam)return;
  if(k==='hold'||k==='cover')return;
  for(i=0;i<L.en.length;i++){var e=L.en[i];
@@ -3254,7 +3255,7 @@ function ksAdd(ic,txt,pts,cls){var l=$('ksList');if(!l||!G)return;
 function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
  var ins=wp&&wp.ins||0,arv=e.arv||0;
  if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
- if(!e.alert&&!L.cfg.exam){e.alert=1;e.rt=L.cfg.rea*(.7+Math.random()*.6)*(G.alertMod||1);e.st='alert';
+ if(!e.alert&&!L.cfg.exam&&!L.cfg.tgt){e.alert=1;e.rt=L.cfg.rea*(.7+Math.random()*.6)*(G.alertMod||1);e.st='alert';
   G.alerted=1;snd.alert();feed('敌方发现你 · 交火开始',0)}
  if(ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
   e.hp-=dm;e.hurt=.2}
@@ -3265,7 +3266,7 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
   var isTg=!!(L.cfg.exam||L.cfg.tgt);
   var ps=e.tp==='boss'?520:(e.tp==='heavy'?180:110);
   if(!isTg&&!L.cfg.tutorial)addXp(e.tp==='boss'?160:(e.tp==='heavy'?55:35));
-  if(!L.cfg.tutorial){G.sc+=ps;if(head){G.sc+=25;ps+=25}}
+  if(!L.cfg.tutorial&&!L.cfg.range){G.sc+=ps;if(head){G.sc+=25;ps+=25}}
   ksAdd(isTg?'◎':'☠',isTg?('靶标倒下 · 已倒 '+G.killed+'/'+L.en.length):(src||'你')+' 击毙 '+ename(e)+(head?'（爆头）':''),isTg?80:ps,isTg?'good':'kill');
   if(isTg)feed('命中人形靶 · 得分 +80',1);else feed('击毙 '+ename(e)+(head?'（头部）':'')+(e.arn&&e.arn!=='无甲'?' · '+e.arn:''),0);snd.dead();
   burst(e.x,e.y,ST.low?5:12,'#8c2f24',140,420);smoke(e.x,e.y,ST.low?1:2);
@@ -3276,7 +3277,23 @@ function markHit(head){HITM.push({t:0,x:MS.x,y:MS.y,h:head?1:0});if(HITM.length>
 function markKill(){KILLM.push({t:0,x:MS.x,y:MS.y});if(KILLM.length>5)KILLM.shift()}
 function checkOpen(){var al=0,i;for(i=0;i<L.en.length;i++)if(!L.en[i].dead)al++;
  if(!al&&G.reinLeft<=0&&!G.exitOpen){G.exitOpen=1;snd.go();
-  toast((L.cfg.exam||L.cfg.tgt)?'全部靶标击倒 · 请返回出发线撤离点':'区域清除 · 撤离点已开放',3000);feed('撤离点开放',1)}}
+  toast((L.cfg.exam||L.cfg.tgt)?'全部靶标击倒 · 按 F 可重置靶标继续练习':'区域清除 · 撤离点已开放',3000);feed('撤离点开放',1)}}
+/* 靶场专有：所有靶标倒下后，按 F 让它们重新立起（玩家主动动作，不会自动刷新） */
+function allTargetsDown(){var i;if(!L||!L.cfg||!(L.cfg.tgt||L.cfg.exam))return false;
+ if(!L.en.length)return false;
+ for(i=0;i<L.en.length;i++)if(!L.en[i].dead)return false;
+ return true}
+function resetTargets(){
+ if(!allTargetsDown())return false;
+ var n=0,i;
+ for(i=0;i<L.en.length;i++){var e=L.en[i];
+  e.dead=0;e.dt=0;e.hp=e.mh;e.hurt=0;e.alert=0;e.canSee=0;e.st='patrol';e.vx=e.vy=0;
+  e.sub=0;e.stun=0;e.dodgeT=0;e.a=Math.PI;
+  if(e.rail){e.x=e.rail.x0;e.y=e.rail.y0}
+  n++}
+ G.killed=0;G.exitOpen=0;
+ toast('靶标复位 ×'+n+' · 继续练习',1800);feed('靶标已重新立起',1);snd.sec();
+ return true}
 function dmgPlayer(v){var p=G.p;if(p.hp<=0)return;
  if(G.tut)return;
  G.nc=0;
@@ -4125,8 +4142,10 @@ function draw(){if(!G||!L)return;
     ctx.beginPath();ctx.moveTo(cc.x-8,cc.y-8);ctx.lineTo(cc.x-12,cc.y-16+wv);
     ctx.moveTo(cc.x+8,cc.y-8);ctx.lineTo(cc.x+12,cc.y-16-wv);ctx.stroke()}}}
  for(i=0;i<L.en.length;i++){var e=L.en[i];
-  if(e.dead){if(e.dt<5&&vis(e.x,e.y,e.r+6)){
-    if(L.cfg.exam||L.cfg.tgt){drawFoe(e);continue}
+  if(e.dead){
+   /* 靶场靶标：击倒后永久躺在地上，不再 5 秒后消失（避免看起来像"刷新"） */
+   if(L.cfg.exam||L.cfg.tgt){if(vis(e.x,e.y,e.r+10))drawFoe(e);continue}
+   if(e.dt<5&&vis(e.x,e.y,e.r+6)){
     var al=Math.max(0,1-e.dt/5);
     ctx.globalAlpha=al*.9;ctx.fillStyle='#33231f';
     ctx.beginPath();ctx.ellipse(e.x,e.y,e.r*1.05,e.r*.55,0,0,TAU);ctx.fill();ctx.globalAlpha=1}continue}
@@ -4562,7 +4581,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
  var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
- var ot=G.exitOpen?'前往撤离点（停留 1 秒）':((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):'')));
+ var ot=G.exitOpen?((L.cfg.range||L.cfg.tutorial)?'全部靶标击倒 · 按 F 重置靶标（或按 P 退出）':'前往撤离点（停留 1 秒）'):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):'')));
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
  if(ot!==HD.ob){HD.ob=ot;$('objT').textContent=ot}
  var bd=56,pr='';
