@@ -221,6 +221,14 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .dfRow.on .dfN{color:#9dbb85}
 .dfRow .dfT{flex:1;font-size:10.5px;color:#7f939f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dfRow .dfTag{flex:0 0 auto;font-size:9.5px;color:#6d8393;letter-spacing:.04em}
+/* 弹匣：按枪族/口径分family，国产与北约不通用 */
+.magBox{margin-top:14px;border-top:1px solid #1a242c;padding-top:10px}
+.magList{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.magList .btn.sm{font-size:11px;padding:5px 9px}
+/* 招募活动提示条 */
+.promoLine{margin:2px 0 12px;padding:9px 12px;border:1px solid #1e2b34;border-left:2px solid #a8dcff;
+ border-radius:5px;background:rgba(14,22,28,.7);font-size:11.5px;color:#9db4c4;line-height:1.7}
+.promoLine b{color:#dff0fa}
 .cardRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .card .rep{border-color:#3a4a5a;color:#bcd2e0}
 @media (max-width:520px){
@@ -1171,6 +1179,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div id="wpList"></div>
       <div class="note">固定装备：战术医疗包 ×1。战场补给箱可现场补充弹药、投掷物与护甲。</div>
       <h3 style="margin-top:14px">战术装备</h3><div id="gdList"></div>
+      <h3 style="margin-top:12px">枪械改件 <span class="h3sub" id="attPlat">—</span></h3><div id="attList"></div>
       <h3 style="margin-top:12px">作战服</h3><div id="ofList"></div>
     </div>
     <div class="detail">
@@ -1191,6 +1200,9 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <tr><td>有效射程</td><td id="p7">—</td></tr>
         <tr><td>重量／全枪长</td><td id="p8">—</td></tr>
       </tbody></table>
+      <div class="magBox"><h3>弹匣配置 <span class="h3sub" id="magStd">—</span></h3>
+        <div class="magList" id="magList"></div>
+        <div class="note" id="magTip" style="margin:6px 0 0"></div></div>
       <div class="slot">
         <button class="btn" id="bSetP">配为主武器<b id="cP">—</b></button>
         <button class="btn" id="bSetS">配为副武器<b id="cS">—</b></button>
@@ -1208,6 +1220,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="eyebrow">GLOBAL ROSTER · 全服作战序列</div>
   <h1>全服排行榜</h1>
   <p class="lead">所有在册特勤的军衔分对照。任务失败会扣分、军衔会下调，但<strong>已经解锁的枪械与区域永不回收</strong>——掉的只是名次，不是装备。</p>
+  <div class="promoLine" id="promoLine"></div>
   <div class="bdTop">
     <button class="btn sm" id="bBdRefresh">刷新名单</button>
     <button class="btn sm" id="bBdCopy">复制名单</button>
@@ -1686,7 +1699,114 @@ w({id:'m24',n:'M24 狙击步枪',cls:'sniper',cn:'美国',g:'◈',
  mg:'5 发内置弹仓',br:'约 610 mm',mz:'约 790 m/s（公开口径）',
  rg:'约 800 m（公开口径）',wt:'空枪约 5.5 kg',
  it:'美军长期使用的栓动狙击系统，结构简单、精度稳定；射速慢，一发不中就要付出代价。',
- dmg:88,rpm:48,cap:5,rl:3.2,sp:.006,bs:2100,rn:3400,au:0,kk:1.25,mb:-.04,pen:.6,pl:1,tk:3}),
+ dmg:88,rpm:48,cap:5,rl:3.2,sp:.006,bs:2100,rn:3400,au:0,kk:1.25,mb:-.04,pen:.6,pl:1,tk:3});
+/* SECTION: data-mag 弹匣配置
+   每把枪只列现实中确实存在的弹匣；弹匣族按枪族/口径划分，
+   国产 5.8／7.62 枪族与北约 STANAG 互不通用，不会出现「国产枪装北约弹匣」。 */
+var MAGS={
+ stanag:{n:'STANAG（北约）',opts:[
+  {n:'20 发',cap:20,rl:1.95,mb:-.01},{n:'30 发',cap:30,rl:2.30,mb:0},
+  {n:'40 发加长',cap:40,rl:2.55,mb:.01},{n:'60 发四排',cap:60,rl:3.00,mb:.035}]},
+ ak:{n:'AK 弧形弹匣',opts:[
+  {n:'30 发',cap:30,rl:2.55,mb:0},{n:'45 发 RPK',cap:45,rl:2.92,mb:.02},
+  {n:'75 发弹鼓',cap:75,rl:3.70,mb:.06}]},
+ nato762:{n:'7.62 NATO 弹匣',opts:[
+  {n:'10 发',cap:10,rl:2.45,mb:-.01},{n:'20 发',cap:20,rl:2.75,mb:0}]},
+ spear762:{n:'6.8×51 专用弹匣',opts:[
+  {n:'20 发',cap:20,rl:2.80,mb:0}]},
+ bolt762:{n:'栓动弹仓',opts:[
+  {n:'5 发',cap:5,rl:3.20,mb:0},{n:'10 发',cap:10,rl:3.55,mb:.02}]},
+ bolt50:{n:'重弹枪弹匣',opts:[
+  {n:'5 发',cap:5,rl:3.90,mb:0},{n:'10 发',cap:10,rl:4.40,mb:.03}]},
+ bolt408:{n:'.408 弹匣',opts:[
+  {n:'7 发',cap:7,rl:4.00,mb:0}]},
+ cn58:{n:'国产 5.8mm 专用弹匣',opts:[
+  {n:'30 发制式',cap:30,rl:2.45,mb:0}]},
+ cn58dmr:{n:'国产 5.8mm 精确射手弹匣',opts:[
+  {n:'10 发',cap:10,rl:2.90,mb:0}]},
+ cn127:{n:'国产 12.7mm 弹匣',opts:[
+  {n:'5 发',cap:5,rl:4.20,mb:0}]},
+ cn762smg:{n:'国产 7.62mm 冲锋枪弹匣',opts:[
+  {n:'20 发',cap:20,rl:2.15,mb:0}]},
+ cn58smg:{n:'国产 5.8mm 微声弹匣',opts:[
+  {n:'50 发',cap:50,rl:2.90,mb:.01}]},
+ mp5:{n:'MP5 弧形弹匣',opts:[
+  {n:'15 发',cap:15,rl:1.80,mb:-.01},{n:'30 发',cap:30,rl:2.00,mb:0}]},
+ p90:{n:'P90 顶置弹匣',opts:[
+  {n:'50 发',cap:50,rl:2.70,mb:0}]},
+ mp7:{n:'MP7 弹匣',opts:[
+  {n:'20 发',cap:20,rl:1.85,mb:0},{n:'40 发',cap:40,rl:2.25,mb:.02}]},
+ sg12:{n:'12 号管仓',opts:[
+  {n:'6 发管仓',cap:6,rl:3.20,mb:0},{n:'8 发延长管',cap:8,rl:3.60,mb:.02}]},
+ p9:{n:'9×19 手枪弹匣',opts:[
+  {n:'15 发',cap:15,rl:1.70,mb:0},{n:'17 发',cap:17,rl:1.80,mb:0},
+  {n:'24 发加长',cap:24,rl:2.10,mb:.02},{n:'33 发',cap:33,rl:2.45,mb:.03}]},
+ p9cn:{n:'国产 9mm 手枪弹匣',opts:[
+  {n:'15 发',cap:15,rl:1.75,mb:0},{n:'20 发加长',cap:20,rl:1.95,mb:.01}]},
+ p762:{n:'7.62×25 手枪弹匣',opts:[
+  {n:'8 发',cap:8,rl:1.65,mb:0},{n:'10 发',cap:10,rl:1.80,mb:.01}]}
+};
+var MAGTYPE={
+ m4a1:'stanag',hk416:'stanag',scarl:'stanag',x95:'stanag',aug:'stanag',sg553:'stanag',
+ ak12:'ak',spear:'spear762',scarh:'nato762',
+ m24:'bolt762',cslr4:'bolt762',m107:'bolt50',ax50:'bolt50',m200:'bolt408',
+ qbz03:'cn58',qbz191:'cn58',qbz95:'cn58',qbz951:'cn58',qbu191:'cn58',qbu88:'cn58dmr',qbu10:'cn127',
+ mp5:'mp5',p90:'p90',mp7a2:'mp7',type79:'cn762smg',qcw05:'cn58smg',
+ m870:'sg12',benelli:'sg12',spas12:'sg12',qbs09:'sg12',
+ g19:'p9',p320:'p9',b92fs:'p9',qsz92g:'p9',qsz19:'p9cn',type54:'p762'
+};
+function magTypeOf(o){return MAGTYPE[o.id]||(o.cls==='pistol'?'p9':'stanag')}
+function magSet(o){return MAGS[magTypeOf(o)]||MAGS.stanag}
+function magIdx(o){var t=magSet(o);var i=(ST.mag&&ST.mag[o.id])|0;
+ return clamp(i,0,t.opts.length-1)}
+function magCur(o){return magSet(o).opts[magIdx(o)]}
+/* 生成带当前弹匣参数的枪械副本（容量/换弹/机动按弹匣修正） */
+function magGun(o){
+ var t=magSet(o),m=t.opts[magIdx(o)];if(!m)return o;
+ var c={},k;for(k in o)c[k]=o[k];
+ c.cap=m.cap;c.rl=m.rl;c.mb=(o.mb||0)+(m.mb||0);c.magN=m.n;c.magT=t.n;
+ return c}
+/* SECTION: data-att 改件按枪族平台划分，北约与国产接口互不通用 */
+var PLATNAME={nato:'北约 1913 导轨',cn:'国产专用接口',ak:'AK 侧轨',p:'手枪专用'};
+var ATT={
+ nato:{
+  optic:[{n:'机械瞄具',d:'无附加'},{n:'Aimpoint T-2 红点',d:'据枪散布 −15%'},
+   {n:'EOTech EXPS3 全息',d:'据枪散布 −18%'},{n:'Trijicon ACOG 4×',d:'据枪散布 −22%'}],
+  muz:[{n:'标准消焰器',d:'后坐 −8%'},{n:'SureFire SF3P 消焰',d:'枪口焰极小 · 后坐 −10%'},
+   {n:'Aeroknox MX3 制退',d:'后坐 −16%'}],
+  grip:[{n:'无',d:'无附加'},{n:'Magpul K2 竖握',d:'全自动散布 −18%'}]
+ },
+ cn:{
+  optic:[{n:'机械瞄具',d:'无附加'},{n:'国产全息瞄具',d:'据枪散布 −15%'},
+   {n:'国产 3× 棱镜',d:'据枪散布 −20%'}],
+  muz:[{n:'国产标准消焰器',d:'后坐 −8%'},{n:'国产制退器',d:'后坐 −15%'}],
+  grip:[{n:'无',d:'无附加'},{n:'国产前握把',d:'全自动散布 −16%'}]
+ },
+ ak:{
+  optic:[{n:'机械瞄具',d:'无附加'},{n:'Kobra 红点',d:'据枪散布 −14%'},
+   {n:'PK-A 3.5×',d:'据枪散布 −19%'}],
+  muz:[{n:'AK 斜切口',d:'后坐 −6%'},{n:'AK 制退器',d:'后坐 −14%'}],
+  grip:[{n:'无',d:'无附加'},{n:'Zenit RK-1',d:'全自动散布 −15%'}]
+ },
+ p:{
+  optic:[{n:'机械瞄具',d:'无附加'},{n:'微型红点',d:'据枪散布 −12%'}],
+  muz:[{n:'原厂枪口',d:'无附加'},{n:'补偿器',d:'后坐 −10%'}],
+  grip:[{n:'原厂握把',d:'无附加'}]
+ }
+};
+function platOf(o){
+ if(!o)return 'nato';
+ if(o.cls==='pistol')return 'p';
+ var t=magTypeOf(o);
+ if(t==='ak')return 'ak';
+ if(/^cn/.test(t))return 'cn';
+ return 'nato'}
+/* 当前手中武器在某槽位选中的改件序号（无对局时取军械库选中枪） */
+function attOf(k){
+ var w=(G&&G.p&&G.p.guns)?cur().w:WM[ST.sel];
+ if(!w)return 0;
+ var p=platOf(w),a=(ST.att&&ST.att[p])||{},arr=(ATT[p]||ATT.nato)[k]||[];
+ return clamp(a[k]|0,0,Math.max(0,arr.length-1))}
 /* SECTION: data-meta */
 (function(){var AP={m4a1:[.48,0,0],hk416:[.5,1,0],scarl:[.52,2,0],ak12:[.55,0,0],
  x95:[.5,1,0],aug:[.48,1,0],mp5:[.22,0,0],p90:[.62,2,0],m870:[.35,0,0],benelli:[.38,1,0],
@@ -2323,7 +2443,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
- swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,diff:5,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,op:'norm',
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2343,6 +2463,9 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.cl&&jd.cl.length===5)ST.clr=jd.cl;
   if(jd&&jd.hl&&jd.hl.length)ST.heroLoad=jd.hl;
  if(jd&&jd.rl&&jd.rl.length===3)ST.rgLoad=jd.rl;
+ if(jd&&jd.mg&&typeof jd.mg==='object')ST.mag=jd.mg;
+ if(jd&&jd.at&&typeof jd.at==='object')ST.att=jd.at;
+ if(jd&&jd.t0)ST.t0=+jd.t0||0;
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
   if(jd&&jd.df)ST.diff=jd.df;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
@@ -2387,7 +2510,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
- sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -2596,16 +2719,110 @@ function nz(len,gv,lp){if(!AC||!SNR||!ST.aud)return;
  s.buffer=SNR;f.type='lowpass';f.frequency.value=lp||1400;
  g.gain.setValueAtTime(gv,t);g.gain.exponentialRampToValueAtTime(.0008,t+len);
  s.connect(f);f.connect(g);g.connect(mg);s.start(t);s.stop(t+len+.02)}catch(e){}}
+/* ---- 音效引擎：枪声、投掷物全部按口径/枪机/场景实时合成（无外部采样，单文件可用） ---- */
+var IND=0;   /* 1 = 室内场景，余响更长 */
+function auN(len,gv,type,freq,Q,at){
+ if(!AC||!SNR||!ST.aud)return;
+ try{
+  var s=AC.createBufferSource(),g=AC.createGain(),f=AC.createBiquadFilter(),t=AC.currentTime+(at||0);
+  s.buffer=SNR;
+  f.type=type||'bandpass';f.frequency.value=Math.max(40,freq);f.Q.value=Q||1;
+  g.gain.setValueAtTime(Math.max(.0001,gv),t);
+  g.gain.exponentialRampToValueAtTime(.0008,t+len);
+  s.connect(f);f.connect(g);g.connect(mg);
+  s.start(t,Math.random()*.2);s.stop(t+len+.03)}catch(e){}}
+function auO(f0,f1,len,tp,gv,at){
+ if(!AC||!ST.aud)return;
+ try{
+  var o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(at||0);
+  o.type=tp||'sine';o.frequency.setValueAtTime(f0,t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+len);
+  g.gain.setValueAtTime(Math.max(.0001,gv),t);
+  g.gain.exponentialRampToValueAtTime(.0008,t+len);
+  o.connect(g);g.connect(mg);o.start(t);o.stop(t+len+.02)}catch(e){}}
+/* 口径分档：lo=低频推力 th=推力度 bd/bg=枪口主体 cr/cg/ct=爆鸣 tl/tg=尾音 */
+var AUP={
+ hmg:{lo:62,th:.26,thg:.34,bd:520,bg:.40,cr:1500,cg:.28,ct:.060,tl:.60,tg:420},
+ 762:{lo:78,th:.22,thg:.30,bd:600,bg:.34,cr:1900,cg:.26,ct:.050,tl:.48,tg:520},
+ sg :{lo:66,th:.24,thg:.32,bd:430,bg:.46,cr:1200,cg:.22,ct:.080,tl:.52,tg:360},
+ 556:{lo:96,th:.17,thg:.24,bd:760,bg:.30,cr:2600,cg:.29,ct:.038,tl:.38,tg:680},
+ 545:{lo:104,th:.15,thg:.22,bd:820,bg:.27,cr:2900,cg:.31,ct:.034,tl:.34,tg:720},
+ 58 :{lo:100,th:.16,thg:.23,bd:800,bg:.29,cr:2500,cg:.28,ct:.036,tl:.40,tg:660},
+ 9  :{lo:128,th:.12,thg:.18,bd:980,bg:.24,cr:3000,cg:.23,ct:.030,tl:.24,tg:900},
+ 45 :{lo:112,th:.16,thg:.22,bd:760,bg:.30,cr:2400,cg:.24,ct:.040,tl:.28,tg:780},
+ pdr:{lo:120,th:.10,thg:.16,bd:1100,bg:.22,cr:3400,cg:.29,ct:.026,tl:.22,tg:1000}
+};
+function auOf(w){
+ var c=String((w&&w.cal)||'')+' '+String((w&&w.n)||''),s=(w&&w.cls)||'rifle';
+ if(/12\s*(ga|号|gauge)|霰弹|shotgun/i.test(c)||s==='shotgun')return 'sg';
+ if(/\.50|12\.7|BMG/i.test(c))return 'hmg';
+ if(/\.338|7\.62|\.308/i.test(c))return '762';
+ if(/5\.8/i.test(c))return '58';
+ if(/5\.45/i.test(c))return '545';
+ if(/5\.56/i.test(c))return '556';
+ if(/5\.7|4\.6/i.test(c))return 'pdr';
+ if(/\.45/i.test(c))return '45';
+ if(/9\s*(×|x|mm)/i.test(c))return '9';
+ if(s==='sniper')return '762';
+ if(s==='pistol'||s==='smg')return '9';
+ return '556'}
 var snd={
- shot:function(en,dm){nz(.05+dm*.03,.09+dm*.02,900+dm*260);tone(250-90*(1-dm),70,.07+dm*.05,'square',.045)},
- hit:function(){nz(.03,.06,2400)},ping:function(){tone(1500,800,.05,'square',.045)},
- dead:function(){nz(.2,.08,700);tone(150,60,.32,'sawtooth',.05)},
- rl1:function(){tone(700,420,.05,'square',.045)},rl2:function(){tone(420,900,.06,'square',.055)},
- empty:function(){tone(1150,700,.05,'square',.045)},swap:function(){tone(520,760,.05,'triangle',.05)},
- boom:function(){nz(.55,.2,340);tone(90,30,.7,'sine',.15)},pin:function(){tone(1100,600,.05,'square',.05)},
- ui:function(){tone(760,980,.04,'triangle',.04)},alert:function(){tone(900,420,.2,'sawtooth',.055)},
- sec:function(){tone(1400,1000,.12,'triangle',.06)},cheer:function(){tone(660,990,.18,'triangle',.07)},
- go:function(){tone(300,620,.28,'square',.06)}};
+ /* 单发枪声：w=武器对象（可空），jd=0..1 的距离感 */
+ fire:function(w,jd){
+  if(!AC||!ST.aud)return;
+  var p=AUP[auOf(w)]||AUP['556'];
+  var d=clamp(jd||0,0,1),vol=1-d*.55,muf=1+d*1.1,r=.94+Math.random()*.13;
+  auN(p.ct,p.cg*(.9+Math.random()*.2)*vol,'highpass',p.cr*r,.8);
+  auN(p.ct+.032,p.bg*vol*(.88+Math.random()*.24),'bandpass',p.bd*r/muf,1.15);
+  auO(p.lo*r,p.lo*.42,p.th*(.9+Math.random()*.2),'sine',p.thg*vol);
+  auN(p.tl*(IND?1.4:1),.10*vol*(IND?1.2:.85),'lowpass',p.tg*(IND?.72:1)/muf,.7,.02);
+  if(d<.5){auN(.012,.05*vol*(1-d),'highpass',2700,.9,.012);
+   auN(.022,.04*vol*(1-d),'bandpass',1500,1.6,.03)}},
+ /* 命中：湿闷的着弹声 */
+ hit:function(){auN(.05,.10,'bandpass',760,1.3);auO(190,90,.07,'sine',.06)},
+ /* 金属跳弹 */
+ ping:function(){auN(.03,.07,'bandpass',3200,2.2);auO(1900,1100,.05,'triangle',.035)},
+ /* 倒地 */
+ dead:function(){auN(.22,.09,'lowpass',600);auO(150,58,.30,'sine',.05)},
+ /* 弹匣脱出：按钮 + 弹匣滑落 */
+ rl1:function(){auN(.008,.06,'highpass',3000,1);auN(.05,.05,'bandpass',900,1.2,.03);
+  auO(420,240,.05,'square',.03,.02)},
+ /* 弹匣入位 + 拉机柄 */
+ rl2:function(){auN(.02,.08,'bandpass',700,1.4);auN(.06,.06,'bandpass',1600,1.6,.03);
+  auO(300,520,.06,'square',.045,.05)},
+ /* 空仓 */
+ empty:function(){auN(.012,.07,'highpass',2600,1);auO(950,620,.04,'square',.035)},
+ /* 换枪 */
+ swap:function(){auN(.06,.055,'bandpass',1200,1.1);auO(520,760,.05,'triangle',.04)},
+ /* 破门/爆炸 */
+ boom:function(){auN(.10,.26,'lowpass',2600);auN(.55,.22,'lowpass',320);auO(96,26,.62,'sine',.20);
+  auO(58,22,.9,'sine',.12,.01)},
+ /* 手雷保险销 */
+ pin:function(){auO(1700,900,.05,'triangle',.06);auN(.02,.04,'highpass',4200,1.2)},
+ /* 投出挥空 */
+ throwW:function(){auN(.16,.07,'bandpass',900,.7)},
+ /* 落地弹跳 */
+ bounce:function(){auO(240,120,.05,'square',.05);auN(.04,.05,'bandpass',1400,1.2)},
+ /* 震爆：巨响 + 耳鸣 */
+ stun:function(){auN(.12,.24,'lowpass',2200);auO(80,30,.45,'sine',.18);
+  auO(3200,900,.9,'sine',.055,.05);auN(.4,.10,'highpass',2400,.8)},
+ /* 闪光：短促爆响 + 高频耳鸣 */
+ flash:function(){auN(.08,.22,'highpass',1800,.7);auO(120,40,.35,'sine',.15);
+  auO(4200,1400,1.1,'sine',.05,.04)},
+ /* 烟雾泄压 */
+ smoke:function(){auN(.9,.09,'lowpass',2400,.6)},
+ ui:function(){tone(760,980,.04,'triangle',.04)},
+ alert:function(){tone(900,420,.2,'sawtooth',.055)},
+ sec:function(){tone(1400,1000,.12,'triangle',.06)},
+ cheer:function(){tone(660,990,.18,'triangle',.07)},
+ go:function(){tone(300,620,.28,'square',.06)}
+};
+/* 敌方/队友的近似枪械口径：只用于枪声分档 */
+var EFW={grunt:{id:'efG',cal:'5.56×45 NATO',cls:'rifle'},
+ rush:{id:'efR',cal:'9×19mm',cls:'smg'},
+ heavy:{id:'efH',cal:'7.62×51 NATO',cls:'rifle'},
+ sniper:{id:'efS',cal:'7.62×51 NATO',cls:'sniper'},
+ boss:{id:'efB',cal:'7.62×51 NATO',cls:'rifle'}};
 
 /* SECTION: canvas */
 var cv=$('cv'),ctx=cv.getContext('2d'),VW=0,VH=0,DPR=1;
@@ -2769,6 +2986,7 @@ function paintTrim(g,c,FU,ws){var i,d;
    g.fillStyle='rgba(180,190,200,.10)';g.fillRect(d[0]+d[2]/2-2,d[1]+2,4,d[3]-4)}}}
 function build(idx,ovr){
  var c0=ovr||LS6[clamp(idx,1,7)-1],c=c0,ck;
+ IND=(c0.th==='apartment'||c0.th==='ktv'||c0.th==='mall')?1:0;
  /* 难度：只作用于普通作战任务；剧情／教学／训练场固定标准强度 */
  if(!c0.recruit&&!c0.tutorial&&!c0.range){
   var DFd=diffDef(ST.diff);
@@ -2933,6 +3151,8 @@ g.restore();
  else if(heroActive()){
   var hl=heroLoadOf();
   guns=[pickGun(hl[0],'m4a1'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}
+ /* 弹匣：按当前选择的弹匣替换容量/换弹/机动 */
+ guns=guns.map(magGun);
  var heroB=heroActive()?1:0;
  var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0);
  var brc=ST.gd.breach|0;
@@ -3233,17 +3453,17 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
  var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa;
- var sp2=w1.sp*(1+mv*1.1)*(p.aim?(gdHas('optic',1)?.47:.55):1)*(w1.cls==='sniper'&&!p.aim?2.1:1);
- var auF=gdHas('grip',1)?.82:1;
+ var sp2=w1.sp*(1+mv*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(w1.cls==='sniper'&&!p.aim?2.1:1);
+ var auF=attOf('grip')?.82:1;
  if(!w1.au)auF=1;sp2*=auF;
  var i,n=w1.pl||1,spd=w1.bs*2.1;
  for(i=0;i<n;i++){var a=base+(Math.random()+Math.random()-1)*sp2,b=gpb();
   b.a=1;b.x=p.x+Math.cos(base)*18;b.y=p.y+Math.sin(base)*18;
   b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1}
  p.aa=base+(Math.random()-.5)*w1.kk*.012;
- shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(gdHas('muzzle',1)?.84:.92));
+ shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(attOf('muzzle')>=2?.84:(attOf('muzzle')?.90:.92)));
  if(w1.cls==='sniper'){p.vx-=Math.cos(base)*46;p.vy-=Math.sin(base)*46}
- snd.shot(0,clamp(w1.dmg/60,.15,1));
+ snd.fire(w1,0);
  burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170);
  var rad=w1.cls==='sniper'?900:(w1.cls==='shotgun'?700:560),jj;
  if(!G.lastNoise||G.t-G.lastNoise>.3)for(jj=0;jj<L.en.length;jj++){var se=L.en[jj];
@@ -3350,7 +3570,7 @@ function throwG(fuse){
  p.gt=0;p.travel=clamp(tgt.dist/620,.34,.95);p.air=0;p.landed=0;p.fuseT=0;
  p.fuse=(fuse==null?t.fuse:Math.max(.25,fuse));
  p.gren=0;p.cook=0;p.cooking=0;p.throwT=.32;
- snd.pin();updGun();tutEv('gren');
+ snd.pin();snd.throwW();updGun();tutEv('gren');
  grenadeScare(p.x,p.y,id!=='frag');grenadeScare(tgt.x,tgt.y,id!=='frag');
  toast(t.n+' 投出 · 引信 '+p.fuse.toFixed(1)+' 秒',2200)}
 /* 敌人躲雷：危险等级越高，反应越快、躲得越多 */
@@ -3677,7 +3897,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
      var vv=e.tp==='sniper'?1750:1150;
      b.vx=Math.cos(off+(Math.random()-.5)*.06)*vv;b.vy=Math.sin(off+(Math.random()-.5)*.06)*vv;
      b.lm=e.tp==='sniper'?3000:1600;b.tm=0;b.own=0;b.dm=cfg.edm*e.dm;b.pen=0}
-    snd.shot(0,e.tp==='sniper'?1:.35);
+    snd.fire(EFW[e.tp]||EFW.grunt,clamp(1-Math.hypot(e.x-G.p.x,e.y-G.p.y)/1250,0,1));
     burst(e.x+Math.cos(off)*(e.r+3),e.y+Math.sin(off)*(e.r+3),2,'#ffcf6a',80,130)}}
   var ed=doorNear(e.x,e.y,48);if(ed&&!ed.open&&(e.alert||e.st!=='patrol'))openDoor(ed,'e');
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
@@ -3816,7 +4036,7 @@ function updateGren(dt){var p=G.p;if(!p||!p.act)return;
   p.gx=p.sx+(p.tx-p.sx)*k;
   p.gy=p.sy+(p.ty-p.sy)*k;
   p.air=Math.sin(Math.PI*k)*THROW_ARC;
-  if(k>=1){p.landed=1;p.air=0;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;
+  if(k>=1){p.landed=1;p.air=0;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;snd.bounce();
    if(!ST.low){burst(p.gx,p.gy,3,'#8a8f7a',60,120)}}
  }else{
   p.fuseT+=dt;
@@ -3828,7 +4048,7 @@ function detonateThrow(id,x,y){
  if(id==='stun')stunBurst(x,y,throwDef('stun'));
  else if(id==='flash')flashBurst(x,y,throwDef('flash'));
  else explode(x,y,132,120)}
-function stunBurst(x,y,t){t=t||throwDef('stun');snd.boom();tone(1800,400,.25,'square',.14);
+function stunBurst(x,y,t){t=t||throwDef('stun');snd.stun();
  shake=8;burst(x,y,ST.low?10:22,'#ffe9b0',360,460);
  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead||e.sub>0)continue;
@@ -3853,7 +4073,7 @@ function enemyBlindShout(e,hit){
  say(nm,BLIND_SHOUT[(Math.random()*BLIND_SHOUT.length)|0],hit?'#ffd76a':'#c9b98a');
  if(Math.random()<.7)feed(nm+(hit?' 被震得捂脸大叫':' 那边传来喊叫'),0);
  noiseAt(e.x,e.y,260)}
-function flashBurst(x,y,t){t=t||throwDef('flash');snd.boom();tone(2400,500,.3,'square',.12);
+function flashBurst(x,y,t){t=t||throwDef('flash');snd.flash();
  burst(x,y,ST.low?8:18,'#fff6d8',340,420);
  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead||e.sub>0)continue;
@@ -4267,7 +4487,7 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
    var spd=a.gun.bs*2.1;b.vx=Math.cos(ang)*spd;b.vy=Math.sin(ang)*spd;
    b.lm=a.gun.rn/spd;b.tm=0;b.own=2;b.dm=a.dm;b.pen=a.gun.pen;b.wp=a.gun;b.al=a;a.ammo--;
    burst(a.x+Math.cos(ang)*(a.r+4),a.y+Math.sin(ang)*(a.r+4),2,'#ffd27a',90,140);
-   snd.shot(0,.3)}
+   snd.fire(a.gun,clamp(1-Math.hypot(a.x-G.p.x,a.y-G.p.y)/1250,0,1))}
   if(a.ammo<=0){a.rl+=dt;
    if(a.rl>2.4){a.rl=0;a.ammo=30;snd.rl2()}}
   if(a.hp<a.mhp*.35&&!a.heal&&Math.hypot(a.x-sl.x,a.y-sl.y)<300){
@@ -4636,7 +4856,7 @@ function drawP(){var p=G.p,w1=cur().w,of=ofDef(ST.outfit),hb=heroActive(),bd=hb?
  if(p.kd>Math.max(.015,60/w1.rpm)-.05){
   var gl=w1.cls==='sniper'?25:(w1.cls==='pistol'?9:(w1.cls==='shotgun'?17:20)),mw=7.6+gl;
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.aa);
-  if(gdHas('muzzle',0)){
+  if(!attOf('muzzle')){
    if(!ST.low){
     ctx.fillStyle='rgba(255,214,140,.14)';ctx.beginPath();
     ctx.moveTo(mw,1);ctx.lineTo(mw+5,-1.6);ctx.lineTo(mw+7,1);ctx.lineTo(mw+5,3.6);ctx.closePath();ctx.fill()}
@@ -4836,8 +5056,8 @@ function drawLight(){
  ctx.fillStyle='rgba(255,252,236,.9)';ctx.beginPath();ctx.arc(hx,hy,2.1,0,TAU);ctx.fill();
  ctx.restore()}
 function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
- var mvq=Math.hypot(p.vx,p.vy)/p.sp,cone=g.sp*(1+mvq*1.1)*(p.aim?(gdHas('optic',1)?.47:.55):1)*(g.cls==='sniper'&&!p.aim?2.1:1);
- if(g.au)cone*=(gdHas('grip',1)?.82:1);
+ var mvq=Math.hypot(p.vx,p.vy)/p.sp,cone=g.sp*(1+mvq*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(g.cls==='sniper'&&!p.aim?2.1:1);
+ if(g.au)cone*=(attOf('grip')?.82:1);
  var dq=touchUI?Math.min(g.rn,820):Math.max(40,Math.hypot(CAM.x+MS.x-p.x,CAM.y+MS.y-p.y));
  sp=clamp(cone*dq*.5,3.5,64);
  if(touchUI){
@@ -4995,6 +5215,9 @@ function frame(t){RAF=requestAnimationFrame(frame);
      POST <api>/submit   → 合并本机战绩，返回同样的名单
    没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
 var LB={api:'https://cqb-roster.pages.dev/api',data:null,ts:0,busy:0,off:'',lastPush:0};
+/* 招募活动：在截止时间前注册并上榜的玩家，自动授予「体验官」（时间可改，改这一行即可） */
+var PROMO={from:Date.parse('2026-11-08T00:00:00+08:00'),to:Date.parse('2026-11-15T23:59:59+08:00')};
+function promoOf(r){var t=+(r&&r.t0)||0;return !!t&&t>=PROMO.from&&t<=PROMO.to}
 /* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。
    g:'tester' = 游戏体验官（预留色，仅手工授予） */
@@ -5011,7 +5234,7 @@ var TITLES={
 /* 特殊预留称号：不参与军功自动分级 */
 var TCOL_EX={
  dev:   {k:'dev',    s:'开发者', n:'赤金 · 开发者', c:'#ffd76a', d:'预留 · 对话中手工授予'},
- tester:{k:'tester', s:'体验官', n:'青白 · 体验官', c:'#a8dcff', d:'预留 · 手工授予测试玩家'}
+ tester:{k:'tester', s:'体验官', n:'青白 · 体验官', c:'#a8dcff', d:'招募期注册上榜自动授予'}
 };
 /* 称号颜色阶梯：数组顺序＝等级高低（金最高）。c 用于图例色块，s 是自动称号文本 */
 var TCOL=[
@@ -5048,6 +5271,9 @@ function titleOf(r){
   if(list.length){
    var g0=(list[0][1]&&tcol(list[0][1]))?list[0][1]:autoGrade(m);
    return {n:list[0][0],g:g0,titles:list,manual:1,merit:m}}}
+ /* 招募活动：截止前注册上榜 → 自动「体验官」 */
+ if(promoOf(r))
+  return {n:'体验官',g:'tester',titles:[['体验官','tester']],manual:1,merit:m};
  /* 元勋：晋升到上校（最高军衔）即自动获得 */
  if(rankOf(Math.max(r.xp|0,r.xm|0))>=RKLAD.length-1)
   return {n:'元勋',g:'gold',titles:[['元勋','gold']],manual:0,merit:m};
@@ -5067,9 +5293,10 @@ function lbRec(){
  var cl=0,sc=0,k2;
  for(k2 in ST.best)if(ST.best[k2]){cl++;sc+=(ST.best[k2].sc|0)}
  return {id:ST.pid,nm:(ST.name||'新兵'),xp:ST.xp|0,xm:(ST.xpm>ST.xp?ST.xpm:ST.xp)|0,
-  w:ST.tw|0,l:ST.tl|0,k:ST.tk|0,cl:cl,sc:sc,t:Date.now()}}
+  w:ST.tw|0,l:ST.tl|0,k:ST.tk|0,cl:cl,sc:sc,t:Date.now(),t0:+ST.t0||0}}
 function lbSubmit(){
  var api=lbApi();if(!api)return;
+ if(!ST.t0){ST.t0=Date.now();save()}
  var now=Date.now();if(now-LB.lastPush<20000)return;LB.lastPush=now;
  try{
   fetch(api+'/submit',{method:'POST',cache:'no-store',
@@ -5154,6 +5381,8 @@ function lbCopy(){
  toast(ok?('已复制 '+rows.length+' 人的名单'):'复制失败，请手动截屏',2600)}
 function openBoard(){
  show('sBoard');setScr('board');
+ if($('promoLine')){var pd=new Date(PROMO.to);
+  $('promoLine').innerHTML='招募活动 · <b>'+(pd.getMonth()+1)+' 月 '+pd.getDate()+' 日</b> 23:59 前注册并登上排行榜的玩家，自动授予 '+ttlHTML({n:'体验官',g:'tester',titles:[['体验官','tester']]})+' 头衔'}
  lbRenderLegend();lbRender();
  lbFetch(function(){lbRender();try{lbSubmit()}catch(e){}})
 }
@@ -6120,9 +6349,22 @@ function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('p5').textContent=o.br;$('p6').textContent=o.mz;$('p7').textContent=o.rg;$('p8').textContent=o.wt;
  $('cP').textContent=WM[ST.load[0]].n;$('cS').textContent=WM[ST.load[1]].n;
  $('bSetP').classList.toggle('on',ST.sel===ST.load[0]);
- $('bSetS').classList.toggle('on',ST.sel===ST.load[1])}
+ $('bSetS').classList.toggle('on',ST.sel===ST.load[1]);
+ /* 弹匣配置：只列该枪族真实存在的弹匣 */
+ var mt=magSet(o),mi=magIdx(o),mm=mt.opts[mi],ml=$('magList');
+ if($('magStd'))$('magStd').textContent=mt.n;
+ if(ml){ml.innerHTML='';
+  mt.opts.forEach(function(op,i){
+   var b=mk('button','btn sm'+(i===mi?' on':''));b.textContent=op.n;
+   b.addEventListener('click',function(e){e.preventDefault();snd.ui();
+    ST.mag=ST.mag||{};ST.mag[o.id]=i;save();showDtl()});
+   ml.appendChild(b)})}
+ if($('magTip'))$('magTip').textContent='当前 '+mm.cap+' 发 · 换弹 '+mm.rl.toFixed(2)+' 秒 · 机动修正 '+
+  (mm.mb>=0?'+':'')+(mm.mb*100).toFixed(0)+'%'+
+  (/^(cn|p9cn|p762|cn)/.test(magTypeOf(o))?' · 国产枪族专用，不通用北约 STANAG 弹匣':'');
+ try{renderAtt()}catch(e){}}
 function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
- GD.forEach(function(g){var st=ST.gd[g.id]|0;
+ GD.forEach(function(g){if(g.id==='optic'||g.id==='muzzle'||g.id==='grip')return;var st=ST.gd[g.id]|0;
   var row=mk('div','kmrow');
   var lb=mk('span','lba');lb.style.cssText='flex:0 0 92px;width:92px;line-height:1.4';
   lb.innerHTML='<b style="color:#dce7ee;font-size:11.5px">'+g.n+'</b><br>'+
@@ -6165,7 +6407,33 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   ofi.style.cssText='width:100%;font-size:10.5px;color:#8ba0ae;line-height:1.6;margin-top:6px';
   ofi.innerHTML='<b style="color:#cbb073">'+of.n+'</b> · '+of.mk+'<br>'+of.info+
    '<br><b>效果</b>：'+of.note+' · 护甲 +'+of.arm+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 被发现延迟'+(of.alert>=0?'+':'')+(of.alert*100|0)+'%';
-  ol.appendChild(ofi)}}
+  ol.appendChild(ofi)}
+ renderAtt()}
+/* 枪械改件：只显示当前枪械平台能装的件（北约 1913 / 国产专用 / AK 侧轨 / 手枪） */
+function renderAtt(){
+ var el=$('attList');if(!el)return;
+ var o=WM[ST.sel]||WM.m4a1,p=platOf(o),A=ATT[p]||ATT.nato;
+ if($('attPlat'))$('attPlat').textContent=PLATNAME[p]+' · '+o.n;
+ el.innerHTML='';
+ var NAMES={optic:'光学瞄具',muz:'枪口装置',grip:'前握把'};
+ ['optic','muz','grip'].forEach(function(k){
+  var arr=A[k]||[],a=(ST.att&&ST.att[p])||{},cu=clamp(a[k]|0,0,Math.max(0,arr.length-1));
+  var row=mk('div','kmrow');
+  var lb=mk('span','lba');lb.style.cssText='flex:0 0 92px;width:92px;line-height:1.4';
+  lb.innerHTML='<b style="color:#dce7ee;font-size:11.5px">'+NAMES[k]+'</b>';
+  row.appendChild(lb);
+  arr.forEach(function(op,i){
+   var bt=mk('button','kbd'+(i===cu?' on':''));bt.textContent=op.n;
+   bt.style.cssText='flex:1 1 auto;min-width:0;font-size:10px;padding:5px 4px';
+   bt.addEventListener('click',function(e){e.preventDefault();snd.ui();
+    ST.att=ST.att||{};ST.att[p]=ST.att[p]||{};ST.att[p][k]=i;save();renderAtt();updGun()});
+   row.appendChild(bt)});
+  el.appendChild(row);
+  var d=mk('div');d.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.55;margin:1px 0 6px';
+  d.textContent='当前：'+(arr[cu]?arr[cu].d:'');el.appendChild(d)});
+ var nt=mk('div','note');
+ nt.textContent='改件按平台分：北约 1913 导轨件与国产枪族专用接口互不通用，AK 用侧轨、手枪用专用微型件；本页只列当前枪械平台能装的配件。';
+ el.appendChild(nt)}
 function cycleSlot(i){
  var cap=beltCap();if(i>=cap)return;
  var b=beltList().slice(),order=['','frag','stun','flash'],cur=b[i]||'';
