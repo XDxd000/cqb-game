@@ -1,6 +1,10 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  # 只有后端相关文件变化时才真正构建部署。
+  # 游戏本体（index.html）每次更新都会推到仓库，但那不该消耗 Netlify 的部署额度。
+  # git diff --quiet 无差异时返回 0 → Netlify 跳过本次构建（不计费）。
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- netlify/functions netlify.toml package.json"
 
 [functions]
   node_bundler = "esbuild"
