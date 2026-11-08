@@ -231,6 +231,14 @@ body.noc #hud,body.noc #hud *{cursor:none}
  background:linear-gradient(180deg,rgba(245,209,130,.24),rgba(226,169,62,.07));
  box-shadow:0 0 0 1px rgba(245,209,130,.14),0 0 16px rgba(240,194,101,.22)}
 .ttl.violet{border-color:#5b3f86;color:#c3a2f3;background:rgba(183,140,235,.13)}
+/* 特殊预留：开发者（赤金，带旋转微光）与游戏体验官（青白） */
+.ttl.dev{border-color:#b98a1f;color:#ffe9a8;font-weight:800;letter-spacing:.16em;
+ background:linear-gradient(180deg,rgba(255,215,106,.34),rgba(226,169,62,.10));
+ box-shadow:0 0 0 1px rgba(255,215,106,.30),0 0 20px rgba(255,215,106,.42);
+ text-shadow:0 0 10px rgba(255,215,106,.6)}
+.ttl.tester{border-color:#3a6c8a;color:#bfe4ff;letter-spacing:.10em;
+ background:linear-gradient(180deg,rgba(168,220,255,.22),rgba(90,150,190,.08));
+ box-shadow:0 0 0 1px rgba(168,220,255,.18),0 0 14px rgba(140,200,255,.25)}
 .ttl.crimson{border-color:#7d3038;color:#ee7d86;background:rgba(226,96,107,.13)}
 .ttl.amber{border-color:#7d5220;color:#f0a755;background:rgba(232,148,60,.13)}
 .ttl.azure{border-color:#25657a;color:#6cc7e3;background:rgba(79,184,216,.13)}
@@ -2003,7 +2011,7 @@ function softSprite(g,x,y,w,h,t){
 
 /* SECTION: state */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
- xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,
+ xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,
  name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2017,6 +2025,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.tl)ST.tl=Math.max(0,jd.tl|0);
   if(jd&&jd.tk)ST.tk=Math.max(0,jd.tk|0);
   if(jd&&typeof jd.lb==='string')ST.lbapi=jd.lb;
+  if(jd&&jd.dv)ST.dev=1;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
    return (x==='frag'||x==='stun'||x==='flash')?x:''});
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
@@ -2056,7 +2065,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[0]))ST.load[0]='m4a1';
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
- x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,
+ x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -4524,9 +4533,17 @@ function frame(t){RAF=requestAnimationFrame(frame);
    没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
 var LB={api:'https://cqb-roster.pages.dev/api',data:null,ts:0,busy:0,off:'',lastPush:0};
 /* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
-   g:'gold' 是预留档，只手工授予，不会自动发给任何人。 */
+   g:'gold' 是预留档，只手工授予，不会自动发给任何人。
+   g:'tester' = 游戏体验官（预留色，仅手工授予） */
 var TITLES={
  /* 示例：'小迪不是叉滴':{n:'夜枭',g:'gold'}, */
+ /* 游戏体验官名单：新测试玩家加入后把代号加在这里，例如
+    '同学代号':{n:'游戏体验官',g:'tester'}, */
+};
+/* 特殊预留称号：不参与军功自动分级，只能手工授予 */
+var TCOL_EX={
+ dev:   {k:'dev',    s:'开发者', n:'赤金 · 开发者', c:'#ffd76a', d:'预留 · 仅开发者本机可见'},
+ tester:{k:'tester', s:'体验官', n:'青白 · 体验官', c:'#a8dcff', d:'预留 · 手工授予测试玩家'}
 };
 /* 称号颜色阶梯：数组顺序＝等级高低（金最高）。c 用于图例色块，s 是自动称号文本 */
 var TCOL=[
@@ -4546,8 +4563,16 @@ function meritOf(r){
 function autoGrade(m){var i,g=TCOL[TCOL.length-1].k;
  for(i=0;i<TTH.length;i++)if(m>=TTH[i])g=TCOL[TCOL.length-2-i].k;
  return g}
-function tcol(k){var i;for(i=0;i<TCOL.length;i++)if(TCOL[i].k===k)return TCOL[i];return TCOL[TCOL.length-1]}
-function titleOf(r){var m=meritOf(r),t=TITLES[r.id]||TITLES[r.nm];
+function tcol(k){
+ var i;
+ if(TCOL_EX[k])return TCOL_EX[k];
+ for(i=0;i<TCOL.length;i++)if(TCOL[i].k===k)return TCOL[i];
+ return TCOL[TCOL.length-1]}
+function titleOf(r){
+ var m=meritOf(r);
+ /* 开发者头衔：只认本机（ST.dev 由本机浏览器写入），不会跟着账号跑到别人机器上 */
+ if(ST.dev&&r.id===ST.pid)return {n:'开发者',g:'dev',manual:1,merit:m};
+ var t=TITLES[r.id]||TITLES[r.nm];
  if(t&&t.n){var g=t.g&&tcol(t.g)?t.g:autoGrade(m);
   return {n:t.n,g:g,manual:1,merit:m}}
  var ag=autoGrade(m);
@@ -4600,7 +4625,9 @@ function lbRows(){
  return rows}
 function lbRenderLegend(){var el=$('bdLegend');if(!el)return;
  el.innerHTML=TCOL.map(function(c){
-  return '<span class="it"><span class="ttl '+c.k+'">'+c.s+'</span>'+c.d+'</span>'}).join('')}
+  return '<span class="it"><span class="ttl '+c.k+'">'+c.s+'</span>'+c.d+'</span>'}).join('')+
+  '<span class="it"><span class="ttl dev">开发者</span>'+TCOL_EX.dev.d+'</span>'+
+  '<span class="it"><span class="ttl tester">体验官</span>'+TCOL_EX.tester.d+'</span>'}
 function lbRender(){
  var tb=$('bdBody');if(!tb)return;
  var rows=lbRows(),h='',i;
@@ -5338,6 +5365,15 @@ function toast2(s){toast(s,1800)}
   D.addEventListener('click',un,true)})();
 resize();setScr('boot');renderLv();showDtl();updHint();
 applyUI(true);
+/* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
+(function(){
+ try{
+  if(/[?&]dev=1(?:&|$)/.test(location.search)){ST.dev=1;save();
+   toast('已启用「开发者」头衔 · 仅本机生效',3200)}
+  else if(/[?&]dev=0(?:&|$)/.test(location.search)){ST.dev=0;save();
+   toast('已关闭「开发者」头衔',2500)}
+ }catch(e){}
+})();
 initTouchUI();syncHint();
 /* 触屏：长按投掷按钮呼出腰封选择面板 */
 (function(){var el=$('tG');if(!el)return;var t0=0;
