@@ -4739,18 +4739,19 @@ var LB={api:'https://cqb-roster.pages.dev/api',data:null,ts:0,busy:0,off:'',last
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。
    g:'tester' = 游戏体验官（预留色，仅手工授予） */
 var TITLES={
- /* 示例：'小迪不是叉滴':{n:'夜枭',g:'gold'}, */
+ /* 开发者：由开发者在对话中确认后手工写入（全班可见） */
+ '小迪不是叉滴':{n:'开发者',g:'dev'},
  /* 游戏体验官名单：新测试玩家加入后把代号加在这里，例如
     '同学代号':{n:'游戏体验官',g:'tester'}, */
 };
-/* 特殊预留称号：不参与军功自动分级，只能手工授予 */
+/* 特殊预留称号：不参与军功自动分级 */
 var TCOL_EX={
- dev:   {k:'dev',    s:'开发者', n:'赤金 · 开发者', c:'#ffd76a', d:'预留 · 仅开发者本机可见'},
+ dev:   {k:'dev',    s:'开发者', n:'赤金 · 开发者', c:'#ffd76a', d:'预留 · 对话中手工授予'},
  tester:{k:'tester', s:'体验官', n:'青白 · 体验官', c:'#a8dcff', d:'预留 · 手工授予测试玩家'}
 };
 /* 称号颜色阶梯：数组顺序＝等级高低（金最高）。c 用于图例色块，s 是自动称号文本 */
 var TCOL=[
- {k:'gold',   s:'元勋', n:'金 · 元勋',   c:'#f5d182', d:'预留 · 仅手工授予'},
+ {k:'gold',   s:'元勋', n:'金 · 元勋',   c:'#f5d182', d:'晋升上校（26000 分）自动获得'},
  {k:'violet', s:'传奇', n:'紫晶 · 传奇', c:'#c3a2f3', d:'军功 ≥ 24000'},
  {k:'crimson',s:'精锐', n:'绯红 · 精锐', c:'#ee7d86', d:'军功 ≥ 16500'},
  {k:'amber',  s:'老练', n:'鎏橙 · 老练', c:'#f0a755', d:'军功 ≥ 10000'},
@@ -4773,11 +4774,14 @@ function tcol(k){
  return TCOL[TCOL.length-1]}
 function titleOf(r){
  var m=meritOf(r);
- /* 开发者头衔：只认本机（ST.dev 由本机浏览器写入），不会跟着账号跑到别人机器上 */
+ /* 开发者头衔：只认本机（ST.dev 由本机浏览器写入） */
  if(ST.dev&&r.id===ST.pid)return {n:'开发者',g:'dev',manual:1,merit:m};
  var t=TITLES[r.id]||TITLES[r.nm];
  if(t&&t.n){var g=t.g&&tcol(t.g)?t.g:autoGrade(m);
   return {n:t.n,g:g,manual:1,merit:m}}
+ /* 元勋：晋升到上校（最高军衔）即自动获得 */
+ if(rankOf(Math.max(r.xp|0,r.xm|0))>=RKLAD.length-1)
+  return {n:'元勋',g:'gold',manual:0,merit:m};
  var ag=autoGrade(m);
  return {n:tcol(ag).s,g:ag,manual:0,merit:m}}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
