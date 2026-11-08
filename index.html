@@ -5301,6 +5301,7 @@ function lbRec(){
   w:ST.tw|0,l:ST.tl|0,k:ST.tk|0,cl:cl,sc:sc,t:Date.now(),t0:+ST.t0||0}}
 function lbSubmit(){
  var api=lbApi();if(!api)return;
+ if(!ST.name){return}          /* 没有登记代号就不上榜：避免匿名空记录污染名单 */
  if(!ST.t0){ST.t0=Date.now();save()}
  var now=Date.now();if(now-LB.lastPush<20000)return;LB.lastPush=now;
  try{
