@@ -3418,8 +3418,8 @@ function toast(s,ms){var e=$('roes');e.textContent=s;e.style.opacity='1';
 function feed(txt,good){var f=$('feed'),r=mk('div','frow'+(good?' g':''));r.textContent=txt;
  f.insertBefore(r,f.firstChild);while(f.children.length>6)f.removeChild(f.lastChild);
  setTimeout(function(){if(r.parentNode)r.parentNode.removeChild(r)},5600)}
-function cur(){return G.p.guns[G.p.wi]}
-function updGun(){var g=cur(),p=G.p;
+function cur(){return (G&&G.p&&G.p.guns)?G.p.guns[G.p.wi]:{w:WM[ST.sel]||WM.m4a1,am:0,res:0,tm:0}}
+function updGun(){if(!G||!G.p)return;var g=cur(),p=G.p;
  $('amW').textContent=g.w.n;
  var thr=beltText(p)+(p.light?' · 枪灯 开':' · 枪灯 关');
  $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
@@ -6426,7 +6426,8 @@ function renderAtt(){
    var bt=mk('button','kbd'+(i===cu?' on':''));bt.textContent=op.n;
    bt.style.cssText='flex:1 1 auto;min-width:0;font-size:10px;padding:5px 4px';
    bt.addEventListener('click',function(e){e.preventDefault();snd.ui();
-    ST.att=ST.att||{};ST.att[p]=ST.att[p]||{};ST.att[p][k]=i;save();renderAtt();updGun()});
+    ST.att=ST.att||{};ST.att[p]=ST.att[p]||{};ST.att[p][k]=i;save();renderAtt();
+    if(G&&G.p)updGun()});
    row.appendChild(bt)});
   el.appendChild(row);
   var d=mk('div');d.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.55;margin:1px 0 6px';
