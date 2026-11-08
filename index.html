@@ -709,6 +709,22 @@ table.rt td:last-child{text-align:right;font-weight:600}
 #fadeOut{position:fixed;left:0;right:0;top:0;bottom:0;z-index:60;background:#04070a;
  opacity:0;pointer-events:none;transition:opacity .42s ease}
 #fadeOut.on{opacity:1}
+/* 招收档案：剧情开始前的背景页，盖住对话层 */
+#dDossier{position:relative;z-index:3;flex:1;display:none;flex-direction:column;justify-content:center;
+ align-items:center;padding:0 clamp(12px,4vw,40px) 10px;min-height:0}
+#dramaBox.bgmode #dDossier{display:flex}
+#dramaBox.bgmode #dStage,#dramaBox.bgmode #dFoot{display:none}
+#dramaBox.bgmode #dScene,#dramaBox.bgmode #dScnTag{display:none}
+#dDossier .dsCard{width:min(780px,100%);max-height:100%;overflow:auto;padding:22px 26px 18px;
+ border:1px solid #1e2b34;border-radius:8px;
+ background:linear-gradient(180deg,rgba(15,21,27,.94),rgba(9,13,17,.96));
+ box-shadow:0 20px 60px rgba(0,0,0,.55)}
+#dDossier .dsK{font-size:9.5px;letter-spacing:.34em;color:#7d93a6}
+#dDossier h2{margin:8px 0 14px;font-size:21px;letter-spacing:.05em;color:#eaf3f8;font-weight:800}
+#dDossier p{margin:0 0 10px;font-size:12.5px;line-height:1.88;color:#a2b6c3}
+#dDossier .dsFoot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+ border-top:1px solid #1a242c;padding-top:13px}
+#dDossier .dsHint{font-size:10.5px;color:#62798a;letter-spacing:.06em}
 #dramaBox:before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;
  background-image:linear-gradient(rgba(150,190,210,.05) 1px,transparent 1px),
   linear-gradient(90deg,rgba(150,190,210,.05) 1px,transparent 1px);
@@ -1374,6 +1390,13 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn sm" id="dSkip">跳过剧情</button>
   </div>
   <div id="dScene"><canvas id="dArt"></canvas><span id="dScnTag"></span></div>
+  <div id="dDossier"><div class="dsCard">
+    <div class="dsK">RECRUITMENT FILE · 招收档案</div>
+    <h2 id="dsTtl">—</h2>
+    <div id="dsBody"></div>
+    <div class="dsFoot"><span class="dsHint">读完点右侧按钮，进入招募现场</span>
+      <button class="btn p" id="dsGo">进入招募现场</button></div>
+  </div></div>
   <div id="dStage">
     <div id="dWhoRow">
       <div id="dBadge">鹰</div>
@@ -5328,50 +5351,61 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  lvCard0();
  lvCard6()}
 var DRG=[
-['旁白','猎鹰突击队驻地 · 三楼办公室 · 上午 08:12','office'],
-['旁白','桌上摊着一张只有编号的调令，窗外晨雾还没散。'],
-['燕锋','坐。别站得像根电线杆——今天不是来罚你的。'],
-['燕锋','调令上写「预备队员」。这个词的意思是：我们还没决定要不要你。'],
-['你','那我今天要做什么？'],
-['燕锋','三步：先在办公室把话讲清楚，再去靶场把枪摸熟，最后进训练楼打实弹。'],
-['燕锋','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人不该上街。顺序不能反。'],
-['旁白','—— 办公室谈话结束 · 转入靶场 ——','range'],
-['旁白','招募中心 · 上午 08:40 · 你接到一封只有编号的调令'],
-['燕锋','来了？我是燕锋，负责今天这一课。别紧张——猎鹰不挑天才，挑靠得住的人。'],
-['燕锋','先说好：接下来五分钟，讲枪、讲战术、讲心性。最后实弹考核。中途想走现在就可以走。'],
-['你','我不走。'],
-['旁白','第一幕 · 集结令'],
-['燕锋','反恐突击和常规作战不一样。门后可能三米内就是刀，也可能人质就在刀后面。'],
-['燕锋','所以我们所有的训练，最后都归到一句话：看得清，打得准，收得住。'],
-['燕锋','看得清——进门前先建立房间模型。门缝、合页方向、把手冷热、地上有没有拖拽痕，全是信息。'],
-['燕锋','打得准——不是打得狠。第一发就要解决方向问题，误伤一发，任务就失败。'],
-['燕锋','收得住——扳机手指在目标明确前，永远贴在扳机护圈外。这叫金手指纪律。'],
-['旁白','第二幕 · 枪械讲解（以下参数均为公开报道口径，虚构演绎）'],
-['燕锋','认识一下你要用的国产家伙。第一支，QSZ-19 手枪——新一代制式手枪，2019 年公开亮相。'],
-['燕锋','20 发弹匣，比老型号容量大一截，戴手套也好操作。它是你的保底，不是你的主力。'],
-['燕锋','第二支，QBZ-03——5.8 毫米小口径，弹道低伸，中距离存能好。老教官的说法：这枪指哪打哪，得会用它。'],
-['燕锋','第三支，191 式枪族，现役新一代制式，精确射手型带可变倍率瞄具。今天考核指定枪型。'],
-['燕锋','记参数没有意义，有意义的是手感：据枪、贴腮、均匀后压。枪是手的延伸，不是烧火棍。'],
-['旁白','第三幕 · 战术要领'],
-['燕锋','清房四人组：你、Bravo-2 突击、Bravo-3 精确、我。门在哪，队形就跟到哪。'],
-['燕锋','门口列队——高低位站好，破门之前谁都不许探头。探头的人最勇敢，也最先被打。'],
-['燕锋','爆破之后两秒内必须有人进。第一进位切远角，第二进位补近角，后面压中间，房间就活了。'],
-['燕锋','声音会出卖你。踹门、枪声、雷声都会把整层楼的敌人叫醒——所以我们用闪光，用配合，用比他们快的脑子。'],
-['燕锋','记住：人质永远优先于击毙。缴械一个比打死十个更有价值。'],
-['旁白','第四幕 · 心理甄别（做出你的选择）'],
-['考官','甄别题一：突入瞬间，门后一个身影举起了手臂。你只看见一个轮廓。'],
-{Q:'Q1',O:['按规程短点射压制','0.5 秒辨识：枪口朝向与手部形状','喊话命令其趴下再动作']},['考官','答得可以。犹豫会死人，但扣错的扳机杀的是自己人。'],
-['考官','甄别题二：撤离点遭火力压制，一名人质落在掩体外三米。'],
-{Q:'Q2',O:['掩护火力压住，自己冲出去拖','呼叫队友交替掩护，全队一起拖','先清掉压制点再回头']},['燕锋','标准只有一个：人质要带出来，队友也不能白死。顺序和手段，体现你怎么想。'],
-['旁白','第五幕 · 实弹环境（训练楼 · 三层房间与走廊）','building'],
-['燕锋','靶场取消了。今天的考题是这栋楼——十二名持械“佣兵”，还有两名人质在里面。'],
-['燕锋','Bravo-2 归你指挥，我跟你一起进。记住三件事：破门前先看门缝、人质优先、收得住手。'],
-['旁白','第六幕 · 考核确认'],
-['考官','考核场为实弹训练楼：三层房间、两道横向走廊，守敌 12 人，含重装兵与精确射手。'],
-['考官','没有射击线、没有固定靶位。清空全部守敌，把人质带出并从楼顶侧门撤离，即算合格。'],
-['燕锋','枪在你右手，道理在你心里。去吧——我跟着你，最后一发我看着。'],
-['旁白','点击进入实弹考核 · OP-06 靶场']
+ {A:'第一幕 · 报到',S:'office'},
+ ['燕锋','坐。别站着——今天不是来罚你的。','office'],
+ ['燕锋','你的档案我看过：射击优秀，体能达标，两次处置零误伤。','office'],
+ ['燕锋','但档案不写一件事——门后面你是什么样的人。','office'],
+ ['你','所以今天就是来看这个的。','office'],
+ ['燕锋','今天三步：在这儿把话讲清楚，去靶场把枪摸熟，最后进训练楼打实弹。','office'],
+ ['燕锋','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人我不带上街。','office'],
+ ['你','我不打算走到一半。','office'],
+ ['燕锋','记住这句话。等会儿在靶场，我会再问你一次。','office'],
+ {A:'第二幕 · 枪',S:'range'},
+ ['燕锋','桌上三支，全是国产。先从你会天天带的那支说起。','range'],
+ ['燕锋','QSZ-19，制式手枪，2019 年公开亮相，20 发弹匣。它是保底的，不是主力。','range'],
+ ['燕锋','QBZ-03，5.8 毫米，弹道平、中距离稳。枪老，但指哪打哪。','range'],
+ ['燕锋','QBZ-191，现役新一代枪族。今天考核指定的就是它。','range'],
+ ['燕锋','参数背下来没用。有用的是据枪稳、贴腮实、后压匀。','range'],
+ ['燕锋','枪是手的延伸。你握得像攥拳头，它就替你乱指。','range'],
+ ['你','这样？','range'],
+ ['燕锋','再低两指。别用眼睛找枪口，用肩膀找。','range'],
+ {A:'第三幕 · 门'},
+ ['燕锋','五区里最难的不是开枪，是进门。门后三米可能是刀，也可能人质就贴在刀后面。','range'],
+ ['燕锋','进门之前先建房间模型：门缝、合页方向、把手温度、地上有没有拖拽痕。','range'],
+ ['燕锋','破门之后两秒内必须有人进。第一个切远角，第二个补近角，后面压中间。','range'],
+ ['燕锋','今天这一课只有你跟我，但道理一样——门在哪，人就跟到哪。','range'],
+ ['燕锋','记住三件事：破门前先看门缝，人质优先于击毙，扳机手指永远在护圈外。','range'],
+ ['你','如果我判断错了呢？','range'],
+ ['燕锋','那就错得快一点，然后立刻改。犹豫才是最贵的错误。','range'],
+ {A:'第四幕 · 甄别'},
+ ['考官','现在换我问。答案没有对错，但我会记住你怎么想。','range'],
+ {Q:'Q1',P:'突入瞬间，门后一个身影举起了手臂。你只看见一个轮廓。',
+  O:['按规程短点射压制','半秒辨识：枪口朝向与手部形状','喊话命令其趴下再动作']},
+ ['考官','犹豫会死人，但扣错的扳机杀的是自己人。你至少知道先看一眼。','range'],
+ {Q:'Q2',P:'撤离点遭火力压制，一名人质落在掩体外三米。',
+  O:['火力压住，自己冲出去拖','呼叫交替掩护，全队一起拖','先清压制点再回头']},
+ ['燕锋','标准只有一个：人质要带出来，队友也不能白死。顺序和手段，体现你怎么想。','range'],
+ {A:'第五幕 · 实弹',S:'building'},
+ ['燕锋','靶场取消了。今天的考题是这栋楼：三层、两道横向走廊、十二名持械人员、两名人质。','building'],
+ ['燕锋','没有射击线，没有固定靶位。清空守敌，把人质带出，从楼顶侧门撤离。','building'],
+ ['你','人质在几层？','building'],
+ ['燕锋','不知道。你得自己找。','building'],
+ ['燕锋','还有一条：找到人质之后，你的每一步都会写进报告。','building'],
+ {A:'第六幕 · 确认'},
+ ['考官','考核标准：清空全部守敌，两名人质生还，从指定门撤离。任一条件不满足即为不合格。','building'],
+ ['考官','装备按军衔发放，用不惯也别怨枪。','building'],
+ ['燕锋','枪在右手，道理在心里。','building'],
+ ['燕锋','去吧。我跟着你，最后一发我看着。','building']
 ];
+/* 招收背景：剧情开始前读的一段档案，不与任何角色对话混在一起 */
+var DRG_BG={t:'五区行动 · 第三期补充招募',b:[
+ '背景：城南工业带往外，五片城区被同一伙人分段占着——公寓、商场、KTV、港口、郊野储运站。他们不喊口号，只收过路费、扣人质，把军火往外卖。半年下来，这五片地方被统称为「五区」。',
+ '处置：武警与特警联合展开清剿，行动代号「五区行动」。顺序由易到难，一区一区往里推；每推进一区，对方的装备和反应都会更硬。',
+ '主力：猎鹰突击队。编制不大，接的都是最里面那扇门后面的活——破门、清房、把人质带出来。',
+ '你：档案上名字后面跟着「预备队员」。你从基层单位选拔上来，考核成绩排在前面，但还没有人见过你在门后是什么样。',
+ '须知：人质优先于击毙；能缴械就不开枪；误伤平民按违规重处。任务失败会扣军衔分，但已经解锁的装备永不回收。',
+ '今天：猎鹰第三期补充招募，考核编号 OP-06。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
+]};
 var drgI=0,drgL=0,drgBuf='',drgR=0,drgVote=[],drgT0=0,drgDone=false;
 /* 角色卡：字形、身份、强调色 */
 var DRG_SPK={
@@ -5388,13 +5422,27 @@ function drgSpeaker(name){var S=DRG_SPK[name]||{g:(name||'？').charAt(0),role:'
  $('dRole').textContent=S.role}
 function playDrama(){drgI=0;drgDone=false;drgT0=performance.now();drgL=0;drgBuf='';drgScn='';
  $('dramaBox').classList.add('on');$('dOpts').innerHTML='';$('dNext').classList.remove('on');
- cancelAnimationFrame(drgR);drgType();drgR=requestAnimationFrame(drgLoop)}
+ cancelAnimationFrame(drgR);drgShowBG()}
+/* 招收档案：剧情开始前先读背景，读完再进对话 */
+function drgShowBG(){
+ var b=$('dsBody');
+ if(b){b.innerHTML='';
+  DRG_BG.b.forEach(function(p){var d=mk('p');d.textContent=p;b.appendChild(d)})}
+ if($('dsTtl'))$('dsTtl').textContent=DRG_BG.t;
+ $('dramaBox').classList.add('bgmode');
+ $('dAct').textContent='猎鹰招募 · 招收档案';
+ var c=document.querySelector('#dDossier .dsCard');if(c)c.scrollTop=0}
+function drgStartStory(){
+ $('dramaBox').classList.remove('bgmode');
+ drgI=0;drgScn='';drgT0=performance.now();drgType();
+ cancelAnimationFrame(drgR);drgR=requestAnimationFrame(drgLoop)}
 function drgEnd(){cancelAnimationFrame(drgR);drgDone=true;
- $('dramaBox').classList.remove('on');dStartExam()}
+ $('dramaBox').classList.remove('on');$('dramaBox').classList.remove('bgmode');dStartExam()}
 function drgType(){var seg=drgCur();
  $('dOpts').innerHTML='';$('dNext').classList.remove('on');drgBuf='';drgL=0;
  if(!seg||typeof seg==='string'){drgSpeaker('旁白');drgBuf=(seg&&seg[1])||'';drgL=drgBuf.length;
   $('dTxt').textContent=drgBuf;drgProg();return}
+ if(seg.A){drgI++;if(drgI>=DRG.length){drgEnd();return}drgType();return}
  if(seg.O||seg.T)return;
  drgSpeaker(seg[0]);drgBuf=seg[1]||'';$('dTxt').textContent='';drgProg()}
 function drgNext(){if(drgDone)return;
@@ -5409,7 +5457,7 @@ function drgNext(){if(drgDone)return;
  drgType()}
 function drgOpts(seg){var o=$('dOpts');o.innerHTML='';drgSpeaker('考官');
  $('dWho').textContent='甄别 · '+seg.Q;$('dRole').textContent='猎鹰考核组 · 情景判断';
- $('dTxt').textContent='门后那一瞬间，你的处置是——';
+ $('dTxt').textContent=seg.P||'你的处置是——';
  $('dNext').classList.remove('on');
  seg.O.forEach(function(label,i){var b=mk('button','btn sm');
   b.innerHTML='<span class="idx">'+('ABC'.charAt(i))+'</span><span>'+label+'</span>';
@@ -5439,15 +5487,15 @@ function e2stop(){try{if(window.__drgTmr){clearTimeout(window.__drgTmr);window._
 function drgProg(){
  var pb=$('dBar').firstChild;if(pb)pb.style.width=Math.round(drgI/Math.max(1,DRG.length-1)*100)+'%';
  $('dTime').textContent=fmt(Math.floor((performance.now()-drgT0)/1000));
- var ch='',i;for(i=0;i<=drgI&&i<DRG.length;i++){var s=DRG[i];
-  if(s&&!s.O&&!s.T&&/^第[一二三四五六]幕/.test(String(s[1])))ch=String(s[1]).split(' · ')[0]}
- $('dAct').textContent='猎鹰招募 · '+(ch||'序幕');
+ var ch='',i;for(i=0;i<=drgI&&i<DRG.length;i++){var s=DRG[i];if(s&&s.A)ch=s.A}
+ $('dAct').textContent='猎鹰招募 · '+(ch?ch.split(' · ')[0]:'招募现场');
  var scn=drgSceneOf(drgI);
  if(scn!==drgScn){drgScn=scn;drgPaint(scn)}}
 var drgScn='',drgSzW=0;
 function drgSceneOf(i){
  var sc='office',k,s;
- for(k=0;k<=i&&k<DRG.length;k++){s=DRG[k];if(s&&typeof s!=='string'&&s[2])sc=s[2]}
+ for(k=0;k<=i&&k<DRG.length;k++){s=DRG[k];if(!s||typeof s==='string')continue;
+  if(s.S)sc=s.S;else if(s[2])sc=s[2]}
  return sc}
 function drgPaint(sc){
  var cv=$('dArt');if(!cv||!cv.parentNode)return;
@@ -6089,13 +6137,17 @@ bind('bGo',function(){
  startLv()});
 bind('bCont',startCont);
 function drgClick(e){if(!$('dramaBox').classList.contains('on'))return;
+ if($('dramaBox').classList.contains('bgmode'))return;
  var t=(e.target&&e.target.id)||'';if(t==='dSkip'||t==='bResume')return;
  if(t.indexOf('btn')>=0)return;drgNext()}
 $('dramaBox').addEventListener('click',drgClick);
 $('dSkip').addEventListener('click',function(e){e.preventDefault();snd.ui();
  toast('已跳过剧情 · 直接进入考核说明',2200);drgEnd()});
+(function(){var g=$('dsGo');if(!g)return;
+ g.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();drgStartStory()})})();
 D.addEventListener('keydown',function(e){if(!$('dramaBox').classList.contains('on'))return;
- if(e.code==='Space'||e.key===' '||e.code==='Enter'||e.key==='Enter'){e.preventDefault();drgNext()}});
+ if(e.code==='Space'||e.key===' '||e.code==='Enter'||e.key==='Enter'){e.preventDefault();
+  if($('dramaBox').classList.contains('bgmode'))drgStartStory();else drgNext()}});
 bind('bAlly',function(){ST.ally=ST.ally?0:1;save();brief()});
 function syncHint(){['bHint','bHint2'].forEach(function(id){var el=$(id);if(!el)return;
   el.textContent='键位提示：'+(ST.hint?'开':'关');el.classList.toggle('on',!!ST.hint)});
