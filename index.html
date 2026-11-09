@@ -861,6 +861,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
 .tutD{font-size:11.5px;line-height:1.75;color:#a9bcc8;margin-top:5px}
 .tutD b{color:#f0d890;font-weight:600}
 .tutGo{font-size:11px;color:#8fae7c;margin-top:7px}
+.tutBar{height:4px;border-radius:2px;background:#1d2831;margin-top:7px;overflow:hidden}
+.tutBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5f8a4a,#e2a93a);transition:width .16s}
 .tutDots{display:flex;gap:3px;margin-top:9px}
 .tutDots i{flex:1;height:3px;border-radius:2px;background:#1d2831}
 .tutDots i.done{background:#5f8a4a}
@@ -986,6 +988,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="tutTt" id="tutTt">移动</div>
     <div class="tutD" id="tutD">—</div>
     <div class="tutGo" id="tutGo">目标：—</div>
+    <div class="tutBar"><i id="tutBarF"></i></div>
     <div class="tutDots" id="tutDots"></div>
     <button id="tutSkip">跳过教程 ›</button>
   </div>
@@ -3988,6 +3991,7 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
  else e.hp-=dm;
  markHit(head);
  if(e.hp<=0){e.dead=1;e.dt=0;G.killed++;if(G.kf&&airOn())G.kf[L.fi]=(G.kf[L.fi]|0)+1;markKill();
+  if(G.tut&&TUT.on&&!TUT.done){TUT.kTotal++;if(e.fight)TUT.simKills++;tutCheck()}
   var isTg=!!(L.cfg.exam||L.cfg.tgt);
   var ps=e.tp==='boss'?520:(e.tp==='heavy'?180:110);
   if(!isTg&&!L.cfg.tutorial)addXp(e.tp==='boss'?160:(e.tp==='heavy'?55:35));
@@ -5954,6 +5958,13 @@ var PATCHES=[
    '新增剧情行动「OP-05 杜布罗夫卡」：剧院人质事件，取材 2002 年莫斯科杜布罗夫卡剧院危机。12 名守敌、10 名人质坐在观众席，4 分 30 秒后通风口放气，之后每 24 秒有一名未带出的人质窒息。',
    '两关都有独立战术档案与开场剧情（沈钺的复盘），撤离点要求带够人质才放行；结算会单独统计人质损失。',
    '机场改为 OP-06、猎鹰考核改为 OP-07。旧存档自动换算：KTV / 港口 / 沙漠地堡的进度并入郊野储运站，机场与考核顺延，不让玩家丢已通关记录。'
+  ]},
+ {v:9,d:'2026-11-09',t:'新兵教程计数与进度条',
+  items:[
+   '修复新手教程打靶不计数：靶标 2.4 秒后自动立起、击毙数被复位时，教程进度不再回退或卡住。',
+   '改为按“击杀事件”累计：同一个靶标倒下、立起、再次倒下，每一次都计入当前步骤。',
+   '教程面板新增单步进度条与（1 / 2）计数：移动、据枪、打靶等步骤都能看到当前进度。',
+   '“模拟清房”单独统计三名陪练目标，靶标复位不影响；重新开始教程会重置计数与陪练目标。'
   ]}
 ];
 function pushPatchMail(){
@@ -6647,29 +6658,40 @@ var TUTS=[
  {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
  {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。',g:'完成 1 次互动',n:1},
  {k:'light',t:'战术枪灯',d:'按 <b>L</b>（触屏点「枪灯」）开关枪口战术灯。暗场景里它照亮走廊，亮场景可以关掉。',g:'开关 1 次枪灯',n:1},
- {k:'kills',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
+ {k:'sim',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
  {k:'cov',t:'掩护射击',d:'按 <b>G</b>：换弹加速、散布收紧，适合压制窗口。',g:'触发 1 次掩护',n:1},
  {k:'pause',t:'暂停与键位',d:'按 <b>P</b> 暂停：看键位、切音效、重开本关。<b>M</b> 可以随时开关音效。',g:'暂停 1 次',n:1}
 ];
-var TUT={on:false,i:0,moved:0,run:0,aim:0,kills:0,k0:0,fire:0,reload:0,swap:0,gren:0,act:0,
+var TUT={on:false,i:0,moved:0,run:0,aim:0,kills:0,k0:0,kTotal:0,simKills:0,_p:-1,fire:0,reload:0,swap:0,gren:0,act:0,
  light:0,wheel:0,med:0,cov:0,pause:0,t:0,done:false,px:0,py:0};
 function tutEv(k){if(!TUT.on||TUT.done)return;if(typeof TUT[k]!=='number')return;TUT[k]++;tutCheck()}
+function tutValue(s){
+ if(!s)return 0;
+ if(s.k==='kills')return TUT.kTotal;
+ if(s.k==='sim')return TUT.simKills;
+ return TUT[s.k]||0}
+function tutProg(force){var s=TUTS[TUT.i];if(!s)return;
+ var cur=tutValue(s),n2=s.n||1,pct=clamp(cur/n2,0,1);
+ if(!force&&TUT._p===pct)return;TUT._p=pct;
+ var f=$('tutBarF');if(f)f.style.width=(pct*100).toFixed(1)+'%';
+ var g=$('tutGo');if(g){var ex='';
+  if(n2>1)ex='（'+(s.k==='aim'?Math.min(cur,n2).toFixed(1):Math.floor(Math.min(cur,n2)))+' / '+n2+'）';
+  g.textContent='目标：'+s.g+ex}}
 function tutRender(){var s=TUTS[TUT.i];
  if(!s){$('tutTt').textContent='全部完成';return}
  $('tutStep').textContent=(TUT.i+1)+' / '+TUTS.length;
- $('tutTt').textContent=s.t;$('tutD').innerHTML=s.d;$('tutGo').textContent='目标：'+s.g;
+ $('tutTt').textContent=s.t;$('tutD').innerHTML=s.d;
  var dots='',i;for(i=0;i<TUTS.length;i++)
   dots+='<i class="'+(i<TUT.i?'done':(i===TUT.i?'now':''))+'"></i>';
- $('tutDots').innerHTML=dots}
+ $('tutDots').innerHTML=dots;TUT._p=-1;tutProg(1)}
 function tutCheck(){if(!TUT.on||TUT.done||!G)return;
  var s=TUTS[TUT.i];if(!s)return;
- TUT.kills=Math.max(TUT.kills,G.killed-(TUT.k0||0));
- var ok=(s.k==='kills')?(TUT.kills>=s.n):((TUT[s.k]||0)>=s.n);
- if(!ok)return;
+ var cur=tutValue(s);
+ if(cur<s.n){tutProg(0);return}
  TUT.i++;snd.sec();
  if(TUT.i>=TUTS.length){tutFinish();return}
- TUT.k0=G.killed;tutRender();
+ tutRender();
  /* 进入「模拟清房」时投放三名陪练目标 */
  if(TUTS[TUT.i]&&TUTS[TUT.i].t==='模拟清房'&&!TUT.simSpawn){TUT.simSpawn=1;spawnTutFoes()}
  toast('完成：'+s.t+' · 下一步 '+TUTS[TUT.i].t,1500)}
@@ -6695,7 +6717,7 @@ function startTut(){show(null);setScr('play');aInit();
  CAM.y=clamp(G.p.y-VH/2,0,Math.max(0,L.cfg.H-VH));
  HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:'',rk:''};
  initAllies();
- TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.kills=0;TUT.k0=0;
+ TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.kills=0;TUT.k0=0;TUT.kTotal=0;TUT.simKills=0;TUT.simSpawn=0;TUT._p=-1;
  TUT.fire=0;TUT.reload=0;TUT.swap=0;TUT.gren=0;TUT.act=0;TUT.light=0;TUT.wheel=0;TUT.med=0;
  TUT.cov=0;TUT.pause=0;TUT.t=0;TUT.px=G.p.x;TUT.py=G.p.y;
  $('tut').classList.remove('hidden');tutRender();
