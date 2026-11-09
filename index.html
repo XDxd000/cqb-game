@@ -175,6 +175,13 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .heroQuota{font-size:11.5px;color:#8fc0d8;letter-spacing:.04em}
 .heroQuota b{color:#f0d890;font-size:14px;margin:0 2px}
 .heroList{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+/* 英雄配装页：技能卡 */
+.opCard{border:1px solid #24323d;border-radius:8px;padding:14px 16px;background:linear-gradient(180deg,rgba(16,23,29,.92),rgba(11,16,20,.92));margin:4px 0 14px}
+.opCard h2{margin:0 0 3px;font-size:18px;letter-spacing:.04em;color:#eaf3f8}
+.opCard .role{font-size:10.5px;letter-spacing:.12em;color:#8fb0c4;margin-bottom:8px}
+.opCard .sk{display:flex;gap:10px;padding:6px 0;border-top:1px solid #17222a;font-size:12px;color:#a8bcc9;line-height:1.7}
+.opCard .sk b{flex:0 0 104px;color:#dce7ee;font-weight:600}
+.opCard .sk span{flex:1}
 .heroRow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #24323d;border-radius:6px;
  background:rgba(14,20,26,.7)}
 .heroRow b{font-size:12.5px;color:#e9f2f8;font-weight:600;min-width:170px}
@@ -1384,6 +1391,22 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div id="heroList" class="heroList"></div>
   <div class="bar"><button class="btn p" id="bHeroGo">去选择出战队员</button>
     <button class="btn" id="bHeroBack">返回</button></div>
+</div></section>
+
+<!-- SECTION: markup-op-load 英雄队员配装（与普通队员的军械库完全分开） -->
+<section class="screen" id="sOpLoad"><div class="wrap" style="max-width:820px">
+  <div class="eyebrow">OPERATOR LOADOUT · 英雄队员配装</div>
+  <h1 id="olName">—</h1>
+  <div class="opCard" id="olCard"></div>
+  <h3>三武器配置 <span class="h3sub" id="olPlat">—</span></h3>
+  <div class="heroList" id="olSlots"></div>
+  <h3>可选枪械 <span class="h3sub">点右侧按钮装进对应槽位</span></h3>
+  <div class="rlWrap"><div id="olGuns"></div></div>
+  <div class="note">主武器装步枪／冲锋枪／霰弹枪／狙击枪，副武器只装手枪。这里的配装只属于英雄队员，不会改动普通队员在军械库里的两把枪。</div>
+  <div class="bar">
+    <button class="btn p" id="olSet">设为出战队员</button>
+    <button class="btn" id="olBack">返回任务列表</button>
+  </div>
 </div></section>
 
 <!-- SECTION: markup-range-load -->
@@ -5667,7 +5690,7 @@ function goMenu(){
   playDrama3(function(){ST.duo=1;save();goMenu();
    try{toast('联合编队已解锁 · 可在出战时带上僚机',3200)}catch(e){}});return}
  show('sMenu');setScr('menu');renderLv()}
-function show(id){['sBoot','sMenu','sArs','sHero','sRangeLoad','sBoard','sMail','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
+function show(id){['sBoot','sMenu','sArs','sHero','sOpLoad','sRangeLoad','sBoard','sMail','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
  if(id)$(id).classList.add('on')}
 function openKm(){ST.kmFrom=ST.scr;show('sKeys');setScr('keys');renderKm();updHint()}
 function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=='undefined'&&TP_draft){tpRevert();}
@@ -5792,6 +5815,13 @@ var PATCHES=[
    '战术腰封允许把同一个投掷物放在不同槽位，每一格算一次使用（例如破片 ×2 就是两格）。',
    '投出后必须重新握雷才会再投，不会出现按住开火连续投出的情况。',
    '军械库腰封说明同步更新：标题写明可重复放置、投出需重新握持、落点即准星。'
+  ]},
+ {v:7,d:'2026-11-09',t:'英雄队员独立配装页',
+  items:[
+   '点出战队员里的「燕锋 / 格雷 / 联合编队」，不再只切换选中状态，而是进入该英雄的专属配装页。',
+   '配装页上半部分是英雄档案与技能：角色身份、武器槽规则、被动加成、专属装备；下半部分是三武器配置（主武器一 / 主武器二 / 副武器）与全套枪械列表，点「主1 / 主2 / 副」直接装枪。',
+   '英雄配装与普通队员完全分开：普通队员卡片现在直接进入军械库配置自己的两把枪，两套配装互不影响（普通队员用 ST.load，英雄用各自的 heroLoad）。',
+   '联合编队的三个槽位归属于燕锋（页面会标注「· 燕锋」），格雷作为僚机不占用武器槽。'
   ]}
 ];
 function pushPatchMail(){
@@ -5893,6 +5923,66 @@ function renderDiffCard(){
    renderDiffCard();renderLv();toast('难度：'+x.n+' · '+x.d,2400)});
   list.appendChild(b)})}
 /* 出战队员选择行（地图选择界面） */
+/* ---- 英雄队员独立配装页：三武器 + 技能说明，与普通队员的军械库完全分开 ---- */
+var OLOP='yan';
+function opInfo(op){
+ if(op==='grey')return {n:'格雷',role:'SAS 第 22 特别空勤团 · 指挥官',
+  sk:[['武器槽','两把主武器 + 一把副武器，进局后 1 / 2 / 3 切换'],
+      ['被动 · 快速换弹','换弹时间 −15%'],
+      ['被动 · 老练','护甲 +12 · 移速 +2%'],
+      ['专属装备','默认主武器 SA80 A2（L85A2）']]};
+ if(op==='duo')return {n:'联合编队',role:'燕锋 + 格雷',
+  sk:[['编成','你操控燕锋，格雷作为 AI 僚机随行'],
+      ['僚机 · 跟随','保持在 150 px 内跟随，过近会主动退开'],
+      ['僚机 · 交火','820 px 内有视线自动开火，约 0.6 秒一发'],
+      ['主控加成','燕锋：护甲 +18 · 移速 +4%']]};
+ return {n:'燕锋',role:'猎鹰突击队 · 调遣队员',
+  sk:[['武器槽','两把主武器 + 一把副武器，进局后 1 / 2 / 3 切换'],
+      ['被动 · 强袭','护甲 +18 · 移速 +4%'],
+      ['专属装备','QBZ-191 与国产枪族（剧情解锁后可用）']]};
+}
+function olUnlocked(op){return op==='grey'?ST.hero2===1:(op==='duo'?ST.duo===1:ST.hero===1)}
+function olLoad(){return OLOP==='grey'?heroLoadOf2():heroLoadOf()}
+function olSetSlot(i,id){
+ if(OLOP==='grey'){setHeroSlot2(i,id);renderOpLoad();return}
+ var h=heroLoadOf().slice();h[i]=id;ST.heroLoad=h;save();renderOpLoad()}
+function openOpLoad(op){
+ if(!olUnlocked(op)){
+  toast(op==='grey'?'通关机场后解锁「格雷」':(op==='duo'?'看完第三章后解锁「联合编队」':'通过 OP-06 后解锁「燕锋」'),2800);return}
+ OLOP=op;show('sOpLoad');setScr('opload');renderOpLoad()}
+function renderOpLoad(){
+ var inf=opInfo(OLOP),c=$('olCard');
+ if($('olName'))$('olName').textContent=inf.n;
+ if(c){c.innerHTML='<h2>'+esc(inf.n)+'</h2><div class="role">'+esc(inf.role)+'</div>'+
+  inf.sk.map(function(s){return '<div class="sk"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>'}).join('')}
+ var hl=olLoad();
+ var names=OLOP==='duo'?['主武器一 · 燕锋','主武器二 · 燕锋','副武器 · 燕锋']:['主武器一','主武器二','副武器'];
+ var sl=$('olSlots');sl.innerHTML='';
+ for(var i=0;i<3;i++){
+  var row=mk('div','heroRow');
+  var nm=mk('b');nm.textContent=names[i];row.appendChild(nm);
+  var de=mk('i');de.textContent=(WM[hl[i]]?WM[hl[i]].n:hl[i])+(WM[hl[i]]&&WM[hl[i]].cn?' · '+WM[hl[i]].cn:'');
+  row.appendChild(de);sl.appendChild(row)}
+ var g=$('olGuns');g.innerHTML='';
+ WP.forEach(function(o){
+  var r=mk('div','rlRow');
+  var n=mk('span','rn');n.textContent=o.n;r.appendChild(n);
+  var cc=mk('span','rc');cc.textContent=(o.cn||'');r.appendChild(cc);
+  var un=gunOk(o.id);
+  for(var j=0;j<3;j++){
+   var okSlot=(j===2)?o.cls==='pistol':o.cls!=='pistol';
+   var b=mk('button','btn sm');b.textContent=(j===2?'副':'主'+(j+1));
+   b.disabled=!okSlot||!un;
+   if(un&&okSlot&&hl[j]===o.id)b.classList.add('on');
+   b.onclick=(function(jj,id){return function(e){e.preventDefault();snd.ui();olSetSlot(jj,id)}})(j,o.id);
+   r.appendChild(b)}
+  if(!un){
+   var tg=mk('span','rc');tg.style.flex='0 0 64px';
+   tg.textContent=/国产/.test(o.cn||'')?'剧情解锁':(o.hero?'需考核':'未解锁');
+   r.appendChild(tg)}
+  g.appendChild(r)});
+ if($('olPlat'))$('olPlat').textContent='共 '+WP.length+' 把枪';
+}
 function renderOpRow(){
  var n=$('bOpNorm'),y=$('bOpHero'),g=$('bOpGrey'),duo=$('bOpDuo');
  if(!n||!y||!g)return;
@@ -6917,19 +7007,19 @@ bind('bTutArs',function(){openArs()});
   toast('已跳过新兵训练',1800);tutFinish()})})();
 bind('bArs',openArs);
 bind('bHero',openHero);
-bind('bOpNorm',function(){setOp('norm');toast('出战队员：你自己',1600)});
+bind('bOpNorm',function(){setOp('norm');toast('出战队员：你自己 · 配装在军械库',1800);openArs()});
 bind('bDfToggle',function(){var c=$('dfCard');if(!c)return;
  var open=c.classList.toggle('open');
  if($('dfArrow'))$('dfArrow').textContent=open?'收起 ▴':'展开 ▾';
  if(open)renderDiffCard()});
-bind('bOpDuo',function(){if(ST.duo!==1){toast('完成机场行动并看完第三章后解锁「联合编队」',3000);return}
- setOp('duo');toast('联合编队 · 燕锋出击，格雷随行',2200)});
-bind('bOpGrey',function(){if(ST.hero2!==1){toast('通关机场后解锁「格雷」',2600);return}
- setOp('grey');toast('出战队员：格雷 · SAS 指挥官',2000)});
-bind('bOpHero',function(){if(ST.hero!==1){toast('通过 OP-06 猎鹰招募后解锁「燕锋」',2600);return}
- setOp('hero');toast('出战队员：燕锋 · 三武器槽',2000)});
+bind('bOpDuo',function(){openOpLoad('duo')});
+bind('bOpGrey',function(){openOpLoad('grey')});
+bind('bOpHero',function(){openOpLoad('yan')});
 bind('bHeroBack',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bHeroGo',function(){goMenu();toast('在地图上方选择出战队员',2200)});
+bind('olBack',function(){goMenu()});
+bind('olSet',function(){setOp(OLOP);goMenu();
+ toast('出战队员：'+(OLOP==='grey'?'格雷':(OLOP==='duo'?'联合编队':'燕锋')),2200)});
 bind('bHelp',function(){show('sHelp');setScr('help')});
 bind('bBoard',openBoard);
 bind('bMail',openMail);
