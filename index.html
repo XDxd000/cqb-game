@@ -1070,7 +1070,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">六个场景由易到难逐级解锁：公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
+  <p class="bootLead">五个场景由易到难逐级解锁：公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院。后面还有机场双层行动与猎鹰招募考核。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
@@ -1120,7 +1120,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。六个场景按难度由易到难依次解锁——公寓、商场、KTV、港口、郊野储运站（室外）、沙漠地堡。
+      <p class="bgLead">俯视角战术射击演练。五个场景按难度由易到难依次解锁——公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院；之后是机场双层行动与猎鹰招募。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
 界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
@@ -1153,11 +1153,11 @@ table.rt td:last-child{text-align:right;font-weight:600}
       </div>
     </div>
 
-    <!-- 出战队员：普通队员 / 英雄队员（OP-06 通过后解锁） -->
+    <!-- 出战队员：普通队员 / 英雄队员（OP-07 通过后解锁） -->
     <div class="opRow" id="opRow">
       <span class="opL">出战队员</span>
       <button class="opB on" id="bOpNorm"><span>普通队员</span><b>你自己 · 主武器 + 副武器</b></button>
-      <button class="opB" id="bOpHero"><span>英雄队员 · 燕锋</span><b>通过 OP-06 后解锁</b></button>
+      <button class="opB" id="bOpHero"><span>英雄队员 · 燕锋</span><b>通过 OP-07 后解锁</b></button>
       <button class="opB" id="bOpGrey"><span>英雄队员 · 格雷</span><b>通关机场后解锁</b></button>
       <button class="opB hidden" id="bOpDuo"><span>联合编队 · 燕锋 + 格雷</span><b>第三章后解锁</b></button>
     </div>
@@ -1383,7 +1383,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="heroMeta">
       <div class="heroName">燕锋<span class="heroTag">猎鹰调配 · 强化训练</span></div>
       <div class="heroRankRow"><i>★</i> 中尉 · 原猎鹰突击队突击手</div>
-      <p class="heroDesc">从猎鹰突击队调遣至五区行动序列的突击手。随调令一同移交的还有一份强化训练计划——通过 OP-06 猎鹰招募后，训练完成，他即由玩家操控出战：三武器槽（两主一副）＋ 护甲 +18 ／ 移速 +4%。调令附带的临时调阅授权，可动用军械库中尚未解锁的装备。</p>
+      <p class="heroDesc">从猎鹰突击队调遣至五区行动序列的突击手。随调令一同移交的还有一份强化训练计划——通过 OP-07 猎鹰招募后，训练完成，他即由玩家操控出战：三武器槽（两主一副）＋ 护甲 +18 ／ 移速 +4%。调令附带的临时调阅授权，可动用军械库中尚未解锁的装备。</p>
       <div class="heroQuota">今日剩余授权 <b id="hqLeft">3</b> / 3 · 每日 00:00（北京时间）刷新</div>
     </div>
   </div>
@@ -1475,7 +1475,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn p" id="bAskCarry">批准：携带人质撤离</button>
     <button class="btn" id="bAskLeave">否决：直接撤离（−260）</button>
   </div>
-  <div class="note">携带人质：全部未受伤平民随队获救（每人 +80 作战分 · 计入解救统计）；直接撤离：结算扣 260 分并记入 ROE 报告。</div>
+  <div class="note" id="askNote">携带人质：全部未受伤平民随队获救（每人 +80 作战分 · 计入解救统计）；直接撤离：结算扣 260 分并记入 ROE 报告。</div>
 </div></section>
 
 <!-- SECTION: markup-drama -->
@@ -1522,7 +1522,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <b style="color:#dce7ee">消焰器</b>会把枪口焰压掉（开火不再有火光暴露位置，但弹道仍然可见）；<b style="color:#dce7ee">MX3 制退器</b>后坐更小、枪口两侧会有明显的侧向焰流。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>难度曲线</h3>
-  <p>01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 KTV（昏暗、贴脸伏击）→ 04 港口（长视野交叉火力 + 重装）→ 05 沙漠地堡（全兵种 + 持续增援 + 指挥官）。</p>
+  <p>01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 郊野储运站（室外场区 + 4 名狙击手）→ 04 王子门（使馆人质 + 处决倒计时）→ 05 杜布罗夫卡（剧院人质 + 毒气倒计时）→ 06 机场（双层）→ 07 猎鹰考核。</p>
   <h3>武器与厂商</h3>
   <p>军械库每把枪都标注真实制造商（Glock、SIG Sauer、Beretta、Heckler &amp; Koch、FN Herstal、Colt、Kalashnikov、IWI、Steyr Arms、
 Remington、Benelli、Franchi、Barrett、Accuracy International、CheyTac）与公开参数，用于呈现现实轻武器知识。</p>
@@ -2150,67 +2150,8 @@ var LS=[
  intel:'周末商场已被封锁，佣兵在中庭设岗，南北回廊各藏一名精确射手。任何直线穿越都会被标记，利用立柱与店铺柜台交替推进，先定位再开火。',
  obj:['清除店铺与中庭全部守敌','优先消除 2 名高点精确射手','解救平民并从中庭侧门撤离'],
  roe:'中庭开阔地带极易误伤跟随的平民，注意走位',
- civ:[[272,150],[1352,160],[780,884]],st:[95,905],ex:[62,912,150,80],zn:[[60,60,1480,170],[60,790,1480,170],[60,300,1480,390]]},
-{code:'OP-03 · KTV',nm:'KTV · 昏暗包厢走廊',W:1400,H:880,dk:.84,th:'ktv',sd:33,par:165,rq:2,
- fl:[[20,20,1360,840]],
- wl:function(a){ring(a,1400,880,20);
-  var x0=40,rw=258,n=5,i,sx,mid;
-  for(i=0;i<n;i++){sx=x0+i*rw;mid=sx+rw/2;
-   a.push([sx,20,20,360],[sx,500,20,360]);
-   a.push([sx+20,380,(mid-40)-(sx+20),20],[mid+40,380,(sx+rw-20)-(mid+40),20]);
-   a.push([sx+20,480,(mid-40)-(sx+20),20],[mid+40,480,(sx+rw-20)-(mid+40),20]);
-   a.push([sx+50,150,110,36],[sx+50,660,110,36]);}
-  a.push([x0+n*rw,20,20,360],[x0+n*rw,500,20,360]);
-  a.push([1000,540,20,180]);
-  return a},
- foe:{rush:6,grunt:5,sniper:1},acc:1.00,rea:.62,edm:7.5,ehp:1.1,
- threat:'冲锋兵贴脸伏击为主，反应时间极短',
- terr:'走廊两侧 10 间包厢，霓虹灯带 + 烟雾，能见度极低',
- hint:'Benelli M4／FN P90；狙击武器在此几乎无用',
- intel:'KTV 的烟感报警被触发，只剩应急灯与霓虹。佣兵两人一组守在包厢门后，习惯近距离伏击。现实流程是先投雷再进入——你带 2 枚 M67，用在这条又长又暗的走廊拐角。',
- obj:['清空走廊两侧全部包厢','在低能见度下避免误伤平民','从大堂安全门撤离'],
- roe:'黑暗中辨明身份：平民举手求救，佣兵持枪',
- civ:[[200,230],[1180,690],[685,250]],st:[1290,440],ex:[52,404,110,72],zn:[[60,60,1280,300],[60,520,1280,320],[60,404,1280,76]]},
-{code:'OP-04 · PORT',nm:'港口 · 集装箱场区',W:1800,H:1000,dk:.18,th:'port',sd:44,par:190,rq:3,
- fl:[[20,20,1760,960]],
- wl:function(a){ring(a,1800,1000,20);
-  var r,c,x,y;
-  for(r=0;r<4;r++){y=150+r*215;
-   for(c=0;c<5;c++){x=330+c*290+(r%2?150:0);if(x+268<1760)a.push([x,y,268,70])}}
-  a.push([40,60,300,20],[40,60,20,300],[40,340,180,20],[280,340,60,20],[340,60,20,180],[92,142,118,48]);
-  a.push([1560,60,200,20],[1560,60,20,220],[1740,280,20,130]);
-  a.push([170,860,110,20],[280,860,120,20],[60,700,20,140]);
-  a.push([1620,860,160,58],[1300,540,58,220]);
-  return a},
- foe:{grunt:6,rush:3,sniper:2,heavy:3},acc:.92,rea:.50,edm:8,ehp:1.15,
- threat:'重装佣兵 + 2 名狙击手交叉火力封锁通道',
- terr:'长视野场区，集装箱是唯一硬掩体，横移全靠箱影',
- hint:'Colt M4A1／Steyr AUG A3，或 AI AX50 远距离对狙',
- intel:'码头场区是赤隼的武器中转点，箱位之间形成多条 60 m 以上射击通道。两名狙击手占据东侧与北侧箱顶，重装佣兵守中段。先用远距离火力压制，再借箱影交替横移。',
- obj:['击毙场区全部守敌（含 2 名精确射手）','压制重装佣兵推进至核心箱位','从西南角登船点撤离'],
- roe:'重装佣兵防弹衣使躯干伤害衰减约 35%，需补枪或瞄头',
- civ:[[182,222],[1610,700]],st:[110,930],ex:[80,900,148,80],zn:[[80,80,1640,840]]},
-{code:'OP-05 · DESERT BUNKER',nm:'沙漠地堡 · 地下指挥所',W:1700,H:1100,dk:.46,th:'desert',sd:55,par:250,rq:4,
- fl:[[20,20,1660,1060]],
- wl:function(a){ring(a,1700,1100,20);
-  var rnd=rngOf(55),i,x,y;
-  for(i=0;i<22;i++){x=140+Math.floor(rnd()*11)*130;y=120+Math.floor(rnd()*7)*135;
-   if(x>540&&x<1260&&y>400&&y<1000)continue;
-   if(rnd()>.5)a.push([x,y,96,26]);else a.push([x,y,26,96])}
-  a.push([620,440,620,20],[620,950,620,20],[620,440,20,230],[620,740,20,210],[1240,440,20,510]);
-  a.push([640,620,210,20],[930,620,290,20],[840,440,20,120],[840,640,20,90]);
-  a.push([1260,460,400,20],[1260,460,20,190],[1260,730,20,190],[1430,730,230,20],[1450,470,20,240]);
-  a.push([300,180,120,40],[210,760,40,140],[1300,180,160,40],[1520,940,140,40]);
-  return a},
- foe:{grunt:7,rush:5,sniper:2,heavy:3,boss:1},acc:.80,rea:.34,edm:9.5,ehp:1.25,
- threat:'全兵种混编 + 指挥官，通风口持续投入增援',
- terr:'外围沙袋工事，地堡通道与指挥室明暗交替',
- hint:'IWI Tavor X95／HK416A5；弹药管理比命中率更关键',
- intel:'行动的终点：沙漠地堡指挥所。佣兵在此囤积补给，地面沙袋层层设防，地堡内轻装、重装与指挥官齐备，并从通风通道不断投入增援。击杀指挥官后残敌反应显著迟缓——在此之前，你只有 2 枚手雷和 4 个弹匣。',
- obj:['突破外围沙袋工事','清除地堡内全部武装人员与指挥官','限时撤离，避免被增援合围'],
- roe:'增援持续出现，注意区分新入场敌人与平民',
- civ:[[1440,650]],st:[95,1010],ex:[62,1005,150,78],zn:[[80,80,1540,940]],
- rein:{iv:15,cap:8,x:760,y:520}}];
+ civ:[[272,150],[1352,160],[780,884]],st:[95,905],ex:[62,912,150,80],zn:[[60,60,1480,170],[60,790,1480,170],[60,300,1480,390]]}
+];
 /* SECTION: data-airport 机场：首张双层地图（1F 航站楼 ↔ 2F 商业层），走楼梯上下
    两层各自是一张完整的关卡配置，通过 alt 互相引用；切换时保留血量、弹药与任务进度。 */
 var AIR_F1={code:'OP-06 · AIRPORT',nm:'机场 · 航站楼 1F',W:1700,H:1000,dk:.16,th:'port',sd:66,par:300,rq:2,
@@ -2288,7 +2229,7 @@ var RECRUIT_WL=function(a){
  a.push([1080,720,20,180],[1080,980,20,100]);
  a.push([1700,720,20,160],[1700,960,20,120]);
  return a};
-var RGD={code:'OP-06 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:1,
+var RGD={code:'OP-07 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:1,
  fl:[[20,20,2160,1360]],
  wl:RECRUIT_WL,
  dr:[[300,520,140,20,0,'wood'],[860,520,120,20,0,'metal'],[1300,520,120,20,0,'wood'],
@@ -2325,7 +2266,7 @@ var YARD_WL=function(a){
  /* 管架 / 防爆堤 */
  a.push([700,900,640,14],[380,700,14,240]);
  return a};
-var YARD={code:'OP-06 · DEPOT',nm:'郊野储运站 · 室外场区',W:2400,H:1500,dk:.10,th:'yard',sd:66,par:210,rq:5,
+var YARD={code:'OP-03 · DEPOT',nm:'郊野储运站 · 室外场区',W:2400,H:1500,dk:.10,th:'yard',sd:66,par:210,rq:2,
  fl:[[20,20,2360,1460]],
  wl:YARD_WL,
  dr:[[380,500,100,20,0,'wood'],[1700,640,100,20,0,'metal'],[1520,460,20,100,0,'wood'],[1020,1100,120,20,0,'wood']],
@@ -2343,7 +2284,78 @@ var YARD={code:'OP-06 · DEPOT',nm:'郊野储运站 · 室外场区',W:2400,H:15
  intel:'郊野储运站：两层围栏、三排集装箱、一座值班楼与一座泵房。守敌占据场区四角，能看穿整片空地。',
  obj:['进入储运站','清除全部守敌','解救被扣押的工人','从东侧大门撤离'],
  roe:'室外场区有平民 · 误伤按 ROE 追责'};
-LS.push(YARD);
+/* ==== OP-04 王子门：使馆人质事件（取材 1980 年伊朗驻伦敦使馆围困 / SAS「猎人行动」） ==== */
+var EMB={
+ code:'OP-04 · PRINCES GATE',nm:'王子门 · 使馆人质事件',W:1500,H:1050,dk:.14,th:'embassy',sd:71,par:340,rq:2,
+ story:4,deadline:330,execIv:40,execMax:2,hostNeed:4,
+ fl:[[20,20,1460,1010]],
+ wl:function(a){ring(a,1500,1050,20);
+  /* 中央走廊：上下两道墙，共留 5 个门洞 */
+  a.push([20,480,240,20],[340,480,300,20],[720,480,300,20],[1120,480,360,20]);
+  a.push([20,580,300,20],[400,580,240,20],[720,580,280,20],[1120,580,360,20]);
+  /* 上下两排房间的隔断 */
+  a.push([700,20,20,460],[700,580,20,300]);
+  return a},
+ dr:[[260,480,80,20,0,'wood'],[640,480,80,20,0,'metal'],[1020,480,100,20,0,'wood'],
+     [320,580,80,20,0,'wood'],[640,580,80,20,0,'wood'],[1000,580,120,20,0,'glass']],
+ sf:[['bench',820,650,180,30],['chair',840,690,26,26],['chair',900,690,26,26],['chair',960,690,26,26],
+     ['table',780,780,120,50],['chair',800,790,26,26],['plant',1300,880,34,34],['vending',1260,600,40,64],
+     ['locker',140,140,46,84],['locker',196,140,46,84],['table',300,220,140,54],['chair',320,232,28,28],
+     ['papers',500,340,60,38],['crates',600,400,44,40],['plant',140,420,32,32],
+     ['table',1000,200,150,56],['chair',1020,210,28,28],['armchair',1260,180,52,48],['locker',1320,340,46,84],
+     ['papers',880,300,60,38],['plant',760,420,32,32],
+     ['armchair',180,640,52,48],['armchair',260,640,52,48],['table',180,720,110,50],['bench',480,860,160,32],
+     ['plant',600,620,32,32],['watercooler',140,860,26,36],
+     ['table',1180,900,110,46],['chair',1200,910,26,26],['papers',1300,960,58,34]],
+ lp:[[360,200,170],[1050,300,180],[400,760,170],[1100,760,180],[750,900,150],[750,60,120]],
+ civ:[[880,700],[980,760],[900,860],[380,300],[520,260],[300,720]],
+ st:[760,960],ex:[1060,975,150,46],
+ zn:[[120,120,560,340],[740,120,620,340],[120,600,560,330],[740,600,620,330]],
+ foe:{grunt:5,rush:3,sniper:1,heavy:1},acc:.96,rea:.58,edm:8,ehp:1.1,
+ threat:'10 名武装分子（1 名窗位精确射手、1 名重装）· 6 名人质分散扣押',
+ terr:'使馆上下两排房间夹一条中央走廊：发布厅、档案室、武官室与会客室，门洞多、走廊窄',
+ hint:'MP5／霰弹枪最适合室内 · 发布厅别用长枪直线推进，人质会挡在射界里',
+ intel:'赤隼占据使馆，把 6 名人质分散关在发布厅与档案室，用广播对外喊话。走廊两侧全是门洞，喊话结束就处置人质。史实原型是 1980 年伦敦王子门的伊朗使馆围困：26 名人质，22 SAS 从屋顶与后窗同时突入，5 名枪手被击毙、1 名被俘。',
+ obj:['从后门突入使馆','清剿全部武装分子','带出至少 4 名人质','从东侧侧门撤离'],
+ roe:'人质分散在房间内 · 开枪前先确认目标；广播倒计时结束后每 40 秒处决一名人质'};
+
+/* ==== OP-05 杜布罗夫卡：剧院人质事件（取材 2002 年莫斯科杜布罗夫卡剧院危机） ==== */
+var DUB={
+ code:'OP-05 · DUBROVKA',nm:'杜布罗夫卡 · 剧院人质事件',W:1800,H:1150,dk:.18,th:'theater',sd:83,par:400,rq:3,
+ story:5,gasAt:270,gasIv:24,hostNeed:6,
+ fl:[[20,20,1760,1110]],
+ wl:function(a){ring(a,1800,1150,20);
+  /* 舞台前沿（留一道上台口） */
+  a.push([160,240,400,20],[640,240,480,20]);
+  /* 观众席与后台之间的隔墙（两处通道） */
+  a.push([1180,20,20,280],[1180,380,20,140],[1180,600,20,280]);
+  /* 门厅隔墙（正门与后台通道各一个门洞） */
+  a.push([20,880,760,20],[980,880,220,20],[1340,880,440,20]);
+  /* 放映室 */
+  a.push([1400,120,20,180],[1460,300,300,20]);
+  return a},
+ dr:[[780,880,200,20,0,'glass'],[1200,880,140,20,0,'metal'],
+     [560,240,80,20,0,'wood'],[1180,300,20,80,0,'metal'],[1180,520,20,80,0,'wood']],
+ sf:(function(){var a=[],x,y;
+  for(y=380;y<=860;y+=58)for(x=240;x<=980;x+=76){if(x>=600&&x<=700)continue;a.push(['seat',x,y,26,22])}
+  a.push(['table',540,120,180,60],['papers',580,132,60,36],['papers',660,140,50,30]);
+  a.push(['locker',1240,700,46,84],['locker',1300,700,46,84],['crates',1400,760,50,44],['table',1240,460,110,50]);
+  a.push(['bench',160,980,200,34],['bench',420,980,200,34],['plant',60,1060,34,34],
+   ['plant',1440,1060,34,34],['vending',1700,980,42,66],['crates',1600,420,50,44]);
+  return a})(),
+ lp:[[640,160,220],[900,500,200],[400,700,200],[1500,220,160],[1300,900,180],[800,1000,160]],
+ civ:[[300,420],[430,480],[560,540],[700,600],[860,660],[300,700],[560,760],[820,820],[980,480],[430,820]],
+ st:[900,1080],ex:[1540,760,150,56],
+ zn:[[180,300,940,540],[200,60,900,160],[1220,60,520,520],[1220,640,520,220],[160,920,1500,160]],
+ foe:{grunt:5,rush:3,heavy:2,sniper:1,boss:1},acc:.90,rea:.48,edm:9,ehp:1.2,
+ threat:'12 名武装分子（含现场指挥、2 名重装、1 名放映室精确射手）· 10 名人质',
+ terr:'剧院：舞台、观众席、后台与放映室；座椅不挡子弹，只挡视线与走位',
+ hint:'观众席里全是人质 · 优先清舞台与放映室，再逐排带人；毒气倒计时不会等你',
+ intel:'赤隼占领剧院，把 10 名观众扣在座位上，在通风口装了气罐。史实原型是 2002 年莫斯科杜布罗夫卡剧院危机：约 850 名人质，突击时先释放了芬太尼类气体，结果 130 余名人质死于气体本身——强攻成功了，救援失败了。',
+ obj:['突入剧院大厅','清剿舞台、观众席与后台的武装分子','带出至少 6 名人质','从后台通道撤离'],
+ roe:'人质坐在观众席里 · 误伤重罚；通风口一旦放气，没带出来的人质会开始窒息'};
+
+LS.push(YARD,EMB,DUB);
 var LS6=LS.concat([AIR_LV,RGD]);/* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
 var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:900,dk:.10,th:'port',sd:99,par:120,range:1,tutorial:1,tgt:1,
  fl:[[20,20,1460,860]],
@@ -2501,6 +2513,10 @@ function softSprite(g,x,y,w,h,t){
  else if(t==='armchair'){g.fillStyle='#46584a';g.fillRect(x,y,w,h);
   g.fillStyle='#5a7260';g.fillRect(x+4,y+4,w-8,h-8);
   g.fillStyle='#3a4a3c';g.fillRect(x+2,y+2,w-4,Math.max(3,h*.18))}
+ else if(t==='seat'){g.fillStyle='#2c1a20';g.fillRect(x,y,w,h);
+  g.fillStyle='#6e2f3c';g.fillRect(x+1,y+1,w-2,h-6);
+  g.fillStyle='#8d3a4a';g.fillRect(x+3,y+3,w-6,4);
+  g.fillStyle='rgba(0,0,0,.3)';g.fillRect(x+1,y+h-5,w-2,4)}
  else if(t==='plant'){g.fillStyle='#4a3a28';g.fillRect(x+w*.3,y+h*.6,w*.4,h*.4);
   g.fillStyle='#3f6a44';g.beginPath();g.arc(x+w/2,y+h*.4,w*.42,0,TAU);g.fill();
   g.fillStyle='rgba(255,255,255,.10)';g.beginPath();g.arc(x+w*.42,y+h*.32,w*.16,0,TAU);g.fill()}
@@ -2548,10 +2564,10 @@ var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,pv:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
- name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0};
+ name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
-  if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,6);
+  if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,8);
   if(jd&&jd.b)ST.best=jd.b;
   if(jd&&jd.x)ST.xp=Math.max(0,jd.x|0);
   if(jd&&jd.xm)ST.xpm=Math.max(0,jd.xm|0);
@@ -2563,7 +2579,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.dv)ST.dev=1;
   if(jd&&jd.ml&&jd.ml.length)ST.mail=jd.ml.slice(0,30);
   if(jd&&jd.sd)ST.storyDone=1;
-  if(jd&&jd.cl&&jd.cl.length===5)ST.clr=jd.cl;
+  if(jd&&jd.cl&&jd.cl.length>=5)ST.clr=jd.cl.slice(0,8);
   if(jd&&jd.hl&&jd.hl.length)ST.heroLoad=jd.hl;
  if(jd&&jd.rl&&jd.rl.length===3)ST.rgLoad=jd.rl;
  if(jd&&jd.mg&&typeof jd.mg==='object')ST.mag=jd.mg;
@@ -2593,13 +2609,39 @@ try{var rraw=localStorage.getItem('ta5_v2');
  if(jd&&jd.dp)ST.duoPend=1;
  if(jd&&jd.hl2&&jd.hl2.length)ST.hero2Load=jd.hl2;
  if(jd&&jd.op==='hero')ST.op='hero';
-  if(jd&&jd.tcf)ST.tcfraw=jd.tcf;}}catch(e){}
+  if(jd&&jd.tcf)ST.tcfraw=jd.tcf;
+  if(jd&&jd.mv)ST.mv=jd.mv|0;
+  if(jd&&jd.s4)ST.s4=1;
+  if(jd&&jd.s5)ST.s5=1;}}catch(e){}
 /* ---- 剧情版本：这个数字加一，所有玩家的剧情与战役进度会在下次打开时重置 ---- */
 var STORY_VER=2;
 function storyReset(){
  ST.hero=0;ST.storyDone=0;ST.unl=1;ST.best={};ST.clr=[];
  ST.swp=null;ST.swpN=0;ST.op='norm';ST.inStory=0;ST.sv=STORY_VER;save()}
 if((ST.sv|0)<STORY_VER){storyReset();W.__sr=1}
+/* 地图改版（v8）：删去 KTV / 港口 / 沙漠地堡，主线重排为
+   OP-01 公寓、OP-02 商场、OP-03 郊野储运站、OP-04 王子门、OP-05 杜布罗夫卡、
+   OP-06 机场、OP-07 猎鹰考核。旧存档在这里一次性换算，不让玩家丢进度。 */
+if((ST.mv|0)<1){
+ (function(){
+  var map=[0,1,2,3,3,3,3,6,7],ob={},oc={},i2,oi,ni,sc2;
+  for(i2 in (ST.best||{})){
+   oi=+i2;if(!(oi>=1&&oi<=8))continue;
+   ni=map[oi];sc2=ST.best[i2];
+   if(!ob[ni]||(sc2&&sc2.sc>ob[ni].sc))ob[ni]=sc2}
+  ST.best=ob;
+  for(i2=0;i2<8;i2++){
+   var v=(ST.clr&&ST.clr[i2])|0;if(!v)continue;
+   ni=i2<=1?i2:((i2===6)?5:(i2===7?6:2));
+   oc[ni]=(oc[ni]|0)|v}
+  ST.clr=oc;
+  var ou=ST.unl|0;
+  ST.unl=ou<=2?Math.max(1,ou):(ou===7?6:(ou>=8?7:3));
+  ST.mv=1;ST.swp=null;ST.swpN=0;
+  for(i2=1;i2<=8;i2++){try{localStorage.removeItem('ta5_lv2'+i2)}catch(e){}}
+  save()
+ })()}
+
 /* 玩家唯一标识：排行榜靠它区分同名玩家，并把同一个人的多次上传合并成一行 */
 function mkPid(){var s='',a='abcdefghijkmnpqrstuvwxyz23456789',i;
  for(i=0;i<12;i++)s+=a.charAt((Math.random()*a.length)|0);
@@ -2627,7 +2669,7 @@ function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
- nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu}))}catch(e){}}
+ nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
 function addXp(v){
  var b=rankOf(ST.xp);
@@ -2977,6 +3019,8 @@ function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0}}
 function FUDfor(i){return FUD[i-1]}
 var TH={apartment:{f:'#3a322b',f2:'#453b32',w:'#6d635a',w2:'#413a33'},
+ embassy:{f:'#3c3931',f2:'#464239',w:'#8a8378',w2:'#4e4941'},
+ theater:{f:'#33262a',f2:'#3c2c30',w:'#6e5560',w2:'#3f3038'},
  mall:{f:'#39414a',f2:'#434b55',w:'#7f8992',w2:'#4b545d'},
  ktv:{f:'#2b2036',f2:'#332540',w:'#5c4a6e',w2:'#3a2f48'},
  port:{f:'#3b3f42',f2:'#474b4f',w:'#9aa1a6',w2:'#5a6166'},
@@ -3070,6 +3114,24 @@ function paintFloorDetail(g,c){var W=c.W,H=c.H,i,x,y,rnd=rngOf(c.sd+7);
    g.strokeStyle='rgba(0,0,0,.10)';g.lineWidth=6;
    g.beginPath();g.moveTo(x,60);g.lineTo(x+40,H-60);g.stroke()}
  }
+ else if(c.th==='embassy'){
+  g.strokeStyle='rgba(255,255,255,.05)';g.lineWidth=1;
+  for(x=20;x<W;x+=72){g.beginPath();g.moveTo(x,20);g.lineTo(x,H-20);g.stroke()}
+  for(y=20;y<H;y+=72){g.beginPath();g.moveTo(20,y);g.lineTo(W-20,y);g.stroke()}
+  g.fillStyle='rgba(96,30,36,.42)';g.fillRect(20,500,W-40,80);
+  g.fillStyle='rgba(198,164,96,.18)';g.fillRect(20,500,W-40,4);g.fillRect(20,576,W-40,4);
+  g.fillStyle='rgba(198,164,96,.10)';g.fillRect(690,780,120,250);
+  g.fillStyle='rgba(210,196,168,.08)';g.fillRect(140,140,520,300);g.fillRect(740,140,600,300);
+ }
+ else if(c.th==='theater'){
+  g.fillStyle='rgba(58,16,24,.38)';g.fillRect(160,300,940,560);
+  g.strokeStyle='rgba(198,164,96,.10)';g.lineWidth=2;
+  for(y=340;y<860;y+=56){g.beginPath();g.moveTo(200,y);g.lineTo(1040,y);g.stroke()}
+  g.fillStyle='rgba(200,170,110,.10)';g.fillRect(140,60,1080,180);
+  g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=1;
+  for(x=160;x<1220;x+=40){g.beginPath();g.moveTo(x,60);g.lineTo(x,240);g.stroke()}
+  g.fillStyle='rgba(120,30,40,.22)';g.fillRect(1140,300,40,300);
+ }
  else if(c.th==='desert'){
   for(i=0;i<14;i++){x=40+rnd()*(W-80);y=40+rnd()*(H-80);
    g.fillStyle='rgba(190,165,110,'+(0.05+rnd()*0.07).toFixed(2)+')';
@@ -3100,8 +3162,8 @@ function paintTrim(g,c,FU,ws){var i,d;
    g.fillStyle='rgba(0,0,0,.35)';g.fillRect(d[0]+d[2]/2-1,d[1],2,d[3]);
    g.fillStyle='rgba(180,190,200,.10)';g.fillRect(d[0]+d[2]/2-2,d[1]+2,4,d[3]-4)}}}
 function build(idx,ovr){
- var c0=ovr||LS6[clamp(idx,1,8)-1],c=c0,ck;
- IND=(c0.th==='apartment'||c0.th==='ktv'||c0.th==='mall')?1:0;
+ var c0=ovr||LS6[clamp(idx,1,LS6.length)-1],c=c0,ck;
+ IND=(c0.th==='apartment'||c0.th==='mall'||c0.th==='embassy'||c0.th==='theater')?1:0;
  /* 难度：只作用于普通作战任务；剧情／教学／训练场固定标准强度 */
  if(!c0.recruit&&!c0.tutorial&&!c0.range){
   var DFd=diffDef(ST.diff);
@@ -3123,9 +3185,9 @@ function build(idx,ovr){
   g.fillStyle='rgba(0,0,0,.18)';g.fillRect(F.x,F.y+F.h-6,F.w,6)}
  if(c.range)paintRange(g,c);
  paintFloorDetail(g,c);
- var deco={'apartment':['#6b5236','#4d5a46'],'mall':['#5d7f8f','#8f5d6d'],'ktv':['#6b3a78','#3a5f78'],
+ var deco={'apartment':['#6b5236','#4d5a46'],'mall':['#5d7f8f','#8f5d6d'],'embassy':['#7a6a4a','#4a5a6a'],'theater':['#7a3a4a','#3a4a6a'],'ktv':['#6b3a78','#3a5f78'],
   'port':['#8a5a34','#4a6a78'],'desert':['#7d6b46','#6b5533'],'yard':['#6f6a52','#4a5a44']}[c.th]||['#5a5a52','#3a3a34'];
- var FU=(idx>=1&&idx<=5)?FUD[idx-1]:{dr:c.dr||[],ty:c.ty||{},sf:c.sf||[],lp:c.lp||[]},fTy=FU.ty;
+ var FUBY={apartment:FUD[0],mall:FUD[1]},FU=FUBY[c.th]||{dr:c.dr||[],ty:c.ty||{},sf:c.sf||[],lp:c.lp||[]},fTy=FU.ty;
  for(k=0;k<ws.length;k++){var ws1=ws[k],ft=fTy[ws1.x+','+ws1.y];
   if(!ft){g.fillStyle=THc.w2;g.fillRect(ws1.x-1,ws1.y-1,ws1.w+2,ws1.h+2);
    g.fillStyle=THc.w;g.fillRect(ws1.x,ws1.y,ws1.w,ws1.h);
@@ -3289,7 +3351,7 @@ g.restore();
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
    sp:Math.round(208*(1+of.mob+(heroB?.04:0)+(greyB?.02:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
    wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
-   act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.5,air:0,landed:0,fuseT:0,
+   act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
   /* 战术腰封：按军衔容量从玩家配置里取投掷物 */
@@ -3299,7 +3361,7 @@ g.restore();
 }
 
 /* ---- 英雄队员三武器槽 ---- */
-/* 当前出战队员：普通队员（你）／英雄队员（燕锋，需通过 OP-06 猎鹰招募） */
+/* 当前出战队员：普通队员（你）／英雄队员（燕锋，需通过 OP-07 猎鹰招募） */
 function curOp(){
  if(ST.op==='duo'&&ST.duo===1)return 'duo';
  if(ST.op==='grey'&&ST.hero2===1)return 'grey';
@@ -3646,7 +3708,7 @@ function noiseAt(x,y,rad){if(!L)return;var i;
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    se.hx=x;se.hy=y}}}
 /* ---- 战术投掷物：腰封槽位 → 长按选择 → 长按开火温雷 → 松手投向准星 ---- */
-var GREN_FUSE=3.4, THROW_MAX=660, THROW_ARC=0;   /* 不做抛物线：投出后直线落到准星位置 */
+var GREN_FUSE=3.4, THROW_MAX=660;   /* 不做抛物线：投出后直线落到准星位置 */
 var THROW=[
  {id:'frag', n:'M67 破片手雷', s:'破片', col:'#5c6b3a', hi:'#93ac6d', ring:'#8fae5d',
   r:132, dmg:120, fuse:3.4, stun:0,  d:'杀伤半径 132 · 伤害 120 · 引信 3.4 秒'},
@@ -3739,7 +3801,7 @@ function throwG(fuse){
  var tgt=throwTarget(),t=throwDef(id);
  p.act=1;p.gid=id;
  p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;p.tx=tgt.x;p.ty=tgt.y;
- p.gt=0;p.travel=Math.min(.16,.08+tgt.dist/9000);p.air=0;p.landed=0;p.fuseT=0;
+ p.gt=0;p.travel=.06;p.landed=0;p.fuseT=0;
  p.fuse=(fuse==null?t.fuse:Math.max(.25,fuse));
  p.gren=0;p.cook=0;p.cooking=0;p.throwT=.32;
  snd.pin();snd.throwW();updGun();tutEv('gren');
@@ -3938,6 +4000,36 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
 var HITM=[],KILLM=[];
 function markHit(head){HITM.push({t:0,x:MS.x,y:MS.y,h:head?1:0});if(HITM.length>8)HITM.shift()}
 function markKill(){KILLM.push({t:0,x:MS.x,y:MS.y});if(KILLM.length>5)KILLM.shift()}
+/* ---- 剧情关的定时事件：处决倒计时 / 毒气释放 ---- */
+function killHostage(reason){
+ if(!L||!L.civ)return false;
+ var pool=[],i;
+ for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(!c.down&&!c.f)pool.push(c)}
+ if(!pool.length)return false;
+ var c2=pool[(Math.random()*pool.length)|0];
+ c2.down=1;G.civD++;G.hostLost=(G.hostLost||0)+1;
+ burst(c2.x,c2.y,8,'#6a2a22',120,340);
+ feed(reason==='gas'?'人质吸入毒气倒下':'赤隼处决了一名人质',0);
+ toast(reason==='gas'?'毒气扩散 · 一名人质倒下':'人质被处决 · 立刻突入',3000);snd.dead();
+ return true}
+function storyTick(dt){
+ if(!G||!L||!L.cfg||!L.cfg.story)return;
+ var c=L.cfg;
+ if(c.deadline&&!G.dl&&G.t>=c.deadline){
+  G.dl=1;G.execN=0;G.execT=G.t+(c.execIv||45);
+  say('赤隼','时间到了。先带一个出来，让外面看看。','#ff8a70');
+  toast('赤隼开始处决人质 · 立刻突入',3400);feed('警告：广播倒计时结束',0);snd.alert();shake=8}
+ if(G.dl&&G.execN<(c.execMax||2)&&G.t>=G.execT){
+  if(killHostage('exec')){G.execN++;G.execT=G.t+(c.execIv||45)}else G.execN=99}
+ if(c.gasAt&&!G.gas&&G.t>=c.gasAt){
+  G.gas=1;G.gasT=G.t+(c.gasIv||15);
+  say('指挥部','通风口在放气——所有人质都在咳！','#a8dcff');
+  toast('毒气释放 · 人质开始窒息',3600);feed('警告：剧院内毒气扩散',0);snd.alert();shake=10;
+  var i2;for(i2=0;i2<L.en.length;i2++){var e2=L.en[i2];
+   if(!e2.dead&&e2.sub<=0){e2.stun=Math.max(e2.stun||0,2.6);e2.alert=1}}}
+ if(G.gas&&G.t>=G.gasT){
+  if(killHostage('gas'))G.gasT=G.t+(c.gasIv||15);else G.gasT=1e9}
+}
 function checkOpen(){var al=aliveAll();
  if(!al&&G.reinLeft<=0&&!G.exitOpen){G.exitOpen=1;snd.go();
   toast((L.cfg.exam||L.cfg.tgt)?'全部靶标击倒 · 按 F 可重置靶标继续练习':
@@ -4242,19 +4334,18 @@ function civHit(c,dm){c.down=1;
  else{G.civD++;G.roe++;G.sc-=400;snd.dead();
   toast('ROE 违规 · 误伤平民（-400）',3200);feed('警告：平民伤亡',0)}
  burst(c.x,c.y,10,'#8c2f24',130,400)}
-/* 投掷物飞行：起点 → 准星落点，抛物线弧高 + 落地后引信倒计时 */
+/* 投掷物飞行：起点 → 准星落点，直线落下（没有抛物线，也不模拟高度） */
 function updateGren(dt){var p=G.p;if(!p||!p.act)return;
  if(!p.landed){
   p.gt+=dt;
-  var k=clamp(p.gt/(p.travel||.5),0,1);
+  var k=clamp(p.gt/(p.travel||.06),0,1);
   p.gx=p.sx+(p.tx-p.sx)*k;
   p.gy=p.sy+(p.ty-p.sy)*k;
-  p.air=Math.sin(Math.PI*k)*THROW_ARC;
-  if(k>=1){p.landed=1;p.air=0;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;snd.bounce();
+  if(k>=1){p.landed=1;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;snd.bounce();
    if(!ST.low){burst(p.gx,p.gy,3,'#8a8f7a',60,120)}}
  }else{
   p.fuseT+=dt;
-  if(p.fuseT>=(p.fuse||3.4)){var id=p.gid||'frag';p.act=null;p.landed=0;p.air=0;
+  if(p.fuseT>=(p.fuse||3.4)){var id=p.gid||'frag';p.act=null;p.landed=0;
    detonateThrow(id,p.gx,p.gy)}
  }
 }
@@ -4338,19 +4429,21 @@ function updCiv(dt){var p=G.p,i;
       else if(freeAt(p.x,p.y,c.r)){c.x=p.x;c.y=p.y}
       feed('平民重新跟上 · 留意跟随路线',0)}}}
    else c.stuck=0}}}
-/* SECTION: enemy-grenade 敌方投掷物 */
+/* SECTION: enemy-grenade 敌方投掷物
+   和玩家同一套规则：先算准落点（最远 340、遇墙落在墙前），再沿直线落下，不做抛物线 */
 function throwEnemyNade(e){if(!G.eg)G.eg=[];
  var p=G.p,tx=p.x+p.vx*.45,ty=p.y+p.vy*.45;
- var a=Math.atan2(ty-e.y,tx-e.x),dd=Math.hypot(tx-e.x,ty-e.y);
- var v=clamp(dd*1.15,150,330);
- G.eg.push({x:e.x,y:e.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,fuse:2.2+Math.random()*.8,r:5});
+ var dx=tx-e.x,dy=ty-e.y,dd=Math.hypot(dx,dy)||1,ux=dx/dd,uy=dy/dd;
+ var dist=clamp(dd,90,340),hd=rayHit(e.x,e.y,ux*dist,uy*dist);
+ if(hd<dist)dist=Math.max(40,hd-10);
+ G.eg.push({sx:e.x,sy:e.y,x:e.x,y:e.y,tx:e.x+ux*dist,ty:e.y+uy*dist,
+  gt:0,travel:.28,t:0,fuse:2.2+Math.random()*.8,r:5});
  e.sw=Math.max(e.sw,1.15);e.nade=Math.max(0,(e.nade||0)-1);
  snd.pin();feed('敌方投出手雷！快散开',0);say(ename(e)||'佣兵','吃颗雷！','#c05040')}
 function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
  for(i=0;i<G.eg.length;i++){g2=G.eg[i];g2.t+=dt;
-  var nx=g2.x+g2.vx*dt,ny=g2.y+g2.vy*dt;
-  if(freeAt(nx,ny,4)){g2.x=nx;g2.y=ny}else{g2.vx*=-.35;g2.vy*=-.35}
-  var fr=Math.pow(.18,dt);g2.vx*=fr;g2.vy*=fr;
+  if(g2.gt<g2.travel){g2.gt+=dt;var k=clamp(g2.gt/g2.travel,0,1);
+   g2.x=g2.sx+(g2.tx-g2.sx)*k;g2.y=g2.sy+(g2.ty-g2.sy)*k}
   if(g2.t>=g2.fuse){G.eg.splice(i--,1);explode(g2.x,g2.y,115,95,1);snd.boom()}}}
 /* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
 function updVis(dt){if(!G||!L)return;
@@ -4947,8 +5040,7 @@ function draw(){if(!G||!L)return;
   ctx.strokeStyle='rgba(226,169,62,.42)';ctx.lineWidth=1.2;ctx.setLineDash([5,5]);
   ctx.beginPath();ctx.moveTo(G.p.x-CAM.x,G.p.y-CAM.y);
   for(i2=1;i2<=n2;i2++){var kk=i2/n2;
-   ctx.lineTo((G.p.x+(tp.x-G.p.x)*kk)-CAM.x,
-    (G.p.y+(tp.y-G.p.y)*kk)-CAM.y-(Math.sin(Math.PI*kk)*THROW_ARC)*.6)}
+   ctx.lineTo((G.p.x+(tp.x-G.p.x)*kk)-CAM.x,(G.p.y+(tp.y-G.p.y)*kk)-CAM.y)}
   ctx.stroke();ctx.setLineDash([]);
   ctx.strokeStyle='rgba(226,169,62,.9)';ctx.lineWidth=1.6;
   ctx.beginPath();ctx.arc(px2,py2,9,0,TAU);ctx.stroke();
@@ -5001,9 +5093,9 @@ function draw(){if(!G||!L)return;
    ctx.beginPath();ctx.arc(tpq.x,tpq.y,Math.min(46,tq.r*.36),0,TAU);ctx.stroke();ctx.setLineDash([]);
    ctx.fillStyle='rgba(240,200,120,.55)';ctx.beginPath();ctx.arc(tpq.x,tpq.y,2,0,TAU);ctx.fill();
   }
-  ctx.fillStyle='rgba(0,0,0,'+(.30-Math.min(.2,gq.air/420)).toFixed(2)+')';
+  ctx.fillStyle='rgba(0,0,0,.30)';
   ctx.beginPath();ctx.ellipse(pgq.x,pgq.y,7,3.4,0,0,TAU);ctx.fill();
-  drawThrowModel(ctx,pgq.x,pgq.y-gq.air,tq,gq.gt*9);
+  drawThrowModel(ctx,pgq.x,pgq.y,tq,gq.gt*9);
   if(gq.landed){
    var lfq=clamp(gq.fuseT/(gq.fuse||3.4),0,1);
    ctx.strokeStyle=lfq>.7?'#ff6a4a':tq.ring;ctx.lineWidth=2;ctx.globalAlpha=.85;
@@ -5012,11 +5104,19 @@ function draw(){if(!G||!L)return;
    ctx.fillText(Math.max(0,gq.fuse-gq.fuseT).toFixed(1),pgq.x,pgq.y-14)
   }
   ctx.restore();ctx.textAlign='left'}
- /* 投掷动作：手臂挥出的残影弧线 */
+ /* 投掷动作：手臂向前一送（直线残影，不做弧线） */
  if(G.p.throwT>0){var pth=G.p,kth=clamp(G.p.throwT/.32,0,1);
   ctx.save();ctx.strokeStyle='rgba(232,200,140,'+(.55*kth)+')';ctx.lineWidth=3;
   ctx.lineCap='round';ctx.beginPath();
-  ctx.arc(pth.x,pth.y,26,pth.aa-0.9-kth*0.5,pth.aa-0.9+kth*0.5);ctx.stroke();ctx.restore()}
+  ctx.moveTo(pth.x+Math.cos(pth.aa)*10,pth.y+Math.sin(pth.aa)*10);
+  ctx.lineTo(pth.x+Math.cos(pth.aa)*(10+18*kth),pth.y+Math.sin(pth.aa)*(10+18*kth));
+  ctx.stroke();ctx.restore()}
+ /* 毒气：绿色薄雾 + 四周压暗（世界之上、准星之下） */
+ if(G.gas&&!G.over){ctx.save();
+  ctx.fillStyle='rgba(126,150,108,.14)';ctx.fillRect(0,0,VW,VH);
+  var vg2=ctx.createRadialGradient(VW/2,VH/2,Math.min(VW,VH)*.22,VW/2,VH/2,Math.max(VW,VH)*.66);
+  vg2.addColorStop(0,'rgba(80,108,74,0)');vg2.addColorStop(1,'rgba(48,70,44,.46)');
+  ctx.fillStyle=vg2;ctx.fillRect(0,0,VW,VH);ctx.restore()}
  if(G.phase==='live'){crosshair();drawMarkers()}}
 function toScreen(x,y){return{x:x-CAM.x+(Math.random()-.5)*0,y:y-CAM.y}}
 /* SECTION: models 俯视角士兵模型（头盔/携板背心/战术裤/武器/队标） */
@@ -5383,6 +5483,12 @@ function updHud(){var p=G.p,g=cur(),i;
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var flg=airOn()?('【'+L.cfg.flName+'】'):'';
  var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 P 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
+ if(L.cfg&&L.cfg.hostNeed&&G.phase==='live'){
+  var hl2=hostLeft(),hn2=L.cfg.hostNeed;
+  ot='人质 '+G.sec2+'/'+hn2+(hl2?(' · 未解救 '+hl2):' · 已带全')+(G.exitOpen?' · 前往撤离点':' · 残敌 '+al)+
+   (L.cfg.deadline&&!G.dl?(' · 处决倒计时 '+fmt(Math.max(0,L.cfg.deadline-G.t))):'')+
+   (L.cfg.gasAt&&!G.gas?(' · 通风口放气 '+fmt(Math.max(0,L.cfg.gasAt-G.t))):'')+
+   (G.gas?' · 毒气中':'');}
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
  if(ot!==HD.ob){HD.ob=ot;$('objT').textContent=ot}
  var bd=56,pr='';
@@ -5443,7 +5549,7 @@ function step(dt){if(!G)return;
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
  if(G.p.act)updateGren(dt);
- updateDoors(dt);doorTick(dt);updateEn(dt);updateAllies(dt);updWing(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);
+ updateDoors(dt);doorTick(dt);updateEn(dt);updateAllies(dt);updWing(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);storyTick(dt);
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /* 训练场：走到撤离点弹出「配置装备 / 退出训练场」 */
  if(L.cfg.range&&!G.over&&ST.scr==='play'){
@@ -5456,11 +5562,24 @@ function step(dt){if(!G)return;
   d=Math.hypot(G.p.x-cx,G.p.y-cy);
   if(d<16){
    G.wt+=dt;
-   if(G.wt>1&&!G.over&&ST.scr==='play'){
-    /* 修复：作答过「人质处置」后也必须能撤离（此前 asked 置 1 会永久堵死胜利） */
-    if(hostLeft()>0&&!G.abandon&&!G.asked){G.asked=1;stopLoop();show('sAsk');setScr('ask');
-     $('askT').textContent='Bravo-2：撤离点就绪。楼内尚有 '+hostLeft()+' 名平民被扣押未解救——请示：是否携带人质一并撤离？'}
-    else{G.over='win';showRes(1)}}}else G.wt=0}
+    if(G.wt>1&&!G.over&&ST.scr==='play'){
+     var hn3=L.cfg.hostNeed||0,hl3=hostLeft();
+     if(hn3&&G.sec2<hn3&&!G.abandon&&hl3>0){
+      G.wt=0;
+      if(!G.asked){G.asked=1;stopLoop();show('sAsk');setScr('ask');
+       if($('askT'))$('askT').textContent='Bravo-2：撤离点就绪。人质只带出 '+G.sec2+'/'+hn3+' 名，楼内还有 '+hl3+' 名。回去把人带全，还是就此撤离？';
+       if($('bAskCarry'))$('bAskCarry').textContent='否决：回去救人';
+       if($('bAskLeave'))$('bAskLeave').textContent='批准：放弃人质，直接撤离（−260）';
+       if($('askNote'))$('askNote').textContent='本关要求至少带出 '+hn3+' 名人质；人质带够后回到撤离点才会放行。'}
+     }else if(hn3&&G.sec2<hn3&&G.abandon){G.over='fail';stopLoop();showRes(0);return;
+     }else if(hn3&&G.sec2<hn3&&hl3<=0){
+      G.over='fail';stopLoop();showRes(0);return;
+     }else if(hl3>0&&!G.abandon&&!G.asked){G.asked=1;stopLoop();show('sAsk');setScr('ask');
+      if($('askT'))$('askT').textContent='Bravo-2：撤离点就绪。楼内尚有 '+hl3+' 名平民被扣押未解救——请示：是否携带人质一并撤离？';
+      if($('bAskCarry'))$('bAskCarry').textContent='批准：携带人质撤离';
+      if($('bAskLeave'))$('bAskLeave').textContent='否决：直接撤离（−260）';
+      if($('askNote'))$('askNote').textContent='携带人质：全部未受伤平民随队获救（每人 +80 作战分 · 计入解救统计）；直接撤离：结算扣 260 分并记入 ROE 报告。'}
+     else{G.over='win';showRes(1)}}}else G.wt=0}
  if(!G.over&&L.cfg.exam&&G.t>L.cfg.exam){G.over='late';stopLoop();toast('考核超时 · 不合格 · 可重新申请',3200);showRes(0);return}
  if(!G.over&&!G.tut&&G.t-(G.lastSv||0)>=5){G.lastSv=G.t;saveLv()}
  updHud()}
@@ -5822,6 +5941,16 @@ var PATCHES=[
    '配装页上半部分是英雄档案与技能：角色身份、武器槽规则、被动加成、专属装备；下半部分是三武器配置（主武器一 / 主武器二 / 副武器）与全套枪械列表，点「主1 / 主2 / 副」直接装枪。',
    '英雄配装与普通队员完全分开：普通队员卡片现在直接进入军械库配置自己的两把枪，两套配装互不影响（普通队员用 ST.load，英雄用各自的 heroLoad）。',
    '联合编队的三个槽位归属于燕锋（页面会标注「· 燕锋」），格雷作为僚机不占用武器槽。'
+  ]},
+ {v:8,d:'2026-11-09',t:'地图重制 · 两场剧情行动',
+  items:[
+   '投掷物不再模拟抛物线：破片、震爆、闪光三种投掷物全部直线落到准星位置，飞行时间固定为 0.06 秒；落点预览改为一条直线。',
+   '敌方手雷也改用同一套规则：先算落点、再直线落下，不再做速度与反弹的物理滑动。',
+   '删除 KTV、港口、沙漠地堡三张地图，主线重排为五关：公寓 OP-01、商场 OP-02、郊野储运站 OP-03、王子门 OP-04、杜布罗夫卡 OP-05。',
+   '新增剧情行动「OP-04 王子门」：使馆人质事件，取材 1980 年伊朗驻伦敦使馆围困 / SAS「猎人行动」。10 名武装分子、6 名人质分散扣押，广播倒计时结束后每 40 秒处决一人。',
+   '新增剧情行动「OP-05 杜布罗夫卡」：剧院人质事件，取材 2002 年莫斯科杜布罗夫卡剧院危机。12 名守敌、10 名人质坐在观众席，4 分 30 秒后通风口放气，之后每 24 秒有一名未带出的人质窒息。',
+   '两关都有独立战术档案与开场剧情（沈钺的复盘），撤离点要求带够人质才放行；结算会单独统计人质损失。',
+   '机场改为 OP-06、猎鹰考核改为 OP-07。旧存档自动换算：KTV / 港口 / 沙漠地堡的进度并入郊野储运站，机场与考核顺延，不让玩家丢已通关记录。'
   ]}
 ];
 function pushPatchMail(){
@@ -5915,7 +6044,7 @@ function renderDiffCard(){
   var b=mk('button','dfRow'+(ST.diff===x.k?' on':''));
   var n=mk('span','dfN');n.textContent=x.n;b.appendChild(n);
   var t=mk('span','dfT');t.textContent=x.d;b.appendChild(t);
-  var n5=0,i;for(i=1;i<=5;i++)if(isCleared(i,x.k))n5++;
+  var n5=0,i;for(i=1;i<=LS.length;i++)if(isCleared(i,x.k))n5++;
   var g=mk('span','dfTag');g.textContent=n5?('已通关 '+n5+'/5'):'未通关';b.appendChild(g);
   b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();
    ST.diff=x.k;save();card.classList.remove('open');
@@ -5948,7 +6077,7 @@ function olSetSlot(i,id){
  var h=heroLoadOf().slice();h[i]=id;ST.heroLoad=h;save();renderOpLoad()}
 function openOpLoad(op){
  if(!olUnlocked(op)){
-  toast(op==='grey'?'通关机场后解锁「格雷」':(op==='duo'?'看完第三章后解锁「联合编队」':'通过 OP-06 后解锁「燕锋」'),2800);return}
+  toast(op==='grey'?'通关机场后解锁「格雷」':(op==='duo'?'看完第三章后解锁「联合编队」':'通过 OP-07 后解锁「燕锋」'),2800);return}
  OLOP=op;show('sOpLoad');setScr('opload');renderOpLoad()}
 function renderOpLoad(){
  var inf=opInfo(OLOP),c=$('olCard');
@@ -5999,14 +6128,14 @@ function renderOpRow(){
   if(db)db.textContent=unD?'燕锋打头 · 格雷随行':'第三章后解锁'}
  var ny=n.querySelector('b'),yy=y.querySelector('b'),gy=g.querySelector('b');
  if(ny)ny.textContent='你自己 · 主武器 + 副武器';
- if(yy)yy.textContent=unY?'猎鹰调配 · 三武器槽':'通过 OP-06 后解锁';
+ if(yy)yy.textContent=unY?'猎鹰调配 · 三武器槽':'通过 OP-07 后解锁';
  if(gy)gy.textContent=unG?'SAS 指挥官 · 三武器槽':'通关机场后解锁';
  var t=$('opTip');
  if(!t)return;
  if(op==='duo')t.textContent='当前为联合编队：燕锋出击，格雷作为僚机随行（自动跟随与交火）';
  else if(op==='yan')t.textContent='当前由英雄队员「燕锋」出击：三武器槽 · 护甲 +18 · 移速 +4%';
  else if(op==='grey')t.textContent='当前由英雄队员「格雷」出击：三武器槽 · 护甲 +12 · 换弹 −15% · 移速 +2%';
- else if(!unY)t.textContent='英雄队员「燕锋」将在通过 OP-06 猎鹰招募后编入作战序列';
+ else if(!unY)t.textContent='英雄队员「燕锋」将在通过 OP-07 猎鹰招募后编入作战序列';
  else if(!unG)t.textContent='英雄队员「格雷」将在通关机场后编入作战序列';
  else if(!unD)t.textContent='联合编队将在机场行动结束后解锁';
  else t.textContent='当前由你自己出击：一主一副，配装以军械库为准';
@@ -6017,12 +6146,12 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderLvRail();sweepTick();syncMailBadge();renderOpRow();renderDiffCard();
  if($('chipW'))$('chipW').textContent=WP.length;
  if($('chipR'))$('chipR').textContent=RKLAD.length;
- /* 只遍历 5 张主线地图；OP-06 考核单独由 lvCard6() 渲染，避免重复卡片 */
+ /* 遍历 5 张主线地图；机场与 OP-07 考核各由独立卡片渲染，避免重复 */
  LS.forEach(function(c,i){var ok=lvPlayable(i),locked=!ok,why=lvLockWhy(i);
   var b=mk('div','card'+(locked?' lock':''));
   var no=mk('div','no');no.textContent='0'+(i+1);b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
-  var sc=mk('div','sc');sc.textContent=c.nm;b.appendChild(sc);
+  var sc=mk('div','sc');sc.textContent=c.nm+(c.story?' · 剧情':'');b.appendChild(sc);
   var df=mk('div','dftag');
   df.textContent='难度 '+DIFF_NAME[i]+' · 需要 '+RKLAD[c.rq||0][0];
   b.appendChild(df);
@@ -6060,17 +6189,17 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
-  var need=LS6[7].rq||0,locked=ST.unl<2||rankPk()<need;
+  var need=LS6[6].rq||0,locked=ST.unl<2||rankPk()<need;
   var b=mk('div','card'+(locked?' lock':''));b.style.borderStyle='dashed';
   var no=mk('div','no');no.textContent='07';b.appendChild(no);
-  var e2=mk('div','en2');e2.textContent=LS6[7].code;b.appendChild(e2);
-  var sc=mk('div','sc');sc.textContent=LS6[7].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
+  var e2=mk('div','en2');e2.textContent=LS6[6].code;b.appendChild(e2);
+  var sc=mk('div','sc');sc.textContent=LS6[6].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
   var ob=mk('div','ob');ob.textContent=ST.hero===1?'英雄队员「燕锋」与 QBZ-191 已解锁 · 可重考'
    :(ST.unl<2?'完成第一战后解锁 · 猎鹰突击队招募剧情（约5分钟）':'需晋升 '+RKLAD[need][0]+' 才能参加考核');b.appendChild(ob);
   var mt=mk('div','mt');
   var bs=mk('span','badge');bs.textContent=ST.hero===1?'已通过':(locked?'未解锁':'考核');bs.className='badge'+(ST.hero===1?' p':'');mt.appendChild(bs);
   b.appendChild(mt);
-  if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=8;brief()});
+  if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=7;brief()});
   l.appendChild(b)}
  function lvCard0(){
   var ok=ST.tut===1;
@@ -6091,7 +6220,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   l.appendChild(b)}
 /* 机场：双层地图特殊卡片（OP-06，通关 OP-03 后开放） */
  function lvCardAir(){
-  var c=LS6[6],need=c.rq||0,ok=ST.unl>=4&&rankPk()>=need;
+  var c=LS6[5],need=c.rq||0,ok=ST.unl>=6&&rankPk()>=need;
   var b=mk('div','card'+(ok?'':' lock'));b.style.borderStyle='dashed';
   var no=mk('div','no');no.textContent='A';b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
@@ -6099,7 +6228,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var df=mk('div','dftag');df.textContent='双层地图 · 1F 航站楼 ↔ 2F 商业层';b.appendChild(df);
   var ob=mk('div','ob');
   ob.textContent=ok?'清完 1F 走中央楼梯上 2F，两层清空再回 1F 前门撤离；血量弹药全程保留'
-   :(ST.unl<4?'完成 OP-03 后解锁':'需晋升 '+RKLAD[need][0]+' 才能参加');
+   :(ST.unl<6?'完成 OP-05「杜布罗夫卡」后解锁':'需晋升 '+RKLAD[need][0]+' 才能参加');
   b.appendChild(ob);
   var mt=mk('div','mt');
   var bs=mk('span','badge'+(ok?' g':''));bs.textContent=ok?'已开放':'未解锁';mt.appendChild(bs);
@@ -6170,13 +6299,13 @@ var DRG=[
 ];
 /* 招收背景：剧情开始前读的一段档案，不与任何角色对话混在一起 */
 var DRG_BG={t:'五区行动 · 第三期补充招募',b:[
- '背景：城南工业带往外，五片城区被同一伙人分段占着——公寓、商场、KTV、港口、郊野储运站。他们不喊口号，只收过路费、扣人质，把军火往外卖。半年下来，这五片地方被统称为「五区」。',
+ '背景：城南工业带往外，五片城区被同一伙人分段占着——老公寓、商场、郊野储运站、使馆区，还有一座剧院。他们不喊口号，只收过路费、扣人质，把军火往外卖。半年下来，这五片地方被统称为「五区」。',
  '处置：武警与特警联合展开清剿，行动代号「五区行动」。顺序由易到难，一区一区往里推；每推进一区，对方的装备和反应都会更硬。',
  '主力：猎鹰突击队。编制不大，接的都是最里面那扇门后面的活——破门、清房、把人质带出来。',
  '抽调：猎鹰突击队向本批训练调遣一名突击手「燕锋」，随第三期一同强化训练。训练合格后，他编入五区行动序列，由你调遣出战。',
  '你：档案上名字后面跟着「预备队员」。你从基层单位选拔上来，考核成绩排在前面，但还没有人见过你在门后是什么样。',
  '须知：人质优先于击毙；能缴械就不开枪；误伤平民按违规重处。任务失败会扣军衔分，但已经解锁的装备永不回收。',
- '今天：猎鹰第三期补充招募，考核编号 OP-06。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
+ '今天：猎鹰第三期补充招募，考核编号 OP-07。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
 ]};
 var drgI=0,drgL=0,drgBuf='',drgR=0,drgVote=[],drgT0=0,drgDone=false;
 /* 角色卡：字形、身份、强调色 */
@@ -6233,13 +6362,60 @@ var DRG_BG3={t:'第三章 · 联合行动许可',b:[
  '编成：自即日起，燕锋与格雷编为同一行动组——燕锋打头，格雷压后，你居中。',
  '解锁：出战队员新增「联合编队」，可带一名 AI 僚机随行。'
 ]};
-var DRG_MAIN=null,DRG_BG_MAIN=null,drgAfter=null;
-function playDrama2(cb){
- if(!DRG_MAIN){DRG_MAIN=DRG;DRG_BG_MAIN=DRG_BG}
- DRG=DRG2;DRG_BG=DRG_BG2;drgAfter=cb||null;W.__d2=1;playDrama()}
-function playDrama3(cb){
- if(!DRG_MAIN){DRG_MAIN=DRG;DRG_BG_MAIN=DRG_BG}
- DRG=DRG3;DRG_BG=DRG_BG3;drgAfter=cb||null;W.__d2=1;playDrama()}
+/* ---- 战术档案 · 第四章：王子门（1980，成功案例） ---- */
+var DRG4=[
+ {A:'档案 · 王子门',S:'office'},
+ ['沈钺','下一站不是训练，是复盘。','office'],
+ ['你','复盘谁？','office'],
+ ['沈钺','1980 年 4 月 30 日，伦敦王子门。六个人冲进伊朗大使馆，扣了二十六名人质。','office'],
+ ['沈钺','外面围了整整五天，媒体全程直播，警察不敢进——最后进去的是 22 SAS。','office'],
+ ['沈钺','他们从屋顶和后窗同时破窗，二十分钟内控制大楼。五名枪手被击毙，一名被俘。','office'],
+ ['你','人质呢？','office'],
+ ['沈钺','二十六个人里，两个没出来。','office'],
+ ['沈钺','这不是让你背年份。赤隼现在就在五区做同一件事：使馆、人质、广播倒计时。','office'],
+ ['沈钺','他们会先杀一个人给外面看。你只有一次破门的机会。','office'],
+ ['你','明白。','office'],
+ ['沈钺','记住顺序：先清枪手，再带人。反了，人质就是你的掩体。','building']
+];
+var DRG_BG4={t:'战术档案 · OP-04 王子门',act:'战术档案 · 王子门',b:[
+ '案例：1980 年 4 月 30 日，伦敦王子门，伊朗驻英国大使馆被 6 名武装分子占领，26 名人质被扣。',
+ '处置：英国 SAS 第 22 特别空勤团从屋顶与后窗同时突入；5 名枪手被击毙、1 名被俘。26 名人质中 2 人遇难。',
+ '要点：直播压力下的倒计时、被分散扣押的人质、狭窄走廊里的门洞与交叉射界。',
+ '本次任务：赤隼照搬了这套做法。广播倒计时 5 分 30 秒结束后，每 40 秒处决一名人质，至少要带出 4 人。',
+ '备注：这是成功案例。成功的意思是大多数人活着出来，而不是所有人都活着出来。'
+]};
+
+/* ---- 战术档案 · 第五章：杜布罗夫卡（2002，失败案例） ---- */
+var DRG5=[
+ {A:'档案 · 杜布罗夫卡',S:'office'},
+ ['沈钺','再看一份。这份是失败案例。','office'],
+ ['你','失败到什么程度？','office'],
+ ['沈钺','2002 年 10 月 23 日，莫斯科杜布罗夫卡剧院。四十多名武装分子，八百多名观众。','office'],
+ ['沈钺','他们在观众席和通风口布了炸药。强攻那天，突击队先往通风管里灌了气体。','office'],
+ ['沈钺','枪手倒了。人质也倒了——一百三十多人死在气体本身。','office'],
+ ['你','那到底算不算救出来？','office'],
+ ['沈钺','算。所以这份档案放在“失败”那一栏。','office'],
+ ['沈钺','赤隼在五区复制了这个局：剧院、人质、通风口气罐。','office'],
+ ['沈钺','你有两个选择：等，或者冲。等，气会放；冲，人会死。','office'],
+ ['沈钺','我的建议是——先清舞台和放映室，再一排一排把人带出来。别让“成功突入”变成“救援失败”。','office'],
+ ['你','这次我把人带出来。','building']
+];
+var DRG_BG5={t:'战术档案 · OP-05 杜布罗夫卡',act:'战术档案 · 杜布罗夫卡',b:[
+ '案例：2002 年 10 月 23 日，莫斯科杜布罗夫卡剧院，约 850 名人质被扣，武装分子在剧院内外布置爆炸物。',
+ '处置：突击时向通风系统释放芬太尼类气体，枪手被制服，但 130 余名名人质死于气体本身。',
+ '争议：战术上成功，救援上失败——这也是它被反复写进教材的原因。',
+ '本次任务：赤隼在通风口装了气罐，4 分 30 秒后放气，之后每 24 秒有一名未带出的人质窒息，至少要带出 6 人。',
+ '备注：不要指望“更快地突入”能解决问题。要先把人带离通风口。'
+]};
+var DRG_MAIN=DRG,DRG_BG_MAIN=DRG_BG,drgAfter=null;
+function playDramaAt(S2,B2,cb){DRG=S2;DRG_BG=B2;drgAfter=cb||null;W.__d2=1;playDrama()}
+function playDrama2(cb){playDramaAt(DRG2,DRG_BG2,cb)}
+function playDrama3(cb){playDramaAt(DRG3,DRG_BG3,cb)}
+function playDrama4(cb){playDramaAt(DRG4,DRG_BG4,cb)}
+function playDrama5(cb){playDramaAt(DRG5,DRG_BG5,cb)}
+function playStory(k,cb){
+ var done=function(){ST['s'+k]=1;save();if(cb)cb()};
+ if(k===4)playDrama4(done);else if(k===5)playDrama5(done);else{if(cb)cb()}}
 function drgCur(){return DRG[drgI]}
 function drgSpeaker(name){var S=DRG_SPK[name]||{g:(name||'？').charAt(0),role:'',col:'#93ac6d'};
  var b=$('dBadge');b.textContent=S.g;b.style.color=S.col;b.style.borderColor=S.col;
@@ -6256,7 +6432,7 @@ function drgShowBG(){
   DRG_BG.b.forEach(function(p){var d=mk('p');d.textContent=p;b.appendChild(d)})}
  if($('dsTtl'))$('dsTtl').textContent=DRG_BG.t;
  $('dramaBox').classList.add('bgmode');
- $('dAct').textContent='猎鹰招募 · 招收档案';
+ $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'猎鹰招募 · 招收档案';
  var c=document.querySelector('#dDossier .dsCard');if(c)c.scrollTop=0}
 function drgStartStory(){
  $('dramaBox').classList.remove('bgmode');
@@ -6451,7 +6627,7 @@ function fadeTo(fn){
  setTimeout(function(){
   try{fn()}catch(e){}
   setTimeout(function(){f.classList.remove('on')},140)},430)}
-function dStartExam(){fadeTo(function(){show(null);ST.lv=8;brief2Exam()})}
+function dStartExam(){fadeTo(function(){show(null);ST.lv=7;brief2Exam()})}
 /* SECTION: tutorial 新兵训练
    一座靶场里的 13 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
 var TUTS=[
@@ -6655,7 +6831,7 @@ function brief(){var c=LS6[ST.lv-1];
  c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  var tot=0,k;for(k in c.foe)tot+=c.foe[k];
  if(c.alt)for(k in c.alt.foe)tot+=c.alt.foe[k];
- $('fE').textContent=tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv);
+ $('fE').textContent=tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+(c.hostNeed?(' · 人质 '+c.civ.length+' 名（至少带出 '+c.hostNeed+' 名）'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv);
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
  var mn=heroActive()?(WM[heroLoadOf()[0]]||WM.m4a1).n:WM[ST.load[0]].n;
  $('fH').textContent=c.hint+'（当前主武器：'+mn+'）';
@@ -6667,6 +6843,7 @@ function brief(){var c=LS6[ST.lv-1];
  if(cs){cb.classList.remove('hidden');
   cb.textContent='继续任务（'+fmt(cs.t)+'）'}
  else cb.classList.add('hidden');
+ if(c.story&&!ST['s'+c.story]){playStory(c.story,function(){show('sBrief');setScr('brief')});return}
  if(c.air&&ST.hero2!==1){if(!ST.seenGrey){ST.seenGrey=1;save();playDrama2(function(){show('sBrief');setScr('brief')});return}}
  if(c.recruit&&ST.hero!==1){playDrama();return}
  if(c.recruit&&ST.hero===1){brief2Exam();return}
@@ -6722,7 +6899,7 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
   stv={S:5,A:4,B:3,C:2,D:1}[rate];
  if(win&&G.civD>0&&rate==='S'){rate='A';stv=4}
  $('rTag').textContent=win?'MISSION COMPLETE':'MISSION FAILED';
- $('rTtl').textContent=win?(ST.lv===6?'全部区域清除 · 行动结束':(c.nm+' 已完成')):(c.nm+' · 行动失败');
+ $('rTtl').textContent=win?(ST.lv===5?'五区主线清除 · 机场行动待命':(c.nm+' 已完成')):(c.nm+' · 行动失败');
  var rr=$('rRate');rr.textContent=win?rate:'F';rr.className='rate'+(win?'':' f');
  $('rStar').textContent=win?('★★★★★'.slice(0,stv)+'☆☆☆☆☆'.slice(0,5-stv)):'☆☆☆☆☆';
  $('r1').textContent=fmt(sec)+'（基准 '+fmt(L&&L.cfg?L.cfg.par:c.par)+'）';
@@ -6732,8 +6909,12 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
  $('r5').textContent=G.sec2+'/'+L.civ.length+' 解救'+(G.civD?(' · '+G.civD+' 伤亡（ROE 违规）'):' · 零伤亡');
  $('r6').textContent=sc;
  $('rNote').textContent=win?(G.civD?'存在平民伤亡，评级已下调一级——S 级要求零 ROE 违规。':
-   '零 ROE 违规，评估良好。'+(ST.lv<6?'下一区域：'+LS[ST.lv].nm:''))
-  :'角色阵亡。换弹节奏与掩体利用决定存活时间；也可在军械库换一把更可控的武器。';
+   '零 ROE 违规，评估良好。'+(ST.lv<5?'下一区域：'+LS[ST.lv].nm:''))
+   :'角色阵亡。换弹节奏与掩体利用决定存活时间；也可在军械库换一把更可控的武器。';
+ if(L.cfg&&L.cfg.hostNeed){
+  if(!win&&G.civD>0)$('rNote').textContent='人质损失 '+G.civD+' 名 · 救援失败。先清出通往撤离点的通道，再逐排把人带出来。';
+  else if(win)$('rNote').textContent='人质带出 '+G.sec2+'/'+L.civ.length+(G.civD?(' · 损失 '+G.civD+' 名'):' · 零损失')+'。'+
+   (G.gas?'毒气处置记录已归档。':'倒计时处置记录已归档。');}
  /* 战绩账本：胜/负与累计击毙，排行榜与称号算法都读这三个值 */
  if(win)ST.tw=(ST.tw||0)+1;else ST.tl=(ST.tl||0)+1;
  ST.tk=(ST.tk||0)+G.killed;
@@ -6745,7 +6926,7 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
    var wasTop=isCleared(ST.lv,5);
    markClear(ST.lv,DF.k);
    if(DF.k>=5&&!wasTop){
-    toast('现实难度通关 · '+(ST.lv<6?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
+    toast('现实难度通关 · '+(ST.lv<5?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
     feed('难度成就：现实难度通关',1)}}}
  else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
  var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0;
@@ -6761,14 +6942,14 @@ function showRes(win){stopLoop();setScr('res');show('sRes');
   else promo.classList.add('hidden')}
  $('rNote').textContent+=(' ｜ 军衔分 '+(delta>0?'+':'')+delta+' · '+rankName(ST.xp)+
   (ST.xpm>ST.xp?('（峰值 '+RKLAD[rankPk()][0]+'）'):''));
- $('bNext').classList.toggle('hidden',!(win&&ST.lv<6));
+ $('bNext').classList.toggle('hidden',!(win&&ST.lv<5));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
- if(win&&ST.lv===7&&(ST.hero2!==1||ST.duo!==1)){ST.hero2=1;if(ST.duo!==1)ST.duoPend=1;save();
+ if(win&&ST.lv===6&&(ST.hero2!==1||ST.duo!==1)){ST.hero2=1;if(ST.duo!==1)ST.duoPend=1;save();
   try{toast('机场行动完成 · 英雄队员「格雷」已编入序列',3400)}catch(e){}}
- if(win&&ST.lv===8&&ST.hero!==1){ST.hero=1;ST.storyDone=1;save();
+ if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;ST.storyDone=1;save();
   try{toast('剧情完成 · 国产枪族全部解锁',3200)}catch(e){}
   $('rTtl').textContent='猎鹰招募通过 · QBZ-191 与英雄队员「燕锋」已解锁';}
- if(win){ST.unl=Math.min(6,Math.max(ST.unl,ST.lv+1));
+ if(win){ST.unl=Math.min(7,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
   if(!ob||ob.sc<sc){ST.best[key]={sc:sc,rate:rate,time:sec}}
   save();snd.cheer()}else snd.dead()
@@ -6794,14 +6975,14 @@ function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
  var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
  return ST.hu}
 function openHero(){
- if(ST.hero!==1&&ST.hero2!==1){toast('英雄队员尚未编入序列：先通过 OP-06 或完成机场行动',3000);return}
+ if(ST.hero!==1&&ST.hero2!==1){toast('英雄队员尚未编入序列：先通过 OP-07 或完成机场行动',3000);return}
  show('sHero');setScr('hero');renderHero()}
 function renderHero(){if(!$('heroList'))return;var q=heroQuota();
  $('hqLeft').textContent=q.left;
  var l=$('heroList');l.innerHTML='';
  if(ST.hero!==1&&ST.hero2!==1){
   var nk=mk('div','note');
-  nk.textContent='尚未通过 OP-06 猎鹰招募：通过考核后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
+  nk.textContent='尚未通过 OP-07 猎鹰招募：通过考核后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
   l.appendChild(nk);return}
  if(ST.hero===1){
  /* 三武器槽：两主一副，进局后按 1 / 2 / 3 切换 */
@@ -6878,7 +7059,7 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成剧情任务 OP-06「猎鹰招募」后，全部国产枪族自动解锁】':(o.hero?' 【解锁条件：通过猎鹰招募考核 OP-06】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】')));
+ $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成剧情任务 OP-07「猎鹰招募」后，全部国产枪族自动解锁】':(o.hero?' 【解锁条件：通过猎鹰招募考核 OP-07】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】')));
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
@@ -7050,12 +7231,12 @@ bind('bDeploy',function(){var pick=-1,i;
  if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
  ST.lv=(pick<0?0:pick)+1;brief()});
 bind('bSetP',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-06）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-07）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls==='pistol'){$('dI').textContent='手枪只能配为副武器——主武器需步枪／冲锋枪／霰弹枪／狙击枪。';
   setTimeout(showDtl,1300);return}
  ST.load[0]=o.id;save();renderArs()});
 bind('bSetS',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-06）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-07）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls!=='pistol'){$('dI').textContent='副武器栏只能装手枪；把 '+o.n+' 设为主武器即可。';
   setTimeout(showDtl,1300);return}
  ST.load[1]=o.id;save();renderArs()});
@@ -7070,7 +7251,7 @@ function drgClick(e){if(!$('dramaBox').classList.contains('on'))return;
  if(t.indexOf('btn')>=0)return;drgNext()}
 $('dramaBox').addEventListener('click',drgClick);
 $('dSkip').addEventListener('click',function(e){e.preventDefault();snd.ui();
- toast('已跳过剧情 · 直接进入考核说明',2200);drgEnd()});
+ toast('已跳过剧情 · 直接进入任务简报',2200);drgEnd()});
 (function(){var g=$('dsGo');if(!g)return;
  g.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();drgStartStory()})})();
 (function(){var b=$('dsBack');if(!b)return;
@@ -7101,7 +7282,7 @@ bind('bResetStory',function(){var b=$('bResetStory');
  if(b&&b.getAttribute('data-arm')==='1'){
   b.removeAttribute('data-arm');b.textContent='重置进度';
   storyReset();renderLv();
-  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始，通过 OP-06 后重新解锁英雄队员与国产枪族。');
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始，通过 OP-07 后重新解锁英雄队员与国产枪族。');
   goMenu();return}
  if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
  setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
@@ -7110,7 +7291,11 @@ bind('bSetApi',lbAskCfg);
 bind('bBriefSet',function(){var e=$('briefSet');if(e)e.classList.toggle('hidden')});
 bind('bBriefBoard',openBoard);
 bind('bHint',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
-bind('bAskCarry',function(){show(null);setScr('play');
+bind('bAskCarry',function(){
+ var hn=(L&&L.cfg&&L.cfg.hostNeed)|0;
+ if(hn&&G&&G.sec2<hn){show(null);setScr('play');G.asked=0;G.wt=0;
+  feed('指挥部：先回去，把人带全再撤。',1);toast('返回楼内 · 人质 '+G.sec2+'/'+hn,2800);return}
+ show(null);setScr('play');
  var n9=0;L.civ.forEach(function(c){if(!c.down&&!c.f){c.f=1;c.fol=1;G.sec2++;G.sc+=80;n9++}});
  for(var q9=0;q9<Math.min(n9,3);q9++)ksAdd('✔','人质随队获救',80,'good');
  G.asked=0;G.wt=0;   /* 允许再次判定撤离 */
@@ -7132,7 +7317,7 @@ bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){clearLv(ST.lv);startLv()});
 bind('bQuit',function(){saveLv();leaveRange();show('sMenu');setScr('menu');renderLv()});
 bind('bAgain',function(){clearLv(ST.lv);startLv()});
-bind('bNext',function(){if(ST.lv<6&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
+bind('bNext',function(){if(ST.lv<5&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
 bind('bHome',function(){show('sMenu');setScr('menu');renderLv()});
 Array.prototype.forEach.call($('tabs').children,function(b){
  b.addEventListener('click',function(){aInit();snd.ui();CCLS=b.getAttribute('data-c');
@@ -7166,7 +7351,7 @@ resize();setScr('boot');renderLv();showDtl();updHint();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
- '请从 OP-01 开始重新推进五个区域，并通过 OP-06「猎鹰招募」——通过后英雄队员「燕锋」与国产枪族会一并重新解锁。军衔分、已授权解锁的枪械与训练场进度保留。');
+ '请从 OP-01 开始重新推进五个区域，并通过 OP-07「猎鹰招募」——通过后英雄队员「燕锋」与国产枪族会一并重新解锁。军衔分、已授权解锁的枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
