@@ -1487,10 +1487,10 @@ table.rt td:last-child{text-align:right;font-weight:600}
   </div>
   <div id="dScene"><canvas id="dArt"></canvas><span id="dScnTag"></span></div>
   <div id="dDossier"><div class="dsCard">
-    <div class="dsK">RECRUITMENT FILE · 招收档案</div>
+    <div class="dsK" id="dsK">RECRUITMENT FILE · 招收档案</div>
     <h2 id="dsTtl">—</h2>
     <div id="dsBody"></div>
-    <div class="dsFoot"><span class="dsHint">读完点右侧按钮，进入招募现场</span>
+    <div class="dsFoot"><span class="dsHint" id="dsHint">读完点右侧按钮，进入招募现场</span>
       <span class="dsBtns"><button class="btn" id="dsBack">返回</button>
       <button class="btn p" id="dsGo">进入招募现场</button></span></div>
   </div></div>
@@ -6435,6 +6435,10 @@ function drgShowBG(){
   DRG_BG.b.forEach(function(p){var d=mk('p');d.textContent=p;b.appendChild(d)})}
  if($('dsTtl'))$('dsTtl').textContent=DRG_BG.t;
  $('dramaBox').classList.add('bgmode');
+ var isA=!!(DRG_BG&&DRG_BG.act);
+ if($('dsK'))$('dsK').textContent=isA?'TACTICAL ARCHIVE · 战术档案':'RECRUITMENT FILE · 招收档案';
+ if($('dsHint'))$('dsHint').textContent=isA?'读完点右侧按钮，进入行动简报':'读完点右侧按钮，进入招募现场';
+ if($('dsGo'))$('dsGo').textContent=isA?'进入行动':'进入招募现场';
  $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'猎鹰招募 · 招收档案';
  var c=document.querySelector('#dDossier .dsCard');if(c)c.scrollTop=0}
 function drgStartStory(){
@@ -6501,7 +6505,7 @@ function drgProg(){
  var pb=$('dBar').firstChild;if(pb)pb.style.width=Math.round(drgI/Math.max(1,DRG.length-1)*100)+'%';
  $('dTime').textContent=fmt(Math.floor((performance.now()-drgT0)/1000));
  var ch='',i;for(i=0;i<=drgI&&i<DRG.length;i++){var s=DRG[i];if(s&&s.A)ch=s.A}
- $('dAct').textContent='猎鹰招募 · '+(ch?ch.split(' · ')[0]:'招募现场');
+ $('dAct').textContent=(DRG_BG&&DRG_BG.act)?('战术档案 · '+(ch?ch.split(' · ')[0]:'行动')):('猎鹰招募 · '+(ch?ch.split(' · ')[0]:'招募现场'));
  var scn=drgSceneOf(drgI);
  if(scn!==drgScn){drgScn=scn;drgPaint(scn)}}
 var drgScn='',drgSzW=0;
