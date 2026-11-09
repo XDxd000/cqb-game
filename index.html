@@ -3623,7 +3623,7 @@ function noiseAt(x,y,rad){if(!L)return;var i;
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    se.hx=x;se.hy=y}}}
 /* ---- 战术投掷物：腰封槽位 → 长按选择 → 长按开火温雷 → 松手投向准星 ---- */
-var GREN_FUSE=3.4, THROW_MAX=660, THROW_ARC=64;
+var GREN_FUSE=3.4, THROW_MAX=660, THROW_ARC=0;   /* 不做抛物线：投出后直线落到准星位置 */
 var THROW=[
  {id:'frag', n:'M67 破片手雷', s:'破片', col:'#5c6b3a', hi:'#93ac6d', ring:'#8fae5d',
   r:132, dmg:120, fuse:3.4, stun:0,  d:'杀伤半径 132 · 伤害 120 · 引信 3.4 秒'},
@@ -3712,11 +3712,11 @@ function throwG(fuse){
  if(!p.actItem||!p.bl[p.actItem])p.actItem=firstThrow(p);
  var id=p.actItem;
  if(!id||!p.bl[id]){toast('腰封已空 · 补给箱可补充');return}
- p.bl[id]--;if(!p.bl[id])p.actItem=firstThrow(p);
+ p.bl[id]--;p.actItem='';       /* 投出后必须重新握雷，不会连投 */
  var tgt=throwTarget(),t=throwDef(id);
  p.act=1;p.gid=id;
  p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;p.tx=tgt.x;p.ty=tgt.y;
- p.gt=0;p.travel=clamp(tgt.dist/620,.34,.95);p.air=0;p.landed=0;p.fuseT=0;
+ p.gt=0;p.travel=Math.min(.16,.08+tgt.dist/9000);p.air=0;p.landed=0;p.fuseT=0;
  p.fuse=(fuse==null?t.fuse:Math.max(.25,fuse));
  p.gren=0;p.cook=0;p.cooking=0;p.throwT=.32;
  snd.pin();snd.throwW();updGun();tutEv('gren');
@@ -5785,6 +5785,13 @@ var PATCHES=[
    '修复投掷物落点与准星不一致：现在落点就是你枪械准星所指的那个点（桌面用鼠标世界坐标，触屏用瞄准射线落点）。',
    '保留三条限制：最短 60 像素、最远 660 像素、中途有墙则落在墙前 16 像素。',
    '持雷时新增虚线弹道与落点十字预览，扔之前能看清会落在哪。'
+  ]},
+ {v:6,d:'2026-11-09',t:'投掷手感：直落准星 · 腰封可重复',
+  items:[
+   '取消投掷物的抛物线模拟：投出后沿直线在约 0.1 秒内落到准星位置，不再有明显弧线。',
+   '战术腰封允许把同一个投掷物放在不同槽位，每一格算一次使用（例如破片 ×2 就是两格）。',
+   '投出后必须重新握雷才会再投，不会出现按住开火连续投出的情况。',
+   '军械库腰封说明同步更新：标题写明可重复放置、投出需重新握持、落点即准星。'
   ]}
 ];
 function pushPatchMail(){
@@ -6837,7 +6844,8 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   gl.appendChild(bar);
   var ip2=mk('div');ip2.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.6;margin:1px 0 6px';
   ip2.innerHTML='点击槽位循环切换：<b>空 → 破片 → 震爆 → 闪光</b>。容量由历史最高军衔决定（列兵／上等兵 2 格，上校 6 格）。<br>'+
-   '对局中<b>长按投掷键</b>可随时重新挑选，短按切换握持。';
+   '同一个投掷物可以放在<b>不同槽位</b>，每一格算一次使用；投出后需要<b>重新握雷</b>，不会连投。<br>'+
+   '对局中<b>长按投掷键</b>可随时重新挑选，短按切换握持；投掷落点就是<b>枪械准星</b>所指的位置。';
   gl.appendChild(ip2)}
  var ol=$('ofList');if(ol){ol.innerHTML='';
   OUTF.forEach(function(o){var bt=mk('button','kbd'+(ST.outfit===o.id?' on':''));
