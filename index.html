@@ -1063,7 +1063,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bootTtl">战术突袭</div>
   <div class="bootSub">TACTICAL CQB OPERATION</div>
   <div class="bootChips">
-    <span class="chip"><b>6</b> 张地图</span>
+    <span class="chip"><b>7</b> 张地图</span>
     <span class="chip"><b id="chipW">33</b> 把枪械</span>
     <span class="chip"><b id="chipR">14</b> 级军衔</span>
     <span class="chip">页游</span>
@@ -2316,7 +2316,7 @@ var EMB={
  terr:'使馆上下两排房间夹一条中央走廊：发布厅、档案室、武官室与会客室，门洞多、走廊窄',
  hint:'MP5／霰弹枪最适合室内 · 发布厅别用长枪直线推进，人质会挡在射界里',
  intel:'赤隼占据使馆，把 6 名人质分散关在发布厅与档案室，用广播对外喊话。走廊两侧全是门洞，喊话结束就处置人质。史实原型是 1980 年伦敦王子门的伊朗使馆围困：26 名人质，22 SAS 从屋顶与后窗同时突入，5 名枪手被击毙、1 名被俘。',
- obj:['从后门突入使馆','清剿全部武装分子','带出至少 4 名人质','从东侧侧门撤离'],
+ obj:['从门厅突入使馆','清剿全部武装分子','带出至少 4 名人质','从东侧侧门撤离'],
  roe:'人质分散在房间内 · 开枪前先确认目标；广播倒计时结束后每 40 秒处决一名人质'};
 
 /* ==== OP-05 杜布罗夫卡：剧院人质事件（取材 2002 年莫斯科杜布罗夫卡剧院危机） ==== */
@@ -4033,7 +4033,9 @@ function storyTick(dt){
 function checkOpen(){var al=aliveAll();
  if(!al&&G.reinLeft<=0&&!G.exitOpen){G.exitOpen=1;snd.go();
   toast((L.cfg.exam||L.cfg.tgt)?'全部靶标击倒 · 按 F 可重置靶标继续练习':
-   (airOn()?'两层全部清除 · 回到 1F 前门撤离':'区域清除 · 撤离点已开放'),3000);feed('撤离点开放',1)}}
+   (L.cfg.hostNeed?('守敌清除 · 撤离点开放 · 人质 '+G.sec2+'/'+L.cfg.hostNeed+
+     (G.sec2<L.cfg.hostNeed?'（还没带够）':'（可以撤了）')):
+    (airOn()?'两层全部清除 · 回到 1F 前门撤离':'区域清除 · 撤离点已开放')),3200);feed('撤离点开放',1)}}
 /* ---- 双层地图：中央楼梯上下楼，血量/弹药/任务进度全部保留 ---- */
 var FLS={0:null,1:null};
 function airOn(){return !!(L&&L.cfg&&L.cfg.flTotal)}
