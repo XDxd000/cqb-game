@@ -439,7 +439,12 @@ body.noc #hud,body.noc #hud *{cursor:none}
 #throwPick .tpI.dis{opacity:.4}
 #throwPick .tpTip{width:100%;font-size:10px;color:#6d818d;margin-top:2px}
 /* SECTION: style-mail 收件箱 */
-#mlList{display:-ms-flexbox;display:flex;flex-direction:column;gap:7px;margin:8px 0 4px}
+#mlList{display:-ms-flexbox;display:flex;flex-direction:column;gap:7px;margin:8px 0 4px;
+ max-height:min(54vh,460px);overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+#mlList::-webkit-scrollbar{width:6px}
+#mlList::-webkit-scrollbar-thumb{background:#2c3d49;border-radius:3px}
+.mlMeta{display:flex;align-items:center;justify-content:space-between;gap:10px;
+ font-size:11px;color:#7f939f;letter-spacing:.05em;margin:10px 0 0}
 .mlItem{display:-ms-flexbox;display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;
  padding:11px 13px;border:1px solid #22303a;border-radius:6px;color:#cfdde6;
  background:linear-gradient(180deg,rgba(16,24,30,.92),rgba(10,15,19,.92));transition:border-color .15s,transform .1s}
@@ -1294,10 +1299,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="eyebrow">INBOX · 行动报告</div>
   <h1>邮件</h1>
   <p class="lead">AI 小队代行扫荡结束后，会在这里收到一份行动简报。<b>归队即自动结算经验</b>，不需要你守在任务列表里等。版本更新时，这里还会收到一封<b>更新公告</b>，写清这次改了什么。</p>
+  <div class="mlMeta" id="mlMeta"></div>
   <div id="mlList"></div>
   <div id="mlDetail" class="hidden"></div>
   <div class="bar">
     <button class="btn hidden" id="bMailBack">返回收件箱</button>
+    <button class="btn" id="bMailClear">清理邮件</button>
     <button class="btn" id="bMailHome">返回任务列表</button>
   </div>
 </div></section>
@@ -3454,13 +3461,28 @@ function segHit(a,x1,y1,x2,y2){var dx=x2-x1,dy=y2-y1,lo=0,hi=1,p,px,pv,q;
 function segWall(x1,y1,x2,y2){var i;for(i=0;i<CW.length;i++)if(segHit(CW[i],x1,y1,x2,y2))return true;return false}
 function los(ax,ay,bx,by){return !segWall(ax,ay,bx,by)}
 var RHIT=null;
-function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,p,px,pv,q,fail;RHIT=null;
- for(i=0;i<CWB.length;i++){a=CWB[i];lo=0;hi=best;fail=0;
-  var P=[-dx,-dy,dx,dy],Q=[x-a.x,a.x+a.w-x,y-a.y,a.y+a.h-y];
-  for(p=0;p<4;p++){px=P[p];q=Q[p];
-   if(px===0){if(q>0){fail=1;break}}
-   else{pv=q/px;if(px<0){if(pv>hi){fail=1;break}if(pv>lo)lo=pv}else{if(pv<lo){fail=1;break}if(pv<hi)hi=pv}}}
-  if(!fail&&lo<=hi&&lo>=0&&lo<best){best=lo;RHIT=a}}
+/* 标准 slab 射线测试：水平/垂直射线也能正确命中（旧版在这种角度会误判） */
+function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,t1,t2,sw;RHIT=null;
+ for(i=0;i<CWB.length;i++){
+  a=CWB[i];lo=0;hi=best;
+  if(Math.abs(dx)<1e-9){
+   if(x<a.x||x>a.x+a.w)continue;
+  }else{
+   t1=(a.x-x)/dx;t2=(a.x+a.w-x)/dx;
+   if(t1>t2){sw=t1;t1=t2;t2=sw}
+   if(t1>lo)lo=t1;if(t2<hi)hi=t2;
+   if(lo>hi)continue;
+  }
+  if(Math.abs(dy)<1e-9){
+   if(y<a.y||y>a.y+a.h)continue;
+  }else{
+   t1=(a.y-y)/dy;t2=(a.y+a.h-y)/dy;
+   if(t1>t2){sw=t1;t1=t2;t2=sw}
+   if(t1>lo)lo=t1;if(t2<hi)hi=t2;
+   if(lo>hi)continue;
+  }
+  if(lo<best){best=lo;RHIT=a}
+ }
  var len=Math.hypot(dx,dy)||1;return best>=1?len:best*len}
 /* 平滑脱困：把卡进墙体的单位在若干帧内「挤」向最近的空地，代替过去整格瞬移
    speed 为每秒推进像素；返回 1 表示找到了脱困方向 */
@@ -3778,8 +3800,8 @@ function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
  p.cook+=dt;
  if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
   explode(p.x,p.y,130,120);dmgPlayer(55);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
-/* 投掷目标 = 准星所指的那个点（桌面取鼠标世界坐标，触屏取瞄准射线落点）；
-   超出最大投掷距离则截断，墙挡住则落在墙前。 */
+/* 投掷目标：只算「第一落点」用于预览——贴墙前 6px。
+   真正的飞行在 updateGren 里逐段推进，撞墙会回弹，不再穿过墙。 */
 function throwTarget(){
  var p=G.p,tx,ty;
  if(!touchUI){tx=CAM.x+MS.x;ty=CAM.y+MS.y}
@@ -3789,12 +3811,12 @@ function throwTarget(){
  var dx=tx-p.x,dy=ty-p.y,d=Math.hypot(dx,dy),ux,uy;
  if(d<1){ux=Math.cos(p.aa);uy=Math.sin(p.aa);d=0}
  else{ux=dx/d;uy=dy/d}
- var dist=Math.min(d,THROW_MAX);
- /* 墙挡住：落点在墙前 16px */
- if(dist>1){var hd=rayHit(p.x,p.y,ux*dist,uy*dist);
-  if(hd<dist)dist=Math.max(0,hd-16)}
- if(dist<60)dist=60;            /* 最短投掷距离 */
- return {x:p.x+ux*dist,y:p.y+uy*dist,dist:dist}}
+ var raw=Math.min(d,THROW_MAX),dist=raw;
+ if(raw>1){
+  var hd=rayHit(p.x,p.y,ux*raw,uy*raw);
+  if(hd<raw)dist=Math.max(4,hd-6);   /* 贴墙前，至少留 4px */
+ }
+ return {x:p.x+ux*dist,y:p.y+uy*dist,dist:dist,raw:Math.max(24,raw),ux:ux,uy:uy}}
 function throwG(fuse){
  var p=G.p;if(!p||G.phase!=='live'||p.act)return;
  if(!p.actItem||!p.bl[p.actItem])p.actItem=firstThrow(p);
@@ -3803,8 +3825,12 @@ function throwG(fuse){
  p.bl[id]--;p.actItem='';       /* 投出后必须重新握雷，不会连投 */
  var tgt=throwTarget(),t=throwDef(id);
  p.act=1;p.gid=id;
- p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;p.tx=tgt.x;p.ty=tgt.y;
- p.gt=0;p.travel=.06;p.landed=0;p.fuseT=0;
+ p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;
+ var fly=Math.max(24,tgt.raw);
+ p.tx=p.x+tgt.ux*fly;p.ty=p.y+tgt.uy*fly;
+ p.travel=clamp(.10+fly/5200,.10,.22);
+ p.gvx=(p.tx-p.sx)/p.travel;p.gvy=(p.ty-p.sy)/p.travel;
+ p.gt=0;p.landed=0;p.fuseT=0;p.hitWall=0;
  p.fuse=(fuse==null?t.fuse:Math.max(.25,fuse));
  p.gren=0;p.cook=0;p.cooking=0;p.throwT=.32;
  snd.pin();snd.throwW();updGun();tutEv('gren');
@@ -4340,15 +4366,31 @@ function civHit(c,dm){c.down=1;
  else{G.civD++;G.roe++;G.sc-=400;snd.dead();
   toast('ROE 违规 · 误伤平民（-400）',3200);feed('警告：平民伤亡',0)}
  burst(c.x,c.y,10,'#8c2f24',130,400)}
-/* 投掷物飞行：起点 → 准星落点，直线落下（没有抛物线，也不模拟高度） */
+/* 投掷物飞行：逐段推进；撞到墙、集装箱、桌柜等实体会被挡住，
+   在撞击点向后弹开约 6px 后落地，不会穿墙。 */
 function updateGren(dt){var p=G.p;if(!p||!p.act)return;
  if(!p.landed){
   p.gt+=dt;
-  var k=clamp(p.gt/(p.travel||.06),0,1);
-  p.gx=p.sx+(p.tx-p.sx)*k;
-  p.gy=p.sy+(p.ty-p.sy)*k;
-  if(k>=1){p.landed=1;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;snd.bounce();
-   if(!ST.low){burst(p.gx,p.gy,3,'#8a8f7a',60,120)}}
+  var sp=Math.hypot(p.gvx||0,p.gvy||0)||1,
+   steps=Math.max(1,Math.min(24,Math.ceil(sp*dt/4))),sub=dt/steps,i,nx,ny,inv,ix,iy;
+  for(i=0;i<steps;i++){
+   nx=p.gx+p.gvx*sub;ny=p.gy+p.gvy*sub;
+   if(freeAt(nx,ny,5)){p.gx=nx;p.gy=ny;continue}
+   inv=Math.hypot(p.gvx,p.gvy)||1;ix=p.gvx/inv;iy=p.gvy/inv;
+   p.gx-=ix*6;p.gy-=iy*6;
+   if(!freeAt(p.gx,p.gy,4)){p.gx+=ix*6;p.gy+=iy*6}
+   p.landed=1;p.fuseT=0;p.hitWall=1;
+   snd.bounce();
+   if(!ST.low)burst(p.gx,p.gy,4,'#b7ae94',56,180);
+   break;
+  }
+  if(!p.landed&&p.gt>=(p.travel||.2)){
+   p.landed=1;p.fuseT=0;p.gx=p.tx;p.gy=p.ty;
+   if(!freeAt(p.gx,p.gy,4)){p.gx=clamp(p.gx,12,Math.max(12,L.cfg.W-12));p.gy=clamp(p.gy,12,Math.max(12,L.cfg.H-12))}}
+  if(p.landed&&!p.hitWall){
+   snd.bounce();
+   if(!ST.low)burst(p.gx,p.gy,3,'#8a8f7a',60,120);
+  }
  }else{
   p.fuseT+=dt;
   if(p.fuseT>=(p.fuse||3.4)){var id=p.gid||'frag';p.act=null;p.landed=0;
@@ -5965,6 +6007,14 @@ var PATCHES=[
    '改为按“击杀事件”累计：同一个靶标倒下、立起、再次倒下，每一次都计入当前步骤。',
    '教程面板新增单步进度条与（1 / 2）计数：移动、据枪、打靶等步骤都能看到当前进度。',
    '“模拟清房”单独统计三名陪练目标，靶标复位不影响；重新开始教程会重置计数与陪练目标。'
+  ]},
+ {v:10,d:'2026-11-09',t:'投掷碰撞 · 邮件清理',
+  items:[
+   '投掷物加入室内碰撞：飞行途中撞到墙、集装箱、桌柜等实体会被挡住，并在撞击点向后退约 6px 后落地，不再穿墙。',
+   '落点预览改为贴墙前 6px，不再出现准星在墙后、手雷却穿过墙落到墙外的情况。',
+   '飞行时间按距离在 0.10–0.22 秒之间，近投更快、远投稍慢，能看清碰撞与回弹。',
+   '收件箱新增「清理邮件」按钮：点一次进入确认、4 秒内再点一次清空全部邮件；不会影响经验、战绩与排行榜。',
+   '邮件列表改为独立滚动区（最高约半屏），底部的返回按钮不会再被大量扫荡邮件挤出屏幕；顶部显示总封数与未读数。'
   ]}
 ];
 function pushPatchMail(){
@@ -5980,7 +6030,12 @@ function fmtTs(t){
 function openMail(){show('sMail');setScr('mail');renderMail()}
 function renderMail(){
  var l=$('mlList'),d=$('mlDetail');if(!l)return;
- var arr=mailList(),i,h='';
+ var arr=mailList(),i,h='',un=0;
+ for(i=0;i<arr.length;i++)if(!arr[i].r)un++;
+ var meta=$('mlMeta');
+ if(meta)meta.textContent=arr.length?('共 '+arr.length+' 封 · 未读 '+un+' 封'):'收件箱为空';
+ var cb=$('bMailClear');
+ if(cb){cb.removeAttribute('data-arm');cb.textContent='清理邮件'}
  $('bMailBack').classList.add('hidden');
  d.classList.add('hidden');l.classList.remove('hidden');
  if(!arr.length){
@@ -6038,6 +6093,20 @@ function openMailBack(){
  $('mlDetail').classList.add('hidden');
  $('mlList').classList.remove('hidden');
  renderMail()}
+/* 清理邮件：点一次进入确认，4 秒内再点一次清空；不影响经验、战绩与排行榜 */
+function clearMail(){
+ var b=$('bMailClear'),arr=mailList();
+ if(!arr.length){toast('收件箱是空的');return}
+ if(b&&b.getAttribute('data-arm')!=='1'){
+  b.setAttribute('data-arm','1');b.textContent='再点一次：清空 '+arr.length+' 封';
+  clearTimeout(clearMail.t);
+  clearMail.t=setTimeout(function(){var x=$('bMailClear');
+   if(x){x.removeAttribute('data-arm');x.textContent='清理邮件'}},4000);
+  return}
+ clearTimeout(clearMail.t);
+ if(b){b.removeAttribute('data-arm');b.textContent='清理邮件'}
+ ST.mail=[];save();syncMailBadge();renderMail();
+ toast('邮件已清理 · 经验与战绩不受影响',2600)}
 function sweepLabels(){var btns=document.querySelectorAll('.swp'),i;
  for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv'),s=sweepSlot(v,ST.diff||1);
   if(!s)continue;var left=s-Date.now();
@@ -7235,6 +7304,7 @@ bind('bBoard',openBoard);
 bind('bMail',openMail);
 bind('bMailHome',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bMailBack',openMailBack);
+bind('bMailClear',clearMail);
 bind('bBoardBack',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bBdRefresh',function(){lbFetch(function(){lbRender()})});
 bind('bBdCopy',lbCopy);
