@@ -5487,6 +5487,7 @@ function updHud(){var p=G.p,g=cur(),i;
   var hl2=hostLeft(),hn2=L.cfg.hostNeed;
   ot='人质 '+G.sec2+'/'+hn2+(hl2?(' · 未解救 '+hl2):' · 已带全')+(G.exitOpen?' · 前往撤离点':' · 残敌 '+al)+
    (L.cfg.deadline&&!G.dl?(' · 处决倒计时 '+fmt(Math.max(0,L.cfg.deadline-G.t))):'')+
+   ((G.dl&&G.execN<(L.cfg.execMax||2))?(' · 处决中 '+G.execN+'/'+(L.cfg.execMax||2)):'')+
    (L.cfg.gasAt&&!G.gas?(' · 通风口放气 '+fmt(Math.max(0,L.cfg.gasAt-G.t))):'')+
    (G.gas?' · 毒气中':'');}
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
