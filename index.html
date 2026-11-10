@@ -4957,8 +4957,9 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
  for(i=0;i<G.al.length;i++){var o=G.al[i];
   for(var k=i+1;k<G.al.length;k++){var s=G.al[k],ox=o.x-s.x,oy=o.y-s.y,
    od=Math.hypot(ox,oy),mn=o.r+s.r;
-   if(od>0&&od<mn){o.x+=ox/od*(mn-od)*.4;o.y+=oy/od*(mn-od)*.4;
-    s.x-=ox/od*(mn-od)*.4;s.y-=oy/od*(mn-od)*.4}}}}
+   if(od>0&&od<mn){var mvx=ox/od*Math.min(4,(mn-od)*.4),mvy=oy/od*Math.min(4,(mn-od)*.4);
+    if(pathFree(o.x,o.y,o.x+mvx,o.y+mvy,o.r)){o.x+=mvx;o.y+=mvy}
+    if(pathFree(s.x,s.y,s.x-mvx,s.y-mvy,s.r)){s.x-=mvx;s.y-=mvy}}}}}
 function allyDmg(a,v){if(a.down)return;
  a.hp-=v*.85;a.bleed=(a.bleed||0)+v;
  if(a.hp<=0){a.hp=0;a.down=1;a.dt2=0;feed(a.n+' 倒地 · 16 秒后自行恢复',0);snd.dead();
