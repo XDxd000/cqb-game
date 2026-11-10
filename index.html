@@ -2719,6 +2719,7 @@ function loadLv(i){try{var j=JSON.parse(localStorage.getItem('ta5_lv2'+i));
 function clearLv(i){try{localStorage.removeItem('ta5_lv2'+i)}catch(e){}}
 function applyLv(sv){var p=G.p,j;
  p.x=sv.p.x;p.y=sv.p.y;p.hp=sv.p.hp;p.ar=sv.p.ar;p.md=sv.p.md;
+ if(!freeAt(p.x,p.y,p.r))snapFree(p);
  if(sv.p.rg&&typeof sv.p.rg==='object')p.bl=sv.p.rg;
  if(sv.p.ai)p.actItem=sv.p.ai;
  p.shots=sv.p.shots||0;p.wi=sv.p.wi||0;
@@ -2728,9 +2729,11 @@ function applyLv(sv){var p=G.p,j;
  for(j=0;j<L.en.length&&j<sv.en.length;j++){var e=L.en[j],a=sv.en[j];
   e.x=a[0];e.y=a[1];e.hp=a[2];e.sub=a[3];e.dead=!!a[4];e.st=a[5]||'patrol';e.alert=a[6];
   e.hx=a[7];e.hy=a[8];e.losT=0;e.canSee=0;e.sw=.6;e.vx=e.vy=0;e.dt=0;
-  if(e.dead)e.dt=5}
+  if(e.dead)e.dt=5;
+  if(!freeAt(e.x,e.y,e.r))snapFree(e)}
  for(j=0;j<L.civ.length&&j<sv.ci.length;j++){var c=L.civ[j],b=sv.ci[j];
-  c.x=b[0];c.y=b[1];c.f=b[2];c.down=!!b[3]}
+  c.x=b[0];c.y=b[1];c.f=b[2];c.down=!!b[3];
+  if(!freeAt(c.x,c.y,c.r))snapFree(c)}
  for(j=0;j<L.cr.length&&j<sv.ck.length;j++)L.cr[j].got=!!sv.ck[j];
  /* 门的状态也一并恢复：否则续关时被踹开的门会重新关上 */
  if(sv.d&&sv.d.length){var reop=0;
@@ -3473,13 +3476,33 @@ function freeAt(x,y,r){var i;if(x<r||y<r||x>L.cfg.W-r||y>L.cfg.H-r)return false;
 function segHit(a,x1,y1,x2,y2){var dx=x2-x1,dy=y2-y1,lo=0,hi=1,p,px,pv,q;
  var P=[-dx,dx,-dy,dy],Q=[x1-a.x,a.x+a.w-x1,y1-a.y,a.y+a.h-y1],fail=0;
  for(p=0;p<4;p++){px=P[p];q=Q[p];
-  if(px===0){if(q>0){fail=1;break}}
+  if(px===0){if(q<0){fail=1;break}}
   else{pv=q/px;
    if(px<0){if(pv>hi){fail=1;break}if(pv>lo)lo=pv}
    else{if(pv<lo){fail=1;break}if(pv<hi)hi=pv}}}
  return !fail&&lo<=hi}
 function segWall(x1,y1,x2,y2){var i;for(i=0;i<CW.length;i++)if(segHit(CW[i],x1,y1,x2,y2))return true;return false}
 function los(ax,ay,bx,by){return !segWall(ax,ay,bx,by)}
+/* 整段碰撞：按不超过 4px 采样，避免单位在一帧里跨过薄墙。
+   终点仍用完整半径判定，中途允许 1.2px 的贴墙余量，防止沿墙走时被误卡。 */
+function pathFree(x1,y1,x2,y2,r){
+ var dx=x2-x1,dy=y2-y1,d=Math.hypot(dx,dy),n,k,t,rr;
+ if(d<.01)return freeAt(x1,y1,r);
+ if(!freeAt(x2,y2,r))return false;
+ rr=Math.max(2,r-1.2);n=d<=2?1:Math.ceil(d/2);
+ for(k=1;k<n;k++){t=k/n;if(!freeAt(x1+dx*t,y1+dy*t,rr))return false}
+ return true}
+function moveFree(o,nx,ny,r){if(!pathFree(o.x,o.y,nx,ny,r))return false;
+ o.x=nx;o.y=ny;return true}
+/* 加载旧存档/异常出生点时，把卡在实体里的单位挪到最近的安全点 */
+function snapFree(o){
+ if(!o||freeAt(o.x,o.y,o.r))return true;
+ var i,an,rd,nx,ny,best=null,bd=1e9,maxR=Math.max(40,o.r*4);
+ for(i=0;i<48;i++){an=i*TAU/48;
+  for(rd=4;rd<=maxR;rd+=3){nx=o.x+Math.cos(an)*rd;ny=o.y+Math.sin(an)*rd;
+   if(freeAt(nx,ny,o.r)&&rd<bd){bd=rd;best={x:nx,y:ny}}}}
+ if(!best)return false;
+ o.x=best.x;o.y=best.y;return true}
 var RHIT=null;
 /* 标准 slab 射线测试：水平/垂直射线也能正确命中（旧版在这种角度会误判） */
 function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,t1,t2,sw;RHIT=null;
@@ -3506,13 +3529,30 @@ function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,t1,t2,sw;RHIT=null;
  var len=Math.hypot(dx,dy)||1;return best>=1?len:best*len}
 /* 平滑脱困：把卡进墙体的单位在若干帧内「挤」向最近的空地，代替过去整格瞬移
    speed 为每秒推进像素；返回 1 表示找到了脱困方向 */
-function pushFree(o,dt,speed){var i,an,rd,bx=0,by=0,ok=0;
- for(i=0;i<24;i++){an=i*TAU/24;rd=18+(i%6)*16;
-  if(freeAt(o.x+Math.cos(an)*rd,o.y+Math.sin(an)*rd,Math.max(2,o.r-1))){
-   bx=Math.cos(an)*rd;by=Math.sin(an)*rd;ok=1;break}}
- if(!ok)return 0;
- var d=Math.hypot(bx,by)||1,stp=Math.min(d,(speed||420)*dt);
- o.x+=bx/d*stp;o.y+=by/d*stp;return 1}
+/* 平滑脱困：只做「已经卡进实体」的救援，不再因为贴近墙面就每帧推一把。
+   旧版在半径 +1px 就触发，并且朝任意采样点直线移动、中途不判定碰撞，
+   这正是敌人贴着墙走时会一点点漂进墙里、最后穿到墙另一侧的原因。 */
+function pushFree(o,dt,speed){
+ var i,an,rd,dx,dy,best=null,bd=1e9,
+  inside=!freeAt(o.x,o.y,o.r),
+  maxR=Math.max(28,o.r*3.2);
+ if(!inside)return 0;   /* 身体没被实体压住：本来就没卡住 */
+ /* 真卡住了：优先退回上一帧的安全位置，沿原路出来 */
+ if(inside&&o._okx!==undefined&&freeAt(o._okx,o._oky,o.r)){
+  best={x:o._okx-o.x,y:o._oky-o.y};bd=Math.hypot(best.x,best.y)}
+ if(!best)for(i=0;i<48;i++){an=i*TAU/48;
+  for(rd=4;rd<=maxR;rd+=3){
+   dx=Math.cos(an)*rd;dy=Math.sin(an)*rd;
+   if(!freeAt(o.x+dx,o.y+dy,o.r))continue;
+   if(!inside&&!pathFree(o.x,o.y,o.x+dx,o.y+dy,o.r))continue;
+   if(rd<bd){bd=rd;best={x:dx,y:dy}}
+   break}}
+ if(!best)return 0;
+ var d=Math.hypot(best.x,best.y)||1,
+  stp=Math.min(d,inside?1.4:2.4,(speed||420)*dt),
+  nx=o.x+best.x/d*stp,ny=o.y+best.y/d*stp;
+ if(!inside&&!pathFree(o.x,o.y,nx,ny,o.r))return 0;
+ o.x=nx;o.y=ny;return 1}
 
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
@@ -4159,8 +4199,8 @@ function tryDodge(e,tx,ty,dur){
  if(!e||e.dead||e.sub>0||e.stun>0||e.dodgeT>0)return false;
  var a=Math.atan2(e.y-ty,e.x-tx)+(Math.random()-.5)*1.1,
   dist=68+Math.random()*62,nx=e.x+Math.cos(a)*dist,ny=e.y+Math.sin(a)*dist;
- if(!freeAt(nx,ny,e.r+2)){a+=PI/2;nx=e.x+Math.cos(a)*dist;ny=e.y+Math.sin(a)*dist;
-  if(!freeAt(nx,ny,e.r+2))return false}
+ if(!pathFree(e.x,e.y,nx,ny,e.r)){a+=PI/2;nx=e.x+Math.cos(a)*dist;ny=e.y+Math.sin(a)*dist;
+  if(!pathFree(e.x,e.y,nx,ny,e.r))return false}
  e.dx=nx;e.dy=ny;e.dodgeT=dur||.5;
  if(!e.alert){e.alert=1;e.st='alert';e.rt=.3;alertAt(e.x,e.y);G.alerted=1}
  return true}
@@ -4201,7 +4241,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    var ddz=Math.hypot(e.dx-e.x,e.dy-e.y);
    if(ddz>8){var ddz2=Math.atan2(e.dy-e.y,e.dx-e.x),spd3=e.sp*1.9,
      sx3=e.x+Math.cos(ddz2)*spd3*dt,sy3=e.y+Math.sin(ddz2)*spd3*dt;
-    if(freeAt(sx3,sy3,e.r)){e.x=sx3;e.y=sy3;e.a=ddz2;e.vx=Math.cos(ddz2)*spd3;e.vy=Math.sin(ddz2)*spd3}
+    if(pathFree(e.x,e.y,sx3,sy3,e.r)){e.x=sx3;e.y=sy3;e.a=ddz2;e.vx=Math.cos(ddz2)*spd3;e.vy=Math.sin(ddz2)*spd3}
     else e.dodgeT=0}
    else e.dodgeT=0;
    e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;continue}
@@ -4260,25 +4300,25 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     snd.fire(EFW[e.tp]||EFW.grunt,clamp(1-Math.hypot(e.x-G.p.x,e.y-G.p.y)/1250,0,1));
     burst(e.x+Math.cos(off)*(e.r+3),e.y+Math.sin(off)*(e.r+3),2,'#ffcf6a',80,130)}}
   var ed=doorNear(e.x,e.y,48);if(ed&&!ed.open&&(e.alert||e.st!=='patrol'))openDoor(ed,'e');
+  if(freeAt(e.x,e.y,e.r)){e._okx=e.x;e._oky=e.y}
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
-  if(freeAt(nx,ny,e.r)){e.x=nx;e.y=ny}
+  if(pathFree(e.x,e.y,nx,ny,e.r)){e.x=nx;e.y=ny}
   else{var mm=Math.hypot(e.vx,e.vy);
    if(mm>.6){if(!moveToward(e,e.x+e.vx*4,e.y+e.vy*4,mm,dt)){e.vx*=.25;e.vy*=.25}}
    else{e.vx=0;e.vy=0}}
   for(j=0;j<L.en.length;j++){if(j===i)continue;var o=L.en[j];if(o.dead)continue;
    var ox=e.x-o.x,oy=e.y-o.y,od=Math.hypot(ox,oy),mn=e.r+o.r+2;
-   if(od>0&&od<mn){var pu=(mn-od)*.45,sx=ox/od*pu,sy=oy/od*pu;
-    if(freeAt(e.x+sx,e.y+sy,e.r)){e.x+=sx;e.y+=sy}
-    if(o.sub>0&&od<mn*.8&&freeAt(o.x-sx,o.y-sy,o.r)){o.x-=sx;o.y-=sy}}}
+   if(od>0&&od<mn){var pu=Math.min(4,(mn-od)*.45),sx=ox/od*pu,sy=oy/od*pu;
+    if(pathFree(e.x,e.y,e.x+sx,e.y+sy,e.r)){e.x+=sx;e.y+=sy}
+    if(o.sub>0&&od<mn*.8&&pathFree(o.x,o.y,o.x-sx,o.y-sy,o.r)){o.x-=sx;o.y-=sy}}}
   var pd=Math.hypot(e.x-p.x,e.y-p.y);
-  if(e.tp!=='boss'&&pd<e.r+p.r){var pdd=Math.max(pd,1),ov=(e.r+p.r-pd)*.5,
+  if(e.tp!=='boss'&&pd<e.r+p.r){var pdd=Math.max(pd,1),ov=Math.min(4,(e.r+p.r-pd)*.5),
    ppx=-dx/pdd*ov,ppy=-dy/pdd*ov;
-   if(freeAt(e.x+ppx,e.y+ppy,e.r)){e.x+=ppx;e.y+=ppy}}
-  /* 卡进墙里时不再整段瞬移：改为数帧内平滑挤出，视觉上像侧身让位 */
-  if(!freeAt(e.x,e.y,e.r+1)){
+   if(pathFree(e.x,e.y,e.x+ppx,e.y+ppy,e.r)){e.x+=ppx;e.y+=ppy}}
+  /* 只有真的卡进实体才救援：贴着墙走不会触发，更不会顺着采样点穿墙 */
+  if(!freeAt(e.x,e.y,e.r)){
    if(!pushFree(e,dt,e.sp*3.4)){
-    var hdd=Math.hypot(e.hx-e.x,e.hy-e.y)||1,hs=Math.min(hdd,(e.sp*1.6)*dt);
-    e.x+=(e.hx-e.x)/hdd*hs;e.y+=(e.hy-e.y)/hdd*hs}}
+    if(!moveToward(e,e.hx,e.hy,e.sp,dt)){e.vx=0;e.vy=0}}}
   if(Lv>=4&&Math.random()<dt*.5&&e.canSee&&!G.hudAlerted){G.hudAlerted=1}
  }
  if(!G.bossDown){var bs=null;for(i=0;i<L.en.length;i++)if(L.en[i].tp==='boss'&&!L.en[i].dead)bs=L.en[i];
@@ -4728,15 +4768,19 @@ var STEER_OFF=[0,.42,-.42,.85,-.85,1.25,-1.25,1.7,-1.7,2.2,-2.2];
 function moveToward(o,tx,ty,spd,dt){var a0=Math.atan2(ty-o.y,tx-o.x),d=spd*dt,i,ang,nx,ny;
  for(i=0;i<STEER_OFF.length;i++){ang=a0+STEER_OFF[i];
   nx=o.x+Math.cos(ang)*d;ny=o.y+Math.sin(ang)*d;
-  if(freeAt(nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;return true}}
+  if(pathFree(o.x,o.y,nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;return true}}
  return false}
-/* 卡进实体内部时，向外螺旋找最近空位并平滑挤出 */
-function pushFreeObj(o,dt,spd){if(freeAt(o.x,o.y,o.r))return true;
- var i,ang,rr,step=Math.max(2,(spd||160)*dt*2);
- for(rr=step;rr<=o.r*3.2;rr+=step)for(i=0;i<8;i++){ang=i*PI/4;
-  var nx=o.x+Math.cos(ang)*rr,ny=o.y+Math.sin(ang)*rr;
-  if(freeAt(nx,ny,o.r)){o.x+=(nx-o.x)*.45;o.y+=(ny-o.y)*.45;return true}}
- return false}
+/* 卡进实体内部时，向外螺旋找最近空位并平滑挤出（只走安全的一小步） */
+function pushFreeObj(o,dt,spd){
+ if(!inWallAt(o.x,o.y)&&freeAt(o.x,o.y,o.r))return true;
+ var i,ang,rr,step=Math.max(1.5,(spd||160)*dt*1.2),best=null,bd=1e9;
+ for(i=0;i<48;i++){ang=i*TAU/48;
+  for(rr=step;rr<=o.r*3.4;rr+=step){
+   var nx=o.x+Math.cos(ang)*rr,ny=o.y+Math.sin(ang)*rr;
+   if(freeAt(nx,ny,o.r)&&rr<bd){bd=rr;best={x:nx,y:ny}}}}
+ if(!best)return false;
+ var dx=best.x-o.x,dy=best.y-o.y,d=Math.hypot(dx,dy)||1,stp=Math.min(d,1.4,step);
+ o.x+=dx/d*stp;o.y+=dy/d*stp;return true}
  function d0(a,b){return Math.hypot(b.x-a.x,b.y-a.y)}
  function allyBlockCiv(a,tg){var i,ax=a.x,ay=a.y,dx=tg.x-ax,dy=tg.y-ay,l2=dx*dx+dy*dy||1;
   for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down||!c.f)continue;
@@ -4797,9 +4841,9 @@ function updWing(dt){
  var w=G&&G.wg;if(!w||w.dead||!G.p||G.phase!=='live')return;
  var p=G.p,dx=p.x-w.x,dy=p.y-w.y,d=Math.hypot(dx,dy)||1;
  if(d>150){var st2=Math.min(210*dt,d-140),nx=w.x+dx/d*st2,ny=w.y+dy/d*st2;
-  if(freeAt(nx,ny,w.r)){w.x=nx;w.y=ny}}
+  if(pathFree(w.x,w.y,nx,ny,w.r)){w.x=nx;w.y=ny}}
  else if(d<70&&d>1){var bk=Math.min(120*dt,70-d);
-  if(freeAt(w.x-dx/d*bk,w.y-dy/d*bk,w.r)){w.x-=dx/d*bk;w.y-=dy/d*bk}}
+  if(pathFree(w.x,w.y,w.x-dx/d*bk,w.y-dy/d*bk,w.r)){w.x-=dx/d*bk;w.y-=dy/d*bk}}
  var best=null,bd=820,i;
  for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead||e.sub>0)continue;
@@ -4876,18 +4920,18 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
   else a.mv=0;
   /* 保持个人空间：不与玩家、队友重叠 */
   if(dpp<40){var ax0=a.x-p.x,ay0=a.y-p.y,al0=Math.hypot(ax0,ay0)||1,ps0=(40-dpp)*.55;
-   if(freeAt(a.x+ax0/al0*ps0,a.y+ay0/al0*ps0,a.r)){a.x+=ax0/al0*ps0;a.y+=ay0/al0*ps0}}
+   if(pathFree(a.x,a.y,a.x+ax0/al0*ps0,a.y+ay0/al0*ps0,a.r)){a.x+=ax0/al0*ps0;a.y+=ay0/al0*ps0}}
   for(var sI=0;sI<G.al.length;sI++){var oA=G.al[sI];if(oA===a||oA.down)continue;
    var ox1=a.x-oA.x,oy1=a.y-oA.y,od1=Math.hypot(ox1,oy1),mn1=a.r+oA.r+4;
-   if(od1>0&&od1<mn1){var pu1=(mn1-od1)*.35,nx1=ox1/od1*pu1,ny1=oy1/od1*pu1;
-    if(freeAt(a.x+nx1,a.y+ny1,a.r)){a.x+=nx1;a.y+=ny1}}}
+   if(od1>0&&od1<mn1){var pu1=Math.min(3,(mn1-od1)*.35),nx1=ox1/od1*pu1,ny1=oy1/od1*pu1;
+    if(pathFree(a.x,a.y,a.x+nx1,a.y+ny1,a.r)){a.x+=nx1;a.y+=ny1}}}
   if(!freeAt(a.x,a.y,a.r))pushFreeObj(a,dt,a.sp);
   if(want>0&&a.stuck){a.stuckT=(a.stuckT||0)+dt;
    if(a.stuckT>.7){ /* 侧向脱困 */
     var pa=Math.atan2(wy-a.y,wx-a.x)+((a.i%2)?1:-1)*1.35,
      sx1=a.x+Math.cos(pa)*14,sy1=a.y+Math.sin(pa)*14;
-    if(freeAt(sx1,sy1,a.r)){a.x=sx1;a.y=sy1}
-    a.stuckT=0}}
+    if(pathFree(a.x,a.y,sx1,sy1,a.r)){a.x=sx1;a.y=sy1}
+     a.stuckT=0}}
   else a.stuck=0;
   if(a.lost)want=1.35;
   if(mode===0&&tg&&d0(a,tg)>310)tg=null;
@@ -6055,6 +6099,14 @@ var PATCHES=[
     '启动按钮按状态显示「新兵报到」「开始新兵训练」或「继续新兵训练」；训练完成前，「开始行动」、关卡卡片与任务简报都会先把玩家带回靶场。',
     '暂停菜单里的「重开本关」在训练中改为重新训练；从暂停退出训练会保存进度，而不是直接把人放进任务。',
     '「跳过教程」改为两次确认（3.5 秒内再点一次），避免误触跳过整段教学；跳过或完成后仍可在「设置 → 重新训练」补做。'
+   ]},
+  {v:13,d:'2026-11-10',t:'敌人穿墙修复 · 全关卡碰撞统一',
+   items:[
+    '修复敌人贴墙走、追击或绕掩体时一点点漂进墙体、最后穿到墙另一侧的问题：脱困推力不再每帧沿无碰撞的直线推进，只有身体真的压进实体才启动，并沿最近安全点平滑挤出。',
+    '敌人每帧移动改为整段碰撞检测（每 2px 采样）：巡逻、接敌、侧移、躲雷、互相推挤都不会再跨过薄墙或家具。',
+    '修复水平 / 垂直视线判定反向的底层错误：以前敌人可能隔着横向墙体“看到”你并朝墙里追；现在视线会像子弹一样被墙、家具和阻门器挡住。',
+    '统一应用到全部任务与剧情：OP-01～OP-05、机场双层 1F/2F 与上下楼切换、猎鹰考核、新兵训练的模拟目标；队友、人质与编队僚机也走同一套碰撞。',
+    '读档时若旧存档把单位保存在墙里，会先移到最近的安全点，不再从墙内开始穿行。'
    ]}
 ];
 function pushPatchMail(){
@@ -6860,6 +6912,7 @@ function tutCheck(){if(!TUT.on||TUT.done||!G)return;
  toast('完成：'+s.t+' · 下一步 '+TUTS[TUT.i].t,1500)}
 function spawnTutFoes(){if(!G||!L)return;var c=L.cfg.st,i;
  for(i=0;i<3;i++){var e=spawnFoe('grunt',c[0]+150+i*54,c[1]-150-((i%2)*46),0.55);
+  if(!freeAt(e.x,e.y,e.r))snapFree(e);
   e.fight=1;e.st='patrol';e.alert=0;e.hx=e.x;e.hy=e.y;e.nade=0;e.acc=.5;e.dm=7;e.pf=Math.random()*TAU;
   L.en.push(e)}
  feed('模拟目标入场 · 三名持械佣兵',1);toast('模拟交战：击倒 3 名目标',3000);snd.alert()}
