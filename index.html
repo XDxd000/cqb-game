@@ -878,6 +878,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 #tutSkip{display:block;margin:9px 0 0 auto;font-size:10px;color:#71879a;background:none;border:0;
  cursor:pointer;letter-spacing:.06em;padding:2px 0}
 #tutSkip:hover{color:#c9b071}
+#tutSkip.arm{color:#e0a24a;font-weight:600}
 .tutKey{display:inline-block;min-width:18px;padding:0 5px;margin:0 2px;border:1px solid #2a3946;border-radius:3px;
  color:#c3d4de;background:#141d25;font-size:10.5px;text-align:center}
 #kmList{display:grid;gap:0 18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
@@ -1120,7 +1121,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
     <tr><td>系统</td><td><span class="tutKey">P</span> 暂停 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
-  <div class="note">作战序列将从 OP-01 公寓开始，难度由易到难逐级解锁。军衔每升一级都会解锁新的枪械档次，出发前可以先去军械库换一把顺手的枪。</div>
+  <div class="note">作战序列将从 OP-01 公寓开始，难度由易到难逐级解锁。军衔每升一级都会解锁新的枪械档次，出发前可以先去军械库换一把顺手的枪。中途退出也没关系——训练进度会保存，下次进入从停下的那一步接着练；想重打一遍可到「设置 → 重新训练」。</div>
   <div class="bar"><button class="btn p" id="bTutGo">进入作战序列</button><button class="btn" id="bTutArs">先去军械库</button></div>
 </div></section>
 
@@ -2576,7 +2577,7 @@ var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,pv:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
- name:'',tut:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
+ name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
   if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,8);
@@ -2605,6 +2606,9 @@ try{var rraw=localStorage.getItem('ta5_v2');
    return (x==='frag'||x==='stun'||x==='flash')?x:''});
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
   if(jd&&jd.tu)ST.tut=1;
+  /* 新兵训练断点：tp = 停在第几步（-1 表示还没有保存过），tc = 该步已完成的数量 */
+  if(jd&&typeof jd.tp==='number')ST.tutP=clamp(jd.tp|0,-1,40);
+  if(jd&&typeof jd.tc==='number')ST.tutC=Math.max(0,+jd.tc||0);
   if(jd&&(jd.ui==='kb'||jd.ui==='touch'||jd.ui==='auto'))ST.ui=jd.ui;
   if(jd&&jd.swp&&typeof jd.swp==='object')ST.swp=jd.swp;
   if(jd&&jd.hw&&typeof jd.hw==='object')ST.hw=jd.hw;
@@ -2682,7 +2686,7 @@ function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
- nm:ST.name,tu:ST.tut,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5}))}catch(e){}}
+ nm:ST.name,tu:ST.tut,tp:ST.tutP,tc:ST.tutC,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
 function addXp(v){
  var b=rankOf(ST.xp);
@@ -6043,7 +6047,15 @@ var PATCHES=[
    'AI 扫荡改为按该地图已通关的最高难度结算：使用该难度的基准时间线，经验也按该难度系数发放。',
    '每场任务结束（含失败与考核）自动寄出一封「任务简报」：结果与失败原因、难度、用时/基准、击毙/缴械、命中率、承受伤害、人质解救与损失、作战分、评级、军衔分、主武器与目标清单。',
    '剧情模式移除「跳过剧情」按钮；润色五章剧情，补上王子门、杜布罗夫卡与机场行动之间的衔接。'
-  ]}
+  ]},
+  {v:12,d:'2026-11-10',t:'新兵训练 · 断点续训',
+   items:[
+    '修复「新手训练过到一半关掉网页，再打开就直接进任务、没学过操作」：训练未完成时，启动页不再进入作战序列，而是从停下的那一步接着练。',
+    '训练进度实时存档：每完成一步、每 1.2 秒、切到后台与关闭网页时都会记录当前步骤和该步进度，浏览器意外关闭也不会把训练清零。',
+    '启动按钮按状态显示「新兵报到」「开始新兵训练」或「继续新兵训练」；训练完成前，「开始行动」、关卡卡片与任务简报都会先把玩家带回靶场。',
+    '暂停菜单里的「重开本关」在训练中改为重新训练；从暂停退出训练会保存进度，而不是直接把人放进任务。',
+    '「跳过教程」改为两次确认（3.5 秒内再点一次），避免误触跳过整段教学；跳过或完成后仍可在「设置 → 重新训练」补做。'
+   ]}
 ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -6811,6 +6823,16 @@ function tutValue(s){
  if(s.k==='kills')return TUT.kTotal;
  if(s.k==='sim')return TUT.simKills;
  return TUT[s.k]||0}
+/* 把当前步骤与当前步进度写进存档：关网页、杀进程、切后台都不会把训练清零 */
+function tutSave(){
+ if(!TUT.on||TUT.done)return;
+ var s=TUTS[TUT.i];if(!s)return;
+ ST.tutP=TUT.i;ST.tutC=Math.max(0,tutValue(s));save()}
+function tutSetVal(k,v){
+ v=Math.max(0,+v||0);
+ if(k==='kills')TUT.kTotal=v;
+ else if(k==='sim')TUT.simKills=v;
+ else if(typeof TUT[k]==='number')TUT[k]=v}
 function tutProg(force){var s=TUTS[TUT.i];if(!s)return;
  var cur=tutValue(s),n2=s.n||1,pct=clamp(cur/n2,0,1);
  if(!force&&TUT._p===pct)return;TUT._p=pct;
@@ -6831,6 +6853,7 @@ function tutCheck(){if(!TUT.on||TUT.done||!G)return;
  if(cur<s.n){tutProg(0);return}
  TUT.i++;snd.sec();
  if(TUT.i>=TUTS.length){tutFinish();return}
+ ST.tutP=TUT.i;ST.tutC=0;save();
  tutRender();
  /* 进入「模拟清房」时投放三名陪练目标 */
  if(TUTS[TUT.i]&&TUTS[TUT.i].t==='模拟清房'&&!TUT.simSpawn){TUT.simSpawn=1;spawnTutFoes()}
@@ -6846,8 +6869,14 @@ function tutTick(dt){if(!G||!G.p||!TUT.on)return;
  if(p.run&&d>.1)TUT.run+=d;
  if(p.aim)TUT.aim+=dt;
  TUT.px=p.x;TUT.py=p.y;TUT.t+=dt;
+ TUT._sv=(TUT._sv||0)+dt;
+ if(TUT._sv>=1.2){TUT._sv=0;tutSave()}
  tutCheck()}
-function startTut(){resetCombatFx();show(null);setScr('play');aInit();
+function startTut(resume){
+ /* resume=true：从上次保存的步骤继续；false：从头开始（设置里的「重新训练」等） */
+ var rs=-1,keep=0;
+ if(resume&&(ST.tutP|0)>=0)rs=clamp(ST.tutP|0,0,TUTS.length-1);
+ resetCombatFx();show(null);setScr('play');aInit();
  build(6,TUTLV);
  POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
  $('feed').innerHTML='';$('comms').classList.remove('on');$('go').classList.remove('on');
@@ -6859,14 +6888,21 @@ function startTut(){resetCombatFx();show(null);setScr('play');aInit();
  initAllies();
  TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.kills=0;TUT.k0=0;TUT.kTotal=0;TUT.simKills=0;TUT.simSpawn=0;TUT._p=-1;
  TUT.fire=0;TUT.reload=0;TUT.swap=0;TUT.gren=0;TUT.act=0;TUT.light=0;TUT.wheel=0;TUT.med=0;
- TUT.cov=0;TUT.pause=0;TUT.t=0;TUT.px=G.p.x;TUT.py=G.p.y;
+ TUT.cov=0;TUT.pause=0;TUT.t=0;TUT.px=G.p.x;TUT.py=G.p.y;TUT._sv=0;
+ if(rs>=0){
+  keep=Math.min(Math.max(0,+ST.tutC||0),TUTS[rs].n||1);
+  TUT.i=rs;tutSetVal(TUTS[rs].k,keep);
+  if(TUTS[rs].k==='sim'&&keep<(TUTS[rs].n||1)){TUT.simSpawn=1;spawnTutFoes()}
+ }
+ ST.tutP=rs>=0?rs:0;ST.tutC=keep;save();
  $('tut').classList.remove('hidden');tutRender();
+ var sk0=$('tutSkip');if(sk0){sk0.textContent='跳过教程 ›';sk0.classList.remove('arm')}
  updGun();updHud();resize();snd.go();
- toast('新兵训练开始 · 跟着左侧面板一步步来',2600)}
+ toast(rs>=0?('继续新兵训练 · 第 '+(rs+1)+' / '+TUTS.length+' 步：'+TUTS[rs].t):'新兵训练开始 · 跟着左侧面板一步步来',rs>=0?3400:2600)}
 function tutFinish(){if(TUT.done)return;
  TUT.done=true;TUT.on=false;stopLoop();
  $('tut').classList.add('hidden');
- ST.tut=1;save();
+ ST.tut=1;ST.tutP=-1;ST.tutC=0;save();
  $('tutWho').textContent='代号：'+(ST.name||'新兵');
  show('sTutDone');setScr('tutdone');snd.cheer()}
 function askName(){show('sName');setScr('name');
@@ -6992,7 +7028,8 @@ function renderRangeLoad(){
    b.onclick=(function(jj,id){return function(e){e.preventDefault();snd.ui();setRgSlot(jj,id)}})(j,o.id);
    r.appendChild(b)}
   l.appendChild(r)})}
-function brief(){var c=LS6[ST.lv-1];
+function brief(){if(ST.tut!==1){startTut((ST.tutP|0)>=0);return}
+ var c=LS6[ST.lv-1];
  leaveRange();
  var go=$('bGo');if(go)go.textContent='进入战场';
  $('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
@@ -7057,6 +7094,7 @@ function startCont(){var sv=loadLv(ST.lv);resetCombatFx();show(null);setScr('pla
  updGun();updHud();LOWD=0;resize();snd.go()}
 function pause(on){if(on){if(ST.scr!=='play')return;
   tutEv('pause');
+  tutSave();
   if(TUT.done)return;
   closeThrowPick();show('sPause');setScr('pause');$('bAud2').textContent=ST.aud?'音效 开':'音效 关'}
  else{show(null);setScr('play')}}
@@ -7355,8 +7393,11 @@ function openArs(){show('sArs');setScr('ars');CCLS=WM[ST.sel].cls;renderGear();
 function bind(id,fn){var el=$(id);if(!el)return;
  el.addEventListener('click',function(e){e.preventDefault();aInit();snd.ui();fn()})}
 bind('bEnter',function(){if(!ST.name){askName();return}
+ /* 没练完新兵训练就绝不放进任务：关网页再打开会从这里接着练 */
+ if(ST.tut!==1){startTut((ST.tutP|0)>=0);return}
  playIntro(goMenu)});
 bind('bStart',function(){if(!ST.name){askName();return}
+ if(ST.tut!==1){startTut((ST.tutP|0)>=0);return}
  var pick=-1,i;
  for(i=0;i<5;i++){if(lvPlayable(i)&&!ST.best[''+(i+1)]){pick=i;break}}
  if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
@@ -7369,9 +7410,13 @@ bind('bTutGo',function(){show('sMenu');setScr('menu');renderLv();toast2('欢迎�
 bind('bTutArs',function(){openArs()});
 (function(){var ni=$('nameIn');if(!ni)return;
  ni.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitName(ni.value)}})})();
-(function(){var sk=$('tutSkip');if(!sk)return;
+(function(){var sk=$('tutSkip');if(!sk)return;var armed=0,tid=0;
+ function dis(){armed=0;sk.textContent='跳过教程 ›';sk.classList.remove('arm')}
  sk.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();
-  toast('已跳过新兵训练',1800);tutFinish()})})();
+  if(!armed){armed=1;sk.textContent='确认跳过？再点一次 ›';sk.classList.add('arm');
+   clearTimeout(tid);tid=setTimeout(dis,3500);return}
+  clearTimeout(tid);dis();
+  toast('已跳过新兵训练 · 需要复习时可在「设置 → 重新训练」补做',3400);tutFinish()})})();
 bind('bArs',openArs);
 bind('bHero',openHero);
 bind('bOpNorm',function(){setOp('norm');toast('出战队员：你自己 · 配装在军械库',1800);openArs()});
@@ -7489,7 +7534,8 @@ bind('bAskCarry',function(){
 bind('bAskLeave',function(){show(null);setScr('play');G.abandon=1;G.asked=0;G.wt=0;
  feed('指挥官：放弃人质，立即撤离。此事已记入 ROE 报告。',0);toast('已放弃人质 · 结算 −260',2600)});
 bind('bHint2',function(){ST.hint=ST.hint?0:1;save();syncHint();updKbar()});
-D.addEventListener('pagehide',function(){saveLv()});
+D.addEventListener('pagehide',function(){saveLv();tutSave()});
+D.addEventListener('visibilitychange',function(){if(D.hidden)tutSave()});
 bind('bKeys',openKm);
 bind('bKeys2',openKm);
 bind('bUiAuto',function(){ST.ui='auto';save();applyUI()});
@@ -7500,8 +7546,13 @@ bind('bKmDef',function(){kmApply(KM_DEF);toast2('已恢复默认键位')});
 bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空，鼠标左键射击与右键据枪仍可用')});
 bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手机械键方案（枪灯 L、手雷 B）')});
 bind('bResume',function(){pause(0);updHint()});
-bind('bRestart',function(){clearLv(ST.lv);startLv()});
-bind('bQuit',function(){saveLv();leaveRange();show('sMenu');setScr('menu');renderLv()});
+bind('bRestart',function(){
+ if(G&&G.tut&&TUT.on){TUT.on=false;startTut(false);toast('新兵训练已从第一步重新开始',2200);return}
+ clearLv(ST.lv);startLv()});
+bind('bQuit',function(){
+ if(G&&G.tut&&TUT.on){tutSave();TUT.on=false;leaveRange();show('sMenu');setScr('menu');renderLv();
+  toast('新兵训练进度已保存 · 点「开始行动」接着练',3400);return}
+ saveLv();leaveRange();show('sMenu');setScr('menu');renderLv()});
 bind('bAgain',function(){clearLv(ST.lv);startLv()});
 bind('bNext',function(){if(ST.lv<5&&lvPlayable(ST.lv)){ST.lv++;brief()}else{show('sMenu');setScr('menu');renderLv()}});
 bind('bHome',function(){show('sMenu');setScr('menu');renderLv()});
@@ -7534,6 +7585,9 @@ function toast2(s){toast(s,1800)}
   D.addEventListener('touchstart',un,true);D.addEventListener('pointerdown',un,true);
   D.addEventListener('click',un,true)})();
 resize();setScr('boot');renderLv();showDtl();updHint();
+/* 未完成新兵训练时，启动页按钮直接写明「继续训练」，不再让人以为教程已经结束 */
+(function(){var b=$('bEnter');if(!b||ST.tut===1)return;
+ b.textContent=ST.name?((ST.tutP|0)>=0?'继续新兵训练':'开始新兵训练'):'新兵报到 · 进入行动'})();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
