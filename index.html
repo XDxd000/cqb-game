@@ -4085,7 +4085,7 @@ function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
   feed('观察关门 · 发现门后装置',1);snd.alert()}
  var n=0,ox=door.x+door.w/2,oy=door.y+door.h/2;
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
-  if(Math.hypot(e.x-ox,e.y-oy)<270&&los(ox,oy,e.x,e.y)){e.scout=3.4;n++}}
+  if(Math.hypot(e.x-ox,e.y-oy)<270&&(L.cfg.cqb||los(ox,oy,e.x,e.y))){e.scout=3.4;n++}}
  feed('FlushStick 观察：门内 '+n+' 个武装目标',1);snd.ui();
  if(L.cfg&&L.cfg.cqb)cqbEv('scope');
  updGun()}
