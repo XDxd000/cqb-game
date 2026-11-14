@@ -1119,7 +1119,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <tr><td>据枪 / 开火</td><td><span class="tutKey">Space</span> 据枪 · <span class="tutKey">左键</span> 开火 · <span class="tutKey">V</span> 射击模式</td></tr>
     <tr><td>换弹 / 切枪</td><td><span class="tutKey">R</span> 换弹 · <span class="tutKey">1</span><span class="tutKey">2</span> 主副 · <span class="tutKey">Q</span> 快切</td></tr>
     <tr><td>投掷 / 互动</td><td><span class="tutKey">B</span> 投掷 · <span class="tutKey">F</span> 互动</td></tr>
-    <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">X</span> 观察门 · <span class="tutKey">H</span> 医疗</td></tr>
+    <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">C</span> 潜望镜 · <span class="tutKey">H</span> 医疗</td></tr>
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
     <tr><td>系统</td><td><span class="tutKey">P</span> 暂停 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
@@ -1543,6 +1543,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p>按住 <span class="kbd">Space</span> 据枪（鼠标右键不再据枪）：散布收紧、移速下降，远距离与切角时必须用。触屏用右侧「据枪」圆钮。军械库的枪械详情新增「游戏内射击模式」一栏，可先看清这把枪能切哪些模式。</p>
  <h3>CQB 战术原则</h3>
  <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>门外观察 → 贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
+ <p><b>潜望镜 / 门外观察</b>：靠近关闭的门按 <span class="kbd">C</span>（旧键 <span class="kbd">X</span> 仍兼容）使用 FlushStick，门后 270 px 内的敌人会被标记 3 秒；没有携带潜望镜时会提示“次数已用完 / 未携带”。军械库「战术装备」里可配光纤潜望镜，CQB 训练楼固定提供 5 次。</p>
  <h3>敌人活跃度</h3>
  <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做门外观察、切角与逐屋清理，而不是一进门就被全图集火。</p>
  <h3>门洞机关与拆除</h3>
@@ -2371,7 +2372,7 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
  acc:.42,rea:1.9,edm:3.2,ehp:1,
  threat:'8 名低活跃模拟目标 · 5 道关闭门洞 · 单人原则训练',
  terr:'六个房间、两道横向走廊与一道中央隔墙；门洞错位，必须先观察再切角',
- hint:'X 观察门后 · Space 据枪切角 · F 破门 · B 投掷震爆/闪光 · V 选单发',
+ hint:'C 潜望镜观察门后 · Space 据枪切角 · F 破门 · B 投掷震爆/闪光 · V 选单发',
  intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外观察，贴墙切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
  obj:['在门外用潜望镜观察，确认门后威胁','据枪切角 2 秒，不站进门洞正中','破门后投掷震爆/闪光','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
  roe:'现实 CQB 至少两人一组；本关只演示单人可执行的原则，不鼓励单人强行清房'};
@@ -3695,14 +3696,15 @@ function pushFree(o,dt,speed){
 
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',scout:'x',fireAlt:'',ads:'space',adsAlt:'',
+ gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',scout:'x',peri:'c',fireAlt:'',ads:'space',adsAlt:'',
  mode:'v',med:'h',cover:'g',mute:'m'};
 var KM_ACT=[
  ['up','前进'],['down','后退'],['left','向左'],['right','向右'],
  ['sprint','疾跑'],['reload','换弹'],
  ['gun1','持主武器'],['gun2','持副武器'],['gun3','第三把武器（英雄）'],['swap','快速切枪'],
  ['gren','投掷手雷'],['act','互动（解救／缴械／补给）'],['light','战术枪灯开关'],
- ['scout','观察关门（潜望镜）'],
+ ['peri','潜望镜 / 门外观察'],
+ ['scout','旧版观察键（兼容 X）'],
  ['ads','据枪（按住）'],['mode','切换射击模式'],
  ['med','快捷命令：呼叫医疗'],['cover','快捷命令：掩护射击'],
  ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认 Space）'],
@@ -3751,7 +3753,7 @@ function updHint(){var h=$('keysHint');if(!h)return;
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
  '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('swap')+' 快速切枪</div>',
  '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>',
- '<div>'+K('med')+' 呼叫医疗 · '+K('cover')+' 掩护射击 · <span class="kbd">Esc</span>／<span class="kbd">P</span> 暂停</div>',
+ '<div>'+K('peri')+' 潜望镜 / 门外观察 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · <span class="kbd">Esc</span>／<span class="kbd">P</span> 暂停</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
  '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火，圆钮「据枪」＝收窄散布</div>'];
  h.innerHTML=rows.filter(function(x){return x}).join('')}
@@ -3785,6 +3787,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('swap'))swGun(G.p.wi===0?1:0);
    else if(kb('act'))interact();
    else if(kb('light'))togLight();
+   else if(kb('peri'))com('scout');
    else if(kb('scout'))com('scout');
    else if(kb('med'))com('med');
    else if(kb('cover'))com('cov');
@@ -5839,12 +5842,12 @@ function updKbar(){var el=$('kbar');if(!el)return;
  if(touchUI||!ST.hint||ST.scr!=='play'){el.classList.add('hidden');return}
  el.classList.remove('hidden');
  var K=function(a){return '<b>'+kLabel(KM[a])+'</b>'};
- var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel,KM.ads,KM.mode].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
+ var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel,KM.ads,KM.mode,KM.peri,KM.scout].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
  if(el._sig!==sig){el._sig=sig;
   el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · '+K('ads')+' 据枪</div>'+
    '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+K('mode')+' 射击模式 · '+((G&&G.p&&G.p.guns&&G.p.guns.length>2)?(K('gun1')+'/'+K('gun2')+'/'+K('gun3')):(K('gun1')+'/'+K('gun2')))+' 主副 · '+K('swap')+' 切枪</div>'+
    '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>'+
-   '<div>'+K('med')+' 医疗 · '+K('cover')+' 掩护 · P 暂停</div>'}}
+   '<div>'+K('peri')+' 潜望镜 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · P 暂停</div>'}}
 function updHud(){var p=G.p,g=cur(),i;
  if(p.hp!==HD.hp){HD.hp=p.hp;$('hpF').style.width=clamp(p.hp/p.mhp*100,0,100)+'%';
   $('hpN').textContent=Math.round(p.hp)}
@@ -5902,9 +5905,10 @@ function updHud(){var p=G.p,g=cur(),i;
       (hasCutter()?((touchUI?'点「互动」':'按 '+kLabel(KM.act))+' 剪线拆除绊雷'):
        '门洞绊雷 · 腰封放剪线器后按 '+kLabel(KM.act)+' 拆除 · 或用手雷炸毁')}
    else{var dpr=doorNear(p.x,p.y,54,1);
-  if(dpr)pr=(touchUI?'点「互动」':'按 '+kLabel(KM.act))+
+  if(dpr){var pObs=(G.stickN>0&&(KM.peri||KM.scout))?('按 '+kLabel(KM.peri||KM.scout)+' 潜望镜观察 · '):'';
+   pr=pObs+(touchUI?'点「互动」':'按 '+kLabel(KM.act))+
    (dpr.type==='metal'?' 破门（加固门 · 建议破门弹）':(dpr.type==='glass'?' 砸门':' 踹门'))+
-   (G.stickyN>0?'（自动使用破门弹）':' · 连按两三次')}}
+   (G.stickyN>0?'（自动使用破门弹）':' · 连按两三次')}}}
  if(G.p.gren){pr=p.cooking?('温雷中 '+p.cook.toFixed(1)+' / '+GREN_FUSE.toFixed(1)+' 秒 · 松手投出'):
    ('持雷 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
  if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…  '+Math.round(Math.min(1,G.wt/1)*100)+'%';
@@ -6226,7 +6230,7 @@ function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=
  else if(ST.kmFrom==='set'){openSet()}
  else{show('sMenu');setScr('menu');renderLv()}}
 var KM_B={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',med:'v',cover:'c',
+ gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',peri:'c',med:'v',cover:'t',
  fireAlt:'',ads:'space',adsAlt:'',mode:'n',mute:'m'};
 function kmApply(src){for(var a in KM_DEF)KM[a]=src[a]!==undefined?src[a]:'';save();renderKm();updHint()}
 function setScr(s){ST.scr=s;
@@ -6426,6 +6430,13 @@ var PATCHES=[
     'CQB 关卡明确标注：现实 CQB 至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代团队合练。',
     '所有地图统一降低敌人活跃度：开局只唤醒极少量近处守卫，敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率全部下调；枪声传播范围也收窄。',
     '作战手册、新兵教程、键位提示、军械库枪械详情与更新公告同步写清新的据枪键、射击模式与 CQB 原则。'
+   ]},
+  {v:17,d:'2026-11-14',t:'潜望镜独立键 · C 观察门后',
+   items:[
+    '新增潜望镜独立按键：靠近关闭的门按 C 使用 FlushStick，门后 270 px 内敌人标记 3 秒；旧键 X 仍保留兼容。',
+    '键位设置新增「潜望镜 / 门外观察」，可与旧版观察键分别改绑；CQB 训练楼固定提供 5 次潜望镜，普通任务按军械库「光纤潜望镜」配置。',
+    '靠近关闭的门时，屏幕提示会显示「C 潜望镜观察 · F 踹门」，不必再猜按键。',
+    '作战手册、教程完成页、CQB 科目说明与 HUD 按键条同步更新潜望镜按键。'
    ]}
  ];
 function pushPatchMail(){
@@ -7199,7 +7210,7 @@ var TUTS=[
  {k:'reload',t:'换弹',d:'弹匣打空会自动换弹；也可以随时按 <b>R</b> 手动换弹。',g:'完成 1 次换弹',n:1},
  {k:'swap',t:'切枪',d:'按 <b>1 / 2</b> 切换主副武器，<b>Q</b> 快速切回上一把。',g:'切换 1 次武器',n:1},
  {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
- {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。',g:'完成 1 次互动',n:1},
+ {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。<b>C</b> 是潜望镜，靠近关闭的门可先观察门后再决定是否进入。',g:'完成 1 次互动',n:1},
  {k:'light',t:'战术枪灯',d:'按 <b>L</b>（触屏点「枪灯」）开关枪口战术灯。暗场景里它照亮走廊，亮场景可以关掉。',g:'开关 1 次枪灯',n:1},
  {k:'sim',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
@@ -7213,7 +7224,7 @@ var TUT={on:false,i:0,moved:0,run:0,aim:0,mode:0,kills:0,k0:0,kTotal:0,simKills:
    现实中单人清房风险极高，本关明确标注为「单人条件下的原则演示」。 */
 var CQBL=[
  {k:'scope',t:'1 · 门外观察',n:1,
-  d:'先别推门。靠近关闭的门，按 <b>X</b> 用潜望镜观察门后。现实里第一步永远是情报：门后有没有人、有没有人质、门向哪边开。<br><span style="color:#8fae7c">依据：door procedure · 先观察后进入</span>',
+  d:'先别推门。靠近关闭的门，按 <b>C</b>（旧键 <b>X</b> 仍兼容）用潜望镜观察门后。现实里第一步永远是情报：门后有没有人、有没有人质、门向哪边开。<br><span style="color:#8fae7c">依据：door procedure · 先观察后进入</span>',
   g:'用潜望镜观察 1 道关闭的门'},
  {k:'slice',t:'2 · 贴墙切角',n:2.0,
   d:'在关着的门旁按住 <b>Space</b> 据枪，枪口对准门内，保持 2 秒。现实里不要站进门洞正中（fatal funnel），要贴墙、沿门框逐步横向切角，一次只暴露一个射界。<br><span style="color:#8fae7c">依据：slicing the pie · limited penetration</span>',
@@ -8070,8 +8081,8 @@ bind('bUiKb',function(){ST.ui='kb';save();applyUI()});
 bind('bUiTouch',function(){ST.ui='touch';save();applyUI()});
 bind('bKmClose',closeKm);
 bind('bKmDef',function(){kmApply(KM_DEF);toast2('已恢复默认键位')});
-bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空；鼠标左键射击仍可用，据枪与射击模式需重新绑定')});
-bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手键位方案（Space 据枪、N 射击模式、V 医疗）')});
+bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空；鼠标左键射击仍可用，据枪、射击模式与潜望镜需重新绑定')});
+bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手键位方案（Space 据枪、N 射击模式、C 潜望镜、V 医疗）')});
 bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){
  if(G&&G.tut&&TUT.on){TUT.on=false;startTut(false);toast('新兵训练已从第一步重新开始',2200);return}
