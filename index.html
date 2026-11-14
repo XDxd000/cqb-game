@@ -126,6 +126,7 @@ body.noc #hud,body.noc #hud *{cursor:none}
 #amW{font-size:11.5px;letter-spacing:.1em;color:#c6d6e0}
 #amN{font-size:clamp(20px,4.6vw,30px);font-weight:700;line-height:1.05}
 #amN u{text-decoration:none;font-size:13px;color:#7c919f;font-weight:400}
+#amM{font-size:10.5px;letter-spacing:.06em;color:#9fc6de;height:14px}
 #amT{font-size:11px;color:var(--amber);height:14px}
 #roes{position:absolute;left:50%;top:9%;transform:translateX(-50%);text-align:center;font-size:13px;
  letter-spacing:.1em;color:#f0e2c4;text-shadow:0 2px 10px #000;opacity:0;transition:opacity .3s;max-width:80vw}
@@ -860,6 +861,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
 #nameIn:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(226,169,62,.12)}
 .nameHint{font-size:11.5px;color:#6f8494;margin-top:9px;line-height:1.7}
 #tut{position:absolute;left:clamp(8px,2.2vw,14px);top:78px;width:min(336px,62vw);z-index:21;
+ max-height:min(72vh,560px);overflow-y:auto;overscroll-behavior:contain;
  border:1px solid #1e2b34;border-left:2px solid var(--amber);border-radius:4px;padding:10px 12px 10px;
  background:rgba(8,12,16,.84);box-shadow:0 10px 30px rgba(0,0,0,.5);pointer-events:auto}
 #tut.hidden{display:none}
@@ -987,13 +989,13 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div id="rankHud"><b id="rhN">列兵</b><span class="rhBar"><i id="rhF"></i></span><span class="rhX" id="rhX">0/200</span></div>
       <div id="alv" style="font-size:10px;letter-spacing:.04em;margin-top:2px"></div>
     </div>
-    <div id="am"><div id="amW">—</div><div id="amN">0<u> / 0</u></div><div id="amT"></div></div>
+    <div id="am"><div id="amW">—</div><div id="amN">0<u> / 0</u></div><div id="amM">—</div><div id="amT"></div></div>
   </div>
   <div id="roes"></div><div id="prompt"></div><div id="hurt"></div>
   <div id="voice"></div>
   <div id="ksBox"><div id="ksTot">作战分 0</div><div id="ksList"></div></div>
   <div id="tut" class="hidden">
-    <div class="tutHd"><b>新兵训练</b><span id="tutStep">1 / 13</span><span id="tutTime">0:00</span></div>
+    <div class="tutHd"><b id="tutHdLbl">新兵训练</b><span id="tutStep">1 / 14</span><span id="tutTime">0:00</span></div>
     <div class="tutTt" id="tutTt">移动</div>
     <div class="tutD" id="tutD">—</div>
     <div class="tutGo" id="tutGo">目标：—</div>
@@ -1075,14 +1077,14 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bootTtl">战术突袭</div>
   <div class="bootSub">TACTICAL CQB OPERATION</div>
   <div class="bootChips">
-    <span class="chip"><b>7</b> 张地图</span>
+    <span class="chip"><b>8</b> 张地图</span>
     <span class="chip"><b id="chipW">33</b> 把枪械</span>
     <span class="chip"><b id="chipR">14</b> 级军衔</span>
     <span class="chip">页游</span>
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">五个场景由易到难逐级解锁：公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院。后面还有机场双层行动与猎鹰招募考核。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
+  <p class="bootLead">五个场景由易到难逐级解锁：公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院。后面还有机场双层行动与猎鹰招募考核；完成新兵训练后还可进入 CQB 战术学习训练楼。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
@@ -1104,7 +1106,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn p" id="bNameOk">确认代号 · 进入新兵训练</button>
     <button class="btn sm" id="bNameDef">用默认代号「新兵」</button>
   </div>
-  <div class="note">接下来是约 2 分钟的新兵训练：靶场里只有你一个人，系统会一步步带你把移动、据枪、射击、换弹、切枪、投掷、互动、枪灯、医疗、掩护、暂停全部过一遍。训练不消耗经验，也不会失败。</div>
+  <div class="note">接下来是约 2 分钟的新兵训练：靶场里只有你一个人，系统会一步步带你把移动、据枪、射击模式、射击、换弹、切枪、投掷、互动、枪灯、医疗、掩护、暂停全部过一遍。训练不消耗经验，也不会失败。</div>
 </div></section>
 
 <!-- SECTION: markup-tutdone -->
@@ -1114,15 +1116,15 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div style="font-size:13px;color:#93a8b6;letter-spacing:.16em" id="tutWho">代号：新兵</div>
   <table class="rt"><tbody>
     <tr><td>移动</td><td><span class="tutKey">W</span><span class="tutKey">A</span><span class="tutKey">S</span><span class="tutKey">D</span> · <span class="tutKey">Shift</span> 疾跑</td></tr>
-    <tr><td>据枪 / 开火</td><td><span class="tutKey">右键</span> 据枪 · <span class="tutKey">左键</span> 开火</td></tr>
+    <tr><td>据枪 / 开火</td><td><span class="tutKey">Space</span> 据枪 · <span class="tutKey">左键</span> 开火 · <span class="tutKey">V</span> 射击模式</td></tr>
     <tr><td>换弹 / 切枪</td><td><span class="tutKey">R</span> 换弹 · <span class="tutKey">1</span><span class="tutKey">2</span> 主副 · <span class="tutKey">Q</span> 快切</td></tr>
     <tr><td>投掷 / 互动</td><td><span class="tutKey">B</span> 投掷 · <span class="tutKey">F</span> 互动</td></tr>
     <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">X</span> 观察门 · <span class="tutKey">H</span> 医疗</td></tr>
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
     <tr><td>系统</td><td><span class="tutKey">P</span> 暂停 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
-  <div class="note">作战序列将从 OP-01 公寓开始，难度由易到难逐级解锁。军衔每升一级都会解锁新的枪械档次，出发前可以先去军械库换一把顺手的枪。中途退出也没关系——训练进度会保存，下次进入从停下的那一步接着练；想重打一遍可到「设置 → 重新训练」。</div>
-  <div class="bar"><button class="btn p" id="bTutGo">进入作战序列</button><button class="btn" id="bTutArs">先去军械库</button></div>
+  <div class="note">作战序列将从 OP-01 公寓开始，难度由易到难逐级解锁；新兵训练完成后还会开放「CQB 战术学习 · 训练楼」，用低活跃度目标练习观察、切角、破门与清房。军衔每升一级都会解锁新的枪械档次，出发前可以先去军械库换一把顺手的枪。中途退出也没关系——训练进度会保存，下次进入从停下的那一步接着练；想重打一遍可到「设置 → 重新训练」。</div>
+  <div class="bar"><button class="btn p" id="bTutGo">进入作战序列</button><button class="btn" id="bTutCqb">CQB 战术学习</button><button class="btn" id="bTutArs">先去军械库</button></div>
 </div></section>
 
 <!-- SECTION: markup-menu -->
@@ -1132,7 +1134,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。五个场景按难度由易到难依次解锁——公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院；之后是机场双层行动与猎鹰招募。
+      <p class="bgLead">俯视角战术射击演练。五个场景按难度由易到难依次解锁——公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院；之后是机场双层行动与猎鹰招募。完成新兵训练后开放 CQB 战术学习训练楼，用低活跃度目标练观察、切角与清房。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
 界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
@@ -1228,6 +1230,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <tr><td>枪口初速</td><td id="p6">—</td></tr>
         <tr><td>有效射程</td><td id="p7">—</td></tr>
         <tr><td>重量／全枪长</td><td id="p8">—</td></tr>
+        <tr><td>游戏内射击模式</td><td id="p9">—</td></tr>
       </tbody></table>
       <div class="magBox"><h3>弹匣配置 <span class="h3sub" id="magStd">—</span></h3>
         <div class="magList" id="magList"></div>
@@ -1277,7 +1280,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h1>设置</h1>
   <p class="lead">画面、操作、音效与新兵训练统一收在这里。改动即时生效并保存到本机，<strong>不会影响军衔分与已解锁内容</strong>。</p>
   <div class="setList">
-    <div class="setRow"><div><b>键位设置</b><i>自定义移动、据枪、换弹、投掷、枪灯等按键</i></div>
+    <div class="setRow"><div><b>键位设置</b><i>自定义移动、据枪（默认 Space）、射击模式（默认 V）、换弹、投掷、枪灯等按键</i></div>
       <button class="btn sm" id="bSetKeys">修改键位</button></div>
     <div class="setRow"><div><b>键位提示</b><i>屏幕底部常驻一行按键提示</i></div>
       <button class="btn sm on" id="bSetHint">开</button></div>
@@ -1456,14 +1459,14 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <button class="btn sm" id="bUiTouch">触屏</button>
   </div>
   <div class="note" id="uiDet" style="margin-top:4px"></div>
-  <div class="note">电脑键鼠：WASD 移动、鼠标瞄准、左键开火、右键据枪，屏幕右侧显示按键提示。触屏：左侧虚拟摇杆移动、右侧摇杆转向、屏幕按钮开火与换弹，不显示键盘提示。</div>
+  <div class="note">电脑键鼠：WASD 移动、鼠标瞄准、左键开火、<b>Space 据枪</b>、<b>V 切换射击模式</b>；鼠标右键不再据枪。屏幕底部显示按键提示。触屏：左侧虚拟摇杆移动、右侧摇杆转向，屏幕圆钮「据枪」收窄散布。</div>
   <div class="hr"></div>
   <p class="lead">点击右侧按键框，再按下想用的键即完成绑定；按 <b style="color:#dce7ee">Esc</b> 取消本次绑定，点 <b style="color:#dce7ee">×</b> 清空该项。同一按键被占用时会自动从旧动作解绑。<b style="color:#dce7ee">Esc／P</b> 为系统保留键，不会被占用。切到「触屏」后这里会变成虚拟按键的摆放设置。</p>
   <div class="bar">
     <button class="btn p" id="bKmClose">完成</button>
     <button class="btn sm" id="bKmDef">恢复默认</button>
     <button class="btn sm" id="bKmCls">全部清空</button>
-    <button class="btn sm" id="bKmMouse">鼠标辅助方案</button>
+    <button class="btn sm" id="bKmMouse">左手键位方案</button>
   </div>
   <div class="hr"></div>
   <div id="kmWrap"><div id="kmList"></div></div>
@@ -1535,17 +1538,24 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>你是一名虚构反恐小队的突击手。每关任务：清除区域内全部武装守敌，随后前往撤离点停留 1 秒完成撤离。
 掩体（墙体、柜台、集装箱、沙袋）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
 场景中会有被扣押的平民：靠近后互动可将其解救，他们会跟随你——<b style="color:#e08a7b">走火误伤平民按 ROE 违规重扣分并下调评级</b>，这正是现实交战规则。</p>
-  <h3>门洞机关与拆除</h3>
+  <h3>射击模式与据枪</h3>
+ <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随枪口热量扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
+ <p>按住 <span class="kbd">Space</span> 据枪（鼠标右键不再据枪）：散布收紧、移速下降，远距离与切角时必须用。触屏用右侧「据枪」圆钮。军械库的枪械详情新增「游戏内射击模式」一栏，可先看清这把枪能切哪些模式。</p>
+ <h3>CQB 战术原则</h3>
+ <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>门外观察 → 贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
+ <h3>敌人活跃度</h3>
+ <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做门外观察、切角与逐屋清理，而不是一进门就被全图集火。</p>
+ <h3>门洞机关与拆除</h3>
   <p>门洞可能被 <b style="color:#e08a7b">绊发诡雷</b> 或 <b style="color:#e2a93e">阻门器</b> 封锁。绊雷可由战术腰封里的 <b style="color:#9fc6de">剪线器</b>拆除：靠近门洞按 <span class="kbd">F</span> 开始剪线，保持约 1.4 秒；也可以直接用手雷把绊雷炸毁。阻门器需要破门弹。剪线器占腰封 1 格、可重复使用。</p>
   <h3>潜入与警报</h3>
-  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：只有起点附近的少量守卫清醒，其余守敌会在你推进时分批激活，HUD 暂时显示「残敌 ?」。潜入阶段守卫只有正面视野锥，开局 4.5 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、踹门或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
+  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。潜入阶段守卫只有正面视野锥，开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、踹门或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
   <h3>战术枪灯与配件</h3>
   <p>按 <span class="kbd">L</span>（或触屏“枪灯”键）开关枪口战术灯。军械库选 <b style="color:#dce7ee">标准 500 lm</b> 时光锥较短，
   选 <b style="color:#dce7ee">TLR-1 HL 1000 lm</b> 时光锥更长、亮度更高，贴脸照射可让敌人短暂致眩。
   <b style="color:#dce7ee">消焰器</b>会把枪口焰压掉（开火不再有火光暴露位置，但弹道仍然可见）；<b style="color:#dce7ee">MX3 制退器</b>后坐更小、枪口两侧会有明显的侧向焰流。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>难度曲线</h3>
-  <p>01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 郊野储运站（室外场区 + 4 名狙击手）→ 04 王子门（使馆人质 + 处决倒计时）→ 05 杜布罗夫卡（剧院人质 + 毒气倒计时）→ 06 机场（双层）→ 07 猎鹰考核。</p>
+  <p>CQB 战术学习（完成新兵训练后开放，不计分）→ 01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 郊野储运站（室外场区 + 4 名狙击手）→ 04 王子门（使馆人质 + 处决倒计时）→ 05 杜布罗夫卡（剧院人质 + 毒气倒计时）→ 06 机场（双层）→ 07 猎鹰考核。</p>
   <h3>武器与厂商</h3>
   <p>军械库每把枪都标注真实制造商（Glock、SIG Sauer、Beretta、Heckler &amp; Koch、FN Herstal、Colt、Kalashnikov、IWI、Steyr Arms、
 Remington、Benelli、Franchi、Barrett、Accuracy International、CheyTac）与公开参数，用于呈现现实轻武器知识。</p>
@@ -1991,6 +2001,40 @@ w({id:'qbu10',n:'QBU-10 反器材狙击步枪',cls:'sniper',cn:'国产反器材�
    这里按枪种给出梯度：手枪明显加强但仍是近战优势，步枪可覆盖全图，狙击枪保持最远。 */
 var RNG_TUNE={rifle:1.3,smg:1.4,pistol:1.7,shotgun:1.25,sniper:1.1};
 (function(){var i,o,m;for(i=0;i<WP.length;i++){o=WP[i];m=RNG_TUNE[o.cls]||1.3;o.rn=Math.round(o.rn*m/10)*10}})();
+/* SECTION: fire-modes 射击模式
+   步枪按现实击发组提供 单发 / 短点射 / 全自动；冲锋枪为 单发 / 全自动；
+   手枪、霰弹枪、狙击枪只有单发（栓动与泵动就是每扣一次扳机一发）。
+   射速仍由各枪公开 rpm 决定：短点射是 3 发一组的可控连发，不是无脑扫射。 */
+var FMS={
+ semi:{id:'semi',n:'单发',s:'单发',d:'每扣一次扳机发射 1 发，精度最好'},
+ burst:{id:'burst',n:'短点射',s:'三连',d:'一次触发 3 发，间隔按该枪理论射速；本作作为训练用短点射'},
+ auto:{id:'auto',n:'全自动',s:'连发',d:'按住持续射击，散布随枪口上跳扩大'}
+};
+function modesOf(o){
+ if(!o)return ['semi'];
+ if(o.cls==='rifle')return o.au?['semi','burst','auto']:['semi'];
+ if(o.cls==='smg')return o.au?['semi','auto']:['semi'];
+ return ['semi'];
+}
+function modeOf(o){
+ var arr=modesOf(o),m=ST&&ST.fm&&ST.fm[o&&o.id];
+ return (m&&arr.indexOf(m)>=0)?m:(arr.indexOf('auto')>=0?'auto':'semi');
+}
+function modeName(m){return (FMS[m]||FMS.semi).n}
+function modeShort(m){return (FMS[m]||FMS.semi).s}
+function cycleFireMode(){
+ var p=G&&G.p;if(!p||G.phase!=='live'||G.over)return;
+ var w=cur().w,arr=modesOf(w);
+ if(arr.length<2){toast(w.n+' 为 '+modeName('semi')+' 武器 · 没有可选射击模式',2400);return}
+ var at=arr.indexOf(p.fm||modeOf(w));if(at<0)at=0;
+ var next=arr[(at+1)%arr.length];
+ p.fm=next;p.burstN=0;p.heat=0;
+ ST.fm=ST.fm||{};ST.fm[w.id]=next;save();
+ updGun();tutEv('mode');
+ toast('射击模式 · '+modeName(next)+'（'+FMS[next].d+'）',2600);
+ if(typeof cqbEv==='function')cqbEv('mode');
+}
+
 /* 军衔：按我军现行等级序列编排（士兵 → 军士 → 军官），共 14 级
    武器档次 tk 0–7 依次挂在这些军衔上，见 TIER_XP */
 var TIER_XP=[0,300,700,1300,2100,4400,8000,13600];
@@ -2287,6 +2331,50 @@ var RGD={code:'OP-07 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,
  intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是独自进楼，把人清出来、把人质带出来。',
  obj:['看完猎鹰剧情讲解','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
  roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
+/* ==== CQB 战术学习：单人条件下的原则训练 ====
+   现实中的 CQB 以 2–4 人小组为单位，单人清房只作为原则演示；
+   关卡里的「观察→切角→破门→投掷→控制射击→复检」都对应真实的
+   door procedure / slicing the pie / limited penetration，不教游戏化花招。 */
+var CQB_WL=function(a){
+ ring(a,2000,1300,20);
+ /* 南侧待机区：两道门洞，第一道就是教学门 */
+ a.push([20,1080,700,20],[860,1080,300,20],[1300,1080,680,20]);
+ /* 中层横向隔墙：留三道门洞 */
+ a.push([20,760,360,20],[520,760,380,20],[1040,760,280,20],[1400,760,580,20]);
+ /* 北层横向隔墙：留三道门洞 */
+ a.push([20,430,300,20],[420,430,460,20],[1000,430,340,20],[1440,430,540,20]);
+ /* 纵向隔墙：把训练楼切成六个房间，门洞错位，逼玩家逐屋清理 */
+ a.push([640,430,20,140],[640,650,20,110]);
+ a.push([1360,430,20,160],[1360,680,20,80]);
+ a.push([640,760,20,130],[640,990,20,90]);
+ a.push([1360,760,20,130],[1360,990,20,90]);
+ a.push([960,20,20,190],[960,300,20,130]);
+ return a};
+var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:1300,dk:.14,th:'port',sd:91,par:360,rq:0,cqb:1,allyN:0,
+ fl:[[20,20,1960,1260]],
+ wl:CQB_WL,
+ dr:[[740,1080,120,20,0,'wood'],[920,760,120,20,0,'wood'],[900,430,100,20,0,'wood'],
+     [640,570,20,80,0,'wood'],[1360,590,20,90,0,'metal']],
+ cr2:[[1060,1180]],
+ foe:{},cqbFoes:[
+  ['grunt',800,980,Math.PI/2],['grunt',500,900,0],['grunt',1140,930,Math.PI],
+  ['grunt',450,620,Math.PI/2],['grunt',1120,620,Math.PI],
+  ['grunt',300,280,Math.PI/2],['grunt',1600,300,Math.PI],['heavy',1600,900,Math.PI]],
+ sf:[['crates',250,980,60,60],['crates',310,980,60,60],['table',1000,900,120,50],
+     ['locker',300,600,46,84],['crates',1200,600,60,60],['table',500,280,120,52],
+     ['locker',1500,280,46,84],['crates',1700,900,60,60]],
+ lp:[[800,1160,130],[800,900,160],[500,600,140],[1120,600,140],[300,280,120],[1600,300,120],[1600,900,130]],
+ civ:[],st:[800,1210],ex:[720,1160,160,100],
+ zn:[[120,820,500,240],[1480,820,400,240],[120,460,500,280],[1480,460,400,280],[120,120,760,280],[1120,120,760,280]],
+ cqbMarks:[[1030,1150,'门外观察 · 不要站在门洞正中'],[800,1000,'切角 · 一次只暴露一个射界'],
+  [800,700,'突入后先清近角'],[500,900,'近角'],[1120,900,'远角'],[1600,900,'复检']],
+ acc:.42,rea:1.9,edm:3.2,ehp:1,
+ threat:'8 名低活跃模拟目标 · 5 道关闭门洞 · 单人原则训练',
+ terr:'六个房间、两道横向走廊与一道中央隔墙；门洞错位，必须先观察再切角',
+ hint:'X 观察门后 · Space 据枪切角 · F 破门 · B 投掷震爆/闪光 · V 选单发',
+ intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外观察，贴墙切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
+ obj:['在门外用潜望镜观察，确认门后威胁','据枪切角 2 秒，不站进门洞正中','破门后投掷震爆/闪光','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
+ roe:'现实 CQB 至少两人一组；本关只演示单人可执行的原则，不鼓励单人强行清房'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
 var YARD_WL=function(a){
  ring(a,2400,1500,20);
@@ -2395,7 +2483,7 @@ var DUB={
  roe:'人质坐在观众席里 · 误伤重罚；通风口一旦放气，没带出来的人质会开始窒息'};
 
 LS.push(YARD,EMB,DUB);
-var LS6=LS.concat([AIR_LV,RGD]);/* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
+var LS6=LS.concat([AIR_LV,RGD,CQB_LV]);/* 新兵训练：同一座靶场，三个人形靶 + 补给箱，用于 2 分钟键位教学 */
 var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:900,dk:.10,th:'port',sd:99,par:120,range:1,tutorial:1,tgt:1,
  fl:[[20,20,1460,860]],
  wl:RANGE_WL,
@@ -2405,7 +2493,7 @@ var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:9
  zn:[[320,130,960,640]],st:[150,450],ex:[60,400,44,70],
  threat:'空包弹训练 · 人形靶不还击',terr:'室内靶场 · 15–45 m 靶道',hint:'跟着左侧面板一步步完成',
  intel:'新兵入队第一课：把所有会用到的键位过一遍，再进真正的战场。',
- obj:['按提示完成 13 项基础操作'],roe:'训练场没有实弹对抗，不会失败'};
+ obj:['按提示完成 14 项基础操作'],roe:'训练场没有实弹对抗，不会失败'};
 /* 训练场：完成新兵训练后开放的自由练习沙盒（全部枪械可用，不计分不扣分） */
 var RANGE_LV={code:'OP-00 · FIRING RANGE',nm:'训练场 · 自由射击',W:1500,H:900,dk:.18,th:'port',sd:0,par:120,
  range:1,tgt:1,
@@ -2601,7 +2689,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
- swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,t0:0,sv:0,pv:0,diff:5,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:5,
  gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
  name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2616,12 +2704,14 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.tk)ST.tk=Math.max(0,jd.tk|0);
   if(jd&&typeof jd.lb==='string')ST.lbapi=jd.lb;
   if(jd&&jd.dv)ST.dev=1;
+  if(jd&&jd.cq)ST.cqb=1;
   if(jd&&jd.ml&&jd.ml.length)ST.mail=jd.ml.slice(0,30);
   if(jd&&jd.sd)ST.storyDone=1;
   if(jd&&jd.cl&&jd.cl.length>=5)ST.clr=jd.cl.slice(0,8);
   if(jd&&jd.hl&&jd.hl.length)ST.heroLoad=jd.hl;
  if(jd&&jd.rl&&jd.rl.length===3)ST.rgLoad=jd.rl;
  if(jd&&jd.mg&&typeof jd.mg==='object')ST.mag=jd.mg;
+ if(jd&&jd.fm&&typeof jd.fm==='object')ST.fm=jd.fm;
  if(jd&&jd.at&&typeof jd.at==='object')ST.att=jd.at;
  if(jd&&jd.t0)ST.t0=+jd.t0||0;
  if(jd&&jd.sv)ST.sv=jd.sv|0;
@@ -2709,8 +2799,8 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!gunOk(ST.load[0]))ST.load[0]='m4a1';
  if(!gunOk(ST.load[1]))ST.load[1]='g19'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
- x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,ml:ST.mail,
- sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
+ x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,cq:ST.cqb,ml:ST.mail,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,fm:ST.fm,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,tp:ST.tutP,tc:ST.tutC,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -2724,7 +2814,7 @@ function addXp(v){
   toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}
  else if(a<b){toast('军衔下调 '+RKLAD[b][0]+' → '+RKLAD[a][0]+' · 已解锁装备保留',3400)}}
 /* SECTION: autosave */
-function saveLv(){if(!G||G.phase!=='live'||G.over)return;
+function saveLv(){if(!G||G.phase!=='live'||G.over||G.cqb)return;
  if(G.tut)return;
  if(ST.scr!=='play'&&ST.scr!=='pause')return;
  try{var p=G.p,sv={lv:ST.lv,t:Math.round(G.t*10)/10,ts:Date.now(),
@@ -3211,10 +3301,13 @@ function build(idx,ovr){
  var c0=ovr||LS6[clamp(idx,1,LS6.length)-1],c=c0,ck;
  IND=(c0.th==='apartment'||c0.th==='mall'||c0.th==='embassy'||c0.th==='theater')?1:0;
  /* 难度：只作用于普通作战任务；剧情／教学／训练场固定标准强度 */
- if(!c0.recruit&&!c0.tutorial&&!c0.range){
+ if(!c0.recruit&&!c0.tutorial&&!c0.range&&!c0.cqb){
   var DFd=diffDef(ST.diff);
   c={};for(ck in c0)c[ck]=c0[ck];
-  c.acc=(c0.acc||1)*DFd.acc;
+  /* 全局「低活跃」校准：敌人更慢发现、更慢反应、命中率更低，给玩家留出切角与突入窗口 */
+  c.acc=(c0.acc||1)*DFd.acc*.72;
+  c.rea=Math.max(.35,(c0.rea||1)*1.55);
+  c.edm=(c0.edm||1)*.82;
   c.ehp=(c0.ehp||1)*DFd.hp;
   c.par=diffPar(c0,DFd.k);
   c.diff=DFd.k;
@@ -3231,6 +3324,14 @@ function build(idx,ovr){
   g.fillStyle='rgba(0,0,0,.18)';g.fillRect(F.x,F.y+F.h-6,F.w,6)}
  if(c.range)paintRange(g,c);
  paintFloorDetail(g,c);
+ /* CQB 训练楼地面提示：只作为教具，不改变碰撞与战斗判定 */
+ if(c.cqb&&c.cqbMarks){g.save();g.font='bold 13px "PingFang SC","Microsoft YaHei",sans-serif';
+  g.textAlign='center';g.textBaseline='middle';
+  for(k=0;k<c.cqbMarks.length;k++){var cm=c.cqbMarks[k];
+   g.fillStyle='rgba(8,12,16,.62)';g.fillRect(cm[0]-96,cm[1]-13,192,26);
+   g.strokeStyle='rgba(226,169,62,.42)';g.lineWidth=1;g.strokeRect(cm[0]-96.5,cm[1]-13.5,193,27);
+   g.fillStyle='rgba(240,216,144,.86)';g.fillText(cm[2],cm[0],cm[1]+1)}
+  g.restore()}
  var deco={'apartment':['#6b5236','#4d5a46'],'mall':['#5d7f8f','#8f5d6d'],'embassy':['#7a6a4a','#4a5a6a'],'theater':['#7a3a4a','#3a4a6a'],'ktv':['#6b3a78','#3a5f78'],
   'port':['#8a5a34','#4a6a78'],'desert':['#7d6b46','#6b5533'],'yard':['#6f6a52','#4a5a44']}[c.th]||['#5a5a52','#3a3a34'];
  var FUBY={apartment:FUD[0],mall:FUD[1]},FU=FUBY[c.th]||{dr:c.dr||[],ty:c.ty||{},sf:c.sf||[],lp:c.lp||[]},fTy=FU.ty;
@@ -3266,11 +3367,11 @@ function build(idx,ovr){
  /* 门洞：不再有可开合的门扇，只有「洞口 + 门框 + 突入方向」；机关（阻门器/绊雷）保留在洞口 */
  for(k=0;k<FU.dr.length;k++){d=FU.dr[k];
   var dtype=d[5]||'wood';
-  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:true,anim:1,brk:0,scout:0,
+  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:c.cqb?false:true,anim:c.cqb?0:1,brk:0,scout:0,
    kickT:0,blowT:0,hor:d[2]>=d[3],type:dtype,hg:0,sw:1,tr:null,
    need:dtype==='metal'?1.9:(dtype==='glass'?0.34:1)})}
  /* 机关密度：难度越高越多，且同一洞口可叠多个绊雷（伤害叠加） */
- (function(){var cap=Math.min(4,1+Math.floor((c.sd||11)/22)),n=0,i2;
+ (function(){if(c.cqb)return;var cap=Math.min(4,1+Math.floor((c.sd||11)/22)),n=0,i2;
   for(i2=0;i2<drs.length&&n<cap;i2++){
    if(Math.random()<.30){drs[i2].tr=(Math.random()<.45?'blocker':'rig');drs[i2].rigs=1;n++;
     if(drs[i2].tr==='rig'&&Math.random()<.45){drs[i2].rigs=2;n++}}}})();
@@ -3321,6 +3422,13 @@ g.restore();
     if((tx-a2.x)*(tx-a2.x)+(ty-a2.y)*(ty-a2.y)<80*80){ok=0;break}}}
   if(!ok){tx=c.st[0]+300+k*45;ty=c.st[1]-140;while(!freeAt(tx,ty,16)){tx+=31;if(tx>c.W-50){tx=180;ty+=47}}}
   en.push(spawnFoe(tp,tx,ty,c.ehp))}
+ /* CQB 训练楼：固定位置、低活跃度的模拟目标；不随机刷，保证教学顺序 */
+ if(c.cqbFoes){en=[];
+  for(k=0;k<c.cqbFoes.length;k++){var f0=c.cqbFoes[k],fe=spawnFoe(f0[0],f0[1],f0[2],c.ehp);
+   fe.a=f0[3]||0;fe.st='patrol';fe.alert=0;fe.canSee=0;fe.hx=fe.x;fe.hy=fe.y;
+   fe.acc=.45;fe.dm=5.5;fe.nade=0;fe.pf=Math.random()*TAU;
+   if(!freeAt(fe.x,fe.y,fe.r))snapFree(fe);
+   en.push(fe)}}
  var cr=[];
  if(c.cr2){for(k=0;k<c.cr2.length;k++)cr.push({x:c.cr2[k][0],y:c.cr2[k][1],got:0})}
  else for(k=0;k<(idx>=3?4:3);k++){var cx=0,cy=0,ok2=0,tr2=0;
@@ -3391,18 +3499,19 @@ g.restore();
  var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0)+(greyB?12:0);
  var brc=ST.gd.breach|0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
-  nc:0,shootCap:idx>=4?3:2,bossDown:0,alertMod:1+of.alert,
-  stickyN:brc?2:0,stickN:(ST.gd.optic2|0)?2:0,dn2:0,allyOn:ST.ally!==0,
+  nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1+of.alert,
+  stickyN:brc?2:0,stickN:c.cqb?5:((ST.gd.optic2|0)?2:0),dn2:0,allyOn:c.cqb?0:(ST.ally!==0),cqb:c.cqb?1:0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
    sp:Math.round(208*(1+of.mob+(heroB?.04:0)+(greyB?.02:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
-   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,
+   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,fm:'',heat:0,burstN:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
   /* 战术腰封：按军衔容量从玩家配置里取投掷物 */
   G.p.bl=beltCounts();
   G.p.actItem=firstThrow(G.p);
+  G.p.fm=modeOf(G.p.guns[0].w);
   spawnWing();
 }
 
@@ -3492,7 +3601,8 @@ var CW=[],CWo=null;
 var CW=[],CWB=[],CWo=null;
 function rebuildCW(){if(!L)return;CW=L.ws.slice();CWB=L.ws.slice();
  var i;for(i=0;i<L.dr.length;i++){var a=L.dr[i];
-  if(a.tr==='blocker'){CW.push(a);CWB.push(a)}   /* 阻门器：堵住洞口，可被炸毁 */
+  /* 阻门器：堵住洞口，可被炸毁；CQB 训练楼里的关闭门扇也真实阻挡通行与子弹 */
+  if(a.tr==='blocker'||(L.cfg&&L.cfg.cqb&&!a.open)){CW.push(a);CWB.push(a)}
  }
  CWo=L}
 /* 迷雾在每次构建地图后重置 */
@@ -3585,16 +3695,17 @@ function pushFree(o,dt,speed){
 
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',scout:'x',fireAlt:'',adsAlt:'',
- med:'h',cover:'g',mute:'m'};
+ gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',scout:'x',fireAlt:'',ads:'space',adsAlt:'',
+ mode:'v',med:'h',cover:'g',mute:'m'};
 var KM_ACT=[
  ['up','前进'],['down','后退'],['left','向左'],['right','向右'],
  ['sprint','疾跑'],['reload','换弹'],
  ['gun1','持主武器'],['gun2','持副武器'],['gun3','第三把武器（英雄）'],['swap','快速切枪'],
  ['gren','投掷手雷'],['act','互动（解救／缴械／补给）'],['light','战术枪灯开关'],
  ['scout','观察关门（潜望镜）'],
+ ['ads','据枪（按住）'],['mode','切换射击模式'],
  ['med','快捷命令：呼叫医疗'],['cover','快捷命令：掩护射击'],
- ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认鼠标右键）'],
+ ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认 Space）'],
  ['mute','音效开关']];
 var KM={};for(var kmi in KM_DEF)KM[kmi]=KM_DEF[kmi];
 if(ST.kraw){for(var kr in KM_DEF)if(typeof ST.kraw[kr]==='string')KM[kr]=ST.kraw[kr]}
@@ -3629,19 +3740,20 @@ function renderKm(){var kw=$('kmWrap'),tw=$('tpWrap');
    row.appendChild(cl)}
   l.appendChild(row)});
  var ex=mk('div','kmrow');var el2=mk('span','lba');
- el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 右键＝据枪 · Esc／P＝暂停';
+ el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 键盘 '+kLabel(KM.ads)+'＝据枪 · '+kLabel(KM.mode)+'＝射击模式 · Esc／P＝暂停';
  ex.appendChild(el2);l.appendChild(ex)}
 function updHint(){var h=$('keysHint');if(!h)return;
  var K=function(a){return '<span class="kbd">'+kLabel(KM[a])+'</span>'};
  var arrow=K('up')+K('left')+K('down')+K('right');
  var rows=['<div>'+arrow+' 移动（也可用方向键）</div>',
- '<div><span class="kbd">鼠标</span> 瞄准 · <span class="kbd">左键</span> 射击 · <span class="kbd">右键</span> 据枪（精度↑ 移速↓）</div>',
+ '<div><span class="kbd">鼠标</span> 瞄准 · <span class="kbd">左键</span> 射击 · '+K('ads')+' 据枪（精度↑ 移速↓）</div>',
+ '<div>'+K('mode')+' 切换射击模式：单发 / 短点射 / 全自动</div>',
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
  '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('swap')+' 快速切枪</div>',
  '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>',
  '<div>'+K('med')+' 呼叫医疗 · '+K('cover')+' 掩护射击 · <span class="kbd">Esc</span>／<span class="kbd">P</span> 暂停</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
- '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火（圆钮＝换弹／切枪／手雷／互动／枪灯）</div>'];
+ '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火，圆钮「据枪」＝收窄散布</div>'];
  h.innerHTML=rows.filter(function(x){return x}).join('')}
 
 /* SECTION: input */
@@ -3666,6 +3778,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
   if(ST.scr==='play'){
    if(k==='escape'||k==='p'){pause(1)}
    else if(kb('reload'))tryReload();
+   else if(kb('mode'))cycleFireMode();
    else if(kb('gun1'))swGun(0);
    else if(kb('gun2'))swGun(1);
    else if(kb('gun3'))swGun(2);
@@ -3681,8 +3794,9 @@ D.addEventListener('keyup',function(e){KEY[kNorm(e)]=0});
 D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0});
 function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_ACT[i][1];return a}
 cv.addEventListener('contextmenu',function(e){e.preventDefault()});
-cv.addEventListener('mousedown',function(e){if(e.button===0){MS.l=1;G&&G.p&&(G.p.press=1)}if(e.button===2)MS.r=1});
-D.addEventListener('mouseup',function(e){if(e.button===0)MS.l=0;if(e.button===2)MS.r=0});
+/* 据枪改为键盘键（默认 Space）：鼠标右键不再据枪，避免和浏览器右键菜单/瞄准习惯冲突 */
+cv.addEventListener('mousedown',function(e){if(e.button===0){MS.l=1;G&&G.p&&(G.p.press=1)}});
+D.addEventListener('mouseup',function(e){if(e.button===0)MS.l=0});
 D.addEventListener('mousemove',function(e){MS.x=e.clientX;MS.y=e.clientY});
 function sEl(el,t){el.style.opacity='1';
  if(ST.tcf&&ST.tcf.stickFix&&el._tpk&&TP){var T=TP[el._tpk];
@@ -3776,13 +3890,15 @@ function beltResupply(){
  for(i=0;i<cap;i++){id=b[i];if(id&&id!=='cut'&&p.bl[id]<3){p.bl[id]++;return true}}
  return false}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
- p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;snd.swap();updGun();tutEv('swap')}
+ p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;
+ p.fm=modeOf(p.guns[i].w);snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
  tutEv('reload');   /* 按了就算完成教学步骤，弹匣满时也生效 */
+ p.burstN=0;
  if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl*(greyActive()?.85:1);snd.rl1();tutEv('reload')}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  /* 第一枪就会打破潜入：附近守敌被枪声惊醒 */
- if(G.inf){G.inf=0;G.alerted=1;wakeNear(p.x,p.y,1100,5);
+ if(G.inf){G.inf=0;G.alerted=1;wakeNear(p.x,p.y,820,4);
   feed('枪声暴露 · 潜入阶段结束',0);toast('枪声惊动了守军',2600)}
  tutEv('fire');
  var g=cur(),w1=g.w;
@@ -3793,20 +3909,26 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  if(p.rl>0||p.sw>0||p.kd>0)return;
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
- var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa;
+ if(L&&L.cfg&&L.cfg.cqb&&(p.fm||modeOf(w1))==='semi'&&p.aim)cqbEv('semiShot');
+ var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa,fm=p.fm||modeOf(w1);
  var sp2=w1.sp*(1+mv*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(w1.cls==='sniper'&&!p.aim?2.1:1);
+ /* 射击模式影响首发精度：单发最稳，短点射次之，全自动随枪口热量扩散 */
+ sp2*=(fm==='semi'?.82:(fm==='burst'?1:1.12));
+ sp2*=(1+Math.min(.55,(p.heat||0)*.5));
  var auF=attOf('grip')?.82:1;
- if(!w1.au)auF=1;sp2*=auF;
+ if(fm!=='auto')auF=1;sp2*=auF;
  var i,n=w1.pl||1,spd=w1.bs*2.1;
  for(i=0;i<n;i++){var a=base+(Math.random()+Math.random()-1)*sp2,b=gpb();
   b.a=1;b.x=p.x+Math.cos(base)*18;b.y=p.y+Math.sin(base)*18;
   b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1}
- p.aa=base+(Math.random()-.5)*w1.kk*.012;
+ p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1);
+ if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12);
+ else if(fm==='burst')p.heat=Math.min(.5,(p.heat||0)+.04);
  shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(attOf('muzzle')>=2?.84:(attOf('muzzle')?.90:.92)));
  if(w1.cls==='sniper'){p.vx-=Math.cos(base)*46;p.vy-=Math.sin(base)*46}
  snd.fire(w1,0);
  burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170);
- var rad=w1.cls==='sniper'?900:(w1.cls==='shotgun'?700:560),jj;
+ var rad=w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480),jj;
  if(!G.lastNoise||G.t-G.lastNoise>.3)for(jj=0;jj<L.en.length;jj++){var se=L.en[jj];
   if(se.dead||se.sub>0||se.alert)continue;
   if(se.dormant){if(Math.hypot(se.x-p.x,se.y-p.y)<rad){wakeEnemy(se,1);se.hx=p.x;se.hy=p.y}continue}
@@ -3820,7 +3942,7 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
   if(G.t-(de._db||0)<.6)continue;
   de._db=G.t;
   if(Math.hypot(de.x-p.x,de.y-p.y)>480)continue;
-  if(Math.random()<.05*lvD)tryDodge(de,p.x,p.y,.35+Math.random()*.3)}}
+  if(Math.random()<.022*lvD)tryDodge(de,p.x,p.y,.35+Math.random()*.3)}}
 function noiseAt(x,y,rad){if(!L)return;var i;
  if(G&&G.inf&&G.p&&Math.hypot(x-G.p.x,y-G.p.y)<rad+160){
   G.inf=0;G.alerted=1;feed('声响暴露 · 潜入阶段结束',0);toast('声响惊动了守军',2400)}
@@ -3930,6 +4052,7 @@ function throwG(fuse){
  var id=p.actItem;
  if(!id||!p.bl[id]){toast('腰封已空 · 补给箱可补充');return}
  p.bl[id]--;p.actItem='';       /* 投出后必须重新握雷，不会连投 */
+ if(L&&L.cfg&&L.cfg.cqb&&id!=='frag')cqbEv('flash');
  var tgt=throwTarget(),t=throwDef(id);
  p.act=1;p.gid=id;
  p.sx=p.x;p.sy=p.y;p.gx=p.x;p.gy=p.y;
@@ -3944,7 +4067,7 @@ function throwG(fuse){
  grenadeScare(p.x,p.y,id!=='frag');grenadeScare(tgt.x,tgt.y,id!=='frag');
  toast(t.n+' 投出 · 引信 '+p.fuse.toFixed(1)+' 秒',2200)}
 /* 敌人躲雷：危险等级越高，反应越快、躲得越多 */
-function grenadeScare(x,y,isF){if(!L)return;var lv=ST.lv||1,ch=.10+.13*lv,i;
+function grenadeScare(x,y,isF){if(!L)return;var lv=ST.lv||1,ch=.05+.08*lv,i;
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
   if(Math.hypot(e.x-x,e.y-y)>360)continue;
   if(Math.random()<ch)tryDodge(e,x,y,.55+Math.random()*.5)}}
@@ -3963,7 +4086,9 @@ function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
  var n=0,ox=door.x+door.w/2,oy=door.y+door.h/2;
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
   if(Math.hypot(e.x-ox,e.y-oy)<270&&los(ox,oy,e.x,e.y)){e.scout=3.4;n++}}
- feed('FlushStick 观察：门内 '+n+' 个武装目标',1);snd.ui();updGun()}
+ feed('FlushStick 观察：门内 '+n+' 个武装目标',1);snd.ui();
+ if(L.cfg&&L.cfg.cqb)cqbEv('scope');
+ updGun()}
 function ename(e){return{grunt:'步枪兵',rush:'冲锋兵',heavy:'重装佣兵',sniper:'精确射手',boss:'赤隼指挥官'}[e.tp]}
 function interact(){var p=G.p;if(!p||G.phase!=='live')return;
  if(nearStair()){switchFloor();return}
@@ -4121,7 +4246,7 @@ function ksAdd(ic,txt,pts,cls){var l=$('ksList');if(!l||!G)return;
  var tt=$('ksTot');if(tt)tt.textContent='作战分 '+G.sc}
 function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
  if(e.dormant)wakeEnemy(e,1);
- if(G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<820){G.inf=0;G.alerted=1;wakeNear(e.x,e.y,900,4);feed('交火暴露 · 潜入阶段结束',0)}
+ if(G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<760){G.inf=0;G.alerted=1;wakeNear(e.x,e.y,700,3);feed('交火暴露 · 潜入阶段结束',0)}
  var ins=wp&&wp.ins||0,arv=e.arv||0;
  if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
  if(!e.alert&&!L.cfg.exam&&!L.cfg.tgt){e.alert=1;e.rt=L.cfg.rea*(.7+Math.random()*.6)*(G.alertMod||1);e.st='alert';
@@ -4264,7 +4389,7 @@ function tryDodge(e,tx,ty,dur){
 /* ---- 潜入阶段：开局只放少量近处守卫，其余敌人分批激活 ----
    远处的守敌在玩家推进到附近、或枪声/警报响起后才进入战斗，
    避免一进任务所有敌人同时出现、同时开火。 */
-var INF_WAKE=760;
+var INF_WAKE=560;
 function wakeEnemy(e,alarm){
  if(!e||e.dead)return false;
  e.dormant=0;e._vis=0;e._seen=0;e.canSee=0;
@@ -4285,9 +4410,9 @@ function initInfiltration(stealth){
  for(i=0;i<L.en.length;i++){e=L.en[i];if(e.dead)continue;
   e.dormant=1;e._vis=0;e._seen=0;e.canSee=0;list.push(e)}
  list.sort(function(a,b){return Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)});
- var n=0;
+ var n=0,near=(L.cfg&&L.cfg.cqb)?280:360;
  for(i=0;i<list.length;i++){
-  if(n<2||Math.hypot(list[i].x-p.x,list[i].y-p.y)<460){
+  if(n<1||Math.hypot(list[i].x-p.x,list[i].y-p.y)<near){
    wakeEnemy(list[i],stealth?0:1);n++}}
  G.inf=stealth?1:0;G.infMsg=0;G.wakeT=0;G.infT=0;
 }
@@ -4307,8 +4432,8 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    if(e.dormant){
     if(G.phase==='live'&&!G.over){
      var dd0=Math.hypot(e.x-p.x,e.y-p.y);
-     if(dd0<(G.alerted?900:INF_WAKE)&&G.wakeT<=0){
-      wakeEnemy(e,G.alerted?1:0);if(G.alerted){e.hx=p.x;e.hy=p.y}G.wakeT=G.alerted?.35:.32}}
+     if(dd0<(G.alerted?680:INF_WAKE)&&G.wakeT<=0){
+      wakeEnemy(e,G.alerted?1:0);if(G.alerted){e.hx=p.x;e.hy=p.y}G.wakeT=G.alerted?.45:.4}}
     continue}
    /* 靶场人形靶：只沿轨道横移，不寻路、不开火 */
   if((L.cfg.exam||L.cfg.tgt)&&!e.fight){
@@ -4343,15 +4468,15 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;
   var dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;
   if(e.losT<=0){e.losT=.17;
-   var canSee=d<(e.tp==='sniper'?1200:620)&&los(e.x,e.y,p.x,p.y);
-   /* 潜入阶段：刚进任务的 4.5 秒是渗透窗口，远距离守卫不会立刻发现你；
+   var canSee=d<(e.tp==='sniper'?1050:520)&&los(e.x,e.y,p.x,p.y);
+   /* 潜入阶段：刚进任务的 6 秒是渗透窗口，远距离守卫不会立刻发现你；
       只有贴脸（<72px）或开枪/爆炸才会马上暴露。窗口过后守卫恢复正面视野锥。 */
    if(canSee&&G.inf&&!e.alert){
     var ida=Math.atan2(dy,dx)-e.a;ida=Math.atan2(Math.sin(ida),Math.cos(ida));
-    canSee=((G.infT||0)<4.5)?(d<72):((d<160)||(d<520&&Math.abs(ida)<1.05))}
+    canSee=((G.infT||0)<6)?(d<64):((d<135)||(d<430&&Math.abs(ida)<.92))}
    e.canSee=canSee}
-  if(!e.alert&&e.canSee){e.alert=1;e.rt=cfg.rea*(.7+Math.random()*.6);e.st='alert';
-   G.inf=0;alertAt(e.x,e.y);G.alerted=1;snd.alert();wakeNear(e.x,e.y,900,3);
+  if(!e.alert&&e.canSee){e.alert=1;e.rt=cfg.rea*(.9+Math.random()*.8);e.st='alert';
+   G.inf=0;alertAt(e.x,e.y);G.alerted=1;snd.alert();wakeNear(e.x,e.y,680,2);
    feed('敌方发现你 · 交火开始',0);
    playerShout()}
   if(e.alert&&e.st==='alert'){e.rt-=dt;if(e.rt<=0)e.st='engage'}
@@ -4369,7 +4494,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
   else{
    var ideal=e.tp==='sniper'?540:(e.tp==='rush'?105:(e.tp==='heavy'?235:300));
    var want=d>ideal*1.3?ta:(d<ideal*.65?ta+PI:ta+(Math.sin(G.t*.7+e.ph)>0?PI*.45:-PI*.45));
-   var mul=.58;if(e.tp==='rush')mul=.62;if(e.tp==='heavy'||e.tp==='sniper')mul=.45;
+   var mul=.42;if(e.tp==='rush')mul=.48;if(e.tp==='heavy'||e.tp==='sniper')mul=.34;
    if(e.hp<e.mh*.4)mul*=.85;
    if(Lv===5&&G.bossDown&&e.tp!=='boss')mul*=.6;
    if(e.tp==='boss'){e.vx=e.vy=0;var dab=ta-e.a;while(dab>PI)dab-=TAU;while(dab<-PI)dab+=TAU;
@@ -4385,14 +4510,14 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    e.sw-=dt;
    /* 敌方投雷：距离合适 + 有视线时按概率投，危险等级越高越频繁 */
    if(e.nade>0&&e.canSee&&e.alert&&G.phase==='live'&&!L.cfg.exam&&!L.cfg.tgt&&(G.eg?G.eg.length:0)<3){
-    e.ndC=(e.ndC==null?(3+Math.random()*5):(e.ndC-dt));
-    if(e.ndC<=0){e.ndC=5+Math.random()*8;
-     var ndC=0.12+0.08*(ST.lv||1);
-     if(d>170&&d<470&&Math.random()<ndC&&los(e.x,e.y,p.x,p.y))throwEnemyNade(e)}}
+    e.ndC=(e.ndC==null?(6+Math.random()*7):(e.ndC-dt));
+    if(e.ndC<=0){e.ndC=8+Math.random()*9;
+     var ndC=0.06+0.05*(ST.lv||1);
+     if(d>190&&d<430&&Math.random()<ndC&&los(e.x,e.y,p.x,p.y))throwEnemyNade(e)}}
    if(e.canSee&&e.sw<=0&&G.phase==='live'&&shootCnt<G.shootCap&&!(e.stun>0)&&!L.cfg.exam){
     shootCnt++;G.nc=0;
-    e.sw=e.tp==='rush'?(.24+Math.random()*.14):(.34+Math.random()*.44);
-    var acc=cfg.acc*e.acc*(e.tp==='sniper'?.32:1)*(p.aim?.78:1)*(e.hp<e.mh*.45?1.5:1);
+    e.sw=e.tp==='rush'?(.38+Math.random()*.24):(.58+Math.random()*.58);
+    var acc=cfg.acc*e.acc*.78*(e.tp==='sniper'?.26:1)*(p.aim?.78:1)*(e.hp<e.mh*.45?1.4:1);
     var off=Math.atan2(p.y-e.y,p.x-e.x)+(Math.random()+Math.random()-1)*.18*acc;
     var ns=e.tp==='heavy'?2:1,k2;
     for(k2=0;k2<ns;k2++){var b=gpb();b.a=1;
@@ -4736,8 +4861,8 @@ function updatePlayer(dt){var p=G.p,i;
  if(kb('left')||KEY.arrowleft)mx-=1;if(kb('right')||KEY.arrowright)mx+=1;
  mx+=sm.dx;my+=sm.dy;
  var ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;ml=1}
- p.aim=((MS.r||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
- /* 狙击枪与步枪／手枪一致：右键据枪 */
+ p.aim=((kb('ads')||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
+ /* 据枪：键盘按住（默认 Space），触屏仍用「据枪」圆钮；鼠标右键不再据枪 */
  p.run=BF.sp||(kb('sprint')?1:0);
  var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
@@ -4752,6 +4877,8 @@ function updatePlayer(dt){var p=G.p,i;
  else if(!touchUI){var wx=CAM.x+MS.x,wy=CAM.y+MS.y;
   if(wx!==p.x||wy!==p.y)p.aa=Math.atan2(wy-p.y,wx-p.x)}
  p.kd-=dt;if(p.kd<0)p.kd=0;
+ p.heat=Math.max(0,(p.heat||0)-dt*1.8);
+ if(p.rl>0||p.sw>0)p.burstN=0;
  if(p.throwT>0)p.throwT=Math.max(0,p.throwT-dt);
  p.sw-=dt;if(p.sw<0)p.sw=0;
  p.aimT=Math.max(0,p.aimT-dt);
@@ -4775,8 +4902,14 @@ function fireHold(on){var p=G.p;if(G.phase!=='live')return;
   if(on){p.cooking=1}
   else if(p.cooking){p.cooking=0;throwG(GREN_FUSE-p.cook)}
   return}
- if(!on){p.wasH=0;return}
- if(cur().w.au){fire();return}
+ var fm=p.fm||modeOf(cur().w);
+ if(fm!=='burst')p.burstN=0;
+ if(!on){p.wasH=0;p.burstN=0;return}
+ if(fm==='auto'){fire();return}
+ if(fm==='burst'){
+  if(!p.wasH){p.wasH=1;p.burstN=3}
+  if(p.burstN>0&&p.kd<=0&&p.rl<=0&&p.sw<=0){fire();p.burstN--}
+  return}
  if(!p.wasH){fire();p.wasH=1}}
 function updParticles(dt){var i;
  for(i=0;i<POOL.p.length;i++){var q=POOL.p[i];if(!q.a)continue;
@@ -4816,6 +4949,7 @@ function openDoor(d,who){if(d.open)return;
   say('Bravo-2','诡雷！门后！','#ff8a70');
   snd.boom();return}
  d.open=1;d.anim=0;d.kickT=0;rebuildCW();
+ if(L&&L.cfg&&L.cfg.cqb&&who==='p'&&typeof cqbEv==='function')cqbEv('breach');
  if(who==='e')noiseAt(d.x+d.w/2,d.y+d.h/2,320);
  else if(d.type==='glass')burst(d.x+d.w/2,d.y+d.h/2,ST.low?5:12,'#bfe2ea',200,260)}
 function kickDoor(d){var p=G.p;
@@ -4862,7 +4996,7 @@ function updateDoors(dt){var i;
     var cpd=scorePts(30);G.sc+=cpd;
     ksAdd('✂','绊雷拆除 · 剪线',cpd,'good');
     feed('绊雷已剪线拆除 · 门洞安全',1);toast('绊雷已拆除 · 门洞安全',2400);snd.sec()}}
-  if(d.anim<1)d.anim=Math.min(1,d.anim+dt*3.4);
+  if(d.open&&d.anim<1)d.anim=Math.min(1,d.anim+dt*3.4);
   if(d.scout>0)d.scout-=dt;
   if(!d.open)d.kickT=Math.max(0,d.kickT-dt*.08)}}
 var ALLY=[{role:'assault',n:' Bravo-2 · 突击',sp:196,r:13,hp:130,col:'#4e6f4a',dm:24,rpm:640,acc:.85,range:1500,
@@ -5680,7 +5814,9 @@ function drawLight(){
  ctx.restore()}
 function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
  var mvq=Math.hypot(p.vx,p.vy)/p.sp,cone=g.sp*(1+mvq*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(g.cls==='sniper'&&!p.aim?2.1:1);
- if(g.au)cone*=(attOf('grip')?.82:1);
+ var fm=p.fm||modeOf(g);
+ cone*=(fm==='semi'?.82:(fm==='burst'?1:1.12))*(1+Math.min(.55,(p.heat||0)*.5));
+ if(fm==='auto')cone*=(attOf('grip')?.82:1);
  var dq=touchUI?Math.min(g.rn,820):Math.max(40,Math.hypot(CAM.x+MS.x-p.x,CAM.y+MS.y-p.y));
  sp=clamp(cone*dq*.5,3.5,64);
  if(touchUI){
@@ -5703,10 +5839,10 @@ function updKbar(){var el=$('kbar');if(!el)return;
  if(touchUI||!ST.hint||ST.scr!=='play'){el.classList.add('hidden');return}
  el.classList.remove('hidden');
  var K=function(a){return '<b>'+kLabel(KM[a])+'</b>'};
- var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
+ var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel,KM.ads,KM.mode].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
  if(el._sig!==sig){el._sig=sig;
-  el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · 右键据枪</div>'+
-   '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+((G&&G.p&&G.p.guns&&G.p.guns.length>2)?(K('gun1')+'/'+K('gun2')+'/'+K('gun3')):(K('gun1')+'/'+K('gun2')))+' 主副 · '+K('swap')+' 切枪</div>'+
+  el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · '+K('ads')+' 据枪</div>'+
+   '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+K('mode')+' 射击模式 · '+((G&&G.p&&G.p.guns&&G.p.guns.length>2)?(K('gun1')+'/'+K('gun2')+'/'+K('gun3')):(K('gun1')+'/'+K('gun2')))+' 主副 · '+K('swap')+' 切枪</div>'+
    '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>'+
    '<div>'+K('med')+' 医疗 · '+K('cover')+' 掩护 · P 暂停</div>'}}
 function updHud(){var p=G.p,g=cur(),i;
@@ -5726,6 +5862,9 @@ function updHud(){var p=G.p,g=cur(),i;
  var s=Math.round(g.am)+' / '+g.res;
  if(s!==HD.am||g.w.n!==HD.w){HD.am=s;HD.w=g.w.n;
   $('amN').innerHTML=s.replace(/\/\s*(\d+)/,'<u>/ $1</u>');$('amW').textContent=g.w.n}
+ var fm=p.fm||modeOf(g.w),fma=modesOf(g.w),fmTxt=fm+':'+fma.length+':'+(KM.mode||'');
+ if(fmTxt!==HD.fm){HD.fm=fmTxt;
+  var mm=$('amM');if(mm)mm.textContent=modeName(fm)+(fma.length>1?(' · '+kLabel(KM.mode)+' 切换'):' · 固定')}
  var tip=p.rl>0?'换弹中…':(g.am<=0?(g.res>0?(touchUI?'点换弹':'按 R 换弹'):'弹药耗尽'):(p.aim?'据枪':''));
  if(tip!==HD.ti){HD.ti=tip;$('amT').textContent=tip}
  var al=aliveAll();
@@ -5804,6 +5943,7 @@ function step(dt){if(!G)return;
  G.t+=dt;
  if(G.inf&&G.phase==='live')G.infT=(G.infT||0)+dt;
  if(G.tut&&TUT.on)tutTick(dt);
+ if(G.cqb&&CQBT.on)cqbTick(dt);
  if(G.phase==='go'){G.goT-=dt;
   var s=Math.ceil(G.goT);
   $('goT').textContent=s>0?('T-'+s):'GO';
@@ -6087,7 +6227,7 @@ function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=
  else{show('sMenu');setScr('menu');renderLv()}}
 var KM_B={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
  gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',med:'v',cover:'c',
- fireAlt:'',adsAlt:'',mute:'m'};
+ fireAlt:'',ads:'space',adsAlt:'',mode:'n',mute:'m'};
 function kmApply(src){for(var a in KM_DEF)KM[a]=src[a]!==undefined?src[a]:'';save();renderKm();updHint()}
 function setScr(s){ST.scr=s;
  $('hud').classList.toggle('on',s==='play');
@@ -6277,7 +6417,17 @@ var PATCHES=[
     '剧情关仍会播放未看过的剧情，开发者可以直接进入任务简报或战场。',
     '开发者模式只写本机存档，不影响排行榜与其他玩家。'
    ]}
-];
+,
+  {v:16,d:'2026-11-14',t:'射击模式 · CQB 训练 · 敌人降活跃',
+   items:[
+    '新增射击模式：步枪可切单发／短点射／全自动，冲锋枪可切单发／全自动，手枪、霰弹枪与狙击枪固定单发。按 V 切换，射速仍按各枪公开理论射速计算；单发首发最稳，短点射一次 3 发，全自动随枪口热量扩大散布。',
+    '据枪从鼠标右键改为键盘按住 Space；鼠标右键不再据枪。键位设置里可分别改绑「据枪」与「射击模式」，左手方案也已同步。',
+    '新增「CQB 战术学习 · 训练楼」：完成新兵训练后开放，按现实 door procedure 依次练习门外观察、贴墙切角、破门、投掷开路、单发控制射击与清房复检。关闭门扇会真实阻挡通行与子弹，科目不计军衔分、不写排行榜。',
+    'CQB 关卡明确标注：现实 CQB 至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代团队合练。',
+    '所有地图统一降低敌人活跃度：开局只唤醒极少量近处守卫，敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率全部下调；枪声传播范围也收窄。',
+    '作战手册、新兵教程、键位提示、军械库枪械详情与更新公告同步写清新的据枪键、射击模式与 CQB 原则。'
+   ]}
+ ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
  for(i=0;i<PATCHES.length;i++)if(PATCHES[i].v>pv)p=PATCHES[i];
@@ -6576,6 +6726,23 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   b.appendChild(mt);
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=7;brief()});
   l.appendChild(b)}
+ /* CQB 战术学习：完成新兵训练后开放，不占主线进度、不计军衔分 */
+ function lvCardCQB(){
+  var c=LS6[7],ok=!!ST.dev||ST.tut===1;
+  var b=mk('div','card'+(ok?'':' lock'));b.style.borderStyle='dashed';
+  var no=mk('div','no');no.textContent='CQ';b.appendChild(no);
+  var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
+  var sc=mk('div','sc');sc.textContent=c.nm+' · 原则训练'+(ST.cqb?' · 已通过':'');b.appendChild(sc);
+  var df=mk('div','dftag');df.textContent='低活跃模拟目标 · 不计分 · 不升军衔';b.appendChild(df);
+  var ob=mk('div','ob');
+  ob.textContent=ok?'观察 → 切角 → 破门 → 投掷 → 控制射击 → 复检：按现实 door procedure 走一遍'
+   :'完成新兵训练后解锁（设置 → 重新训练 也可以补做）';b.appendChild(ob);
+  var mt=mk('div','mt');
+  var bs=mk('span','badge'+(ok?' g':''));bs.textContent=ok?'已开放':'未解锁';mt.appendChild(bs);
+  var tg=mk('span','badge');tg.textContent='单人原则演示';mt.appendChild(tg);
+  b.appendChild(mt);
+  if(ok)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=8;brief()});
+  l.appendChild(b)}
  function lvCard0(){
   var ok=!!ST.dev||ST.tut===1;
   var b=mk('div','card'+(ok?'':' lock'));b.style.borderStyle='dashed';
@@ -6613,7 +6780,8 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   l.appendChild(b)}
  lvCard0();
  lvCardAir();
- lvCard6()}
+ lvCard6();
+ lvCardCQB()}
 var DRG=[
  {A:'第一幕 · 报到',S:'office'},
  ['沈钺','坐。别站着——今天不是来罚你的。','office'],
@@ -7021,12 +7189,13 @@ function fadeTo(fn){
   setTimeout(function(){f.classList.remove('on')},140)},430)}
 function dStartExam(){fadeTo(function(){show(null);ST.lv=7;brief2Exam()})}
 /* SECTION: tutorial 新兵训练
-   一座靶场里的 13 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
+   一座靶场里的 14 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
 var TUTS=[
  {k:'moved',t:'移动',d:'用 <b>W A S D</b> 移动。掩体会真实阻挡走位，也会挡住子弹。',g:'累计移动 260 px',n:260},
  {k:'run',t:'疾跑',d:'按住 <b>Shift</b> 疾跑。疾跑时不能开火，进入战斗前记得松手。',g:'疾跑累计 200 px',n:200},
- {k:'aim',t:'据枪',d:'按住 <b>鼠标右键</b>（触屏点「据枪」）收窄散布——远距离必须据枪。',g:'保持据枪 1.2 秒',n:1.2},
- {k:'kills',t:'射击',d:'<b>鼠标左键</b>开火，打倒 2 个人形靶。',g:'击倒 2 个人形靶',n:2},
+ {k:'aim',t:'据枪',d:'按住 <b>Space</b>（触屏点「据枪」）收窄散布——远距离必须据枪。鼠标右键不再据枪。',g:'保持据枪 1.2 秒',n:1.2},
+ {k:'mode',t:'射击模式',d:'按 <b>V</b> 在 <b>单发 / 短点射 / 全自动</b> 之间切换。步枪按现实击发组提供这三种模式；手枪、霰弹枪与狙击枪只有单发。',g:'切换 1 次射击模式',n:1},
+ {k:'kills',t:'射击',d:'<b>鼠标左键</b>开火，打倒 2 个人形靶。先用单发或短点射控制弹着，再试全自动。',g:'击倒 2 个人形靶',n:2},
  {k:'reload',t:'换弹',d:'弹匣打空会自动换弹；也可以随时按 <b>R</b> 手动换弹。',g:'完成 1 次换弹',n:1},
  {k:'swap',t:'切枪',d:'按 <b>1 / 2</b> 切换主副武器，<b>Q</b> 快速切回上一把。',g:'切换 1 次武器',n:1},
  {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
@@ -7037,8 +7206,99 @@ var TUTS=[
  {k:'cov',t:'掩护射击',d:'按 <b>G</b>：换弹加速、散布收紧，适合压制窗口。',g:'触发 1 次掩护',n:1},
  {k:'pause',t:'暂停与键位',d:'按 <b>P</b> 暂停：看键位、切音效、重开本关。<b>M</b> 可以随时开关音效。',g:'暂停 1 次',n:1}
 ];
-var TUT={on:false,i:0,moved:0,run:0,aim:0,kills:0,k0:0,kTotal:0,simKills:0,_p:-1,fire:0,reload:0,swap:0,gren:0,act:0,
+var TUT={on:false,i:0,moved:0,run:0,aim:0,mode:0,kills:0,k0:0,kTotal:0,simKills:0,_p:-1,fire:0,reload:0,swap:0,gren:0,act:0,
  light:0,wheel:0,med:0,cov:0,pause:0,t:0,done:false,px:0,py:0};
+/* ---- CQB 战术学习：按真实 door procedure 的顺序推进 ----
+   每个科目都有现实依据；游戏只做判定，不发明“绕后处决”之类花招。
+   现实中单人清房风险极高，本关明确标注为「单人条件下的原则演示」。 */
+var CQBL=[
+ {k:'scope',t:'1 · 门外观察',n:1,
+  d:'先别推门。靠近关闭的门，按 <b>X</b> 用潜望镜观察门后。现实里第一步永远是情报：门后有没有人、有没有人质、门向哪边开。<br><span style="color:#8fae7c">依据：door procedure · 先观察后进入</span>',
+  g:'用潜望镜观察 1 道关闭的门'},
+ {k:'slice',t:'2 · 贴墙切角',n:2.0,
+  d:'在关着的门旁按住 <b>Space</b> 据枪，枪口对准门内，保持 2 秒。现实里不要站进门洞正中（fatal funnel），要贴墙、沿门框逐步横向切角，一次只暴露一个射界。<br><span style="color:#8fae7c">依据：slicing the pie · limited penetration</span>',
+  g:'在关闭的门旁据枪 2.0 秒'},
+ {k:'breach',t:'3 · 破门',n:1,
+  d:'靠近关闭的门按 <b>F</b>；木门通常要连按两次（或直接用破门弹）。现实里破门前要确认门向与门后障碍；开门后不要堵在门口，要给后续队员留出进入通道。<br><span style="color:#8fae7c">依据：breach &amp; hold · 门区不滞留</span>',
+  g:'破开 1 道门'},
+ {k:'flash',t:'4 · 投掷开路',n:1,
+  d:'门开之后，按 <b>B</b> 选择震爆或闪光并投向门内。现实里只在确认门后有威胁、且没有扣押人员时使用；投出后立即准备进入，不要等烟散。室内使用要留意可燃物。<br><span style="color:#8fae7c">依据：flashbang deployment · 确认威胁后使用</span>',
+  g:'投出 1 枚震爆或闪光'},
+ {k:'semiShot',t:'5 · 控制射击',n:1,
+  d:'按 <b>V</b> 切到单发，按住 <b>Space</b> 据枪后开一枪。现实里进门后优先单发或两发点射，只在近距离压制时用连发；先确认目标再扣扳机，避免扫射。',
+  g:'单发模式 + 据枪完成 1 次射击'},
+ {k:'clear',t:'6 · 清房与复检',n:1,
+  d:'按近角→远角→门后→侧室的顺序清房，离开前复检。现实 CQB 至少两人一组：一人进房、一人控门；本关是单人原则演示，不替代团队合练。',
+  g:'清除训练楼全部目标'}
+];
+var CQBT={on:false,i:0,done:false,scope:0,slice:0,breach:0,flash:0,semiShot:0,clear:0,
+ t:0,_p:-1};
+function cqbVal(s){return (s&&typeof CQBT[s.k]==='number')?CQBT[s.k]:0}
+function cqbRender(){
+ var s=CQBL[CQBT.i];
+ $('tutHdLbl').textContent='CQB 战术';
+ $('tut').classList.remove('hidden');
+ if(!s){$('tutTt').textContent='科目完成';return}
+ $('tutStep').textContent=(CQBT.i+1)+' / '+CQBL.length;
+ $('tutTt').textContent=s.t;$('tutD').innerHTML=s.d;
+ var dots='',i;for(i=0;i<CQBL.length;i++)
+  dots+='<i class="'+(i<CQBT.i?'done':(i===CQBT.i?'now':''))+'"></i>';
+ $('tutDots').innerHTML=dots;
+ $('tutSkip').textContent='退出教学 ›';
+ CQBT._p=-1;cqbProg(1)}
+function cqbProg(force){var s=CQBL[CQBT.i];if(!s)return;
+ var cur=cqbVal(s),n=s.n||1,pct=clamp(cur/n,0,1);
+ if(!force&&CQBT._p===pct)return;CQBT._p=pct;
+ var f=$('tutBarF');if(f)f.style.width=(pct*100).toFixed(1)+'%';
+ var g=$('tutGo');if(g){var ex='';
+  if(n>1)ex='（'+(s.k==='slice'?Math.min(cur,n).toFixed(1):Math.floor(Math.min(cur,n)))+' / '+n+'）';
+  g.textContent='目标：'+s.g+ex}}
+function cqbEv(k){if(!CQBT.on||CQBT.done)return;
+ var ok=0,i;for(i=0;i<CQBL.length;i++)if(CQBL[i].k===k){ok=1;break}
+ if(!ok)return;
+ CQBT[k]=(CQBT[k]||0)+1;cqbCheck()}
+function cqbAdd(k,v){if(!CQBT.on||CQBT.done)return;
+ var s=CQBL[CQBT.i];if(!s||s.k!==k)return;
+ CQBT[k]=(CQBT[k]||0)+v;cqbCheck()}
+function cqbCheck(){if(!CQBT.on||CQBT.done)return;
+ var s=CQBL[CQBT.i];if(!s)return;
+ var cur=cqbVal(s);
+ if(cur<s.n){cqbProg(0);return}
+ CQBT.i++;snd.sec();
+ if(CQBT.i>=CQBL.length){
+  CQBT.done=true;CQBT._p=-1;
+  $('tutTt').textContent='科目完成 · 清空训练楼';
+  $('tutD').innerHTML='六个原则科目已经过完。现在把六个房间全部清空，回到南门撤离。<br>'+
+   '<b style="color:#e2a93e">现实提醒</b>：单人清房是高风险动作；真实行动应由至少两人协同，一人进房、一人控门。';
+  $('tutGo').textContent='目标：清除全部目标后从南门撤离';
+  $('tutBarF').style.width='100%';
+  $('tutDots').innerHTML='';
+  toast('CQB 科目完成 · 清空训练楼后从南门撤离',3200);
+  feed('CQB 科目完成 · 保持门区纪律',1);
+  return}
+ CQBT._p=-1;cqbRender();
+ toast('完成：'+s.t+' · 下一步 '+CQBL[CQBT.i].t,1600)}
+function cqbTick(dt){
+ if(!CQBT.on||CQBT.done||!G||!L)return;
+ CQBT.t+=dt;
+ cqbCheck();if(CQBT.done)return;
+ var s=CQBL[CQBT.i];
+ if(!s)return;
+ if(s.k==='slice'&&G.p.aim){
+  var d=doorNear(G.p.x,G.p.y,135,1);
+  if(d)cqbAdd('slice',dt);
+ }
+ if(s.k==='clear'&&aliveAll()===0)cqbEv('clear');
+}
+function cqbStart(){
+ CQBT.on=true;CQBT.done=false;CQBT.i=0;CQBT.scope=0;CQBT.slice=0;CQBT.breach=0;
+ CQBT.flash=0;CQBT.semiShot=0;CQBT.clear=0;CQBT.t=0;CQBT._p=-1;
+ TUT.on=false;
+ $('tut').classList.remove('hidden');cqbRender();
+ toast('CQB 战术学习 · 先观察、再切角；现实行动至少两人一组',3600);
+ feed('训练要求：不要站在门洞正中',1);
+ if(G&&G.p){G.p.fm=modeOf(cur().w)}
+ updGun()}
 function tutEv(k){if(!TUT.on||TUT.done)return;if(typeof TUT[k]!=='number')return;TUT[k]++;tutCheck()}
 function tutValue(s){
  if(!s)return 0;
@@ -7064,6 +7324,8 @@ function tutProg(force){var s=TUTS[TUT.i];if(!s)return;
   g.textContent='目标：'+s.g+ex}}
 function tutRender(){var s=TUTS[TUT.i];
  if(!s){$('tutTt').textContent='全部完成';return}
+ $('tutHdLbl').textContent='新兵训练';
+ $('tutSkip').textContent='跳过教程 ›';
  $('tutStep').textContent=(TUT.i+1)+' / '+TUTS.length;
  $('tutTt').textContent=s.t;$('tutD').innerHTML=s.d;
  var dots='',i;for(i=0;i<TUTS.length;i++)
@@ -7100,6 +7362,7 @@ function startTut(resume){
  var rs=-1,keep=0;
  if(resume&&(ST.tutP|0)>=0)rs=clamp(ST.tutP|0,0,TUTS.length-1);
  resetCombatFx();show(null);setScr('play');aInit();
+ CQBT.on=false;
  build(6,TUTLV);
  POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
  $('feed').innerHTML='';$('comms').classList.remove('on');$('go').classList.remove('on');
@@ -7109,7 +7372,7 @@ function startTut(resume){
  CAM.y=clamp(G.p.y-VH/2,0,Math.max(0,L.cfg.H-VH));
  HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:'',rk:''};
  initAllies();
- TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.kills=0;TUT.k0=0;TUT.kTotal=0;TUT.simKills=0;TUT.simSpawn=0;TUT._p=-1;
+ TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.mode=0;TUT.kills=0;TUT.k0=0;TUT.kTotal=0;TUT.simKills=0;TUT.simSpawn=0;TUT._p=-1;
  TUT.fire=0;TUT.reload=0;TUT.swap=0;TUT.gren=0;TUT.act=0;TUT.light=0;TUT.wheel=0;TUT.med=0;
  TUT.cov=0;TUT.pause=0;TUT.t=0;TUT.px=G.p.x;TUT.py=G.p.y;TUT._sv=0;
  if(rs>=0){
@@ -7121,7 +7384,8 @@ function startTut(resume){
  $('tut').classList.remove('hidden');tutRender();
  var sk0=$('tutSkip');if(sk0){sk0.textContent='跳过教程 ›';sk0.classList.remove('arm')}
  updGun();updHud();resize();snd.go();
- toast(rs>=0?('继续新兵训练 · 第 '+(rs+1)+' / '+TUTS.length+' 步：'+TUTS[rs].t):'新兵训练开始 · 跟着左侧面板一步步来',rs>=0?3400:2600)}
+ toast(rs>=0?('继续新兵训练 · 第 '+(rs+1)+' / '+TUTS.length+' 步：'+TUTS[rs].t):'新兵训练开始 · 跟着左侧面板一步步来',rs>=0?3400:2600);
+ CQBT.on=false}
 function tutFinish(){if(TUT.done)return;
  TUT.done=true;TUT.on=false;stopLoop();
  $('tut').classList.add('hidden');
@@ -7190,7 +7454,7 @@ function briefRange(){
 function startRange(){
  resetCombatFx();
  RANGEMODE=1;ST.rangeSel=1;ST.fromRange=0;
- show(null);setScr('play');aInit();TUT.on=false;
+ show(null);setScr('play');aInit();TUT.on=false;CQBT.on=false;
  build(6,RANGE_LV);
  POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
  $('feed').innerHTML='';if($('voice'))$('voice').innerHTML='';
@@ -7252,23 +7516,27 @@ function renderRangeLoad(){
    r.appendChild(b)}
   l.appendChild(r)})}
 function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
- var c=LS6[ST.lv-1];
+ var c=LS6[ST.lv-1],isCqb=!!c.cqb;
  leaveRange();
- var go=$('bGo');if(go)go.textContent='进入战场';
+ var go=$('bGo');if(go)go.textContent=isCqb?'进入训练楼':'进入战场';
  $('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho(curOp()==='duo'?'联合编队 燕锋 + 格雷 · 僚机随行':(heroActive()?'英雄队员 燕锋 · 三武器槽':(greyActive()?'英雄队员 格雷 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）'))));
+ renderWho(isCqb?'单人 · CQB 原则训练':(curOp()==='duo'?'联合编队 燕锋 + 格雷 · 僚机随行':(heroActive()?'英雄队员 燕锋 · 三武器槽':(greyActive()?'英雄队员 格雷 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）')))));
  var o=$('fO');o.innerHTML='';
  c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  var tot=0,k;for(k in c.foe)tot+=c.foe[k];
  if(c.alt)for(k in c.alt.foe)tot+=c.alt.foe[k];
- $('fE').textContent=tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+(c.hostNeed?(' · 人质 '+c.civ.length+' 名（至少带出 '+c.hostNeed+' 名）'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv);
+ if(c.cqbFoes)tot=c.cqbFoes.length;
+ $('fE').textContent=isCqb?(tot+' 名低活跃模拟目标 · 5 道关闭门洞 · 不计分'):(tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+(c.hostNeed?(' · 人质 '+c.civ.length+' 名（至少带出 '+c.hostNeed+' 名）'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv));
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
  var mn=heroActive()?(WM[heroLoadOf()[0]]||WM.m4a1).n:WM[ST.load[0]].n;
  $('fH').textContent=c.hint+'（当前主武器：'+mn+'）';
- $('fP').textContent=fmt(diffPar(c,ST.diff))+' 内完成为满分基准（'+diffDef(ST.diff).n+'）';
+ $('fP').textContent=isCqb?'不设时间基准 · 训练不计军衔分':(fmt(diffPar(c,ST.diff))+' 内完成为满分基准（'+diffDef(ST.diff).n+'）');
  $('fG').textContent=c.roe;
  renderDiffRow();
- var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
+ if(isCqb)$('diffRow').classList.add('hidden');
+ var fa=$('fAlly');if(fa)fa.textContent=isCqb?
+  '单人原则演示：现实 CQB 至少两人一组，一人进房、一人控门；本关不替代团队合练':
+  '全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
  var cs=c.alt?null:loadLv(ST.lv),cb=$('bCont');
  if(cs){cb.classList.remove('hidden');
   cb.textContent='继续任务（'+fmt(cs.t)+'）'}
@@ -7283,6 +7551,7 @@ function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  TUT.on=false;
  build(ST.lv);
  initInfiltration(1);
+ if(!(L.cfg&&L.cfg.cqb))CQBT.on=false;
  G.civTot0=L.civ.length+(L.cfg&&L.cfg.alt?L.cfg.alt.civ.length:0);
  /* 双层地图：记录总敌数与分楼层击杀，楼梯切换时靠它判断是否清空 */
  if(L.cfg&&L.cfg.flTotal){G.tot0=airTotal();G.kf=[0,0];FLS={0:null,1:null}}
@@ -7291,6 +7560,7 @@ function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
  $('feed').innerHTML='';$('comms').classList.remove('on');
  if($('voice'))$('voice').innerHTML='';
+ if(L.cfg&&L.cfg.cqb)cqbStart();
  var kw=VW,kh=VH;
  CAM.x=clamp(G.p.x-kw/2,0,Math.max(0,L.cfg.W-kw));
  CAM.y=clamp(G.p.y-kh/2,0,Math.max(0,L.cfg.H-kh));
@@ -7324,8 +7594,9 @@ function pause(on){if(on){if(ST.scr!=='play')return;
  else{show(null);setScr('play')}}
 function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
  var c=LS6[ST.lv-1],p=G.p,sec=Math.floor(G.t),shots=p.shots||0,
-  accS=shots?Math.round(G.hits/shots*100):0,
-  tb=win?Math.max(0,Math.round((c.par-sec)*6)):0,
+  accS=shots?Math.round(G.hits/shots*100):0,_rr=$('rRate'),_rs=$('rStar');
+ if(_rr)_rr.style.display='';if(_rs)_rs.style.display='';
+ var tb=win?Math.max(0,Math.round((c.par-sec)*6)):0,
   sc=(win?scorePts(1000):0)+scorePts(tb)+G.sc+(win&&(!G.al||!G.al.length)?scorePts(150):0)+
    scorePts(Math.max(0,Math.round(accS*3)))-(win?scorePts(G.dmg*.9):0);
  if(G.abandon)sc=Math.max(0,sc-scorePts(260));
@@ -7350,6 +7621,24 @@ function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
   if(!win&&G.civD>0)$('rNote').textContent='人质损失 '+G.civD+' 名 · 救援失败。先清出通往撤离点的通道，再逐排把人带出来。';
   else if(win)$('rNote').textContent='人质带出 '+G.sec2+'/'+(G.civTot0||L.civ.length)+(G.civD?(' · 损失 '+G.civD+' 名'):' · 零损失')+'。'+
    (G.gas?'毒气处置记录已归档。':'倒计时处置记录已归档。');}
+ /* CQB 战术学习：只做训练评估，不计军衔分、不写排行榜、不发任务简报 */
+ if(L.cfg&&L.cfg.cqb){
+  CQBT.on=false;$('tut').classList.add('hidden');
+  $('rRate').style.display='none';$('rStar').style.display='none';
+  $('rTag').textContent=win?'TRAINING COMPLETE':'TRAINING INCOMPLETE';
+  $('rTtl').textContent=win?'CQB 战术科目完成':'CQB 战术科目未完成';
+  $('r1').textContent='训练用时 '+fmt(sec);
+  $('r5').textContent='—';
+  $('r6').textContent='—';
+  $('rNote').textContent=win?
+   '原则科目全部通过：观察 → 切角 → 破门 → 投掷 → 控制射击 → 复检。现实 CQB 至少两人一组，本关是单人条件下的原则演示，不替代团队合练。':
+   '训练中断。先观察、贴墙切角，不要站在门洞正中；门区是致命漏斗。';
+  $('r7').textContent='CQB 训练 · 不计军衔分 · 当前军衔分 '+ST.xp;
+  var promo0=$('rPromo');if(promo0)promo0.classList.add('hidden');
+  $('bNext').classList.add('hidden');
+  if(win){ST.cqb=1;save();snd.cheer()}else snd.dead();
+  clearLv(ST.lv);
+  return}
  /* 战绩账本：胜/负与累计击毙，排行榜与称号算法都读这三个值 */
  if(win)ST.tw=(ST.tw||0)+1;else ST.tl=(ST.tl||0)+1;
  ST.tk=(ST.tk||0)+G.killed;
@@ -7515,6 +7804,9 @@ function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('gM').style.width=clamp(52+(o.mb+.14)*130,0,100)+'%';
  $('p1').textContent=o.mk;$('p2').textContent=o.cal;$('p3').textContent=o.rt;$('p4').textContent=o.mg;
  $('p5').textContent=o.br;$('p6').textContent=o.mz;$('p7').textContent=o.rg;$('p8').textContent=o.wt;
+ var fms=modesOf(o);
+ if($('p9'))$('p9').textContent=fms.map(function(m){return modeName(m)}).join(' / ')+
+  (fms.length>1?('（按 '+kLabel(KM.mode)+' 切换；射速按公开 '+o.rpm+' 发/分）'):'（固定单发；射速按公开 '+o.rpm+' 发/分）');
  $('cP').textContent=WM[ST.load[0]].n;$('cS').textContent=WM[ST.load[1]].n;
  $('bSetP').classList.toggle('on',ST.sel===ST.load[0]);
  $('bSetS').classList.toggle('on',ST.sel===ST.load[1]);
@@ -7633,12 +7925,18 @@ bind('bTutBtn',function(){if(!ST.name){askName();return}startTut()});
 bind('bNameOk',function(){submitName($('nameIn')&&$('nameIn').value)});
 bind('bNameDef',function(){submitName('新兵')});
 bind('bTutGo',function(){show('sMenu');setScr('menu');renderLv();toast2('欢迎归队，'+(ST.name||'新兵'))});
+bind('bTutCqb',function(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
+ ST.lv=8;brief()});
 bind('bTutArs',function(){openArs()});
 (function(){var ni=$('nameIn');if(!ni)return;
  ni.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitName(ni.value)}})})();
 (function(){var sk=$('tutSkip');if(!sk)return;var armed=0,tid=0;
  function dis(){armed=0;sk.textContent='跳过教程 ›';sk.classList.remove('arm')}
  sk.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();snd.ui();
+   if(CQBT.on){
+    CQBT.on=false;$('tut').classList.add('hidden');clearLv(ST.lv);
+    leaveRange();show('sMenu');setScr('menu');renderLv();
+    toast('已退出 CQB 战术学习 · 可从任务列表重新进入',2600);return}
   if(!armed){armed=1;sk.textContent='确认跳过？再点一次 ›';sk.classList.add('arm');
    clearTimeout(tid);tid=setTimeout(dis,3500);return}
   clearTimeout(tid);dis();
@@ -7772,13 +8070,16 @@ bind('bUiKb',function(){ST.ui='kb';save();applyUI()});
 bind('bUiTouch',function(){ST.ui='touch';save();applyUI()});
 bind('bKmClose',closeKm);
 bind('bKmDef',function(){kmApply(KM_DEF);toast2('已恢复默认键位')});
-bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空，鼠标左键射击与右键据枪仍可用')});
-bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手机械键方案（枪灯 L、手雷 B）')});
+bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空；鼠标左键射击仍可用，据枪与射击模式需重新绑定')});
+bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手键位方案（Space 据枪、N 射击模式、V 医疗）')});
 bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){
  if(G&&G.tut&&TUT.on){TUT.on=false;startTut(false);toast('新兵训练已从第一步重新开始',2200);return}
  clearLv(ST.lv);startLv()});
 bind('bQuit',function(){
+ if(G&&G.cqb&&CQBT.on){CQBT.on=false;clearLv(ST.lv);$('tut').classList.add('hidden');
+  leaveRange();show('sMenu');setScr('menu');renderLv();
+  toast('已退出 CQB 战术学习',2200);return}
  if(G&&G.tut&&TUT.on){tutSave();TUT.on=false;leaveRange();show('sMenu');setScr('menu');renderLv();
   toast('新兵训练进度已保存 · 点「开始行动」接着练',3400);return}
  saveLv();leaveRange();show('sMenu');setScr('menu');renderLv()});
