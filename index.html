@@ -1121,7 +1121,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <tr><td>投掷 / 互动</td><td><span class="tutKey">B</span> 投掷 · <span class="tutKey">F</span> 互动</td></tr>
     <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">C</span> 潜望镜 · <span class="tutKey">H</span> 医疗</td></tr>
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
-    <tr><td>系统</td><td><span class="tutKey">P</span> 暂停 · <span class="tutKey">M</span> 音效开关</td></tr>
+    <tr><td>系统</td><td><span class="tutKey">Esc</span> 暂停/继续 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
   <div class="note">作战序列将从 OP-01 公寓开始，难度由易到难逐级解锁；新兵训练完成后还会开放「CQB 战术学习 · 训练楼」，用低活跃度目标练习观察、切角、破门与清房。军衔每升一级都会解锁新的枪械档次，出发前可以先去军械库换一把顺手的枪。中途退出也没关系——训练进度会保存，下次进入从停下的那一步接着练；想重打一遍可到「设置 → 重新训练」。</div>
   <div class="bar"><button class="btn p" id="bTutGo">进入作战序列</button><button class="btn" id="bTutCqb">CQB 战术学习</button><button class="btn" id="bTutArs">先去军械库</button></div>
@@ -1271,7 +1271,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bar">
     <button class="btn" id="bBoardBack">返回</button>
   </div>
-  <div class="note" id="bdNote">称号由制作者手工授予，颜色等级按军功值自动排序；金色单独预留，不参与自动分配。</div>
+  <div class="note" id="bdNote">称号分自动与手工两类：体验官为招募期注册并上榜自动授予（已延长至 11 月 16 日 23:59），其余称号按军功自动分级；金色单独预留，不参与自动分配。</div>
 </div></section>
 
 <!-- SECTION: markup-set 设置 -->
@@ -1461,7 +1461,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="note" id="uiDet" style="margin-top:4px"></div>
   <div class="note">电脑键鼠：WASD 移动、鼠标瞄准、左键开火、<b>Space 据枪</b>、<b>V 切换射击模式</b>；鼠标右键不再据枪。屏幕底部显示按键提示。触屏：左侧虚拟摇杆移动、右侧摇杆转向，屏幕圆钮「据枪」收窄散布。</div>
   <div class="hr"></div>
-  <p class="lead">点击右侧按键框，再按下想用的键即完成绑定；按 <b style="color:#dce7ee">Esc</b> 取消本次绑定，点 <b style="color:#dce7ee">×</b> 清空该项。同一按键被占用时会自动从旧动作解绑。<b style="color:#dce7ee">Esc／P</b> 为系统保留键，不会被占用。切到「触屏」后这里会变成虚拟按键的摆放设置。</p>
+  <p class="lead">点击右侧按键框，再按下想用的键即完成绑定；按 <b style="color:#dce7ee">Esc</b> 取消本次绑定，点 <b style="color:#dce7ee">×</b> 清空该项。同一按键被占用时会自动从旧动作解绑。<b style="color:#dce7ee">Esc</b> 为系统保留键，不会被占用。切到「触屏」后这里会变成虚拟按键的摆放设置。</p>
   <div class="bar">
     <button class="btn p" id="bKmClose">完成</button>
     <button class="btn sm" id="bKmDef">恢复默认</button>
@@ -3605,7 +3605,7 @@ function rebuildCW(){if(!L)return;CW=L.ws.slice();CWB=L.ws.slice();
   /* 阻门器：堵住洞口，可被炸毁；CQB 训练楼里的关闭门扇也真实阻挡通行与子弹 */
   if(a.tr==='blocker'||(L.cfg&&L.cfg.cqb&&!a.open)){CW.push(a);CWB.push(a)}
  }
- CWo=L}
+ CWo=L;if(L)L.nav=null}
 /* 迷雾在每次构建地图后重置 */
 function cwNoDoors(){CW=L.ws.slice();CWB=L.ws.slice()}
 function inWallAt(x,y){var i;for(i=0;i<CW.length;i++){var a=CW[i];
@@ -3720,7 +3720,7 @@ function kLabel(k){if(!k)return '未绑定';
  if(mp[k])return mp[k];return k.length===1?k.toUpperCase():k}
 function kb(a){return KM[a]&&KEY[KM[a]]}
 function swapBind(act,key){if(!key)return false;
- var RESERVED={escape:1,p:1,tab:1,f12:1,f5:1,control:1,alt:1,meta:1};
+ var RESERVED={escape:1,tab:1,f12:1,f5:1,control:1,alt:1,meta:1};
  if(RESERVED[key]){toast2(key==='escape'?'Esc 为系统保留键，不可绑定':'该键为浏览器保留键，请换一个');return false}
  var k2;for(k2 in KM){if(k2!==act&&KM[k2]===key)KM[k2]=''}
  KM[act]=key;save();renderKm();updHint();return true}
@@ -3742,7 +3742,7 @@ function renderKm(){var kw=$('kmWrap'),tw=$('tpWrap');
    row.appendChild(cl)}
   l.appendChild(row)});
  var ex=mk('div','kmrow');var el2=mk('span','lba');
- el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 键盘 '+kLabel(KM.ads)+'＝据枪 · '+kLabel(KM.mode)+'＝射击模式 · Esc／P＝暂停';
+ el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 键盘 '+kLabel(KM.ads)+'＝据枪 · '+kLabel(KM.mode)+'＝射击模式 · Esc＝暂停/继续';
  ex.appendChild(el2);l.appendChild(ex)}
 function updHint(){var h=$('keysHint');if(!h)return;
  var K=function(a){return '<span class="kbd">'+kLabel(KM[a])+'</span>'};
@@ -3753,7 +3753,7 @@ function updHint(){var h=$('keysHint');if(!h)return;
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
  '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('swap')+' 快速切枪</div>',
  '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>',
- '<div>'+K('peri')+' 潜望镜 / 门外观察 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · <span class="kbd">Esc</span>／<span class="kbd">P</span> 暂停</div>',
+ '<div>'+K('peri')+' 潜望镜 / 门外观察 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · <span class="kbd">Esc</span> 暂停/继续</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
  '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火，圆钮「据枪」＝收窄散布</div>'];
  h.innerHTML=rows.filter(function(x){return x}).join('')}
@@ -3775,10 +3775,11 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
   if(rangeExitOpen()){
    if(k==='a'){rangeExitEquip();return}
    if(k==='b'){rangeExitQuit();return}
-   if(k==='escape'||k==='p'){closeRangeExit();return}
+   if(k==='escape'){closeRangeExit();return}
    return}
+  if(ST.scr==='pause'&&k==='escape'){pause(0);return}
   if(ST.scr==='play'){
-   if(k==='escape'||k==='p'){pause(1)}
+   if(k==='escape'){pause(1)}
    else if(kb('reload'))tryReload();
    else if(kb('mode'))cycleFireMode();
    else if(kb('gun1'))swGun(0);
@@ -4325,6 +4326,11 @@ function switchFloor(){
  if(!airOn()||!G||G.phase!=='live'||G.p.act)return false;
  var from=L.fi,to=1-from,alt=L.cfg.alt;
  if(!alt)return false;
+ /* 先把「正在跟随」的人质从当前楼层带走；否则玩家下楼后他们被留在 2F，
+    机场关卡会在撤离点前卡住。上/下楼时人质跟着走，重新放到目标层楼梯口。 */
+ var carried=[],ci;
+ for(ci=0;ci<L.civ.length;ci++){var cc0=L.civ[ci];if(!cc0.down&&cc0.f&&cc0.fol)carried.push(cc0)}
+ if(carried.length){var remain=[],ri;for(ri=0;ri<L.civ.length;ri++)if(carried.indexOf(L.civ[ri])<0)remain.push(L.civ[ri]);L.civ=remain}
  FLS[from]={en:L.en,civ:L.civ,dr:L.dr,exitOpen:G.exitOpen};
  var keep={killed:G.killed,disarmed:G.disarmed,sec2:G.sec2,civD:G.civD,dmg:G.dmg,hits:G.hits,
   sc:G.sc,t:G.t,kf:G.kf,tot0:G.tot0,bossDown:G.bossDown};
@@ -4333,6 +4339,15 @@ function switchFloor(){
  L.fi=to;
  var sn=FLS[to];
  if(sn){L.en=sn.en;L.civ=sn.civ;L.dr=sn.dr}
+ if(carried.length){
+  for(ci=0;ci<carried.length;ci++){var cc=carried[ci];
+   var ox=alt.st[0]+((ci%3)-1)*26,oy=alt.st[1]+(Math.floor(ci/3)+1)*24;
+   cc.x=freeAt(ox,oy,cc.r)?ox:alt.st[0];
+   cc.y=freeAt(ox,oy,cc.r)?oy:alt.st[1];
+   if(!freeAt(cc.x,cc.y,cc.r))snapFree(cc);
+   cc.f=1;cc.fol=1;cc.down=0;cc.stuck=0;cc.path=null;cc.pathT=0;cc.pi=0;
+   cc._seen=0;cc._vis=0;
+   L.civ.push(cc)}}
  G.killed=keep.killed;G.disarmed=keep.disarmed;G.sec2=keep.sec2;G.civD=keep.civD;
  G.dmg=keep.dmg;G.hits=keep.hits;G.sc=keep.sc;G.t=keep.t;G.kf=keep.kf;G.tot0=keep.tot0;
  G.bossDown=keep.bossDown;G.phase='live';G.goT=0;G.p=P;G.exitOpen=sn?sn.exitOpen:0;
@@ -4343,7 +4358,10 @@ function switchFloor(){
  CAM.x=clamp(P.x-VW/2,0,Math.max(0,L.cfg.W-VW));
  CAM.y=clamp(P.y-VH/2,0,Math.max(0,L.cfg.H-VH));
  snd.sec();updGun();updHud();
- toast(to?'已上到 2F 商业层':'已下到 1F 航站楼',2200);return true}
+ if(carried.length){feed(carried.length+' 名人质跟随你'+(to?'上到 2F':'下到 1F'),1);
+  toast(carried.length+' 名人质已跟随'+(to?'上到 2F':'下到 1F'),2600)}
+ else toast(to?'已上到 2F 商业层':'已下到 1F 航站楼',2200);
+ return true}
 /* 靶场专有：所有靶标倒下后，按 F 让它们重新立起（玩家主动动作，不会自动刷新） */
 function allTargetsDown(){var i;if(!L||!L.cfg||!(L.cfg.tgt||L.cfg.exam))return false;
  if(!L.en.length)return false;
@@ -4765,21 +4783,8 @@ function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
 function hostLeft(){var n=0,i;for(i=0;i<L.civ.length;i++)if(!L.civ[i].down&&!L.civ[i].f)n++;return n}
 function updCiv(dt){var p=G.p,i;
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down)continue;c.ph+=dt*3.4;
-  if(c.f&&c.fol){var dx=p.x-c.x,dy=p.y-c.y,d=Math.hypot(dx,dy)||1;
-   /* 掉队过远时只在镜头外悄悄归队，镜头内则靠提速追上来 */
-   if(d>2600&&!vis(c.x,c.y,0)){c.x=p.x+(i?20:-20);c.y=p.y+(i?14:-14);c.stuck=0;continue}
-   if(d>46){var cs=clamp(150*d/300,150,430),mv=moveToward(c,p.x,p.y,cs,dt);
-    if(mv)c.stuck=0;
-    else{c.stuck=(c.stuck||0)+dt;
-     var cd=doorNear(c.x,c.y,54);if(cd&&!cd.open)openDoor(cd,'c');
-     /* 卡在墙角：先平滑挤出来，长时间仍脱困且不在镜头内才允许归队 */
-     if(pushFree(c,dt,300)){if(c.stuck>2.2)c.stuck=0}
-     else if(c.stuck>1.5&&!vis(c.x,c.y,0)){c.stuck=0;
-      var px2=p.x+(i?20:-20),py2=p.y+(i?14:-14);
-      if(freeAt(px2,py2,c.r)){c.x=px2;c.y=py2}
-      else if(freeAt(p.x,p.y,c.r)){c.x=p.x;c.y=p.y}
-      feed('平民重新跟上 · 留意跟随路线',0)}}}
-   else c.stuck=0}}}
+  if(c.f&&c.fol)civFollow(c,p,dt,i);
+  else{c.stuck=0;c.path=null;c.pathT=0}}}
 /* SECTION: enemy-grenade 敌方投掷物
    和玩家同一套规则：先算准落点（最远 340、遇墙落在墙前），再沿直线落下，不做抛物线 */
 function throwEnemyNade(e){if(!G.eg)G.eg=[];
@@ -5046,6 +5051,102 @@ function moveToward(o,tx,ty,spd,dt){var a0=Math.atan2(ty-o.y,tx-o.x),d=spd*dt,i,
   nx=o.x+Math.cos(ang)*d;ny=o.y+Math.sin(ang)*d;
   if(pathFree(o.x,o.y,nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;return true}}
  return false}
+/* ---- 人质导航网格 / BFS 寻路 ----
+   人质只靠 moveToward 的扇形转向时，遇到 L 形墙角、柜台和门框会原地打转。
+   这里给当前楼层建一张 20px 导航网格，用人质半径判定可走格；
+   需要时 BFS 求一条绕开墙体的路，再做视线拉直（path smoothing）。 */
+function navBuild(){
+ if(!L)return null;
+ var cell=20,cols=Math.ceil(L.cfg.W/cell),rows=Math.ceil(L.cfg.H/cell),
+  blocked=new Uint8Array(cols*rows),x,y;
+ for(y=0;y<rows;y++)for(x=0;x<cols;x++){
+  if(!freeAt(x*cell+cell/2,y*cell+cell/2,12))blocked[y*cols+x]=1}
+ return {cell:cell,cols:cols,rows:rows,blocked:blocked}}
+function navEnsure(){if(!L)return null;if(!L.nav||L.nav.cols!==Math.ceil(L.cfg.W/20)||L.nav.rows!==Math.ceil(L.cfg.H/20))L.nav=navBuild();return L.nav}
+function navCell(nav,x,y){var cx=Math.floor(x/nav.cell),cy=Math.floor(y/nav.cell);
+ return {x:clamp(cx,0,nav.cols-1),y:clamp(cy,0,nav.rows-1)}}
+function navFreeCell(nav,x,y){
+ var c=navCell(nav,x,y),i,id=c.y*nav.cols+c.x;
+ if(!nav.blocked[id])return id;
+ var rr,xx,yy;
+ for(rr=1;rr<=10;rr++)for(yy=-rr;yy<=rr;yy++)for(xx=-rr;xx<=rr;xx++){
+  if(Math.max(Math.abs(xx),Math.abs(yy))!==rr)continue;
+  var nx=c.x+xx,ny=c.y+yy;if(nx<0||ny<0||nx>=nav.cols||ny>=nav.rows)continue;
+  id=ny*nav.cols+nx;if(!nav.blocked[id])return id}
+ return -1}
+function navPath(sx,sy,tx,ty,r){
+ var nav=navEnsure();if(!nav)return null;
+ var s=navFreeCell(nav,sx,sy),g=navFreeCell(nav,tx,ty);
+ if(s<0||g<0)return null;
+ if(s===g)return [{x:tx,y:ty}];
+ var n=nav.cols*nav.rows,prev=new Int32Array(n),q=new Int32Array(n),vis=new Uint8Array(n),i;
+ for(i=0;i<n;i++)prev[i]=-1;
+ var head=0,tail=0;q[tail++]=s;vis[s]=1;
+ var dx=[1,-1,0,0,1,1,-1,-1],dy=[0,0,1,-1,1,-1,1,-1],dir;
+ while(head<tail){
+  var cur=q[head++];if(cur===g)break;
+  var cx=cur%nav.cols,cy=(cur-cx)/nav.cols;
+  for(dir=0;dir<8;dir++){
+   var nx=cx+dx[dir],ny=cy+dy[dir];
+   if(nx<0||ny<0||nx>=nav.cols||ny>=nav.rows)continue;
+   var ni=ny*nav.cols+nx;if(vis[ni]||nav.blocked[ni])continue;
+   /* 斜走不能切墙角：两侧正交格必须同时可走 */
+   if(dx[dir]&&dy[dir]){
+    var a1=cy*nav.cols+nx,a2=ny*nav.cols+cx;
+    if(nav.blocked[a1]||nav.blocked[a2])continue}
+   vis[ni]=1;prev[ni]=cur;q[tail++]=ni;
+   if(ni===g){head=tail;break}}}
+ if(!vis[g])return null;
+ var rev=[],at=g;
+ while(at!==-1){var ax=at%nav.cols,ay=(at-ax)/nav.cols;
+  rev.push({x:ax*nav.cell+nav.cell/2,y:ay*nav.cell+nav.cell/2});if(at===s)break;at=prev[at]}
+ rev.reverse();
+ if(!rev.length)return null;
+ rev[0]={x:sx,y:sy};
+ /* 视线拉直：能直线到达的中间点全部删掉，避免贴格子走 */
+ var out=[rev[0]],k=0;
+ while(k<rev.length-1){
+  var j=rev.length-1;
+  for(;j>k+1;j--){if(pathFree(rev[k].x,rev[k].y,rev[j].x,rev[j].y,r))break}
+  out.push(rev[j]);k=j}
+ if(freeAt(tx,ty,r))out.push({x:tx,y:ty});
+ return out}
+function civSep(c,idx){
+ var i,o,ox,oy,d,mn,px,py,st;
+ for(i=0;i<L.civ.length;i++){o=L.civ[i];if(o===c||o.down)continue;
+  ox=c.x-o.x;oy=c.y-o.y;d=Math.hypot(ox,oy)||1;mn=c.r+o.r+2;
+  if(d>=mn)continue;
+  st=Math.min(2.2,(mn-d)*.55);px=ox/d*st;py=oy/d*st;
+  if(pathFree(c.x,c.y,c.x+px,c.y+py,c.r)){c.x+=px;c.y+=py}}}
+function civFollow(c,p,dt,idx){
+ var dx=p.x-c.x,dy=p.y-c.y,d=Math.hypot(dx,dy)||1;
+ if(d<44&&los(c.x,c.y,p.x,p.y)){c.stuck=0;c.path=null;c.pathT=0;return}
+ if(c.pathT>0)c.pathT-=dt;
+ var need=c.pathT<=0||!c.pathGoal||
+  Math.hypot(p.x-c.pathGoal.x,p.y-c.pathGoal.y)>72||(c.path&&c.pi>=c.path.length);
+ if(need){
+  c.path=navPath(c.x,c.y,p.x,p.y,c.r);
+  c.pi=0;c.pathGoal={x:p.x,y:p.y};c.pathT=.75+Math.random()*.25;
+  if(c.path&&c.path.length){c.path[0]={x:c.x,y:c.y}}
+ }
+ var moved=false,wp=null;
+ if(c.path&&c.path.length&&c.pi<c.path.length)wp=c.path[c.pi];
+ var spd=clamp(165*d/300,165,430);
+ if(wp){
+  if(Math.hypot(wp.x-c.x,wp.y-c.y)<10){c.pi++;wp=c.path[c.pi]||null}
+  if(wp){moved=moveToward(c,wp.x,wp.y,spd,dt)}
+ }
+ if(!moved){
+  /* 路径被临时挡住（门、队友、家具）时退回局部避障，并尝试打开近处的门 */
+  moved=moveToward(c,p.x,p.y,spd*.82,dt);
+  if(!moved){
+   c.stuck=(c.stuck||0)+dt;
+   var cd=doorNear(c.x,c.y,54);if(cd&&!cd.open)openDoor(cd,'c');
+   if(pushFree(c,dt,300)){c.stuck=0;moved=true}
+  }
+ }else c.stuck=0;
+ civSep(c,idx);
+}
 /* 卡进实体内部时，向外螺旋找最近空位并平滑挤出（只走安全的一小步） */
 function pushFreeObj(o,dt,spd){
  if(!inWallAt(o.x,o.y)&&freeAt(o.x,o.y,o.r))return true;
@@ -5847,7 +5948,7 @@ function updKbar(){var el=$('kbar');if(!el)return;
   el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · '+K('ads')+' 据枪</div>'+
    '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+K('mode')+' 射击模式 · '+((G&&G.p&&G.p.guns&&G.p.guns.length>2)?(K('gun1')+'/'+K('gun2')+'/'+K('gun3')):(K('gun1')+'/'+K('gun2')))+' 主副 · '+K('swap')+' 切枪</div>'+
    '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>'+
-   '<div>'+K('peri')+' 潜望镜 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · P 暂停</div>'}}
+   '<div>'+K('peri')+' 潜望镜 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · Esc 暂停/继续</div>'}}
 function updHud(){var p=G.p,g=cur(),i;
  if(p.hp!==HD.hp){HD.hp=p.hp;$('hpF').style.width=clamp(p.hp/p.mhp*100,0,100)+'%';
   $('hpN').textContent=Math.round(p.hp)}
@@ -5880,7 +5981,7 @@ function updHud(){var p=G.p,g=cur(),i;
  var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var flg=airOn()?('【'+L.cfg.flName+'】'):'';
- var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 P 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
+ var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 Esc 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
  if(L.cfg&&L.cfg.hostNeed&&G.phase==='live'){
   var hl2=hostLeft(),hn2=L.cfg.hostNeed;
   ot='人质 '+G.sec2+'/'+hn2+(hl2?(' · 未解救 '+hl2):' · 已带全')+(G.exitOpen?' · 前往撤离点':' · 残敌 '+al)+
@@ -6015,11 +6116,11 @@ function frame(t){RAF=requestAnimationFrame(frame);
    没配置 / 连不上时自动退化成「只看本机」，不弹错、不影响游戏。 */
 var LB={api:'https://cqb-roster.pages.dev/api',data:null,ts:0,busy:0,off:'',lastPush:0};
 /* 招募活动：在截止时间前注册并上榜的玩家，自动授予「体验官」（时间可改，改这一行即可） */
-var PROMO={from:Date.parse('2026-11-08T00:00:00+08:00'),to:Date.parse('2026-11-15T23:59:59+08:00')};
+var PROMO={from:Date.parse('2026-11-08T00:00:00+08:00'),to:Date.parse('2026-11-16T23:59:59+08:00')};
 function promoOf(r){var t=+(r&&r.t0)||0;return !!t&&t>=PROMO.from&&t<=PROMO.to}
 /* 手工称号：key 可以是玩家 id 也可以是代号；g 缺省时按军功值自动定级。
    g:'gold' 是预留档，只手工授予，不会自动发给任何人。
-   g:'tester' = 游戏体验官（预留色，仅手工授予） */
+   g:'tester' = 游戏体验官（招募期注册上榜自动授予） */
 var TITLES={
  /* 头衔可叠加：t 数组按顺序显示，多个时自动排成小胶囊 */
  '小迪不是叉滴':{t:[['开发者','dev'],['体验官','tester']]},
@@ -6182,7 +6283,7 @@ function lbCopy(){
 function openBoard(){
  show('sBoard');setScr('board');
  if($('promoLine')){var pd=new Date(PROMO.to);
-  $('promoLine').innerHTML='招募活动 · <b>'+(pd.getMonth()+1)+' 月 '+pd.getDate()+' 日</b> 23:59 前注册并登上排行榜的玩家，自动授予 '+ttlHTML({n:'体验官',g:'tester',titles:[['体验官','tester']]})+' 头衔'}
+  $('promoLine').innerHTML='招募活动延长 · <b>'+(pd.getMonth()+1)+' 月 '+pd.getDate()+' 日</b> 23:59 前注册并登上排行榜的玩家，自动授予 '+ttlHTML({n:'体验官',g:'tester',titles:[['体验官','tester']]})+' 头衔（含今天新注册玩家）'}
  lbRenderLegend();lbRender();
  lbFetch(function(){lbRender();try{lbSubmit()}catch(e){}})
 }
@@ -6437,6 +6538,15 @@ var PATCHES=[
     '键位设置新增「潜望镜 / 门外观察」，可与旧版观察键分别改绑；CQB 训练楼固定提供 5 次潜望镜，普通任务按军械库「光纤潜望镜」配置。',
     '靠近关闭的门时，屏幕提示会显示「C 潜望镜观察 · F 踹门」，不必再猜按键。',
     '作战手册、教程完成页、CQB 科目说明与 HUD 按键条同步更新潜望镜按键。'
+   ]},
+  {v:18,d:'2026-11-16',t:'机场人质下楼 · 人质避障 · Esc 暂停 · 体验官延长',
+   items:[
+    '修复机场关卡 2F 人质无法跟玩家下到 1F 的卡关问题：上下楼时正在跟随的人质会一起转移到目标楼层楼梯口，解救数、伤亡与任务进度保持不变。',
+    '所有人质寻路重做：当前楼层建立 20px 导航网格，人质用 BFS 绕开墙体、柜台、集装箱与门框，再做视线拉直；被临时挡住时退回局部避障并自动开门。',
+    '人质之间新增分离避让，避免多人挤在同一格或互相卡住；远离玩家时不会再用穿墙瞬移归队，改为沿导航路线追上。',
+    '对局内暂停键由 P 改为 Esc，Esc 可暂停/继续；P 不再暂停，也不再是键位保留键，可以自由改绑。修复了通关新手教程后暂停被旧教程状态拦住的问题。',
+    '「体验官」招募延长至 11 月 16 日 23:59（北京时间）：今天注册并登上排行榜的新玩家自动获得体验官头衔，已获得该头衔的玩家不受影响。',
+    '同步排查并修复楼层切换、人质跨层、CQB 门扇、结算面板与键位设置中的相关边界问题。'
    ]}
  ];
 function pushPatchMail(){
@@ -7215,7 +7325,7 @@ var TUTS=[
  {k:'sim',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
  {k:'cov',t:'掩护射击',d:'按 <b>G</b>：换弹加速、散布收紧，适合压制窗口。',g:'触发 1 次掩护',n:1},
- {k:'pause',t:'暂停与键位',d:'按 <b>P</b> 暂停：看键位、切音效、重开本关。<b>M</b> 可以随时开关音效。',g:'暂停 1 次',n:1}
+ {k:'pause',t:'暂停与键位',d:'按 <b>Esc</b> 暂停/继续：看键位、切音效、重开本关。<b>M</b> 可以随时开关音效。',g:'暂停 1 次',n:1}
 ];
 var TUT={on:false,i:0,moved:0,run:0,aim:0,mode:0,kills:0,k0:0,kTotal:0,simKills:0,_p:-1,fire:0,reload:0,swap:0,gren:0,act:0,
  light:0,wheel:0,med:0,cov:0,pause:0,t:0,done:false,px:0,py:0};
@@ -7477,7 +7587,7 @@ function startRange(){
  $('hurt').style.opacity='0';
  HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
  G.xp0=ST.xp;G.exitOpen=1;G.rxCool=0;updGun();updHud();LOWD=0;resize();snd.go();
- toast('训练场已开放 · 全部枪械可用；按 P 可随时退出',3200)}
+ toast('训练场已开放 · 全部枪械可用；按 Esc 可随时退出',3200)}
 function leaveRange(){RANGEMODE=0;ST.rangeSel=0;ST.fromRange=0}
 /* 训练场撤离点：A 配置装备 / B 退出训练场 */
 function rangeExitOpen(){var el=$('rExit');return !!(el&&!el.classList.contains('hidden'))}
@@ -7600,7 +7710,7 @@ function startCont(){var sv=loadLv(ST.lv);resetCombatFx();show(null);setScr('pla
 function pause(on){if(on){if(ST.scr!=='play')return;
   tutEv('pause');
   tutSave();
-  if(TUT.done)return;
+  if(TUT.on&&TUT.done)return;
   closeThrowPick();show('sPause');setScr('pause');$('bAud2').textContent=ST.aud?'音效 开':'音效 关'}
  else{show(null);setScr('play')}}
 function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
