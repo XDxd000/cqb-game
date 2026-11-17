@@ -1119,7 +1119,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <tr><td>据枪 / 开火</td><td><span class="tutKey">Space</span> 据枪 · <span class="tutKey">左键</span> 开火 · <span class="tutKey">V</span> 射击模式</td></tr>
     <tr><td>换弹 / 切枪</td><td><span class="tutKey">R</span> 换弹 · <span class="tutKey">1</span><span class="tutKey">2</span> 主副 · <span class="tutKey">Q</span> 快切</td></tr>
     <tr><td>投掷 / 互动</td><td><span class="tutKey">B</span> 投掷 · <span class="tutKey">F</span> 互动</td></tr>
-    <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">C</span> 潜望镜 · <span class="tutKey">H</span> 医疗</td></tr>
+    <tr><td>战术 / 医疗</td><td><span class="tutKey">L</span> 枪灯 · <span class="tutKey">F</span> 破拆门 · <span class="tutKey">H</span> 医疗</td></tr>
     <tr><td>掩护</td><td><span class="tutKey">G</span> 掩护射击：换弹加速、散布收紧</td></tr>
     <tr><td>系统</td><td><span class="tutKey">Esc</span> 暂停/继续 · <span class="tutKey">M</span> 音效开关</td></tr>
   </tbody></table>
@@ -1350,7 +1350,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   </tbody></table>
   <div class="bar">
     <button class="btn p" id="bGo">进入战场</button>
-    <button class="btn hidden" id="bCont">继续任务</button>
+
     <button class="btn" id="bToArs">换装</button>
     <button class="btn" id="bBack2">返回</button>
   </div>
@@ -1542,14 +1542,14 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随枪口热量扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
  <p>按住 <span class="kbd">Space</span> 据枪（鼠标右键不再据枪）：散布收紧、移速下降，远距离与切角时必须用。触屏用右侧「据枪」圆钮。军械库的枪械详情新增「游戏内射击模式」一栏，可先看清这把枪能切哪些模式。</p>
  <h3>CQB 战术原则</h3>
- <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>门外观察 → 贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
- <p><b>潜望镜 / 门外观察</b>：靠近关闭的门按 <span class="kbd">C</span>（旧键 <span class="kbd">X</span> 仍兼容）使用 FlushStick，门后 270 px 内的敌人会被标记 3 秒；没有携带潜望镜时会提示“次数已用完 / 未携带”。军械库「战术装备」里可配光纤潜望镜，CQB 训练楼固定提供 5 次。</p>
+ <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
+ <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后有绊雷时会在破开瞬间引爆。</p>
  <h3>敌人活跃度</h3>
- <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做门外观察、切角与逐屋清理，而不是一进门就被全图集火。</p>
+ <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。</p>
  <h3>门洞机关与拆除</h3>
-  <p>门洞可能被 <b style="color:#e08a7b">绊发诡雷</b> 或 <b style="color:#e2a93e">阻门器</b> 封锁。绊雷可由战术腰封里的 <b style="color:#9fc6de">剪线器</b>拆除：靠近门洞按 <span class="kbd">F</span> 开始剪线，保持约 1.4 秒；也可以直接用手雷把绊雷炸毁。阻门器需要破门弹。剪线器占腰封 1 格、可重复使用。</p>
+  <p>门洞可能被 <b style="color:#e08a7b">绊发诡雷</b> 或 <b style="color:#e2a93e">阻门器</b> 封锁。绊雷可由战术腰封里的 <b style="color:#9fc6de">剪线器</b>拆除：靠近门洞按 <span class="kbd">F</span> 开始剪线，保持约 1.4 秒；也可以直接用手雷把绊雷炸毁。阻门器不会阻止破拆，但会让破拆速度降到约六成。剪线器占腰封 1 格、可重复使用。</p>
   <h3>潜入与警报</h3>
-  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。潜入阶段守卫只有正面视野锥，开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、踹门或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
+  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。潜入阶段守卫只有正面视野锥，开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
   <h3>战术枪灯与配件</h3>
   <p>按 <span class="kbd">L</span>（或触屏“枪灯”键）开关枪口战术灯。军械库选 <b style="color:#dce7ee">标准 500 lm</b> 时光锥较短，
   选 <b style="color:#dce7ee">TLR-1 HL 1000 lm</b> 时光锥更长、亮度更高，贴脸照射可让敌人短暂致眩。
@@ -1852,28 +1852,48 @@ function magGun(o){
 var PLATNAME={nato:'北约 1913 导轨',cn:'国产专用接口',ak:'AK 侧轨',p:'手枪专用'};
 var ATT={
  nato:{
-  optic:[{n:'机械瞄具',d:'无附加'},{n:'Aimpoint T-2 红点',d:'据枪散布 −15%'},
-   {n:'EOTech EXPS3 全息',d:'据枪散布 −18%'},{n:'Trijicon ACOG 4×',d:'据枪散布 −22%'}],
-  muz:[{n:'标准消焰器',d:'后坐 −8%'},{n:'SureFire SF3P 消焰',d:'枪口焰极小 · 后坐 −10%'},
-   {n:'Aeroknox MX3 制退',d:'后坐 −16%'}],
-  grip:[{n:'无',d:'无附加'},{n:'Magpul K2 竖握',d:'全自动散布 −18%'}]
+  optic:[{n:'机械瞄具',d:'基础视野 · 无额外负担',ef:{}},
+   {n:'Aimpoint T-2 红点',d:'据枪散布 −18% · 视野 −6% · 据枪速度 −8%',ef:{ads:.82,view:.94,ergo:.92}},
+   {n:'EOTech EXPS3 全息',d:'据枪散布 −22% · 视野 −8% · 据枪速度 −12%',ef:{ads:.78,view:.92,ergo:.88}},
+   {n:'Trijicon ACOG 4×',d:'据枪散布 −30% · 视野 +12% · 腰射 +15% · 据枪速度 −28%',ef:{ads:.70,view:1.12,ergo:.72,hip:1.15}}],
+  muz:[{n:'标准消焰器',d:'后坐 −6% · 枪声 −5%',ef:{recoil:.94,noise:.95}},
+   {n:'SureFire SF3P 消焰',d:'后坐 −10% · 枪声 −12% · 枪口焰 −80% · 视野 −2%',ef:{recoil:.90,noise:.88,flash:.20,view:.98}},
+   {n:'Aeroknox MX3 制退',d:'后坐 −22% · 枪声 +12% · 枪口焰 +30% · 视野 −3%',ef:{recoil:.78,noise:1.12,flash:1.30,view:.97}}],
+  grip:[{n:'无',d:'无附加',ef:{}},
+   {n:'Magpul K2 竖握',d:'全自动散布 −18% · 据枪速度 −8% · 移动散布 +2%',ef:{auto:.82,ergo:.92,move:1.02}}],
+  laser:[{n:'不装',d:'无附加',ef:{}},
+   {n:'PEQ-15 激光',d:'腰射散布 −22% · 视野 −6% · 被敌发现距离 +20%',ef:{hip:.78,view:.94,detect:1.20}}]
  },
  cn:{
-  optic:[{n:'机械瞄具',d:'无附加'},{n:'国产全息瞄具',d:'据枪散布 −15%'},
-   {n:'国产 3× 棱镜',d:'据枪散布 −20%'}],
-  muz:[{n:'国产标准消焰器',d:'后坐 −8%'},{n:'国产制退器',d:'后坐 −15%'}],
-  grip:[{n:'无',d:'无附加'},{n:'国产前握把',d:'全自动散布 −16%'}]
+  optic:[{n:'机械瞄具',d:'基础视野 · 无额外负担',ef:{}},
+   {n:'国产全息瞄具',d:'据枪散布 −18% · 视野 −6% · 据枪速度 −8%',ef:{ads:.82,view:.94,ergo:.92}},
+   {n:'国产 3× 棱镜',d:'据枪散布 −26% · 视野 +9% · 腰射 +12% · 据枪速度 −22%',ef:{ads:.74,view:1.09,ergo:.78,hip:1.12}}],
+  muz:[{n:'国产标准消焰器',d:'后坐 −6% · 枪声 −5%',ef:{recoil:.94,noise:.95}},
+   {n:'国产制退器',d:'后坐 −20% · 枪声 +10% · 枪口焰 +25% · 视野 −3%',ef:{recoil:.80,noise:1.10,flash:1.25,view:.97}}],
+  grip:[{n:'无',d:'无附加',ef:{}},
+   {n:'国产前握把',d:'全自动散布 −16% · 据枪速度 −7% · 移动散布 +2%',ef:{auto:.84,ergo:.93,move:1.02}}],
+  laser:[{n:'不装',d:'无附加',ef:{}},
+   {n:'国产激光指示器',d:'腰射散布 −20% · 视野 −6% · 被敌发现距离 +18%',ef:{hip:.80,view:.94,detect:1.18}}]
  },
  ak:{
-  optic:[{n:'机械瞄具',d:'无附加'},{n:'Kobra 红点',d:'据枪散布 −14%'},
-   {n:'PK-A 3.5×',d:'据枪散布 −19%'}],
-  muz:[{n:'AK 斜切口',d:'后坐 −6%'},{n:'AK 制退器',d:'后坐 −14%'}],
-  grip:[{n:'无',d:'无附加'},{n:'Zenit RK-1',d:'全自动散布 −15%'}]
+  optic:[{n:'机械瞄具',d:'基础视野 · 无额外负担',ef:{}},
+   {n:'Kobra 红点',d:'据枪散布 −16% · 视野 −6% · 据枪速度 −8%',ef:{ads:.84,view:.94,ergo:.92}},
+   {n:'PK-A 3.5×',d:'据枪散布 −25% · 视野 +9% · 腰射 +12% · 据枪速度 −24%',ef:{ads:.75,view:1.09,ergo:.76,hip:1.12}}],
+  muz:[{n:'AK 斜切口',d:'后坐 −5% · 枪声 −4%',ef:{recoil:.95,noise:.96}},
+   {n:'AK 制退器',d:'后坐 −19% · 枪声 +9% · 枪口焰 +22% · 视野 −3%',ef:{recoil:.81,noise:1.09,flash:1.22,view:.97}}],
+  grip:[{n:'无',d:'无附加',ef:{}},
+   {n:'Zenit RK-1',d:'全自动散布 −17% · 据枪速度 −7% · 移动散布 +2%',ef:{auto:.83,ergo:.93,move:1.02}}],
+  laser:[{n:'不装',d:'无附加',ef:{}},
+   {n:'AK 侧轨激光',d:'腰射散布 −20% · 视野 −6% · 被敌发现距离 +18%',ef:{hip:.80,view:.94,detect:1.18}}]
  },
  p:{
-  optic:[{n:'机械瞄具',d:'无附加'},{n:'微型红点',d:'据枪散布 −12%'}],
-  muz:[{n:'原厂枪口',d:'无附加'},{n:'补偿器',d:'后坐 −10%'}],
-  grip:[{n:'原厂握把',d:'无附加'}]
+  optic:[{n:'机械瞄具',d:'基础视野 · 无额外负担',ef:{}},
+   {n:'微型红点',d:'据枪散布 −14% · 视野 −5% · 据枪速度 −6%',ef:{ads:.86,view:.95,ergo:.94}}],
+  muz:[{n:'原厂枪口',d:'无附加',ef:{}},
+   {n:'补偿器',d:'后坐 −12% · 枪声 +8% · 枪口焰 +20%',ef:{recoil:.88,noise:1.08,flash:1.20}}],
+  grip:[{n:'原厂握把',d:'无附加',ef:{}}],
+  laser:[{n:'不装',d:'无附加',ef:{}},
+   {n:'微型激光',d:'腰射散布 −18% · 视野 −5% · 被敌发现距离 +16%',ef:{hip:.82,view:.95,detect:1.16}}]
  }
 };
 function platOf(o){
@@ -1889,6 +1909,18 @@ function attOf(k){
  if(!w)return 0;
  var p=platOf(w),a=(ST.att&&ST.att[p])||{},arr=(ATT[p]||ATT.nato)[k]||[];
  return clamp(a[k]|0,0,Math.max(0,arr.length-1))}
+/* 当前平台已装改件的合并效果：乘算，1 为无影响。
+   注意：这是「当前枪」的效果，切枪后会跟着变；没有对局时按军械库选中枪算。 */
+function attFx(){
+ var w=(G&&G.p&&G.p.guns)?cur().w:WM[ST.sel];
+ if(!w)w=WM.m4a1;
+ var p=platOf(w),a=(ST.att&&ST.att[p])||{},A=ATT[p]||ATT.nato,
+  out={ads:1,view:1,ergo:1,recoil:1,hip:1,auto:1,noise:1,flash:1,detect:1,move:1};
+ ['optic','muz','grip','laser'].forEach(function(k){
+  var arr=A[k]||[],i=clamp(a[k]|0,0,arr.length-1),ef=arr[i]&&arr[i].ef;
+  if(!ef)return;
+  for(var key in ef)if(out[key]!=null)out[key]*=ef[key]});
+ return out}
 /* SECTION: data-meta */
 (function(){var AP={m4a1:[.48,0,0],hk416:[.5,1,0],scarl:[.52,2,0],ak12:[.55,0,0],
  x95:[.5,1,0],aug:[.48,1,0],mp5:[.22,0,0],p90:[.62,2,0],m870:[.35,0,0],benelli:[.38,1,0],
@@ -2002,6 +2034,31 @@ w({id:'qbu10',n:'QBU-10 反器材狙击步枪',cls:'sniper',cn:'国产反器材�
    这里按枪种给出梯度：手枪明显加强但仍是近战优势，步枪可覆盖全图，狙击枪保持最远。 */
 var RNG_TUNE={rifle:1.3,smg:1.4,pistol:1.7,shotgun:1.25,sniper:1.1};
 (function(){var i,o,m;for(i=0;i<WP.length;i++){o=WP[i];m=RNG_TUNE[o.cls]||1.3;o.rn=Math.round(o.rn*m/10)*10}})();
+/* SECTION: weapon-feel v19
+   把「视野 / 据枪 / 移动 / 后坐 / 人机」拆成独立数据，不再只靠一个 sp。
+   - vr     基础视野半径（世界像素）：狙击 > 步枪 > 冲锋枪 > 手枪 > 霰弹枪
+   - adsK   完全据枪后的散布系数；越小越准
+   - moveK  移动散布惩罚；越大越怕边跑边打
+   - ergo   据枪速度；越大越快进入稳定状态
+   - recK   后坐系数，用于枪口上跳与热量
+   这些值是游戏化平衡，参考 Door Kickers 2 的「移动射击惩罚 / 据枪收益 / 武器定位」
+   设计，不是现实弹道计算。 */
+var VIEW_BASE={pistol:360,smg:430,shotgun:320,rifle:580,sniper:860};
+var ADS_BASE={pistol:.62,smg:.48,shotgun:.56,rifle:.40,sniper:.28};
+var MOVE_BASE={pistol:1.10,smg:1.45,shotgun:1.25,rifle:1.90,sniper:3.00};
+var ERGO_BASE={pistol:1.20,smg:1.05,shotgun:.95,rifle:.90,sniper:.55};
+(function(){var i,o;
+ for(i=0;i<WP.length;i++){o=WP[i];
+  var vb=VIEW_BASE[o.cls]||500;
+  o.vr=clamp(Math.round(vb*.55+o.rn*.14),Math.round(vb*.65),Math.round(vb*2.1));
+  o.adsK=ADS_BASE[o.cls]||.5;
+  o.moveK=MOVE_BASE[o.cls]||1.6;
+  o.ergo=ERGO_BASE[o.cls]||1;
+  o.recK=o.kk||1;
+  o.adsTime=clamp(.34/o.ergo,.18,.6);
+  if(o.cls==='sniper'){o.vr=Math.round(o.vr*1.35);o.adsK=.22}
+  if(o.cls==='shotgun'){o.vr=Math.round(o.vr*.9)}
+ }})();
 /* SECTION: fire-modes 射击模式
    步枪按现实击发组提供 单发 / 短点射 / 全自动；冲锋枪为 单发 / 全自动；
    手枪、霰弹枪、狙击枪只有单发（栓动与泵动就是每扣一次扳机一发）。
@@ -2169,13 +2226,7 @@ var GD=[
   opts:[{n:'标准护木',d:'无附加'},{n:'K2 垂直握把',d:'全自动散布 −18%'}]},
  {id:'plate',n:'防弹插板',mk:'3M（美国）／ESAI（美国）／Hesco（加拿大）',
   info:'NIJ III 级碳化硼/陶瓷复合插板可抵御步枪弹；ESAI HIKS、3M Advanced Balle B 为商用代表。重插板增加护甲但降低机动。',
-  opts:[{n:'NIJ IIIA 软板',d:'护甲 +20，移速 −4%'},{n:'NIJ IV 陶瓷板',d:'护甲 +45，移速 −11%'}]},
- {id:'breach',n:'破门装具',mk:'Ensign Safety（英国）／PAX Land（瑞典）／Ammunition Research（美国）',
-  info:'现实破门三件套：机械破障工具（Halligan）、散弹破门弹（Frangible，Ammunition Research 制造）、线性切割索（Donitz Flex Linear Charge）。公寓与地堡的关门可用破门弹轰开。',
-  opts:[{n:'机械撬棍',d:'破门速度 ×2'},{n:'破门弹 ×2',d:'瞬间开门，波及门后敌人'}]},
- {id:'optic2',n:'光纤潜望镜',mk:'EnSight FlushStick（美国 FLIR 子公司）／Vosin（保加利亚）',
-  info:'FLIR EnSight FlushStick 允许不开门观察房间内部，是现实 CQB 清房流程第一步；本作提供标记房内敌人 3 秒的情报优势。',
-  opts:[{n:'不携带',d:'无附加'},{n:'FlushStick',d:'每关 2 次：隔门标定房间内敌人'}]}];
+  opts:[{n:'NIJ IIIA 软板',d:'护甲 +20，移速 −4%'},{n:'NIJ IV 陶瓷板',d:'护甲 +45，移速 −11%'}]}];
 function gdDef(id){for(var i=0;i<GD.length;i++)if(GD[i].id===id)return GD[i];return null}
 function gdHas(id,oi){return (ST.gd[id]||0)===oi}
 function gdOpt(id){var g=gdDef(id);if(!g)return null;return g.opts[ST.gd[id]||0]}
@@ -2367,14 +2418,14 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
  lp:[[800,1160,130],[800,900,160],[500,600,140],[1120,600,140],[300,280,120],[1600,300,120],[1600,900,130]],
  civ:[],st:[800,1210],ex:[720,1160,160,100],
  zn:[[120,820,500,240],[1480,820,400,240],[120,460,500,280],[1480,460,400,280],[120,120,760,280],[1120,120,760,280]],
- cqbMarks:[[1030,1150,'门外观察 · 不要站在门洞正中'],[800,1000,'切角 · 一次只暴露一个射界'],
+ cqbMarks:[[1030,1150,'门外切角 · 不要站在门洞正中'],[800,1000,'切角 · 一次只暴露一个射界'],
   [800,700,'突入后先清近角'],[500,900,'近角'],[1120,900,'远角'],[1600,900,'复检']],
  acc:.42,rea:1.9,edm:3.2,ehp:1,
  threat:'8 名低活跃模拟目标 · 5 道关闭门洞 · 单人原则训练',
  terr:'六个房间、两道横向走廊与一道中央隔墙；门洞错位，必须先观察再切角',
- hint:'C 潜望镜观察门后 · Space 据枪切角 · F 破门 · B 投掷震爆/闪光 · V 选单发',
- intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外观察，贴墙切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
- obj:['在门外用潜望镜观察，确认门后威胁','据枪切角 2 秒，不站进门洞正中','破门后投掷震爆/闪光','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
+ hint:'Space 据枪切角 · F 按住破门 · B 投掷震爆/闪光 · V 选单发',
+ intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
+ obj:['在门外据枪切角，不站进门洞正中','按住 F 破开第一道门','破门后投掷震爆/闪光','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
  roe:'现实 CQB 至少两人一组；本关只演示单人可执行的原则，不鼓励单人强行清房'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
 var YARD_WL=function(a){
@@ -2691,7 +2742,7 @@ var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:5,
- gd:{muzzle:1,light:1,optic:1,grip:1,plate:1,breach:1,optic2:0},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
+ gd:{muzzle:1,light:1,optic:1,grip:1,plate:1},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
  name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
@@ -2775,6 +2826,7 @@ if((ST.mv|0)<1){
   save()
  })()}
 normalizeClears();
+purgeLvSaves();   /* v19：清除旧版任务中途存档，敌人/人质/门状态不再被续关带回来 */
 
 /* 玩家唯一标识：排行榜靠它区分同名玩家，并把同一个人的多次上传合并成一行 */
 function mkPid(){var s='',a='abcdefghijkmnpqrstuvwxyz23456789',i;
@@ -2814,53 +2866,15 @@ function addXp(v){
  if(a>b){var wl=weaponsAtXp(RKLAD[a][1]);
   toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}
  else if(a<b){toast('军衔下调 '+RKLAD[b][0]+' → '+RKLAD[a][0]+' · 已解锁装备保留',3400)}}
-/* SECTION: autosave */
-function saveLv(){if(!G||G.phase!=='live'||G.over||G.cqb)return;
- if(G.tut)return;
- if(ST.scr!=='play'&&ST.scr!=='pause')return;
- try{var p=G.p,sv={lv:ST.lv,t:Math.round(G.t*10)/10,ts:Date.now(),
-  p:{x:Math.round(p.x),y:Math.round(p.y),hp:p.hp,ar:p.ar,rg:p.bl,ai:p.actItem,md:p.md,
-   shots:p.shots||0,wi:p.wi,guns:p.guns.map(function(g){return[g.am,g.res]})},
-  c:{k:G.killed,d:G.disarmed,s:G.sec2,cv:G.civD,sc:Math.round(G.sc),h:G.hits,
-   dm:Math.round(G.dmg),r:G.reinLeft,ex:G.exitOpen?1:0,b:G.bossDown?1:0},
-  en:L.en.map(function(e){return[Math.round(e.x),Math.round(e.y),Math.round(e.hp),
-   e.sub,e.dead?1:0,e.st,e.alert?1:0,Math.round(e.hx),Math.round(e.hy)]}),
-  ci:L.civ.map(function(e){return[Math.round(e.x),Math.round(e.y),e.f,e.down?1:0]}),
-  ck:L.cr.map(function(e){return e.got?1:0}),
-  d:L.dr.map(function(e){return e.open?1:0})};
-  localStorage.setItem('ta5_lv2'+ST.lv,JSON.stringify(sv))}catch(e){}}
-function loadLv(i){try{var j=JSON.parse(localStorage.getItem('ta5_lv2'+i));
- if(!(j&&j.en&&j.en.length&&j.p&&j.c))return null;
- if(j.ts&&Date.now()-j.ts>7*864e5)return null;
- return j}catch(e){return null}}
+/* SECTION: autosave
+   v19 起取消「任务中途存档 / 续关」：敌人、人质、门、补给和计时不再写入本地。
+   一局必须一次打完；只有军衔、解锁、训练与设置这些元进度保留。
+   旧版残留的 ta5_lv2* 会在启动时清掉，避免旧存档把敌人状态带回来。 */
+function saveLv(){}
+function loadLv(){return null}
 function clearLv(i){try{localStorage.removeItem('ta5_lv2'+i)}catch(e){}}
-function applyLv(sv){var p=G.p,j;
- p.x=sv.p.x;p.y=sv.p.y;p.hp=sv.p.hp;p.ar=sv.p.ar;p.md=sv.p.md;
- if(!freeAt(p.x,p.y,p.r))snapFree(p);
- if(sv.p.rg&&typeof sv.p.rg==='object')p.bl=sv.p.rg;
- if(sv.p.ai)p.actItem=sv.p.ai;
- p.shots=sv.p.shots||0;p.wi=sv.p.wi||0;
- for(j=0;j<p.guns.length&&j<sv.p.guns.length;j++){p.guns[j].am=sv.p.guns[j][0];p.guns[j].res=sv.p.guns[j][1]}
- G.t=sv.t;G.killed=sv.c.k;G.disarmed=sv.c.d;G.sec2=sv.c.s;G.civD=sv.c.cv;G.sc=sv.c.sc;
- G.hits=sv.c.h;G.dmg=sv.c.dm;G.reinLeft=sv.c.r;G.exitOpen=!!sv.c.ex;G.bossDown=sv.c.b||0;
- for(j=0;j<L.en.length&&j<sv.en.length;j++){var e=L.en[j],a=sv.en[j];
-  e.x=a[0];e.y=a[1];e.hp=a[2];e.sub=a[3];e.dead=!!a[4];e.st=a[5]||'patrol';e.alert=a[6];
-  e.hx=a[7];e.hy=a[8];e.losT=0;e.canSee=0;e.sw=.6;e.vx=e.vy=0;e.dt=0;
-  if(e.dead)e.dt=5;
-  if(!freeAt(e.x,e.y,e.r))snapFree(e)}
- for(j=0;j<L.civ.length&&j<sv.ci.length;j++){var c=L.civ[j],b=sv.ci[j];
-  c.x=b[0];c.y=b[1];c.f=b[2];c.down=!!b[3];
-  if(!freeAt(c.x,c.y,c.r))snapFree(c)}
- for(j=0;j<L.cr.length&&j<sv.ck.length;j++)L.cr[j].got=!!sv.ck[j];
- /* 门的状态也一并恢复：否则续关时被踹开的门会重新关上 */
- if(sv.d&&sv.d.length){var reop=0;
-  for(j=0;j<L.dr.length&&j<sv.d.length;j++){
-   if(sv.d[j]&&!L.dr[j].open){L.dr[j].open=1;L.dr[j].anim=1;L.dr[j].kickT=0;reop++}}
-  if(reop)rebuildCW()}
- var al=0;for(j=0;j<L.en.length;j++)if(!L.en[j].dead)al++;
- $('sRW').classList.toggle('hidden',G.reinLeft<=0);if(G.reinLeft)$('sR').textContent=G.reinLeft;
- G.alerted=1;
- toast('已恢复上次作战进度 · 已进行 '+fmt(sv.t)+' · 残敌 '+al,3400)}
+function purgeLvSaves(){var i;for(i=0;i<16;i++)clearLv(i)}
+function applyLv(){/* v19 不再支持中途续关 */}
 /* 设备判断：只认「明确的移动端 UA」或「粗指针 + 无悬停」，避免带触摸屏的笔记本被误判成手机 */
 function isTouchDev(){
  var ua=navigator.userAgent||'';
@@ -3150,7 +3164,7 @@ var ECOL={grunt:'#6b4a3c',rush:'#7a5230',heavy:'#4b5560',sniper:'#45573f',boss:'
 function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  var av=EARM[tp]||0,ap=ARM[av];
  return{tp:tp,hp:b.hp*mul,mh:b.hp*mul,r:b.r,sp:b.sp,acc:b.acc,dm:b.dm,ar:ap.v,arv:av,arn:ap.n,
- x:x,y:y,vx:0,vy:0,a:0,st:'patrol',ph:Math.random()*TAU,hx:x,hy:y,sw:.5,hurt:0,
+ x:x,y:y,vx:0,vy:0,a:0,st:'patrol',ph:Math.random()*TAU,hx:x,hy:y,sw:.5,hurt:0,sup:0,
  sub:0,dead:0,dt:0,dis:0,alert:0,rt:0,losT:0,canSee:0,pf:Math.random()*TAU,
  nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6,
  hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0}}
@@ -3298,6 +3312,39 @@ function paintTrim(g,c,FU,ws){var i,d;
    g.fillRect(d[0]-3,d[1]+d[3],d[2]+6,2);
    g.fillStyle='rgba(0,0,0,.35)';g.fillRect(d[0]+d[2]/2-1,d[1],2,d[3]);
    g.fillStyle='rgba(180,190,200,.10)';g.fillRect(d[0]+d[2]/2-2,d[1]+2,4,d[3]-4)}}}
+/* v19：补给按房间分配，不再全图随机撒 3–4 个。
+   每个 zn 是一个房间/区域，至少 1 个；房间少的地图会自动补到 4 个，
+   大房间（面积 > 22 万 px²）额外多 1 个。类型轮换：弹药 / 医疗 / 投掷 / 全补。 */
+function placeSupplies(c){
+ var out=[],zones=c.zn||[],i,n,k,tx,ty,ok,t,kind,
+  target=Math.max(4,Math.min(11,zones.length+2));
+ if(c.cr2){for(i=0;i<c.cr2.length;i++)out.push({x:c.cr2[i][0],y:c.cr2[i][1],got:0,kind:'full'});return out}
+ if(!zones.length)zones=[[24,24,Math.max(64,c.W-48),Math.max(64,c.H-48)]];
+ for(i=0;i<target;i++){
+  var z=zones[i%zones.length];
+  ok=0;tx=z[0]+z[2]/2;ty=z[1]+z[3]/2;
+  for(t=0;t<90;t++){
+   tx=z[0]+24+Math.random()*Math.max(12,z[2]-48);
+   ty=z[1]+24+Math.random()*Math.max(12,z[3]-48);
+   if(!freeAt(tx,ty,20))continue;
+   if(Math.hypot(tx-c.st[0],ty-c.st[1])<210)continue;
+   var dup=0;
+   for(k=0;k<out.length;k++)if(Math.hypot(tx-out[k].x,ty-out[k].y)<78){dup=1;break}
+   if(!dup){ok=1;break}}
+  if(ok){
+   kind=['ammo','med','gren','full'][out.length%4];
+   out.push({x:tx,y:ty,got:0,kind:kind});
+   /* 大房间补第二个点，仍然避开已有补给 */
+   if(z[2]*z[3]>220000&&out.length<target+2){
+    for(t=0;t<50;t++){
+     tx=z[0]+24+Math.random()*Math.max(12,z[2]-48);
+     ty=z[1]+24+Math.random()*Math.max(12,z[3]-48);
+     if(!freeAt(tx,ty,20)||Math.hypot(tx-c.st[0],ty-c.st[1])<210)continue;
+     dup=0;for(k=0;k<out.length;k++)if(Math.hypot(tx-out[k].x,ty-out[k].y)<78){dup=1;break}
+     if(!dup){out.push({x:tx,y:ty,got:0,kind:['ammo','med','gren','full'][out.length%4]});break}}}
+  }
+ }
+ return out}
 function build(idx,ovr){
  var c0=ovr||LS6[clamp(idx,1,LS6.length)-1],c=c0,ck;
  IND=(c0.th==='apartment'||c0.th==='mall'||c0.th==='embassy'||c0.th==='theater')?1:0;
@@ -3307,9 +3354,11 @@ function build(idx,ovr){
   c={};for(ck in c0)c[ck]=c0[ck];
   /* 全局「低活跃」校准：敌人更慢发现、更慢反应、命中率更低，给玩家留出切角与突入窗口 */
   c.acc=(c0.acc||1)*DFd.acc*.72;
-  c.rea=Math.max(.35,(c0.rea||1)*1.55);
-  c.edm=(c0.edm||1)*.82;
+  c.rea=Math.max(.28,(c0.rea||1)*DFd.rea*1.55);
+  c.edm=(c0.edm||1)*DFd.dmg*.82;
   c.ehp=(c0.ehp||1)*DFd.hp;
+  c.esp=DFd.spd||1;
+  c.eview=DFd.detect||1;
   c.par=diffPar(c0,DFd.k);
   c.diff=DFd.k;
  }
@@ -3365,12 +3414,14 @@ function build(idx,ovr){
   for(k=0;k<13;k++)neon.push({x:70+rnd()*(c.W-140),y:70+rnd()*(c.H-140),r:120+rnd()*110,
    col:cols[(rnd()*4)|0],s:1.1+rnd()*2.2,p:rnd()*TAU})}
  var drs=[],d;
- /* 门洞：不再有可开合的门扇，只有「洞口 + 门框 + 突入方向」；机关（阻门器/绊雷）保留在洞口 */
+ /* v19：门不再有可开合的门扇模型，也不再默认敞开。
+    所有门洞都是「封门 / 破拆点」：木门、金属门、玻璃门都要玩家按住 F 破拆，
+    敌人、人质与队友都不会替你开门。门在破开前同时阻挡移动与子弹。 */
  for(k=0;k<FU.dr.length;k++){d=FU.dr[k];
   var dtype=d[5]||'wood';
-  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:c.cqb?false:true,anim:c.cqb?0:1,brk:0,scout:0,
-   kickT:0,blowT:0,hor:d[2]>=d[3],type:dtype,hg:0,sw:1,tr:null,
-   need:dtype==='metal'?1.9:(dtype==='glass'?0.34:1)})}
+  drs.push({x:d[0],y:d[1],w:d[2],h:d[3],open:false,brk:0,
+   kickT:0,hor:d[2]>=d[3],type:dtype,tr:null,
+   need:dtype==='metal'?2.2:(dtype==='glass'?0.45:1.15)})}
  /* 机关密度：难度越高越多，且同一洞口可叠多个绊雷（伤害叠加） */
  (function(){if(c.cqb)return;var cap=Math.min(4,1+Math.floor((c.sd||11)/22)),n=0,i2;
   for(i2=0;i2<drs.length&&n<cap;i2++){
@@ -3393,17 +3444,6 @@ for(k=0;k<ws.length;k++){var wo=ws[k];if(wo.w<3||wo.h<3)continue;
  g.strokeStyle='rgba(255,255,255,.06)';g.strokeRect(wo.x+1.6,wo.y+1.6,wo.w-3.2,wo.h-3.2)}
 g.restore();
  cwNoDoors();
- /* 门扇开向自动判定：把门扇转到 90° 后取末端点，落在墙里就换铰链侧或换向 */
- for(k=0;k<drs.length;k++){var dq=drs[k],okp=0,hi2,si2,lf=dq.hor?dq.w:dq.h;
-  for(hi2=0;hi2<2&&!okp;hi2++)for(si2=1;si2>=-1&&!okp;si2-=2){
-   var hx2=dq.hor?(hi2?dq.x+dq.w:dq.x):dq.x+dq.w/2;
-   var hy2=dq.hor?dq.y+dq.h/2:(hi2?dq.y+dq.h:dq.y);
-   var sg2=hi2?-1:1,rot2=(Math.PI/2)*si2*sg2*(dq.hor?1:-1);
-   var lx2=dq.hor?sg2*lf:0,ly2=dq.hor?0:sg2*lf;
-   var ex2=hx2+lx2*Math.cos(rot2)-ly2*Math.sin(rot2);
-   var ey2=hy2+lx2*Math.sin(rot2)+ly2*Math.cos(rot2);
-   if(freeAt(ex2,ey2,10)){dq.hg=hi2;dq.sw=si2;okp=1}}
-  if(!okp){dq.hg=0;dq.sw=1}}
  var en=[],comp=[],t2,n2;for(t2 in c.foe){n2=c.foe[t2];for(k=0;k<n2;k++)comp.push(t2)}
  if(c.tg){
   en=[];
@@ -3431,12 +3471,7 @@ g.restore();
    if(!freeAt(fe.x,fe.y,fe.r))snapFree(fe);
    en.push(fe)}}
  var cr=[];
- if(c.cr2){for(k=0;k<c.cr2.length;k++)cr.push({x:c.cr2[k][0],y:c.cr2[k][1],got:0})}
- else for(k=0;k<(idx>=3?4:3);k++){var cx=0,cy=0,ok2=0,tr2=0;
-  while(!ok2&&tr2<220){tr2++;var z2=c.zn[(rnd()*c.zn.length)|0];
-   cx=z2[0]+24+rnd()*(z2[2]-48);cy=z2[1]+24+rnd()*(z2[3]-48);
-   if(freeAt(cx,cy,20)&&Math.hypot(cx-c.st[0],cy-c.st[1])>240)ok2=1}
-  if(ok2)cr.push({x:cx,y:cy,got:0})}
+ /* 补给在 rebuildCW 之后按房间放置，确保不会落进家具或墙里 */
  var civ=[];for(k=0;k<c.civ.length;k++){var cpx=c.civ[k][0],cpy=c.civ[k][1],ct=0;
   while(!freeAt(cpx,cpy,13)&&ct<160){ct++;var ca=ct*.7;
    cpx=c.civ[k][0]+Math.cos(ca)*(6+ct*3);cpy=c.civ[k][1]+Math.sin(ca)*(6+ct*3);
@@ -3481,6 +3516,9 @@ g.restore();
   if(ef){c.ex[0]=clamp(ef.x-c.ex[2]/2,10,c.W-c.ex[2]-10);
          c.ex[1]=clamp(ef.y-c.ex[3]/2,10,c.H-c.ex[3]-10)}})();
  rebuildCW();
+ /* 难度：敌人移速与发现距离按档位生效；补给按房间分配 */
+ for(k=0;k<L.en.length;k++){var en0=L.en[k];en0.sp=(en0.sp||95)*(c.esp||1);en0.viewK=(c.eview||1)}
+ L.cr=placeSupplies(c);
  var guns=[WM[ST.load[0]]&&gunOk(ST.load[0])?WM[ST.load[0]]:WM.m4a1,
   WM[ST.load[1]]&&gunOk(ST.load[1])?WM[ST.load[1]]:WM.g19];
  /* 剧情任务：统一配发国产枪族（与普通作战任务的装备体系分离） */
@@ -3496,15 +3534,16 @@ g.restore();
   else{hl=heroLoadOf();guns=[pickGun(hl[0],'m4a1'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}}
  /* 弹匣：按当前选择的弹匣替换容量/换弹/机动 */
  guns=guns.map(magGun);
- var heroB=(heroActive()||curOp()==='duo')?1:0,greyB=greyActive()?1:0;
- var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+(heroB?18:0)+(greyB?12:0);
- var brc=ST.gd.breach|0;
+ var om=opMods();
+ var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+om.arm;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1+of.alert,
-  stickyN:brc?2:0,stickN:c.cqb?5:((ST.gd.optic2|0)?2:0),dn2:0,allyOn:c.cqb?0:(ST.ally!==0),cqb:c.cqb?1:0,
+  dn2:0,allyOn:c.cqb?0:(ST.ally!==0),cqb:c.cqb?1:0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
-   sp:Math.round(208*(1+of.mob+(heroB?.04:0)+(greyB?.02:0))*(pl?1-.11:1-.04)),vx:0,vy:0,
+   sp:Math.round(208*(1+of.mob+om.move)*(pl?1-.11:1-.04)),vx:0,vy:0,
+   recK:om.recoil,relK:om.reload,aimK:om.ads,viewK:om.view,brK:om.breach,
+   brD:null,brT:0,adsT:0,
    wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,press:0,prevL:0,fm:'',heat:0,burstN:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:1,eg:[],
@@ -3525,6 +3564,18 @@ function curOp(){
  return 'norm'}
 function heroActive(){return curOp()==='yan'}
 function greyActive(){return curOp()==='grey'}
+/* 每名出战队员的专长：乘算/加算到玩家属性上，英雄角色身份与武器槽不变。
+   norm  普通队员：破拆专家（破门最快、腰封 +1 格）
+   yan   燕锋：强袭（护甲、移速、据枪精度）
+   grey  格雷：老练（换弹、后坐、视野）
+   duo   联合编队：燕锋主控 + 格雷僚机，取两者长处 */
+function opMods(){
+ var op=curOp();
+ if(op==='yan')return {arm:18,move:.04,reload:1.00,ads:.82,recoil:.92,view:1.08,breach:1.15,belt:0,label:'强袭'};
+ if(op==='grey')return {arm:12,move:.02,reload:.85,ads:.90,recoil:.82,view:1.16,breach:1.00,belt:0,label:'老练'};
+ if(op==='duo')return {arm:18,move:.04,reload:.90,ads:.86,recoil:.88,view:1.12,breach:1.10,belt:0,label:'联合'};
+ return {arm:0,move:.01,reload:1.00,ads:1.00,recoil:1.00,view:1.00,breach:1.35,belt:1,label:'破拆'};
+}
 function setOp(op){
  var v='norm';
  if(op==='duo'&&ST.duo===1)v='duo';
@@ -3562,12 +3613,16 @@ function rgLoadOf(){
   (WM[r[1]]&&WM[r[1]].cls!=='pistol')?r[1]:d[1],
   (WM[r[2]]&&WM[r[2]].cls==='pistol')?r[2]:d[2]]}
 function setRgSlot(i,id){var a=rgLoadOf().slice();a[i]=id;ST.rgLoad=a;save();renderRangeLoad()}
-/* SECTION: difficulty 五个难度档（最高档「现实」：一枪致命，敌我通用） */var DIFF=[
- {k:1,n:'新兵',s:'训练',xp:.8,acc:.72,hp:.80,t:1.50,d:'敌人反应迟缓、命中率低，中弹只掉少量体力'},
- {k:2,n:'常规',s:'标准',xp:1.0,acc:.92,hp:1.00,t:1.20,d:'标准交战强度，护甲能扛住两三发'},
- {k:3,n:'老兵',s:'困难',xp:1.35,acc:1.05,hp:1.15,t:1.00,d:'敌人更准、更耐打，补枪要快'},
- {k:4,n:'精英',s:'极难',xp:1.80,acc:1.18,hp:1.35,t:.90,d:'高反应高精度，暴露两秒就会被击穿护甲'},
- {k:5,n:'现实',s:'一枪致命',xp:2.60,acc:1.30,hp:1.00,t:.85,ohk:1,d:'一发致命：你与敌人中弹即倒，护甲不再保命；通关此档才能解锁下一区域'}
+/* SECTION: difficulty v19
+   五档难度重新拉开梯度：中间三档不再只差几个百分点。
+   acc 敌人命中 / rea 反应时间 / hp 血量 / dmg 伤害 / spd 移速 / detect 发现距离 / t 时限系数。
+   最高档「现实」仍是一枪致命，但敌人不再同时拥有超高命中与超高血量。 */
+var DIFF=[
+ {k:1,n:'新兵',s:'训练',xp:.8,acc:.58,hp:.70,dmg:.60,spd:.82,detect:.78,rea:1.75,t:1.55,d:'敌人反应迟缓、命中率低、伤害低，适合熟悉地图与据枪'},
+ {k:2,n:'常规',s:'标准',xp:1.0,acc:.88,hp:1.00,dmg:1.00,spd:1.00,detect:1.00,rea:1.30,t:1.20,d:'标准交战强度，护甲能扛住两三发'},
+ {k:3,n:'老兵',s:'困难',xp:1.45,acc:1.18,hp:1.30,dmg:1.35,spd:1.10,detect:1.18,rea:.95,t:1.00,d:'敌人更准、更耐打、伤害更高，补枪要快'},
+ {k:4,n:'精英',s:'极难',xp:2.00,acc:1.48,hp:1.65,dmg:1.80,spd:1.20,detect:1.34,rea:.78,t:.88,d:'高反应高精度，暴露一秒就会被击穿护甲'},
+ {k:5,n:'现实',s:'一枪致命',xp:2.80,acc:1.70,hp:1.00,dmg:3.00,spd:1.28,detect:1.45,rea:.70,t:.82,ohk:1,d:'一发致命：你与敌人中弹即倒，护甲不再保命；通关此档才能解锁下一区域'}
 ];
 function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[1]}
 function diffOf(r){return r&&r.k||2}
@@ -3602,8 +3657,8 @@ var CW=[],CWo=null;
 var CW=[],CWB=[],CWo=null;
 function rebuildCW(){if(!L)return;CW=L.ws.slice();CWB=L.ws.slice();
  var i;for(i=0;i<L.dr.length;i++){var a=L.dr[i];
-  /* 阻门器：堵住洞口，可被炸毁；CQB 训练楼里的关闭门扇也真实阻挡通行与子弹 */
-  if(a.tr==='blocker'||(L.cfg&&L.cfg.cqb&&!a.open)){CW.push(a);CWB.push(a)}
+  /* v19：门在破开前一律阻挡移动与子弹；不再按关卡类型或阻门器区分 */
+  if(!a.open){CW.push(a);CWB.push(a)}
  }
  CWo=L;if(L)L.nav=null}
 /* 迷雾在每次构建地图后重置 */
@@ -3696,15 +3751,13 @@ function pushFree(o,dt,speed){
 
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',scout:'x',peri:'c',fireAlt:'',ads:'space',adsAlt:'',
+ gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',light:'l',fireAlt:'',ads:'space',adsAlt:'',
  mode:'v',med:'h',cover:'g',mute:'m'};
 var KM_ACT=[
  ['up','前进'],['down','后退'],['left','向左'],['right','向右'],
  ['sprint','疾跑'],['reload','换弹'],
  ['gun1','持主武器'],['gun2','持副武器'],['gun3','第三把武器（英雄）'],['swap','快速切枪'],
- ['gren','投掷手雷'],['act','互动（解救／缴械／补给）'],['light','战术枪灯开关'],
- ['peri','潜望镜 / 门外观察'],
- ['scout','旧版观察键（兼容 X）'],
+ ['gren','投掷手雷'],['act','互动（解救／缴械／补给／破拆）'],['light','战术枪灯开关'],
  ['ads','据枪（按住）'],['mode','切换射击模式'],
  ['med','快捷命令：呼叫医疗'],['cover','快捷命令：掩护射击'],
  ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认 Space）'],
@@ -3742,8 +3795,7 @@ function renderKm(){var kw=$('kmWrap'),tw=$('tpWrap');
    row.appendChild(cl)}
   l.appendChild(row)});
  var ex=mk('div','kmrow');var el2=mk('span','lba');
- el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 键盘 '+kLabel(KM.ads)+'＝据枪 · '+kLabel(KM.mode)+'＝射击模式 · Esc＝暂停/继续';
- ex.appendChild(el2);l.appendChild(ex)}
+ el2.textContent='固定键：鼠标移动＝瞄准 · 左键＝射击 · 键盘 '+kLabel(KM.ads)+'＝据枪 · '+kLabel(KM.mode)+'＝射击模式 · Esc＝暂停/继续'; ex.appendChild(el2);l.appendChild(ex)}
 function updHint(){var h=$('keysHint');if(!h)return;
  var K=function(a){return '<span class="kbd">'+kLabel(KM[a])+'</span>'};
  var arrow=K('up')+K('left')+K('down')+K('right');
@@ -3752,8 +3804,8 @@ function updHint(){var h=$('keysHint');if(!h)return;
  '<div>'+K('mode')+' 切换射击模式：单发 / 短点射 / 全自动</div>',
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
  '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('swap')+' 快速切枪</div>',
- '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>',
- '<div>'+K('peri')+' 潜望镜 / 门外观察 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · <span class="kbd">Esc</span> 暂停/继续</div>',
+ '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动／破拆 · '+K('light')+' 枪灯</div>',
+ '<div>'+K('med')+' 医疗 · '+K('cover')+' 掩护 · <span class="kbd">Esc</span> 暂停/继续</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
  '<div>手机浏览器：左半屏拖动＝移动，右半屏拖动＝瞄准，红色准星钮＝开火，圆钮「据枪」＝收窄散布</div>'];
  h.innerHTML=rows.filter(function(x){return x}).join('')}
@@ -3788,8 +3840,6 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('swap'))swGun(G.p.wi===0?1:0);
    else if(kb('act'))interact();
    else if(kb('light'))togLight();
-   else if(kb('peri'))com('scout');
-   else if(kb('scout'))com('scout');
    else if(kb('med'))com('med');
    else if(kb('cover'))com('cov');
    else if(kb('mute'))togAud();}
@@ -3844,7 +3894,7 @@ bindT('tF',function(v){BF.f=v;if(v)BF.press=1},1);
 bindT('tR',function(){tryReload()});
 bindT('tS',function(){swGun(G&&G.p.wi===0?1:0)});
 bindT('tG',function(){toggleGren()});
-bindT('tE',function(){interact()});
+bindT('tE',function(v){BF.act=v;if(v)interact()},1);
 bindT('tQ',function(){togLight()});
 bindT('tAim',function(v){BF.ads=v},1);
 bindT('tSpr',function(v){BF.sp=v},1);
@@ -3877,8 +3927,8 @@ function cur(){return (G&&G.p&&G.p.guns)?G.p.guns[G.p.wi]:{w:WM[ST.sel]||WM.m4a1
 function updGun(){if(!G||!G.p)return;var g=cur(),p=G.p;
  $('amW').textContent=g.w.n;
  var thr=beltText(p)+(p.light?' · 枪灯 开':' · 枪灯 关');
- $('eq').textContent=thr+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+
-  (G.stickyN?(' · 破门弹 ×'+G.stickyN):(G.stickN?(' · 潜望镜 ×'+G.stickN):''));
+ var vw=Math.round(weaponView(g.w,p));
+ $('eq').textContent=thr+' · 视野 '+vw+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap);
  if(typeof updKbar==='function')updKbar()}
 /* 腰封内容文本，HUD 与军械库共用 */
 function beltText(p){
@@ -3894,18 +3944,38 @@ function beltResupply(){
  for(i=0;i<cap;i++){id=b[i];if(id&&id!=='cut'&&p.bl[id]<3){p.bl[id]++;return true}}
  return false}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
- p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;
+ p.wi=i;p.sw=.32;p.rl=0;p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;
  p.fm=modeOf(p.guns[i].w);snd.swap();updGun();tutEv('swap')}
 function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
  tutEv('reload');   /* 按了就算完成教学步骤，弹匣满时也生效 */
  p.burstN=0;
- if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl*(greyActive()?.85:1);snd.rl1();tutEv('reload')}
+ if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl*(p.relK||1);snd.rl1();tutEv('reload')}
+/* v19 射击精度：
+   - 站定 + 完全据枪 = 最准；
+   - 移动时按武器 moveK 放大散布，狙击枪最怕边跑边打；
+   - 据枪有 0.2–0.5 秒的过渡（ergo），刚按下 Space 不会立刻满精度；
+   - 配件、队员专长、射击模式与枪口热量再乘算。 */
+function shotSpread(w,p,fm){
+ var fx=attFx();
+ var mv=clamp(Math.hypot(p.vx||0,p.vy||0)/Math.max(1,p.sp),0,1.5);
+ var ads=!!p.aim;
+ var adsTime=(w.adsTime||.3)/(fx.ergo||1);
+ var aimT=ads?clamp((p.adsT||0)/adsTime,0,1):0;
+ var aimF=ads?(1-aimT*(1-(w.adsK||.5)))*(fx.ads||1):1;
+ var moveF=1+mv*(w.moveK||1.6)*(fx.move||1)*(ads?.55:1);
+ var modeF=fm==='semi'?.80:(fm==='burst'?.98:1.12);
+ var heat=1+Math.min(.65,(p.heat||0)*(w.recK||1)*.55);
+ var hip=ads?1:(fx.hip||1);
+ var opAim=ads?(p.aimK||1):1;
+ var auto=(fm==='auto')?(fx.auto||1):1;
+ var hipPenalty=(w.cls==='sniper'&&!ads)?2.1:1;
+ return w.sp*aimF*moveF*modeF*heat*hip*opAim*auto*hipPenalty}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  /* 第一枪就会打破潜入：附近守敌被枪声惊醒 */
  if(G.inf){G.inf=0;G.alerted=1;wakeNear(p.x,p.y,820,4);
   feed('枪声暴露 · 潜入阶段结束',0);toast('枪声惊动了守军',2600)}
  tutEv('fire');
- var g=cur(),w1=g.w;
+ var g=cur(),w1=g.w,fx=attFx();
  /* 剧情模式里用过的国产枪 → 永久解锁 */
  if(ST.inStory&&/国产/.test(w1.cn||'')&&!(ST.hw&&ST.hw[w1.id])){
   ST.hw=ST.hw||{};ST.hw[w1.id]=1;save();
@@ -3914,25 +3984,20 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
  if(L&&L.cfg&&L.cfg.cqb&&(p.fm||modeOf(w1))==='semi'&&p.aim)cqbEv('semiShot');
- var mv=Math.hypot(p.vx,p.vy)/p.sp,base=p.aa,fm=p.fm||modeOf(w1);
- var sp2=w1.sp*(1+mv*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(w1.cls==='sniper'&&!p.aim?2.1:1);
- /* 射击模式影响首发精度：单发最稳，短点射次之，全自动随枪口热量扩散 */
- sp2*=(fm==='semi'?.82:(fm==='burst'?1:1.12));
- sp2*=(1+Math.min(.55,(p.heat||0)*.5));
- var auF=attOf('grip')?.82:1;
- if(fm!=='auto')auF=1;sp2*=auF;
+ var base=p.aa,fm=p.fm||modeOf(w1);
+ var sp2=shotSpread(w1,p,fm);
  var i,n=w1.pl||1,spd=w1.bs*2.1;
  for(i=0;i<n;i++){var a=base+(Math.random()+Math.random()-1)*sp2,b=gpb();
   b.a=1;b.x=p.x+Math.cos(base)*18;b.y=p.y+Math.sin(base)*18;
   b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1}
- p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1);
- if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12);
- else if(fm==='burst')p.heat=Math.min(.5,(p.heat||0)+.04);
- shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(attOf('muzzle')>=2?.84:(attOf('muzzle')?.90:.92)));
+ p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1)*(p.recK||1)*(fx.recoil||1);
+ if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12*(w1.recK||1));
+ else if(fm==='burst')p.heat=Math.min(.5,(p.heat||0)+.04*(w1.recK||1));
+ shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(fx.recoil||1)*(p.recK||1));
  if(w1.cls==='sniper'){p.vx-=Math.cos(base)*46;p.vy-=Math.sin(base)*46}
  snd.fire(w1,0);
- burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170);
- var rad=w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480),jj;
+ burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170*(fx.flash||1));
+ var rad=(w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480))*(fx.noise||1),jj;
  if(!G.lastNoise||G.t-G.lastNoise>.3)for(jj=0;jj<L.en.length;jj++){var se=L.en[jj];
   if(se.dead||se.sub>0||se.alert)continue;
   if(se.dormant){if(Math.hypot(se.x-p.x,se.y-p.y)<rad){wakeEnemy(se,1);se.hx=p.x;se.hy=p.y}continue}
@@ -3947,7 +4012,7 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
   de._db=G.t;
   if(Math.hypot(de.x-p.x,de.y-p.y)>480)continue;
   if(Math.random()<.022*lvD)tryDodge(de,p.x,p.y,.35+Math.random()*.3)}}
-function noiseAt(x,y,rad){if(!L)return;var i;
+function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
  if(G&&G.inf&&G.p&&Math.hypot(x-G.p.x,y-G.p.y)<rad+160){
   G.inf=0;G.alerted=1;feed('声响暴露 · 潜入阶段结束',0);toast('声响惊动了守军',2400)}
  for(i=0;i<L.en.length;i++){var se=L.en[i];
@@ -3973,7 +4038,7 @@ function beltItemDef(id){return id==='cut'?CUTTER:throwDef(id)}
 function defBelt(){return ['frag','cut','stun','','','']}
 function beltList(){return (ST.belt&&ST.belt.length===6)?ST.belt:defBelt()}
 /* 腰封容量随「历史最高军衔」增长：2 → 6 格（掉分不会缩容） */
-function beltCap(){return clamp(2+Math.floor(rankPk()/3),2,6)}
+function beltCap(){return clamp(2+Math.floor(rankPk()/3)+(opMods().belt||0),2,6)}
 function beltCounts(){var b=beltList(),cap=beltCap(),o={frag:0,stun:0,flash:0,cut:0},i,id;
  for(i=0;i<cap;i++){id=b[i];if(id&&o[id]!=null)o[id]++}
  return o}
@@ -4076,23 +4141,7 @@ function grenadeScare(x,y,isF){if(!L)return;var lv=ST.lv||1,ch=.05+.08*lv,i;
   if(Math.hypot(e.x-x,e.y-y)>360)continue;
   if(Math.random()<ch)tryDodge(e,x,y,.55+Math.random()*.5)}}
 function throwFlash(){throwG()}
-function scopeDoor(d0){var p=G.p,i;if(!p||G.phase!=='live'||!L.dr)return;
- if(G.stickN<=0){toast(ST.gd.optic2|0?'潜望镜次数已用完':'未携带 FlushStick（军械库可选配）');return}
- var bd=72,door=d0||null;if(door&&door.open)door=null;
- if(!door){for(i=0;i<L.dr.length;i++){var d=L.dr[i];if(d.open)continue;
-  var cx=clamp(p.x,d.x,d.x+d.w),cy=clamp(p.y,d.y,d.y+d.h);
-  var dd=Math.hypot(p.x-cx,p.y-cy);if(dd<bd){bd=dd;door=d}}}
- if(!door){toast('近处没有可观察的关门');return}
- G.stickN--;door.scout=3.4;
- if(door.tr){door.known=1;
-  toast('镜下定睛：门后发现'+(door.tr==='blocker'?'阻门器（踹门无效）':'绊发诡雷（可剪线或炸毁）'),3200);
-  feed('观察关门 · 发现门后装置',1);snd.alert()}
- var n=0,ox=door.x+door.w/2,oy=door.y+door.h/2;
- for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead||e.sub>0)continue;
-  if(Math.hypot(e.x-ox,e.y-oy)<270&&(L.cfg.cqb||los(ox,oy,e.x,e.y))){e.scout=3.4;n++}}
- feed('FlushStick 观察：门内 '+n+' 个武装目标',1);snd.ui();
- if(L.cfg&&L.cfg.cqb)cqbEv('scope');
- updGun()}
+/* v19：潜望镜 / 门外观察已删除。门后情报只能靠破门、投掷物或直接进入获取。 */
 function ename(e){return{grunt:'步枪兵',rush:'冲锋兵',heavy:'重装佣兵',sniper:'精确射手',boss:'赤隼指挥官'}[e.tp]}
 function interact(){var p=G.p;if(!p||G.phase!=='live')return;
  if(nearStair()){switchFloor();return}
@@ -4112,18 +4161,9 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
    if(hasCutter()){startCut(rg);return}
    toast('门洞绊雷 · 腰封放剪线器后按 '+(touchUI?'「互动」':kLabel(KM.act))+' 拆除，或用手雷炸毁',3400);
    snd.empty();return}
-  var dkn=doorNear(p.x,p.y,54,1);
-  if(!dkn){var di2,bl=null,bd2=64;
-   for(di2=0;di2<L.dr.length;di2++){var dd4=L.dr[di2];
-    if(dd4.tr!=='blocker')continue;
-    var qx=clamp(p.x,dd4.x,dd4.x+dd4.w),qy=clamp(p.y,dd4.y,dd4.y+dd4.h);
-    var qd=Math.hypot(p.x-qx,p.y-qy);
-    if(qd<bd2){bd2=qd;bl=dd4}}
-   if(bl){
-    if(G.stickyN>0){G.stickyN--;bl.blowT=.5;bl.tr='blocker';toast('破门弹贴在阻门器上 · 0.5 秒起爆',2400);snd.rl1();updGun();return}
-    toast('洞口被阻门器堵死 · 需要破门弹（军械库可配）',2400);snd.empty();return}
-   return}
-  kickDoor(dkn);return}
+  var dkn=doorNear(p.x,p.y,60,1);
+  if(dkn){startBreach(dkn);return}
+  return}
  if(best.t==='c'){best.o.f=1;best.o.fol=1;G.sec2++;var hpv=scorePts(80);G.sc+=hpv;ksAdd('✔','解救平民 · 跟随撤离',hpv,'good');snd.cheer();
   feed('平民已解救 · 跟随撤离',1);toast('平民跟随中')}
  else if(best.t==='s'){var e2=best.o;
@@ -4134,11 +4174,12 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
    dmgPlayer(9);checkOpen();return}
   e2.dead=1;e2.dis=1;G.disarmed++;var dsv=scorePts(140);G.sc+=dsv;ksAdd('◆','缴械 '+ename(e2),dsv,'good');addXp(10);snd.sec();
   feed('缴械 '+ename(e2)+' · ROE 合规 +'+dsv,1);checkOpen()}
-   else{best.o.got=1;var g=cur();g.res+=g.w.cap*2;p.md++;
-  p.ar=Math.min(p.mar,p.ar+30);
-  if((ST.gd.breach|0)&&G.stickyN<2)G.stickyN++;else beltResupply();
+   else{var box=best.o,kind=box.kind||'full';box.got=1;var g=cur(),msgs=[];
+  if(kind==='ammo'||kind==='full'){g.res+=g.w.cap*2;msgs.push('弹药 +2 匣')}
+  if(kind==='med'||kind==='full'){p.md++;p.ar=Math.min(p.mar,p.ar+30);msgs.push('医疗 +1 · 护甲 +30')}
+  if(kind==='gren'||kind==='full'){if(beltResupply())msgs.push('投掷 +1')}
   snd.sec();
-  feed('补给箱：弹药 +2 匣 · 投掷 +1 · 医疗 +1 · 护甲 +30',1);updGun()}}
+  feed('补给箱：'+msgs.join(' · '),1);toast('补给箱：'+msgs.join(' · '));updGun()}}
 /* 战术枪灯：L 键（或触屏「枪灯」）开关，亮度与射程随军械库所选型号 */
 function togLight(){
  var p=G&&G.p;if(!p||G.phase!=='live')return;
@@ -4167,7 +4208,6 @@ function com(k){var p=G.p,i;if(!p)return;
  else if(k==='hos'){var rem=0;for(i=0;i<L.civ.length;i++)if(!L.civ[i].f&&!L.civ[i].down)rem++;
   toast('区域未解救平民：'+rem+' 名'+(G.civD?(' · 已伤亡 '+G.civD):''))}
  else if(k==='ext'){toast(G.exitOpen?'撤离点已开放 · 前往绿色区域':'撤离未开放 · 先清除守敌')}
- else if(k==='scout'){scopeDoor(null)}
  else if(k==='hold'||k==='cover'||k==='follow'||k==='breach'||k==='srch'||k==='t3'){
   if(!G.al||!G.al.length){toast('未编入 AI 队员（简报页可开关）');return}
   teamCmd(k)}
@@ -4250,6 +4290,7 @@ function ksAdd(ic,txt,pts,cls){var l=$('ksList');if(!l||!G)return;
  var tt=$('ksTot');if(tt)tt.textContent='作战分 '+G.sc}
 function hitEnemy(e,dm,head,wp,src){if(e.dead||e.sub>0)return;
  if(e.dormant)wakeEnemy(e,1);
+ e.sup=Math.min(1,(e.sup||0)+.45);   /* 中弹/擦弹后短暂压制，命中率下降 */
  if(G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<760){G.inf=0;G.alerted=1;wakeNear(e.x,e.y,700,3);feed('交火暴露 · 潜入阶段结束',0)}
  var ins=wp&&wp.ins||0,arv=e.arv||0;
  if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
@@ -4331,14 +4372,14 @@ function switchFloor(){
  var carried=[],ci;
  for(ci=0;ci<L.civ.length;ci++){var cc0=L.civ[ci];if(!cc0.down&&cc0.f&&cc0.fol)carried.push(cc0)}
  if(carried.length){var remain=[],ri;for(ri=0;ri<L.civ.length;ri++)if(carried.indexOf(L.civ[ri])<0)remain.push(L.civ[ri]);L.civ=remain}
- FLS[from]={en:L.en,civ:L.civ,dr:L.dr,exitOpen:G.exitOpen};
+ FLS[from]={en:L.en,civ:L.civ,dr:L.dr,cr:L.cr,exitOpen:G.exitOpen};
  var keep={killed:G.killed,disarmed:G.disarmed,sec2:G.sec2,civD:G.civD,dmg:G.dmg,hits:G.hits,
   sc:G.sc,t:G.t,kf:G.kf,tot0:G.tot0,bossDown:G.bossDown};
  var P=G.p;
  build(6,alt);
  L.fi=to;
  var sn=FLS[to];
- if(sn){L.en=sn.en;L.civ=sn.civ;L.dr=sn.dr}
+ if(sn){L.en=sn.en;L.civ=sn.civ;L.dr=sn.dr;if(sn.cr)L.cr=sn.cr}
  if(carried.length){
   for(ci=0;ci<carried.length;ci++){var cc=carried[ci];
    var ox=alt.st[0]+((ci%3)-1)*26,oy=alt.st[1]+(Math.floor(ci/3)+1)*24;
@@ -4351,6 +4392,7 @@ function switchFloor(){
  G.killed=keep.killed;G.disarmed=keep.disarmed;G.sec2=keep.sec2;G.civD=keep.civD;
  G.dmg=keep.dmg;G.hits=keep.hits;G.sc=keep.sc;G.t=keep.t;G.kf=keep.kf;G.tot0=keep.tot0;
  G.bossDown=keep.bossDown;G.phase='live';G.goT=0;G.p=P;G.exitOpen=sn?sn.exitOpen:0;
+ P.brD=null;P.brT=0;
  P.x=alt.st[0];P.y=alt.st[1];P.vx=P.vy=0;
   if(!sn)initInfiltration(G.alerted?0:1);
  var i;for(i=0;i<POOL.b.length;i++)POOL.b[i].a=0;
@@ -4485,11 +4527,11 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     if(pathFree(e.x,e.y,sx3,sy3,e.r)){e.x=sx3;e.y=sy3;e.a=ddz2;e.vx=Math.cos(ddz2)*spd3;e.vy=Math.sin(ddz2)*spd3}
     else e.dodgeT=0}
    else e.dodgeT=0;
-   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;continue}
-  e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;
+   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;e.sup=Math.max(0,(e.sup||0)-dt*.45);continue}
+  e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;e.sup=Math.max(0,(e.sup||0)-dt*.45);
   var dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;
   if(e.losT<=0){e.losT=.17;
-   var canSee=d<(e.tp==='sniper'?1050:520)&&los(e.x,e.y,p.x,p.y);
+   var canSee=d<(e.tp==='sniper'?1050:520)*(cfg.eview||1)*(attFx().detect||1)&&los(e.x,e.y,p.x,p.y);
    /* 潜入阶段：刚进任务的 6 秒是渗透窗口，远距离守卫不会立刻发现你；
       只有贴脸（<72px）或开枪/爆炸才会马上暴露。窗口过后守卫恢复正面视野锥。 */
    if(canSee&&G.inf&&!e.alert){
@@ -4538,7 +4580,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    if(e.canSee&&e.sw<=0&&G.phase==='live'&&shootCnt<G.shootCap&&!(e.stun>0)&&!L.cfg.exam){
     shootCnt++;G.nc=0;
     e.sw=e.tp==='rush'?(.38+Math.random()*.24):(.58+Math.random()*.58);
-    var acc=cfg.acc*e.acc*.78*(e.tp==='sniper'?.26:1)*(p.aim?.78:1)*(e.hp<e.mh*.45?1.4:1);
+    var acc=cfg.acc*e.acc*.78*(e.tp==='sniper'?.26:1)*(p.aim?.78:1)*(e.hp<e.mh*.45?1.4:1)*(1-(e.sup||0)*.35);
     var off=Math.atan2(p.y-e.y,p.x-e.x)+(Math.random()+Math.random()-1)*.18*acc;
     var ns=e.tp==='heavy'?2:1,k2;
     for(k2=0;k2<ns;k2++){var b=gpb();b.a=1;
@@ -4548,7 +4590,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
      b.lm=e.tp==='sniper'?3000:1600;b.tm=0;b.own=0;b.dm=cfg.edm*e.dm;b.pen=0}
     snd.fire(EFW[e.tp]||EFW.grunt,clamp(1-Math.hypot(e.x-G.p.x,e.y-G.p.y)/1250,0,1));
     burst(e.x+Math.cos(off)*(e.r+3),e.y+Math.sin(off)*(e.r+3),2,'#ffcf6a',80,130)}}
-  var ed=doorNear(e.x,e.y,48);if(ed&&!ed.open&&(e.alert||e.st!=='patrol'))openDoor(ed,'e');
+  /* v19：敌人不会开门，门只能由玩家破拆 */
   if(freeAt(e.x,e.y,e.r)){e._okx=e.x;e._oky=e.y}
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
   if(pathFree(e.x,e.y,nx,ny,e.r)){e.x=nx;e.y=ny}
@@ -4756,6 +4798,7 @@ function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
  burst(x,y,ST.low?10:28,'#ffb84d',400,620);smoke(x,y,ST.low?3:8);
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead)continue;
   var d=Math.hypot(e.x-x,e.y-y);
+  if(d<r*1.8)e.sup=Math.min(1,(e.sup||0)+.55);
   if(d<r&&los(x,y,e.x,e.y)){if(!e.alert){e.alert=1;e.st='engage'}hitEnemy(e,dm*(1-d/r),0)}}
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down||c.f)continue;
   var dc=Math.hypot(c.x-x,c.y-y);
@@ -4764,25 +4807,28 @@ function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
  var dp=Math.hypot(G.p.x-x,G.p.y-y);
  if(dp<r*.9)dmgPlayer(dm*.5*(1-dp/r));
  noiseAt(x,y,r+340);
+ if(G)G.lastNoise=G.t;
  var di;for(di=0;di<L.dr.length;di++){var dd=L.dr[di],
    dcx=dd.x+dd.w/2,dcy=dd.y+dd.h/2;
   /* 手雷/破门弹的爆炸可以直接炸毁绊雷，不必再冒险开门或剪线 */
   if(dd.tr==='rig'&&Math.hypot(x-dcx,y-dcy)<r+24&&los(x,y,dcx,dcy)){
    dd.tr=null;dd.rigs=0;dd.known=1;dd.cutT=0;
-   if(!dd.open)openDoor(dd,'x');
    if(!byEnemy){
     var bpd=scorePts(20);G.sc+=bpd;
     ksAdd('✂','绊雷爆破拆除',bpd,'good');
     feed('爆炸摧毁门洞绊雷 · 通路安全',1);toast('绊雷已被炸毁',2200)}
    else feed('爆炸波及 · 门洞绊雷被摧毁',0)}
   if(dd.tr==='blocker'&&Math.hypot(x-dcx,y-dcy)<r+34){
-   dd.tr=null;rebuildCW();feed('阻门器被炸毁 · 洞口打通',1);toast('阻门器已炸毁',2200)}}
+   dd.tr=null;feed('阻门器被炸毁 · 门仍需要破拆',1);toast('阻门器已炸毁',2200)}}
  if(G.al)for(di=0;di<G.al.length;di++){var ad=G.al[di];
   if(!ad.down&&Math.hypot(ad.x-x,ad.y-y)<r*.8)allyDmg(ad,dm*.4)}
 }
 function hostLeft(){var n=0,i;for(i=0;i<L.civ.length;i++)if(!L.civ[i].down&&!L.civ[i].f)n++;return n}
 function updCiv(dt){var p=G.p,i;
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down)continue;c.ph+=dt*3.4;
+  /* 人质效果：附近枪声/爆炸会让未解救的人质发抖、蹲低；被解救后仍会跟着玩家 */
+  if(!c.f&&G.lastNoise&&G.t-G.lastNoise<1.1&&Math.hypot(c.x-p.x,c.y-p.y)<520){c.panic=1.4;c.ph+=dt*4}
+  else c.panic=Math.max(0,(c.panic||0)-dt);
   if(c.f&&c.fol)civFollow(c,p,dt,i);
   else{c.stuck=0;c.path=null;c.pathT=0}}}
 /* SECTION: enemy-grenade 敌方投掷物
@@ -4801,22 +4847,34 @@ function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
   if(g2.gt<g2.travel){g2.gt+=dt;var k=clamp(g2.gt/g2.travel,0,1);
    g2.x=g2.sx+(g2.tx-g2.sx)*k;g2.y=g2.sy+(g2.ty-g2.sy)*k}
   if(g2.t>=g2.fuse){G.eg.splice(i--,1);explode(g2.x,g2.y,115,95,1);snd.boom()}}}
+/* 视野：每把枪的 vr 不同，狙击枪看得最远、霰弹枪最近；据枪时再 +8%。
+   敌人/人质/补给只有进入「当前武器视野 + 视线」才会被标记与渲染。 */
+function weaponView(w,p){
+ if(!w)return 500;
+ var fx=attFx(),om=opMods();
+ var v=(w.vr||500)*(fx.view||1)*(om.view||1);
+ if(p&&p.aim)v*=1.08;
+ if(p&&p.light)v*=gdHas('light',1)?1.12:1.05;
+ return v}
 /* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
 function updVis(dt){if(!G||!L)return;
  G._vT=(G._vT==null?0:G._vT-dt);if(G._vT>0)return;G._vT=.12;
- var p=G.p,i,o;
+ var p=G.p,i,o,vr=weaponView(cur().w,p);G.viewR=vr;
  /* 小地图只显示真正「看到过」的东西：必须有过视线，穿墙不算 */
  for(i=0;i<L.en.length;i++){o=L.en[i];
   if(o.dormant){o._vis=0;o._seen=0;continue}
   if(o.dead)continue;
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<130||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
+  var de=Math.hypot(o.x-p.x,o.y-p.y),le=de<130||de<vr;
+  o._vis=(le&&los(p.x,p.y,o.x,o.y))?1:0;
+  if(le&&los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
  for(i=0;i<L.civ.length;i++){o=L.civ[i];if(o.down)continue;
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<110||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
+  var dc=Math.hypot(o.x-p.x,o.y-p.y),lc=dc<110||dc<vr;
+  o._vis=(lc&&los(p.x,p.y,o.x,o.y))?1:0;
+  if(lc&&los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}
  for(i=0;i<L.cr.length;i++){o=L.cr[i];
-  o._vis=(Math.hypot(o.x-p.x,o.y-p.y)<150||los(p.x,p.y,o.x,o.y))?1:0;
-  if(los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}}
+  var dk=Math.hypot(o.x-p.x,o.y-p.y),lk=dk<150||dk<vr;
+  o._vis=(lk&&los(p.x,p.y,o.x,o.y))?1:0;
+  if(lk&&los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}}
 /* 门洞机关：绊雷在有人跨过洞口时起爆（可叠加伤害）；阻门器由爆炸摧毁 */
 function inDoor(o,d){return o.x>d.x-6&&o.x<d.x+d.w+6&&o.y>d.y-6&&o.y<d.y+d.h+6}
 function doorTick(dt){if(!L)return;var i,j;
@@ -4870,6 +4928,9 @@ function updatePlayer(dt){var p=G.p,i;
  mx+=sm.dx;my+=sm.dy;
  var ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;ml=1}
  p.aim=((kb('ads')||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
+ /* 据枪过渡：刚按下 Space 时精度还没完全收拢；松开后 3 倍速度回落 */
+ if(p.aim)p.adsT=Math.min(1.4,(p.adsT||0)+dt);
+ else p.adsT=Math.max(0,(p.adsT||0)-dt*3);
  /* 据枪：键盘按住（默认 Space），触屏仍用「据枪」圆钮；鼠标右键不再据枪 */
  p.run=BF.sp||(kb('sprint')?1:0);
  var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
@@ -4942,71 +5003,77 @@ function startCut(d){
  d.cutT=1.4;
  toast('剪线拆除 · 保持 1.4 秒，离开会中断',2800);
  feed('开始剪线 · 保持距离',1);snd.ui()}
-function openDoor(d,who){if(d.open)return;
- /* 绊发诡雷：开门瞬间引爆，站在门口的人非死即伤 */
- if(d.tr==='rig'&&who!=='x'){
-  d.tr=null;d.open=1;d.anim=0;d.kickT=0;rebuildCW();
-  var cx0=d.x+d.w/2,cy0=d.y+d.h/2;
-  d.hg=1;explode(cx0,cy0,138,190,1);
-  /* 贴门的人必死：距离越近伤害越致命 */
+/* v19：唯一开门方式 = 玩家破拆。敌人、人质、队友都不会开门。
+   openDoor 保留为内部函数名，但只允许玩家触发；外部旧调用已全部移除。 */
+function breachDoor(d,byPlayer){
+ if(!d||d.open)return;
+ var cx0=d.x+d.w/2,cy0=d.y+d.h/2;
+ d.open=1;d.brk=1;d.kickT=d.need;rebuildCW();
+ /* 绊发诡雷：破门瞬间引爆，站在门口的人非死即伤 */
+ if(d.tr==='rig'){
+  d.tr=null;d.rigs=0;d.known=1;
+  explode(cx0,cy0,138,190,1);
   var dpp0=Math.hypot(G.p.x-cx0,G.p.y-cy0);
   if(dpp0<115)dmgPlayer(G.p.mhp*(0.95-dpp0/115*0.45));
   if(G.al)for(var qi=0;qi<G.al.length;qi++){var al0=G.al[qi];
    if(!al0.down&&Math.hypot(al0.x-cx0,al0.y-cy0)<115)allyDmg(al0,al0.mhp*1.3)}
-  toast('诡雷！门后绊发装置引爆',3200);feed('门后诡雷引爆 · 门区致命',0);
-  say('Bravo-2','诡雷！门后！','#ff8a70');
-  snd.boom();return}
- d.open=1;d.anim=0;d.kickT=0;rebuildCW();
- if(L&&L.cfg&&L.cfg.cqb&&who==='p'&&typeof cqbEv==='function')cqbEv('breach');
- if(who==='e')noiseAt(d.x+d.w/2,d.y+d.h/2,320);
- else if(d.type==='glass')burst(d.x+d.w/2,d.y+d.h/2,ST.low?5:12,'#bfe2ea',200,260)}
-function kickDoor(d){var p=G.p;
- /* 已经开着的门不再响应：这是之前「开完还要再踹」的根因 */
- if(!d||d.open||d.blowT>0)return;
- /* 阻门器：普通踹门无效，必须用破门弹 */
- if(d.tr==='blocker'&&G.stickyN<=0){
-  d.kickT=0;snd.empty();
-  toast('门被阻门器顶死 · 需要破门弹（军械库可配）',2600);
-  feed('阻门器 · 踹门无效',0);return}
- var cx=d.x+d.w/2,cy=d.y+d.h/2;
- if(G.stickyN>0){G.stickyN--;d.blowT=.55;
-  toast('破门弹贴装 · 0.55 秒起爆');snd.rl1();updGun();return}
- d.kickT+=(ST.gd.breach|0?.5:.34);
- if(d.kickT>=d.need){d.kickT=0;openDoor(d,'p');
-  if(d.type==='glass'){snd.boom();noiseAt(cx,cy,420);toast('玻璃门已砸开')}
-  else{snd.boom();shake=Math.min(shake+6,10);noiseAt(cx,cy,520);
-   if(d.type==='metal')shake=Math.min(shake+8,12);
-   var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
-    if(!e.dead&&Math.hypot(e.x-cx,e.y-cy)<170)e.stun=Math.max(e.stun||0,1.1)}
-   toast(d.type==='metal'?'加固门已破开':'门已破开')}}
- else{snd.rl1();
-  toast(d.type==='metal'?('加固门 · 还需 '+Math.max(1,Math.ceil((d.need-d.kickT)/.34))+' 次（建议用破门弹）')
-   :(d.type==='glass'?'玻璃门 · 再补一下':'踹门中… 连按两三次'),1200)}}
-function updateDoors(dt){var i;
- for(i=0;i<L.dr.length;i++){var d=L.dr[i];
-  if(d.blowT>0){d.blowT-=dt;
-   if(d.blowT<=0){d.blowT=0;openDoor(d,'p');snd.boom();shake=Math.min(shake+9,12);
-    burst(d.x+d.w/2,d.y+d.h/2,ST.low?6:14,'#ffb84d',260,420);
-    noiseAt(d.x+d.w/2,d.y+d.h/2,640);
-    var k;for(k=0;k<L.en.length;k++){var e=L.en[k];
-     if(!e.dead&&Math.hypot(e.x-(d.x+d.w/2),e.y-(d.y+d.h/2))<180)
-      hitEnemy(e,60,0,null)}
-    toast('破门爆破 · 门区波及');updGun()}}
+  toast('诡雷！破门瞬间引爆',3200);feed('门后诡雷引爆 · 门区致命',0);
+  say('Bravo-2','诡雷！门后！','#ff8a70');snd.boom();
+  if(L&&L.cfg&&L.cfg.cqb&&byPlayer&&typeof cqbEv==='function')cqbEv('breach');
+  return}
+ if(L&&L.cfg&&L.cfg.cqb&&byPlayer&&typeof cqbEv==='function')cqbEv('breach');
+ if(d.type==='glass'){snd.boom();noiseAt(cx0,cy0,420);burst(cx0,cy0,ST.low?5:12,'#bfe2ea',200,260);
+  toast('玻璃门已砸开')}
+ else{
+  snd.boom();shake=Math.min(shake+(d.type==='metal'?8:6),12);
+  noiseAt(cx0,cy0,d.type==='metal'?640:520);
+  burst(cx0,cy0,ST.low?4:9,'#c8b98a',180,280);
+  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
+   if(!e.dead&&Math.hypot(e.x-cx0,e.y-cy0)<170)e.stun=Math.max(e.stun||0,1.1)}
+  toast(d.type==='metal'?'加固门已破开':'门已破开')}}
+function openDoor(d){breachDoor(d,1)}
+function kickDoor(d){startBreach(d)}
+function startBreach(d){
+ var p=G&&G.p;if(!p||!d||d.open)return;
+ if(d.tr==='blocker')toast('阻门器顶死 · 破拆会更慢，按住不放',2600);
+ if(p.brD===d){toast('继续按住 '+(touchUI?'「互动」':kLabel(KM.act))+' 破拆',1400);return}
+ p.brD=d;p.brT=0;d.kickT=d.kickT||0;
+ snd.rl1();toast('开始破拆 · 按住 '+(touchUI?'「互动」':kLabel(KM.act))+' 直到破开',2600);
+ feed('破拆中 · 门区会发出声响',1)}
+function updateDoors(dt){var i,p=G&&G.p;
+ /* 玩家破拆：按住互动键，必须站在门外 64px 内；松手/进门/走远都会中断 */
+ if(p&&p.brD){
+  var d=p.brD,cx=d.x+d.w/2,cy=d.y+d.h/2,
+   held=(kb('act')||BF.act),
+   qx=clamp(p.x,d.x,d.x+d.w),qy=clamp(p.y,d.y,d.y+d.h),
+   pd=Math.hypot(p.x-qx,p.y-qy);
+  if(!held||d.open||inDoor(p,d)||pd>64){
+   p.brD=null;p.brT=0;if(!d.open)d.kickT=Math.max(0,d.kickT-dt*.8);
+   if(!d.open){toast('破拆中断 · 保持按住并站在门外',1800);feed('破拆中断',0)}
+  }else{
+   p.brT+=dt;
+   var rate=(p.brK||1)*(d.tr==='blocker'?.62:1);
+   d.kickT=Math.min(d.need,d.kickT+dt*rate);
+   if(Math.random()<dt*7){snd.rl1();burst(cx,cy,ST.low?1:2,'#c8b98a',50,120);
+    noiseAt(cx,cy,150)}
+   if(d.kickT>=d.need){breachDoor(d,1);p.brD=null;p.brT=0;updGun()}
+  }
+ }
+ for(i=0;i<L.dr.length;i++){var d2=L.dr[i];
   /* 剪线拆除：必须站在门洞外并保持距离；离开或跨进门洞立即中断 */
-  if(d.cutT>0){
-   d.cutT-=dt;
-   var ccx=d.x+d.w/2,ccy=d.y+d.h/2;
-   if(!G||!G.p||G.phase!=='live'||G.over||inDoor(G.p,d)||
+  if(d2.cutT>0){
+   d2.cutT-=dt;
+   var ccx=d2.x+d2.w/2,ccy=d2.y+d2.h/2;
+   if(!G||!G.p||G.phase!=='live'||G.over||inDoor(G.p,d2)||
       Math.hypot(G.p.x-ccx,G.p.y-ccy)>88){
-    d.cutT=0;toast('剪线中断 · 离门洞太远或已跨入危险区',2400);feed('剪线中断',0)}
-   else if(d.cutT<=0){
-    d.cutT=0;d.tr=null;d.rigs=0;d.known=1;
+    d2.cutT=0;toast('剪线中断 · 离门洞太远或已跨入危险区',2400);feed('剪线中断',0)}
+   else if(d2.cutT<=0){
+    d2.cutT=0;d2.tr=null;d2.rigs=0;d2.known=1;
     var cpd=scorePts(30);G.sc+=cpd;
     ksAdd('✂','绊雷拆除 · 剪线',cpd,'good');
     feed('绊雷已剪线拆除 · 门洞安全',1);toast('绊雷已拆除 · 门洞安全',2400);snd.sec()}}
-  if(d.open&&d.anim<1)d.anim=Math.min(1,d.anim+dt*3.4);
-  if(d.scout>0)d.scout-=dt;
-  if(!d.open)d.kickT=Math.max(0,d.kickT-dt*.08)}}
+  if(!d2.open&&d2!==(p&&p.brD))d2.kickT=Math.max(0,d2.kickT-dt*.08)}
+}
 var ALLY=[{role:'assault',n:' Bravo-2 · 突击',sp:196,r:13,hp:130,col:'#4e6f4a',dm:24,rpm:640,acc:.85,range:1500,
   gun:{n:'HK416A5',ap:.5,pl:1,bs:1500,rn:3250,pen:0,ins:0}},
  {role:'marksman',n:' Bravo-3 · 精确',sp:178,r:13,hp:104,col:'#4a5f78',dm:44,rpm:220,acc:.5,range:2400,
@@ -5141,7 +5208,7 @@ function civFollow(c,p,dt,idx){
   moved=moveToward(c,p.x,p.y,spd*.82,dt);
   if(!moved){
    c.stuck=(c.stuck||0)+dt;
-   var cd=doorNear(c.x,c.y,54);if(cd&&!cd.open)openDoor(cd,'c');
+   /* v19：人质不会开门，门只能由玩家破拆 */
    if(pushFree(c,dt,300)){c.stuck=0;moved=true}
   }
  }else c.stuck=0;
@@ -5196,7 +5263,7 @@ function cqb(a,dt,p){a.qd-=dt;
   var ang9=Math.atan2(p.y-hy,p.x-hx)+(a.i?-1.05:1.05);
   a.sx9=hx+Math.cos(ang9)*34;a.sy9=hy+Math.sin(ang9)*34;
   if(d0(a,{x:a.sx9,y:a.sy9})<17&&a.qd<=0){
-   if(a.i===0){openDoor(d9,'a');a.qst='clear';a.qd=0;feed(a.n+' 破门前压 · 切角进入',1)}
+   if(a.i===0){a.qst='clear';a.qd=0;feed(a.n+' 等待玩家破门 · 切角进入',1)}
    else{a.qst='cover';a.qd=2.4;feed(a.n+' 掩护位就绪 · 等 Bravo-2 清房',1)}}
   return}
  if(a.qst==='cover'){if(a.qd<=0||d0(a,p)<90)a.qst='follow';return}
@@ -5290,7 +5357,7 @@ function updateAllies(dt){if(!G.al)return;var p=G.p,i;
   a._lx=a.x;a._ly=a.y;
   /* 被关着的门挡住、且明显掉队时才推门（不抢玩家破门的活，也不会开门暴露你） */
   if(want>0&&a.stuck&&dpp>190){var dnb=doorNear(a.x,a.y,48);
-   if(dnb&&!dnb.open&&!dnb.tr){openDoor(dnb,'a');feed(a.n+' 推开门扉',1);a.stuck=0;dnb.anim=0}}
+   if(dnb&&!dnb.open){a.stuck=0;/* v19：队友只等待，不替玩家开门 */}}
   if(want>0){var au=Math.atan2(wy-a.y,wx-a.x),vv=a.sp*(a.lost?1.35:want)*(a.catch||1);
    if(!moveToward(a,wx,wy,vv,dt))a.stuckT=(a.stuckT||0)+dt;
    else a.mv=1}
@@ -5341,98 +5408,70 @@ function allyDmg(a,v){if(a.down)return;
  a.hp-=v*.85;a.bleed=(a.bleed||0)+v;
  if(a.hp<=0){a.hp=0;a.down=1;a.dt2=0;feed(a.n+' 倒地 · 16 秒后自行恢复',0);snd.dead();
   allySay(a,'我中弹了！掩护我！')}}
-function drawDoor(d){
- var leaf=d.hor?d.w:d.h, th=d.hor?d.h:d.w, sg=(d.hg?-1:1), sw=(d.sw||1);
- var hx=d.hor?(d.hg?d.x+d.w:d.x):d.x+d.w/2;
- var hy=d.hor?d.y+d.h/2:(d.hg?d.y+d.h:d.y);
- var rot=(Math.PI/2)*d.anim*sw*sg*(d.hor?1:-1);
- var rx=d.hor?(sg>0?0:-leaf):-th/2, ry=d.hor?-th/2:(sg>0?0:-leaf);
- var rw=d.hor?leaf:th, rh=d.hor?th:leaf;
- var metal=d.type==='metal', glass=d.type==='glass', blast=d.type==='blast', i;
- ctx.save();ctx.translate(hx,hy);
- if(d.anim>.04){ctx.save();ctx.rotate(rot);ctx.fillStyle='rgba(0,0,0,.20)';
-  ctx.fillRect(rx+3,ry+4,rw,rh);ctx.restore()}
- ctx.rotate(rot);
- if(glass)ctx.fillStyle=d.brk?'rgba(120,170,185,.14)':'rgba(150,205,220,.34)';
- else if(blast)ctx.fillStyle=d.brk?'#262a2e':'#41474e';
- else if(metal)ctx.fillStyle=d.brk?'#384048':'#5b6670';
- else ctx.fillStyle=d.brk?'#453222':'#6f4d30';
- ctx.fillRect(rx,ry,rw,rh);
- /* 防爆门：黄黑警示斜条 */
- if(blast&&!d.brk){ctx.save();ctx.beginPath();ctx.rect(rx,ry,rw,rh);ctx.clip();
-  for(i=-rh;i<rw+rh;i+=9){ctx.fillStyle=(i/9|0)%2?'rgba(226,169,62,.55)':'rgba(20,22,24,.55)';
-   ctx.beginPath();ctx.moveTo(rx+i,ry);ctx.lineTo(rx+i+4,ry);ctx.lineTo(rx+i+4-rh,ry+rh);ctx.lineTo(rx+i-rh,ry+rh);
-   ctx.closePath();ctx.fill()}
-  ctx.restore()}
- ctx.strokeStyle='rgba(0,0,0,.5)';ctx.lineWidth=1.6;
- ctx.strokeRect(rx+.8,ry+.8,rw-1.6,rh-1.6);
- ctx.strokeStyle=glass?'rgba(255,255,255,.28)':'rgba(255,255,255,.10)';ctx.lineWidth=1;
- if(d.hor){for(i=0;i<2;i++){var pxx=rx+rw*(i+.5)/2-rw*.18;
-  ctx.strokeRect(pxx,ry+rh*.22,rw*.36,rh*.56)}}
- else{for(i=0;i<2;i++){var pyy=ry+rh*(i+.5)/2-rh*.18;
-  ctx.strokeRect(rx+rw*.22,pyy,rw*.56,rh*.36)}}
- if(metal){ctx.fillStyle='rgba(210,220,228,.35)';
-  if(d.hor){ctx.fillRect(rx+2,ry+2,rw-4,2);ctx.fillRect(rx+2,ry+rh-4,rw-4,2)}
-  else{ctx.fillRect(rx+2,ry+2,2,rh-4);ctx.fillRect(rx+rw-4,ry+2,2,rh-4)}}
- var hxp=d.hor?(sg>0?rx+rw-8:rx+8):rx+rw/2;
- var hyp=d.hor?ry+rh/2:(sg>0?ry+rh-8:ry+8);
- ctx.fillStyle=metal?'#cdd6dd':'#d8a24a';
- ctx.beginPath();ctx.arc(hxp,hyp,2.6,0,TAU);ctx.fill();
- ctx.fillStyle='rgba(0,0,0,.45)';
- if(d.hor){ctx.fillRect(rx+(sg>0?0:-3),ry+3,3,4);ctx.fillRect(rx+(sg>0?0:-3),ry+rh-7,3,4)}
- else{ctx.fillRect(rx+3,ry+(sg>0?0:-3),4,3);ctx.fillRect(rx+rw-7,ry+(sg>0?0:-3),4,3)}
- ctx.restore();
- /* 门框：紧贴洞口两侧，视觉上把门缝收到最小 */
- if(!d.open){var fw2=3.5;
-  ctx.fillStyle='#2b2620';
-  if(d.hor){ctx.fillRect(d.x-fw2,d.y-1.5,fw2,d.h+3);ctx.fillRect(d.x+d.w,d.y-1.5,fw2,d.h+3)}
-  else{ctx.fillRect(d.x-1.5,d.y-fw2,d.w+3,fw2);ctx.fillRect(d.x-1.5,d.y+d.h,d.w+3,fw2)}
-  ctx.fillStyle='rgba(255,255,255,.07)';
-  if(d.hor){ctx.fillRect(d.x,d.y-.8,d.w,1.6)}else{ctx.fillRect(d.x-.8,d.y,1.6,d.h)}}
- /* 木门弹孔（可穿透） */
- if(d.holes&&d.holes.length&&!d.open){var hi4;
-  for(hi4=0;hi4<d.holes.length;hi4++){var ho=d.holes[hi4];
-   ctx.fillStyle='rgba(20,14,8,.75)';ctx.beginPath();ctx.arc(ho.x,ho.y,1.6,0,TAU);ctx.fill()}}
- /* 已知门后装置：门框上打标记（红=绊雷，黄=阻门器） */
- if(!d.open&&d.known&&d.tr){
-  var mx=d.x+d.w/2,my=d.y+d.h/2;
-  ctx.save();ctx.translate(mx,my);
-  ctx.strokeStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';ctx.lineWidth=1.8;
-  ctx.beginPath();ctx.arc(0,0,7,0,TAU);ctx.stroke();
-  ctx.fillStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';
-  ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(d.tr==='rig'?'雷':'阻',0,0);
-  ctx.restore();ctx.textAlign='left';ctx.textBaseline='alphabetic'}
- if(!d.open&&!d.brk){
-  var cx=d.x+d.w/2,cy=d.y+d.h/2,
-   near=G&&G.p&&Math.hypot(G.p.x-cx,G.p.y-cy)<72;
-  if(near){
-   ctx.strokeStyle=metal?'rgba(140,190,220,.9)':'rgba(226,169,62,.9)';ctx.lineWidth=1.6;
-   ctx.beginPath();ctx.arc(cx,cy,9,0,TAU);ctx.stroke();
-   ctx.fillStyle=metal?'#8fc4de':'#e2a93e';ctx.font='bold 9px sans-serif';
-   ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('F',cx,cy+.5);
-   ctx.textBaseline='alphabetic'}
-  else{ctx.fillStyle='#e6dcae';ctx.beginPath();ctx.arc(cx,cy,2.2,0,TAU);ctx.fill()}}
- if(d.blowT>0){ctx.fillStyle='rgba(240,200,120,.95)';
-  ctx.beginPath();ctx.arc(d.x+d.w/2,d.y+d.h/2,7,0,TAU);ctx.fill();
-  ctx.fillStyle='#1a1208';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
-  ctx.fillText(d.blowT.toFixed(1),d.x+d.w/2,d.y+d.h/2+3)}
- if(d.scout>0){ctx.strokeStyle='rgba(127,208,255,.8)';ctx.lineWidth=2;
-  ctx.setLineDash([4,4]);ctx.strokeRect(d.x-6,d.y-6,d.w+12,d.h+12);ctx.setLineDash([])}
- /* 门洞标识：突入箭头 + 机关提示 */
+/* v19 门的表现：不再有可开合的门扇模型。
+   关闭时画成「封门 / 破拆点」——木板、金属板或玻璃板横在门洞里，必须按住 F 破拆；
+   破开后只留门框、碎料与绿色突入箭头。 */
+function drawBreach(d){
+ var cx=d.x+d.w/2,cy=d.y+d.h/2,metal=d.type==='metal',glass=d.type==='glass',
+  nqx=G&&G.p?clamp(G.p.x,d.x,d.x+d.w):-999,nqy=G&&G.p?clamp(G.p.y,d.y,d.y+d.h):-999,
+  near=G&&G.p&&Math.hypot(G.p.x-nqx,G.p.y-nqy)<64,i;
+ ctx.save();
+ /* 门框 */
+ ctx.fillStyle='#2b2620';
+ if(d.hor){ctx.fillRect(d.x-3.5,d.y-2,3.5,d.h+4);ctx.fillRect(d.x+d.w,d.y-2,3.5,d.h+4)}
+ else{ctx.fillRect(d.x-2,d.y-3.5,d.w+4,3.5);ctx.fillRect(d.x-2,d.y+d.h,d.w+4,3.5)}
  if(d.open){
-  var dcx=d.x+d.w/2,dcy=d.y+d.h/2,dir=d.hor?1:-1;
-  ctx.save();ctx.globalAlpha=.55;ctx.strokeStyle='rgba(150,220,180,.9)';ctx.lineWidth=1.6;
+  /* 破开后：门洞地面碎料 + 突入箭头，没有任何门扇 */
+  ctx.save();ctx.globalAlpha=.55;
+  ctx.fillStyle=metal?'#59636c':(glass?'rgba(150,205,220,.25)':'#5b3f28');
+  if(d.hor){for(i=0;i<5;i++)ctx.fillRect(d.x+4+Math.random()*Math.max(1,d.w-14),d.y-4+Math.random()*10,4,3)}
+  else{for(i=0;i<5;i++)ctx.fillRect(d.x-4+Math.random()*10,d.y+4+Math.random()*Math.max(1,d.h-14),3,4)}
+  ctx.strokeStyle='rgba(150,220,180,.55)';ctx.lineWidth=1.6;
   ctx.beginPath();
-  if(d.hor){ctx.moveTo(dcx-7,dcy-5);ctx.lineTo(dcx+3,dcy);ctx.lineTo(dcx-7,dcy+5)}
-  else{ctx.moveTo(dcx-5,dcy-7);ctx.lineTo(dcx,dcy+3);ctx.lineTo(dcx+5,dcy-7)}
+  if(d.hor){ctx.moveTo(cx-7,cy-5);ctx.lineTo(cx+3,cy);ctx.lineTo(cx-7,cy+5)}
+  else{ctx.moveTo(cx-5,cy-7);ctx.lineTo(cx,cy+3);ctx.lineTo(cx+5,cy-7)}
   ctx.stroke();ctx.restore();
-  if(d.tr&&d.known){ctx.fillStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';
-   ctx.beginPath();ctx.arc(dcx,dcy,4,0,TAU);ctx.fill()}
-  else if(d.tr==='blocker'){ctx.fillStyle='rgba(226,169,62,.75)';
-   ctx.fillRect(dcx-3,dcy-8,6,16);ctx.fillRect(dcx-8,dcy-8,16,3);ctx.fillRect(dcx-8,dcy+5,16,3)}
-  if(d.tr==='rig'&&!d.known){ctx.strokeStyle='rgba(255,90,74,.35)';ctx.lineWidth=1;
-   ctx.beginPath();ctx.moveTo(dcx-9,dcy+7);ctx.lineTo(dcx+9,dcy-7);ctx.stroke()}}}
+  if(d.tr==='rig'){ctx.fillStyle='#ff5a4a';ctx.beginPath();ctx.arc(cx,cy,3.5,0,TAU);ctx.fill()}
+  ctx.restore();return}
+ /* 封门板：横向/纵向铺板，外加 X 形支撑，看起来就是「必须破拆」 */
+ var w=d.w,h=d.h;
+ ctx.save();
+ ctx.fillStyle=glass?'rgba(150,205,220,.30)':(metal?'#4b545c':'#5a3d25');
+ ctx.fillRect(d.x,d.y,w,h);
+ ctx.strokeStyle=glass?'rgba(220,245,255,.55)':(metal?'#9aa6b0':'#8a6238');
+ ctx.lineWidth=1.4;ctx.strokeRect(d.x+1,d.y+1,w-2,h-2);
+ ctx.strokeStyle=metal?'rgba(210,220,228,.30)':'rgba(30,18,8,.55)';
+ ctx.lineWidth=2;
+ if(d.hor){for(i=1;i<=3;i++){var yy=d.y+h*i/4;ctx.beginPath();ctx.moveTo(d.x+3,yy);ctx.lineTo(d.x+w-3,yy);ctx.stroke()}}
+ else{for(i=1;i<=3;i++){var xx=d.x+w*i/4;ctx.beginPath();ctx.moveTo(xx,d.y+3);ctx.lineTo(xx,d.y+h-3);ctx.stroke()}}
+ ctx.strokeStyle=metal?'rgba(230,238,244,.55)':'rgba(226,169,62,.40)';
+ ctx.lineWidth=2.2;ctx.beginPath();
+ ctx.moveTo(d.x+2,d.y+2);ctx.lineTo(d.x+w-2,d.y+h-2);
+ ctx.moveTo(d.x+w-2,d.y+2);ctx.lineTo(d.x+2,d.y+h-2);ctx.stroke();
+ ctx.restore();
+ /* 破拆进度 */
+ var prog=clamp((d.kickT||0)/(d.need||1),0,1);
+ if(prog>0.01){
+  ctx.strokeStyle='rgba(226,169,62,.95)';ctx.lineWidth=2.4;
+  ctx.beginPath();ctx.arc(cx,cy,13,-PI/2,-PI/2+TAU*prog);ctx.stroke();
+  ctx.fillStyle='#f0d890';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(Math.round(prog*100)+'%',cx,cy);ctx.textBaseline='alphabetic'}
+ /* 近处提示 */
+ if(near){
+  ctx.strokeStyle=metal?'rgba(140,190,220,.9)':'rgba(226,169,62,.9)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(cx,cy,17,0,TAU);ctx.stroke();
+  ctx.fillStyle=metal?'#8fc4de':'#e2a93e';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+  ctx.fillText('F 破拆',cx,cy+3);ctx.textAlign='left'}
+ /* 已知门后装置 */
+ if(d.known&&d.tr){
+  ctx.save();ctx.translate(d.x+d.w-7,d.y+7);
+  ctx.fillStyle=d.tr==='rig'?'#ff5a4a':'#e2a93e';
+  ctx.beginPath();ctx.arc(0,0,5,0,TAU);ctx.fill();
+  ctx.fillStyle='#1a1208';ctx.font='bold 7px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(d.tr==='rig'?'雷':'阻',0,0);ctx.restore();
+  ctx.textAlign='left';ctx.textBaseline='alphabetic'}
+ ctx.restore();
+}
 function drawMarkers(){var i;
  for(i=0;i<HITM.length;i++){var h=HITM[i];if(h.t>.42)continue;
   var al=1-h.t/.42,sz=6+h.h*4,mx=h.x,my=h.y,ro=PI/4+(h.h?.35:0);
@@ -5484,15 +5523,17 @@ function draw(){if(!G||!L)return;
  ctx.setLineDash([9,7]);ctx.lineDashOffset=-G.t*20;ctx.strokeRect(ex[0],ex[1],ex[2],ex[3]);ctx.setLineDash([]);
  if(G.exitOpen){ctx.fillStyle='rgba(142,224,142,.9)';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
   ctx.fillText('EXTRACT',ex[0]+ex[2]/2,ex[1]+ex[3]/2+4)}
- for(i=0;i<L.cr.length;i++){var c=L.cr[i];if(c.got||!vis(c.x,c.y,18))continue;
-  ctx.fillStyle='#3f4b3a';ctx.fillRect(c.x-11,c.y-11,22,22);
-  ctx.strokeStyle='#8ea06b';ctx.lineWidth=1.6;ctx.strokeRect(c.x-11,c.y-11,22,22);
-  ctx.fillStyle='#c9d3a8';ctx.fillRect(c.x-2,c.y-7,4,14);ctx.fillRect(c.x-7,c.y-2,14,4)}
+ for(i=0;i<L.cr.length;i++){var c=L.cr[i];if(c.got||!vis(c.x,c.y,18)||c._vis===0)continue;
+  var kc={ammo:['#3f4b3a','#8ea06b','#c9d3a8'],med:['#4b3a3a','#b06b6b','#e6c8c8'],
+   gren:['#4b463a','#b09a5b','#e6d8a8'],full:['#3a454b','#6b9ab0','#c8e0e6']}[c.kind]||['#3f4b3a','#8ea06b','#c9d3a8'];
+  ctx.fillStyle=kc[0];ctx.fillRect(c.x-11,c.y-11,22,22);
+  ctx.strokeStyle=kc[1];ctx.lineWidth=1.6;ctx.strokeRect(c.x-11,c.y-11,22,22);
+  ctx.fillStyle=kc[2];ctx.fillRect(c.x-2,c.y-7,4,14);ctx.fillRect(c.x-7,c.y-2,14,4)}
  for(i=0;i<L.civ.length;i++){var cc=L.civ[i];if(!vis(cc.x,cc.y,18))continue;
   if(cc._vis===0&&!cc.f)continue;
   if(cc.down){ctx.fillStyle='#3a2320';ctx.beginPath();ctx.ellipse(cc.x,cc.y+2,13,7,0,0,TAU);ctx.fill();
    ctx.strokeStyle='#c8574a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cc.x-8,cc.y-5);ctx.lineTo(cc.x+8,cc.y+5);ctx.stroke()}
-  else{ctx.fillStyle=cc.f?'#a8c08a':'#d9c87a';ctx.beginPath();ctx.arc(cc.x,cc.y,9,0,TAU);ctx.fill();
+  else{var cvr=cc.panic>0?7:9;ctx.fillStyle=cc.f?'#a8c08a':'#d9c87a';ctx.beginPath();ctx.arc(cc.x,cc.y,cvr,0,TAU);ctx.fill();
    ctx.fillStyle='#2a2f24';ctx.beginPath();ctx.arc(cc.x,cc.y,4.4,0,TAU);ctx.fill();
    if(!cc.f){var wv=Math.sin(cc.ph)*4;ctx.strokeStyle='#e6dfae';ctx.lineWidth=1.8;
     ctx.beginPath();ctx.moveTo(cc.x-8,cc.y-8);ctx.lineTo(cc.x-12,cc.y-16+wv);
@@ -5511,7 +5552,7 @@ function draw(){if(!G||!L)return;
   if(e._vis===0)continue;
   if(e.sub>0){drawSub(e);continue}
   drawFoe(e)}
- for(i=0;i<L.dr.length;i++){var ddd=L.dr[i];if(vis(ddd.x+ddd.w/2,ddd.y+ddd.h/2,90))drawDoor(ddd)}
+ for(i=0;i<L.dr.length;i++){var ddd=L.dr[i];if(vis(ddd.x+ddd.w/2,ddd.y+ddd.h/2,90))drawBreach(ddd)}
  if(G.al)for(i=0;i<G.al.length;i++)if(vis(G.al[i].x,G.al[i].y,24))drawAlly(G.al[i]);
  if(G.wg&&!G.wg.dead&&vis(G.wg.x,G.wg.y,28))drawWing();
  drawP();
@@ -5917,10 +5958,7 @@ function drawLight(){
  ctx.fillStyle='rgba(255,252,236,.9)';ctx.beginPath();ctx.arc(hx,hy,2.1,0,TAU);ctx.fill();
  ctx.restore()}
 function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
- var mvq=Math.hypot(p.vx,p.vy)/p.sp,cone=g.sp*(1+mvq*1.1)*(p.aim?(attOf('optic')>=2?.45:(attOf('optic')?.47:.55)):1)*(g.cls==='sniper'&&!p.aim?2.1:1);
- var fm=p.fm||modeOf(g);
- cone*=(fm==='semi'?.82:(fm==='burst'?1:1.12))*(1+Math.min(.55,(p.heat||0)*.5));
- if(fm==='auto')cone*=(attOf('grip')?.82:1);
+ var fm=p.fm||modeOf(g),cone=shotSpread(g,p,fm);
  var dq=touchUI?Math.min(g.rn,820):Math.max(40,Math.hypot(CAM.x+MS.x-p.x,CAM.y+MS.y-p.y));
  sp=clamp(cone*dq*.5,3.5,64);
  if(touchUI){
@@ -5943,12 +5981,12 @@ function updKbar(){var el=$('kbar');if(!el)return;
  if(touchUI||!ST.hint||ST.scr!=='play'){el.classList.add('hidden');return}
  el.classList.remove('hidden');
  var K=function(a){return '<b>'+kLabel(KM[a])+'</b>'};
- var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel,KM.ads,KM.mode,KM.peri,KM.scout].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
+ var sig=[KM.up,KM.reload,KM.gren,KM.act,KM.swap,KM.med,KM.cover,KM.wheel,KM.ads,KM.mode].join('|')+'|'+((G&&G.p&&G.p.guns)?G.p.guns.length:0);
  if(el._sig!==sig){el._sig=sig;
   el.innerHTML='<div>'+K('up')+' '+K('left')+' '+K('down')+' '+K('right')+' 移动 ｜ 鼠标瞄准 · 左键射击 · '+K('ads')+' 据枪</div>'+
    '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹 · '+K('mode')+' 射击模式 · '+((G&&G.p&&G.p.guns&&G.p.guns.length>2)?(K('gun1')+'/'+K('gun2')+'/'+K('gun3')):(K('gun1')+'/'+K('gun2')))+' 主副 · '+K('swap')+' 切枪</div>'+
-   '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动 · '+K('light')+' 枪灯</div>'+
-   '<div>'+K('peri')+' 潜望镜 · '+K('med')+' 医疗 · '+K('cover')+' 掩护 · Esc 暂停/继续</div>'}}
+   '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动／破拆 · '+K('light')+' 枪灯</div>'+
+   '<div>'+K('med')+' 医疗 · '+K('cover')+' 掩护 · Esc 暂停/继续</div>'}}
 function updHud(){var p=G.p,g=cur(),i;
  if(p.hp!==HD.hp){HD.hp=p.hp;$('hpF').style.width=clamp(p.hp/p.mhp*100,0,100)+'%';
   $('hpN').textContent=Math.round(p.hp)}
@@ -5978,7 +6016,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(str!==HD.h){HD.h=str;$('sT').textContent=str}
  var hv=G.sec2+'/'+L.civ.length+(G.civD?(' · 伤亡 '+G.civD):'');
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
- var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+(p.aimT>0?' · 掩护中':'');
+ var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+(p.aimT>0?' · 掩护中':'');
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var flg=airOn()?('【'+L.cfg.flName+'】'):'';
  var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 Esc 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
@@ -6005,11 +6043,11 @@ function updHud(){var p=G.p,g=cur(),i;
     pr=rgr.cutT>0?('剪线中 '+rgr.cutT.toFixed(1)+' 秒 · 保持距离'):
       (hasCutter()?((touchUI?'点「互动」':'按 '+kLabel(KM.act))+' 剪线拆除绊雷'):
        '门洞绊雷 · 腰封放剪线器后按 '+kLabel(KM.act)+' 拆除 · 或用手雷炸毁')}
-   else{var dpr=doorNear(p.x,p.y,54,1);
-  if(dpr){var pObs=(G.stickN>0&&(KM.peri||KM.scout))?('按 '+kLabel(KM.peri||KM.scout)+' 潜望镜观察 · '):'';
-   pr=pObs+(touchUI?'点「互动」':'按 '+kLabel(KM.act))+
-   (dpr.type==='metal'?' 破门（加固门 · 建议破门弹）':(dpr.type==='glass'?' 砸门':' 踹门'))+
-   (G.stickyN>0?'（自动使用破门弹）':' · 连按两三次')}}}
+   else{var dpr=doorNear(p.x,p.y,60,1);
+  if(dpr){var prog=Math.round(clamp((dpr.kickT||0)/(dpr.need||1),0,1)*100);
+   pr=(touchUI?'按住「互动」':'按住 '+kLabel(KM.act))+' 破拆'+
+   (dpr.type==='metal'?'（加固门 · 2.2 秒）':(dpr.type==='glass'?'（玻璃门 · 0.45 秒）':'（木门 · 1.2 秒）'))+
+   (prog>0?(' · '+prog+'%'):'')}}}
  if(G.p.gren){pr=p.cooking?('温雷中 '+p.cook.toFixed(1)+' / '+GREN_FUSE.toFixed(1)+' 秒 · 松手投出'):
    ('持雷 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
  if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…  '+Math.round(Math.min(1,G.wt/1)*100)+'%';
@@ -6092,7 +6130,7 @@ function step(dt){if(!G)return;
       if($('askNote'))$('askNote').textContent='携带人质：全部未受伤平民随队获救（每人 +80 作战分 · 计入解救统计）；直接撤离：结算扣 260 分并记入 ROE 报告。'}
      else{G.over='win';showRes(1)}}}else G.wt=0}
  if(!G.over&&L.cfg.exam&&G.t>L.cfg.exam){G.over='late';stopLoop();toast('考核超时 · 不合格 · 可重新申请',3200);showRes(0);return}
- if(!G.over&&!G.tut&&G.t-(G.lastSv||0)>=5){G.lastSv=G.t;saveLv()}
+ /* v19：不再自动保存任务中途状态 */
  updHud()}
 function frame(t){RAF=requestAnimationFrame(frame);
  var dt=(t-LT0)/1000;LT0=t;
@@ -6331,7 +6369,7 @@ function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=
  else if(ST.kmFrom==='set'){openSet()}
  else{show('sMenu');setScr('menu');renderLv()}}
 var KM_B={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
- gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',scout:'x',peri:'c',med:'v',cover:'t',
+ gun1:'1',gun2:'2',swap:'q',gren:'b',act:'f',light:'l',med:'v',cover:'t',
  fireAlt:'',ads:'space',adsAlt:'',mode:'n',mute:'m'};
 function kmApply(src){for(var a in KM_DEF)KM[a]=src[a]!==undefined?src[a]:'';save();renderKm();updHint()}
 function setScr(s){ST.scr=s;
@@ -6548,7 +6586,19 @@ var PATCHES=[
     '「体验官」招募延长至 11 月 16 日 23:59（北京时间）：今天注册并登上排行榜的新玩家自动获得体验官头衔，已获得该头衔的玩家不受影响。',
     '同步排查并修复楼层切换、人质跨层、CQB 门扇、结算面板与键位设置中的相关边界问题。'
    ]}
- ];
+ ,{v:19,d:'2026-11-17',t:'破门而入2式枪战 · 全门破拆 · 队员专长 · 中途存档移除',
+  items:[
+   '枪械射击重做：新增「完全据枪散布 / 移动散布 / 据枪过渡 / 后坐热量」四层模型。站定据枪最准，移动开火明显变差，狙击枪边跑边打惩罚最大；单发、短点射、全自动各有不同首发与持续散布。',
+   '每把枪新增独立视野：狙击枪最远、步枪其次、冲锋枪与手枪更近、霰弹枪最近；据枪时视野 +8%，高倍镜看得更远但据枪更慢、腰射更差。HUD 实时显示当前武器视野。',
+   '枪械改件全部加入负面效果：红点/全息收据枪散布但降低视野与据枪速度；ACOG 看得远但近战腰射与据枪速度变差；制退器压后坐但枪声与枪口焰更大；激光收腰射但更容易被敌人发现。新增激光指示器槽位。',
+   '删除潜望镜、破门装具与破门弹：C 键观察、FlushStick、机械撬棍、破门弹与相关军械库选项全部移除；旧存档中的这些字段会被忽略。',
+   '所有门改为「封门 / 破拆点」：不再有可开合的门扇模型，门在破开前同时阻挡移动与子弹；只能由玩家按住 F 破拆，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒。敌人、人质、队友都不会开门。',
+   '补给按房间分配：每个房间/区域至少 1 个补给，大地图自动补到 4–11 个；类型分为弹药、医疗、投掷与全补，不再全图随机撒 3–4 个。',
+   '删除任务中途存档与续关：敌人、人质、门、补给与计时不再写入本地，一局必须一次打完；启动时自动清理旧版 ta5_lv2* 存档。',
+   '五档难度重新拉开：新兵/常规/老兵/精英/现实在命中、血量、伤害、移速、发现距离与反应时间上差距明显增大；现实仍为一枪致命。',
+   '每名出战队员获得独立专长：普通队员「破拆」——破门快 35%、腰封 +1 格；燕锋「强袭」——护甲 +18、移速 +4%、据枪 +18%、后坐 −8%；格雷「老练」——换弹 −15%、后坐 −18%、视野 +16%；联合编队取两者长处。英雄身份、武器槽与剧情不变。',
+   '敌人新增压制效果：中弹或近距爆炸后短时间内命中率下降；人质在附近枪声/爆炸时会发抖蹲低。CQB 科目调整为切角→破门→投掷→控制射击→清房五步。'
+  ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
  for(i=0;i<PATCHES.length;i++)if(PATCHES[i].v>pv)p=PATCHES[i];
@@ -6702,17 +6752,17 @@ var OLOP='yan';
 function opInfo(op){
  if(op==='grey')return {n:'格雷',role:'SAS 第 22 特别空勤团 · 指挥官',
   sk:[['武器槽','两把主武器 + 一把副武器，进局后 1 / 2 / 3 切换'],
-      ['被动 · 快速换弹','换弹时间 −15%'],
-      ['被动 · 老练','护甲 +12 · 移速 +2%'],
+      ['专长 · 老练','换弹 −15% · 后坐 −18% · 视野 +16%'],
+      ['被动 · 稳定','护甲 +12 · 移速 +2%'],
       ['专属装备','默认主武器 SA80 A2（L85A2）']]};
  if(op==='duo')return {n:'联合编队',role:'燕锋 + 格雷',
   sk:[['编成','你操控燕锋，格雷作为 AI 僚机随行'],
       ['僚机 · 跟随','保持在 150 px 内跟随，过近会主动退开'],
       ['僚机 · 交火','820 px 内有视线自动开火，约 0.6 秒一发'],
-      ['主控加成','燕锋：护甲 +18 · 移速 +4%']]};
+      ['主控加成','燕锋：护甲 +18 · 移速 +4% · 据枪 +14%']]};
  return {n:'燕锋',role:'猎鹰突击队 · 调遣队员',
   sk:[['武器槽','两把主武器 + 一把副武器，进局后 1 / 2 / 3 切换'],
-      ['被动 · 强袭','护甲 +18 · 移速 +4%'],
+      ['专长 · 强袭','护甲 +18 · 移速 +4% · 据枪精度 +18% · 后坐 −8%'],
       ['专属装备','QBZ-191 与国产枪族（剧情解锁后可用）']]};
 }
 function olUnlocked(op){return op==='grey'?ST.hero2===1:(op==='duo'?ST.duo===1:ST.hero===1)}
@@ -6772,18 +6822,18 @@ function renderOpRow(){
   var db=duo.querySelector('b');
   if(db)db.textContent=unD?'燕锋打头 · 格雷随行':'第三章后解锁'}
  var ny=n.querySelector('b'),yy=y.querySelector('b'),gy=g.querySelector('b');
- if(ny)ny.textContent='你自己 · 主武器 + 副武器';
- if(yy)yy.textContent=unY?'猎鹰调配 · 三武器槽':'通过 OP-07 后解锁';
- if(gy)gy.textContent=unG?'SAS 指挥官 · 三武器槽':'通关机场后解锁';
+ if(ny)ny.textContent='你自己 · 破拆专家 · 主武器 + 副武器';
+ if(yy)yy.textContent=unY?'猎鹰调配 · 强袭 · 三武器槽':'通过 OP-07 后解锁';
+ if(gy)gy.textContent=unG?'SAS 指挥官 · 老练 · 三武器槽':'通关机场后解锁';
  var t=$('opTip');
  if(!t)return;
- if(op==='duo')t.textContent='当前为联合编队：燕锋出击，格雷作为僚机随行（自动跟随与交火）';
- else if(op==='yan')t.textContent='当前由英雄队员「燕锋」出击：三武器槽 · 护甲 +18 · 移速 +4%';
- else if(op==='grey')t.textContent='当前由英雄队员「格雷」出击：三武器槽 · 护甲 +12 · 换弹 −15% · 移速 +2%';
+ if(op==='duo')t.textContent='当前为联合编队：燕锋出击（据枪 +14%），格雷作为僚机随行（自动跟随与交火）';
+ else if(op==='yan')t.textContent='当前由「燕锋」出击：强袭专长 · 护甲 +18 · 移速 +4% · 据枪精度 +18% · 后坐 −8%';
+ else if(op==='grey')t.textContent='当前由「格雷」出击：老练专长 · 护甲 +12 · 换弹 −15% · 后坐 −18% · 视野 +16%';
  else if(!unY)t.textContent='英雄队员「燕锋」将在通过 OP-07 猎鹰招募后编入作战序列';
  else if(!unG)t.textContent='英雄队员「格雷」将在通关机场后编入作战序列';
  else if(!unD)t.textContent='联合编队将在机场行动结束后解锁';
- else t.textContent='当前由你自己出击：一主一副，配装以军械库为准';
+ else t.textContent='当前由你自己出击：破拆专家 · 破门快 35% · 腰封 +1 格；一主一副，配装以军械库为准';
 }
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderPbar();
@@ -6856,7 +6906,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var sc=mk('div','sc');sc.textContent=c.nm+' · 原则训练'+(ST.cqb?' · 已通过':'');b.appendChild(sc);
   var df=mk('div','dftag');df.textContent='低活跃模拟目标 · 不计分 · 不升军衔';b.appendChild(df);
   var ob=mk('div','ob');
-  ob.textContent=ok?'观察 → 切角 → 破门 → 投掷 → 控制射击 → 复检：按现实 door procedure 走一遍'
+  ob.textContent=ok?'切角 → 破门 → 投掷 → 控制射击 → 复检：按现实 door procedure 走一遍'
    :'完成新兵训练后解锁（设置 → 重新训练 也可以补做）';b.appendChild(ob);
   var mt=mk('div','mt');
   var bs=mk('span','badge'+(ok?' g':''));bs.textContent=ok?'已开放':'未解锁';mt.appendChild(bs);
@@ -7320,7 +7370,7 @@ var TUTS=[
  {k:'reload',t:'换弹',d:'弹匣打空会自动换弹；也可以随时按 <b>R</b> 手动换弹。',g:'完成 1 次换弹',n:1},
  {k:'swap',t:'切枪',d:'按 <b>1 / 2</b> 切换主副武器，<b>Q</b> 快速切回上一把。',g:'切换 1 次武器',n:1},
  {k:'gren',t:'投掷',d:'长按 <b>B</b> 呼出战术腰封挑选投掷物；短按握持，长按开火温雷、松手投向准星。',g:'投出 1 枚投掷物',n:1},
- {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、踹门、解救平民都用它。<b>C</b> 是潜望镜，靠近关闭的门可先观察门后再决定是否进入。',g:'完成 1 次互动',n:1},
+ {k:'act',t:'互动',d:'走到补给箱边按 <b>F</b>：补弹、破拆门、解救平民都用它。门必须按住 <b>F</b> 破开，敌人不会替你开门。',g:'完成 1 次互动',n:1},
  {k:'light',t:'战术枪灯',d:'按 <b>L</b>（触屏点「枪灯」）开关枪口战术灯。暗场景里它照亮走廊，亮场景可以关掉。',g:'开关 1 次枪灯',n:1},
  {k:'sim',t:'模拟清房',d:'三名持械「佣兵」从靶道尽头压上来——这是模拟交战：据枪、短点射、利用掩体，把他们全部放倒。',g:'击倒 3 名模拟目标',n:3},
  {k:'med',t:'战术医疗',d:'按 <b>H</b> 使用医疗包，恢复 45 点体力。',g:'使用 1 次医疗',n:1},
@@ -7333,26 +7383,23 @@ var TUT={on:false,i:0,moved:0,run:0,aim:0,mode:0,kills:0,k0:0,kTotal:0,simKills:
    每个科目都有现实依据；游戏只做判定，不发明“绕后处决”之类花招。
    现实中单人清房风险极高，本关明确标注为「单人条件下的原则演示」。 */
 var CQBL=[
- {k:'scope',t:'1 · 门外观察',n:1,
-  d:'先别推门。靠近关闭的门，按 <b>C</b>（旧键 <b>X</b> 仍兼容）用潜望镜观察门后。现实里第一步永远是情报：门后有没有人、有没有人质、门向哪边开。<br><span style="color:#8fae7c">依据：door procedure · 先观察后进入</span>',
-  g:'用潜望镜观察 1 道关闭的门'},
- {k:'slice',t:'2 · 贴墙切角',n:2.0,
-  d:'在关着的门旁按住 <b>Space</b> 据枪，枪口对准门内，保持 2 秒。现实里不要站进门洞正中（fatal funnel），要贴墙、沿门框逐步横向切角，一次只暴露一个射界。<br><span style="color:#8fae7c">依据：slicing the pie · limited penetration</span>',
-  g:'在关闭的门旁据枪 2.0 秒'},
- {k:'breach',t:'3 · 破门',n:1,
-  d:'靠近关闭的门按 <b>F</b>；木门通常要连按两次（或直接用破门弹）。现实里破门前要确认门向与门后障碍；开门后不要堵在门口，要给后续队员留出进入通道。<br><span style="color:#8fae7c">依据：breach &amp; hold · 门区不滞留</span>',
+ {k:'slice',t:'1 · 贴墙切角',n:2.0,
+  d:'在封门旁按住 <b>Space</b> 据枪，枪口对准门内，保持 2 秒。现实里不要站进门洞正中（fatal funnel），要贴墙、沿门框逐步横向切角，一次只暴露一个射界。<br><span style="color:#8fae7c">依据：slicing the pie · limited penetration</span>',
+  g:'在封门旁据枪 2.0 秒'},
+ {k:'breach',t:'2 · 破门',n:1,
+  d:'靠近封门按住 <b>F</b>。门不再有可开合的门扇，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手或走进门洞会中断。现实里破门前要确认门向与门后障碍；开门后不要堵在门口，要给后续队员留出进入通道。<br><span style="color:#8fae7c">依据：breach &amp; hold · 门区不滞留</span>',
   g:'破开 1 道门'},
- {k:'flash',t:'4 · 投掷开路',n:1,
+ {k:'flash',t:'3 · 投掷开路',n:1,
   d:'门开之后，按 <b>B</b> 选择震爆或闪光并投向门内。现实里只在确认门后有威胁、且没有扣押人员时使用；投出后立即准备进入，不要等烟散。室内使用要留意可燃物。<br><span style="color:#8fae7c">依据：flashbang deployment · 确认威胁后使用</span>',
   g:'投出 1 枚震爆或闪光'},
- {k:'semiShot',t:'5 · 控制射击',n:1,
+ {k:'semiShot',t:'4 · 控制射击',n:1,
   d:'按 <b>V</b> 切到单发，按住 <b>Space</b> 据枪后开一枪。现实里进门后优先单发或两发点射，只在近距离压制时用连发；先确认目标再扣扳机，避免扫射。',
   g:'单发模式 + 据枪完成 1 次射击'},
- {k:'clear',t:'6 · 清房与复检',n:1,
+ {k:'clear',t:'5 · 清房与复检',n:1,
   d:'按近角→远角→门后→侧室的顺序清房，离开前复检。现实 CQB 至少两人一组：一人进房、一人控门；本关是单人原则演示，不替代团队合练。',
   g:'清除训练楼全部目标'}
 ];
-var CQBT={on:false,i:0,done:false,scope:0,slice:0,breach:0,flash:0,semiShot:0,clear:0,
+var CQBT={on:false,i:0,done:false,slice:0,breach:0,flash:0,semiShot:0,clear:0,
  t:0,_p:-1};
 function cqbVal(s){return (s&&typeof CQBT[s.k]==='number')?CQBT[s.k]:0}
 function cqbRender(){
@@ -7389,7 +7436,7 @@ function cqbCheck(){if(!CQBT.on||CQBT.done)return;
  if(CQBT.i>=CQBL.length){
   CQBT.done=true;CQBT._p=-1;
   $('tutTt').textContent='科目完成 · 清空训练楼';
-  $('tutD').innerHTML='六个原则科目已经过完。现在把六个房间全部清空，回到南门撤离。<br>'+
+  $('tutD').innerHTML='五个原则科目已经过完。现在把六个房间全部清空，回到南门撤离。<br>'+
    '<b style="color:#e2a93e">现实提醒</b>：单人清房是高风险动作；真实行动应由至少两人协同，一人进房、一人控门。';
   $('tutGo').textContent='目标：清除全部目标后从南门撤离';
   $('tutBarF').style.width='100%';
@@ -7412,7 +7459,7 @@ function cqbTick(dt){
  if(s.k==='clear'&&aliveAll()===0)cqbEv('clear');
 }
 function cqbStart(){
- CQBT.on=true;CQBT.done=false;CQBT.i=0;CQBT.scope=0;CQBT.slice=0;CQBT.breach=0;
+ CQBT.on=true;CQBT.done=false;CQBT.i=0;CQBT.slice=0;CQBT.breach=0;
  CQBT.flash=0;CQBT.semiShot=0;CQBT.clear=0;CQBT.t=0;CQBT._p=-1;
  TUT.on=false;
  $('tut').classList.remove('hidden');cqbRender();
@@ -7532,7 +7579,7 @@ function brief2Exam(){leaveRange();
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
  $('fP').textContent=fmt(c.par)+' 内完成为满分基准';$('fG').textContent=c.roe;
  var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
- var cb=$('bCont');cb.classList.add('hidden');
+ if($('bCont'))$('bCont').classList.add('hidden');
  $('bDeploy').textContent='进入实弹考核'}
 /* 任务简报顶部：显示登记代号 + 军衔 + 本场编队 */
 function renderWho(squad){
@@ -7569,7 +7616,7 @@ function briefRange(){
  $('fH').textContent=c.hint+'（当前主武器：'+(WM[rgLoadOf()[0]]||WM.m4a1).n+'）';
  $('fP').textContent='不设时间基准';$('fG').textContent='靶标倒下 2.4 秒自动立起 · 撤离点可选「靶场配装 / 退出训练场」';
  var fa=$('fAlly');if(fa)fa.textContent='训练场为单人沙盒：全部枪械开放，武器走「靶场配装」独立三槽位（不影响正式任务），投掷物与配件按军械库配置带入';
- $('bCont').classList.add('hidden');
+ if($('bCont'))$('bCont').classList.add('hidden');
  var go=$('bGo');if(go)go.textContent='进入训练场';
  show('sBrief');setScr('brief')}
 function startRange(){
@@ -7658,10 +7705,8 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  var fa=$('fAlly');if(fa)fa.textContent=isCqb?
   '单人原则演示：现实 CQB 至少两人一组，一人进房、一人控门；本关不替代团队合练':
   '全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
- var cs=c.alt?null:loadLv(ST.lv),cb=$('bCont');
- if(cs){cb.classList.remove('hidden');
-  cb.textContent='继续任务（'+fmt(cs.t)+'）'}
- else cb.classList.add('hidden');
+ /* v19：不再提供中途续关；任务必须一次打完 */
+ if($('bCont'))$('bCont').classList.add('hidden');
  if(c.story&&!ST['s'+c.story]){playStory(c.story,function(){show('sBrief');setScr('brief')});return}
  if(c.air&&ST.hero2!==1){if(!ST.seenGrey){ST.seenGrey=1;save();playDrama2(function(){show('sBrief');setScr('brief')});return}}
  if(c.recruit&&ST.hero!==1){playDrama();return}
@@ -7692,21 +7737,7 @@ function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
  G.xp0=ST.xp;initAllies();G.p.shots=0;updGun();updHud();
  LOWD=0;resize();snd.ui()}
-function startCont(){var sv=loadLv(ST.lv);resetCombatFx();show(null);setScr('play');aInit();
- build(ST.lv);
- G.civTot0=L.civ.length+(L.cfg&&L.cfg.alt?L.cfg.alt.civ.length:0);
- POOL.b.forEach(function(x){x.a=0});POOL.p.forEach(function(x){x.a=0});
- $('feed').innerHTML='';$('comms').classList.remove('on');
- if($('voice'))$('voice').innerHTML='';
- $('sRW').classList.toggle('hidden',G.reinLeft<=0);
- $('go').classList.remove('on');$('hurt').style.opacity='0';
- G.xp0=ST.xp;initAllies();if(sv)applyLv(sv);
- G.inf=0;G.phase='live';G.lastSv=G.t;G.wt=0;
- var kw=VW,kh=VH;
- CAM.x=clamp(G.p.x-kw/2,0,Math.max(0,L.cfg.W-kw));
- CAM.y=clamp(G.p.y-kh/2,0,Math.max(0,L.cfg.H-kh));
- HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:''};
- updGun();updHud();LOWD=0;resize();snd.go()}
+/* v19：startCont 已删除；任务不再支持中途续关。 */
 function pause(on){if(on){if(ST.scr!=='play')return;
   tutEv('pause');
   tutSave();
@@ -7752,8 +7783,8 @@ function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
   $('r5').textContent='—';
   $('r6').textContent='—';
   $('rNote').textContent=win?
-   '原则科目全部通过：观察 → 切角 → 破门 → 投掷 → 控制射击 → 复检。现实 CQB 至少两人一组，本关是单人条件下的原则演示，不替代团队合练。':
-   '训练中断。先观察、贴墙切角，不要站在门洞正中；门区是致命漏斗。';
+   '原则科目全部通过：切角 → 破门 → 投掷 → 控制射击 → 复检。现实 CQB 至少两人一组，本关是单人条件下的原则演示，不替代团队合练。':
+   '训练中断。先贴墙切角，不要站在门洞正中；门区是致命漏斗。';
   $('r7').textContent='CQB 训练 · 不计军衔分 · 当前军衔分 '+ST.xp;
   var promo0=$('rPromo');if(promo0)promo0.classList.add('hidden');
   $('bNext').classList.add('hidden');
@@ -7927,7 +7958,7 @@ function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('p5').textContent=o.br;$('p6').textContent=o.mz;$('p7').textContent=o.rg;$('p8').textContent=o.wt;
  var fms=modesOf(o);
  if($('p9'))$('p9').textContent=fms.map(function(m){return modeName(m)}).join(' / ')+
-  (fms.length>1?('（按 '+kLabel(KM.mode)+' 切换；射速按公开 '+o.rpm+' 发/分）'):'（固定单发；射速按公开 '+o.rpm+' 发/分）');
+  (fms.length>1?('（按 '+kLabel(KM.mode)+' 切换；射速按公开 '+o.rpm+' 发/分）'):'（固定单发；射速按公开 '+o.rpm+' 发/分）')+'；基础视野 '+o.vr+' px · 完全据枪散布 '+(o.adsK*100).toFixed(0)+'% · 移动散布 ×'+(o.moveK||1).toFixed(2);
  $('cP').textContent=WM[ST.load[0]].n;$('cS').textContent=WM[ST.load[1]].n;
  $('bSetP').classList.toggle('on',ST.sel===ST.load[0]);
  $('bSetS').classList.toggle('on',ST.sel===ST.load[1]);
@@ -7998,8 +8029,8 @@ function renderAtt(){
  var o=WM[ST.sel]||WM.m4a1,p=platOf(o),A=ATT[p]||ATT.nato;
  if($('attPlat'))$('attPlat').textContent=PLATNAME[p]+' · '+o.n;
  el.innerHTML='';
- var NAMES={optic:'光学瞄具',muz:'枪口装置',grip:'前握把'};
- ['optic','muz','grip'].forEach(function(k){
+ var NAMES={optic:'光学瞄具',muz:'枪口装置',grip:'前握把',laser:'激光指示'};
+ ['optic','muz','grip','laser'].forEach(function(k){
   var arr=A[k]||[],a=(ST.att&&ST.att[p])||{},cu=clamp(a[k]|0,0,Math.max(0,arr.length-1));
   var row=mk('div','kmrow');
   var lb=mk('span','lba');lb.style.cssText='flex:0 0 92px;width:92px;line-height:1.4';
@@ -8016,7 +8047,7 @@ function renderAtt(){
   var d=mk('div');d.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.55;margin:1px 0 6px';
   d.textContent='当前：'+(arr[cu]?arr[cu].d:'');el.appendChild(d)});
  var nt=mk('div','note');
- nt.textContent='改件按平台分：北约 1913 导轨件与国产枪族专用接口互不通用，AK 用侧轨、手枪用专用微型件；本页只列当前枪械平台能装的配件。';
+ nt.textContent='v19 起每件改件都有正面与负面：高倍镜看得远但据枪慢、腰射差；制退器压后坐但更响更亮；激光收腰射但更容易暴露。改件按平台隔离，本页只列当前枪械能装的件。';
  el.appendChild(nt)}
 function cycleSlot(i){
  var cap=beltCap();if(i>=cap)return;
@@ -8121,7 +8152,6 @@ bind('bGo',function(){
  if(ST.rangeSel){startRange();return}
  var go=$('bGo');if(go)go.textContent='进入战场';
  startLv()});
-bind('bCont',startCont);
 function drgClick(e){if(!$('dramaBox').classList.contains('on'))return;
  if($('dramaBox').classList.contains('bgmode'))return;
  var t=(e.target&&e.target.id)||'';if(t==='bResume')return;
@@ -8191,8 +8221,8 @@ bind('bUiKb',function(){ST.ui='kb';save();applyUI()});
 bind('bUiTouch',function(){ST.ui='touch';save();applyUI()});
 bind('bKmClose',closeKm);
 bind('bKmDef',function(){kmApply(KM_DEF);toast2('已恢复默认键位')});
-bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空；鼠标左键射击仍可用，据枪、射击模式与潜望镜需重新绑定')});
-bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手键位方案（Space 据枪、N 射击模式、C 潜望镜、V 医疗）')});
+bind('bKmCls',function(){var c={};for(var a in KM_DEF)c[a]='';kmApply(c);toast2('键位已全部清空；鼠标左键射击仍可用，据枪、射击模式与破拆需重新绑定')});
+bind('bKmMouse',function(){kmApply(KM_B);toast2('已套用左手键位方案（Space 据枪、N 射击模式、V 医疗）')});
 bind('bResume',function(){pause(0);updHint()});
 bind('bRestart',function(){
  if(G&&G.tut&&TUT.on){TUT.on=false;startTut(false);toast('新兵训练已从第一步重新开始',2200);return}
