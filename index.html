@@ -3845,7 +3845,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('mute'))togAud();}
   if(k==='escape')closeThrowPick()}},{passive:false});
 D.addEventListener('keyup',function(e){KEY[kNorm(e)]=0});
-D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0});
+D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0;BF.act=0});
 function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_ACT[i][1];return a}
 cv.addEventListener('contextmenu',function(e){e.preventDefault()});
 /* 据枪改为键盘键（默认 Space）：鼠标右键不再据枪，避免和浏览器右键菜单/瞄准习惯冲突 */
