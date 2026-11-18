@@ -4913,9 +4913,10 @@ function updatePlayer(dt){var p=G.p,i;
  else p.adsT=Math.max(0,(p.adsT||0)-dt*3);
  /* 据枪：键盘按住（默认 Space），触屏仍用「据枪」圆钮；鼠标右键不再据枪 */
  p.run=BF.sp||(kb('sprint')?1:0);
+ if(p.gren)p.run=0;               /* 手持投掷物时不能疾跑 */
  var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
- var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1);
+ var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1);
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -5512,21 +5513,7 @@ function draw(){if(!G||!L)return;
   ctx.fillStyle=ck>.72?'#ff8a70':'#e2a93e';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
   ctx.fillText(gp.cooking?('温雷 '+gp.cook.toFixed(1)+'s'):'持雷 · 按住开火',0,-32);
   ctx.restore();ctx.textAlign='left'}
- /* 投掷落点预览：落点就是准星所指的位置 */
- if(G.p.gren&&G.phase==='live'&&!G.p.act){
-  var tp=throwTarget(),px2=tp.x-CAM.x,py2=tp.y-CAM.y,i2,n2=12;
-  ctx.save();
-  ctx.strokeStyle='rgba(226,169,62,.42)';ctx.lineWidth=1.2;ctx.setLineDash([5,5]);
-  ctx.beginPath();ctx.moveTo(G.p.x-CAM.x,G.p.y-CAM.y);
-  for(i2=1;i2<=n2;i2++){var kk=i2/n2;
-   ctx.lineTo((G.p.x+(tp.x-G.p.x)*kk)-CAM.x,(G.p.y+(tp.y-G.p.y)*kk)-CAM.y)}
-  ctx.stroke();ctx.setLineDash([]);
-  ctx.strokeStyle='rgba(226,169,62,.9)';ctx.lineWidth=1.6;
-  ctx.beginPath();ctx.arc(px2,py2,9,0,TAU);ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(px2-14,py2);ctx.lineTo(px2-5,py2);ctx.moveTo(px2+5,py2);ctx.lineTo(px2+14,py2);
-  ctx.moveTo(px2,py2-14);ctx.lineTo(px2,py2-5);ctx.moveTo(px2,py2+5);ctx.lineTo(px2,py2+14);
-  ctx.stroke();ctx.restore()}
+ /* 投掷落点只由准星决定：不绘制弹道线、落点圈或落点十字 */
  /* 敌方手雷：地面红圈 + 引信倒计时 */
  if(G.eg&&G.eg.length)for(var eg2=0;eg2<G.eg.length;eg2++){var gg=G.eg[eg2];if(!vis(gg.x,gg.y,120))continue;
   var lf2=clamp(1-gg.t/gg.fuse,0,1),pulse=.5+.5*Math.sin(G.t*16);
@@ -5562,15 +5549,10 @@ function draw(){if(!G||!L)return;
  ctx.restore();
  if(!ST.low&&L.cfg.dk>.05)lighting();
  drawALRT();
- /* 投掷物：飞行弧线 + 三种独立模型 + 落点提示 + 引信环 */
+ /* 投掷物：三种独立模型 + 引信环（不显示落点提示） */
  if(G.p.act){
-  var gq=G.p,tq=throwDef(gq.gid),pgq=toScreen(gq.gx,gq.gy),tpq=toScreen(gq.tx,gq.ty);
+  var gq=G.p,tq=throwDef(gq.gid),pgq=toScreen(gq.gx,gq.gy);
   ctx.save();
-  if(!gq.landed){
-   ctx.strokeStyle='rgba(240,200,120,.30)';ctx.lineWidth=1;ctx.setLineDash([5,5]);
-   ctx.beginPath();ctx.arc(tpq.x,tpq.y,Math.min(46,tq.r*.36),0,TAU);ctx.stroke();ctx.setLineDash([]);
-   ctx.fillStyle='rgba(240,200,120,.55)';ctx.beginPath();ctx.arc(tpq.x,tpq.y,2,0,TAU);ctx.fill();
-  }
   ctx.fillStyle='rgba(0,0,0,.30)';
   ctx.beginPath();ctx.ellipse(pgq.x,pgq.y,7,3.4,0,0,TAU);ctx.fill();
   drawThrowModel(ctx,pgq.x,pgq.y,tq,gq.gt*9);
@@ -5961,8 +5943,8 @@ function updHud(){var p=G.p,g=cur(),i;
    pr=(touchUI?'按住「互动」':'按住 '+kLabel(KM.act))+' 破拆'+
    (dpr.type==='metal'?'（加固门 · 2.2 秒）':(dpr.type==='glass'?'（玻璃门 · 0.45 秒）':'（木门 · 1.2 秒）'))+
    (prog>0?(' · '+prog+'%'):'')}}
- if(G.p.gren){pr=p.cooking?('温雷中 '+p.cook.toFixed(1)+' / '+GREN_FUSE.toFixed(1)+' 秒 · 松手投出'):
-   ('持雷 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
+ if(G.p.gren){pr=p.cooking?('温雷中 '+p.cook.toFixed(1)+' / '+GREN_FUSE.toFixed(1)+' 秒 · 移速降低 · 松手投出'):
+   ('持雷 · 移速降低 · 按住'+(touchUI?'开火键':'鼠标左键')+'温雷，松手投出')}
  if(G.exitOpen&&Math.hypot(p.x-(G.exit[0]+G.exit[2]/2),p.y-(G.exit[1]+G.exit[3]/2))<72)pr='撤离点 · 停留中…  '+Math.round(Math.min(1,G.wt/1)*100)+'%';
  if(G.al&&G.al.length){var as='';
   for(i=0;i<G.al.length;i++){var av=G.al[i],rn2=(av.n.split(" · ")[1]||"Bravo"),
@@ -6559,6 +6541,20 @@ var PATCHES=[
     '震爆弹新增麻痹效果：被波及且有视线的敌人进入 1–2 秒麻痹，期间不能移动、转向、开火或投掷；敌人头顶显示「麻痹」。',
     '原有 5.2 秒致眩/致盲保留；近距离致眩时间可能长于麻痹，边缘敌人至少获得 1–2 秒麻痹。',
     '其余 v23 内容不变。'
+   ]},
+  {v:25,d:'2026-11-18',t:'取消投掷提示线 · 只看准星',
+   items:[
+    '取消所有投掷物的投出提示线：持雷时不再绘制从玩家到落点的虚线，也不再显示落点圈或落点十字。',
+    '投掷物飞行途中不再显示目标落点提示环；只保留投掷物模型、引信环与倒计时。',
+    '实际落点规则不变：仍然以玩家准星所指位置为目标，贴墙时落在墙前，投出后按原轨迹飞行。',
+    '敌方手雷的地面威胁红圈保留，用于提示爆炸范围；其余 v24 内容不变。'
+   ]},
+  {v:26,d:'2026-11-18',t:'持雷减速 · 投掷只看准星',
+   items:[
+    '手持投掷物时移动速度降至 60%（与据枪的 60% 独立叠加），并强制退出疾跑；投出或收起后恢复。',
+    'HUD 持雷提示新增「移速降低」。',
+    '取消所有投掷物投出提示线：不再绘制弹道虚线、落点圈、落点十字；飞行中也不显示目标落点提示环，实际落点仍由准星决定。',
+    '其余 v25 内容不变。'
    ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
