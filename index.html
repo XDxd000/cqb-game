@@ -4863,18 +4863,37 @@ function updVis(dt){if(!G||!L)return;
   if(lk&&los(p.x,p.y,o.x,o.y)&&vis(o.x,o.y,40)){o._seen=1;o._sx=o.x;o._sy=o.y}}}
 /* 门洞范围：破门时判断玩家是否已跨入危险区 */
 function inDoor(o,d){return o.x>d.x-6&&o.x<d.x+d.w+6&&o.y>d.y-6&&o.y<d.y+d.h+6}
+/* 视野遮挡：从光源向四周采样，遇到墙体/家具就在表面截断。
+   这样迷雾与暗角会在掩体后留下阴影，而不是把整圆都照亮。 */
+function visionPoly(x,y,rad,n){
+ var pts=[],i,ang,d;
+ n=n||96;
+ for(i=0;i<n;i++){
+  ang=i*TAU/n;
+  d=rayHit(x,y,Math.cos(ang)*rad,Math.sin(ang)*rad);
+  d=clamp(d-2,4,rad);
+  pts.push([x+Math.cos(ang)*d,y+Math.sin(ang)*d])}
+ return pts}
+function revealVision(g,x,y,rad,ox,oy,s,stops){
+ var pts=visionPoly(x,y,rad,96),i,cx=(x-ox)*s,cy=(y-oy)*s,gr;
+ g.save();g.beginPath();
+ for(i=0;i<pts.length;i++){
+  var q=pts[i],qx=(q[0]-ox)*s,qy=(q[1]-oy)*s;
+  if(i)g.lineTo(qx,qy);else g.moveTo(qx,qy)}
+ g.closePath();g.clip();
+ gr=g.createRadialGradient(cx,cy,3,cx,cy,rad*s);
+ for(i=0;i<stops.length;i++)gr.addColorStop(stops[i][0],stops[i][1]);
+ g.fillStyle=gr;g.fillRect(cx-rad*s,cy-rad*s,rad*s*2,rad*s*2);
+ g.restore()}
 /* 战争迷雾：只显示玩家与队员走过/看过的地方 */
 function fogInit(){if(!L)return;var cv=D.createElement('canvas');cv.width=Math.ceil(L.cfg.W/8);cv.height=Math.ceil(L.cfg.H/8);
  var g=cv.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,cv.width,cv.height);
  L.fog=cv;L.fogT=0}
 function fogReveal(){if(!L||!L.fog)return;var g=L.fog.getContext('2d'),i;
  g.globalCompositeOperation='destination-out';
- function stamp(x,y,rad){
-  var px=x/8,py=y/8,pr=rad/8,gr=g.createRadialGradient(px,py,pr*.35,px,py,pr);
-  gr.addColorStop(0,'rgba(0,0,0,1)');gr.addColorStop(.72,'rgba(0,0,0,.92)');gr.addColorStop(1,'rgba(0,0,0,0)');
-  g.fillStyle=gr;g.beginPath();g.arc(px,py,pr,0,TAU);g.fill()}
- if(G.p)stamp(G.p.x,G.p.y,150);
- if(G.al)for(i=0;i<G.al.length;i++){var a=G.al[i];if(!a.down)stamp(a.x,a.y,120)}
+ var fs=[[0,'rgba(0,0,0,1)'],[.72,'rgba(0,0,0,.92)'],[1,'rgba(0,0,0,0)']];
+ if(G.p)revealVision(g,G.p.x,G.p.y,150,0,0,1/8,fs);
+ if(G.al)for(i=0;i<G.al.length;i++){var a=G.al[i];if(!a.down)revealVision(g,a.x,a.y,120,0,0,1/8,fs)}
  g.globalCompositeOperation='source-over'}
 function updFog(dt){if(!L||!L.fog)return;L.fogT=(L.fogT||0)-dt;if(L.fogT>0)return;L.fogT=.14;fogReveal()}
 function drawFog(){if(!L||!L.fog)return;
@@ -5832,16 +5851,14 @@ function lightRays(px,py,aa,sp,len,n){
   d=Math.max(14,d-8);
   pts.push([px+Math.cos(ang)*d,py+Math.sin(ang)*d])}
  return pts}
-function lighting(){var c=L.cfg.dk,s=.5,pw=(G.p.x-CAM.x)*s,ph=(G.p.y-CAM.y)*s;
+function lighting(){var c=L.cfg.dk,s=.5;
  lc.setTransform(1,0,0,1,0,0);lc.globalCompositeOperation='source-over';
  /* 每帧先清空光照层：否则暗色会逐帧叠加，屏幕会越来越黑直到只剩手电范围 */
  lc.clearRect(0,0,LIT.width,LIT.height);
  lc.fillStyle='rgba(3,5,9,'+c+')';lc.fillRect(0,0,LIT.width,LIT.height);
  lc.globalCompositeOperation='destination-out';
- var gr=lc.createRadialGradient(pw,ph,3,pw,ph,140*s);
- gr.addColorStop(0,'rgba(255,255,255,.92)');gr.addColorStop(.55,'rgba(255,255,255,.35)');
- gr.addColorStop(1,'rgba(255,255,255,0)');
- lc.fillStyle=gr;lc.beginPath();lc.arc(pw,ph,140*s,0,TAU);lc.fill();
+ revealVision(lc,G.p.x,G.p.y,140,CAM.x,CAM.y,s,
+  [[0,'rgba(255,255,255,.92)'],[.55,'rgba(255,255,255,.35)'],[1,'rgba(255,255,255,0)']]);
  var i;if(L.neon.length)for(i=0;i<L.neon.length;i++){var n=L.neon[i],
   nx=(n.x-CAM.x)*s,ny=(n.y-CAM.y)*s,pu=.45+.5*Math.sin(G.t*n.s+n.p),
   g3=lc.createRadialGradient(nx,ny,2,nx,ny,n.r*s);
@@ -6555,6 +6572,13 @@ var PATCHES=[
     'HUD 持雷提示新增「移速降低」。',
     '取消所有投掷物投出提示线：不再绘制弹道虚线、落点圈、落点十字；飞行中也不显示目标落点提示环，实际落点仍由准星决定。',
     '其余 v25 内容不变。'
+   ]},
+  {v:27,d:'2026-11-18',t:'掩体后视野阴影修复',
+   items:[
+    '战争迷雾与暗角改用可见性多边形：从玩家位置向四周采样，遇到墙体、家具、关闭的门或阻门器就在表面截断，后方形成真实阴影。',
+    '修复过去圆形照亮会穿过掩体、把墙后区域一起点亮的问题；掩体后、拐角后与关闭门后不再提前显示。',
+    '门被破开后碰撞体同步更新，光线与迷雾会从门洞正常穿过；已探索区域仍保留，不会被重新盖黑。',
+    '其余 v26 内容不变。'
    ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
