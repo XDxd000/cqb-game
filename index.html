@@ -5396,14 +5396,6 @@ function drawBreach(d){
   ctx.beginPath();ctx.arc(cx,cy,17,0,TAU);ctx.stroke();
   ctx.fillStyle=metal?'#8fc4de':'#e2a93e';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
   ctx.fillText('F 破拆',cx,cy+3);ctx.textAlign='left'}
- /* 已知门后装置 */
- if(d.known&&d.tr){
-  ctx.save();ctx.translate(d.x+d.w-7,d.y+7);
-  ctx.fillStyle='#e2a93e';
-  ctx.beginPath();ctx.arc(0,0,5,0,TAU);ctx.fill();
-  ctx.fillStyle='#1a1208';ctx.font='bold 7px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('阻',0,0);ctx.restore();
-  ctx.textAlign='left';ctx.textBaseline='alphabetic'}
  ctx.restore();
 }
 function drawMarkers(){var i;
