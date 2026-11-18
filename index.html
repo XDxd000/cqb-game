@@ -4150,7 +4150,7 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
    say('佣兵','骗你的！','#ff8a70');snd.alert();
    feed('诈降！他在你伸手时突然开火',0);toast('诈降！保持距离再缴械',2400);
    dmgPlayer(9);checkOpen();return}
-  e2.dead=1;e2.dis=1;G.disarmed++;var dsv=scorePts(140);G.sc+=dsv;ksAdd('◆','缴械 '+ename(e2),dsv,'good');addXp(10);snd.sec();
+  neutralized(e2);e2.dis=1;G.disarmed++;var dsv=scorePts(140);G.sc+=dsv;ksAdd('◆','缴械 '+ename(e2),dsv,'good');addXp(10);snd.sec();
   feed('缴械 '+ename(e2)+' · ROE 合规 +'+dsv,1);checkOpen()}
    else{var box=best.o,kind=box.kind||'full';box.got=1;var g=cur(),msgs=[];
   if(kind==='ammo'||kind==='full'){g.res+=g.w.cap*2;msgs.push('弹药 +2 匣')}
@@ -4165,10 +4165,11 @@ function com(k){var p=G.p,i;if(!p)return;
   for(i=0;i<L.en.length;i++){var e2=L.en[i];
    if(!e2.dead&&e2.sub>0&&Math.hypot(e2.x-p.x,e2.y-p.y)<56){
     if(e2.sub===2){e2.sub=0;e2.alert=1;e2.st='engage';e2.rt=0;e2.sw=0;amb++;continue}
-    e2.dead=1;e2.dis=1;G.disarmed++;G.sc+=scorePts(140);m++;
+    neutralized(e2);e2.dis=1;G.disarmed++;G.sc+=scorePts(140);m++;
     feed('缴械 '+ename(e2),1);snd.sec()}}
   if(amb){say('佣兵','骗你的！','#ff8a70');toast('诈降！小心',2200);dmgPlayer(6);snd.alert()}
-  else if(!m)toast('附近无投降者');checkOpen()}
+  else if(!m)toast('附近无投降者');
+  checkOpen()}
  else if(k==='med'){if(p.md>0&&p.hp<p.mhp){p.md--;p.hp=Math.min(p.mhp,p.hp+45);snd.sec();toast('战术医疗：体力 +45');updGun()}
   else if(p.md<=0)toast('医疗包已用完');else toast('体力完好')}
  else if(k==='psh'){for(i=0;i<L.civ.length;i++)if(L.civ[i].f)L.civ[i].fol=1;toast('推进：平民跟随')}
@@ -4254,6 +4255,11 @@ function ksAdd(ic,txt,pts,cls){var l=$('ksList');if(!l||!G)return;
  l.appendChild(r);while(l.children.length>4)l.removeChild(l.firstChild);
  setTimeout(function(){if(r.parentNode)r.parentNode.removeChild(r)},4600);
  var tt=$('ksTot');if(tt)tt.textContent='作战分 '+G.sc}
+function neutralized(e){
+ if(!e||e.dead)return;
+ e.dead=1;e.dt=0;G.killed++;
+ if(G.kf&&airOn())G.kf[L.fi]=(G.kf[L.fi]|0)+1;
+}
 function hitEnemy(e,dm,head,wp,src){if(e.dead)return;
  var wasSub=e.sub>0;
  if(wasSub){e.sub=0;e.subT=0;e.alert=1;e.st='engage';e.rt=0;e.sw=0;
@@ -4273,7 +4279,7 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead)return;
  else if(ins&&arv===3&&head&&wp&&(wp.ap||0)>=.7&&Math.random()<ins*.4){e.hp=0}
  else e.hp-=dm;
  markHit(head);
- if(e.hp<=0){e.dead=1;e.dt=0;G.killed++;if(G.kf&&airOn())G.kf[L.fi]=(G.kf[L.fi]|0)+1;markKill();
+ if(e.hp<=0){neutralized(e);markKill();
   if(G.tut&&TUT.on&&!TUT.done){TUT.kTotal++;if(e.fight)TUT.simKills++;tutCheck()}
   var isTg=!!(L.cfg.exam||L.cfg.tgt);
   var ps=scorePts(e.tp==='boss'?520:(e.tp==='heavy'?180:110));
@@ -4340,7 +4346,7 @@ function switchFloor(){
  if(!alt)return false;
  /* 先把「正在跟随」的人质从当前楼层带走；否则玩家下楼后他们被留在 2F，
     机场关卡会在撤离点前卡住。上/下楼时人质跟着走，重新放到目标层楼梯口。 */
- var carried=[],ci;
+ var carried=[],ci,wasOpen=G.exitOpen;
  for(ci=0;ci<L.civ.length;ci++){var cc0=L.civ[ci];if(!cc0.down&&cc0.f&&cc0.fol)carried.push(cc0)}
  if(carried.length){var remain=[],ri;for(ri=0;ri<L.civ.length;ri++)if(carried.indexOf(L.civ[ri])<0)remain.push(L.civ[ri]);L.civ=remain}
  FLS[from]={en:L.en,civ:L.civ,dr:L.dr,cr:L.cr,exitOpen:G.exitOpen};
@@ -4348,6 +4354,7 @@ function switchFloor(){
   sc:G.sc,t:G.t,kf:G.kf,tot0:G.tot0,bossDown:G.bossDown};
  var P=G.p;
  build(6,alt);
+ G.exit=alt.noExit?[-999,-999,1,1]:alt.ex;
  L.fi=to;
  var sn=FLS[to];
  if(sn){L.en=sn.en;L.civ=sn.civ;L.dr=sn.dr;if(sn.cr)L.cr=sn.cr}
@@ -4362,7 +4369,7 @@ function switchFloor(){
    L.civ.push(cc)}}
  G.killed=keep.killed;G.disarmed=keep.disarmed;G.sec2=keep.sec2;G.civD=keep.civD;
  G.dmg=keep.dmg;G.hits=keep.hits;G.sc=keep.sc;G.t=keep.t;G.kf=keep.kf;G.tot0=keep.tot0;
- G.bossDown=keep.bossDown;G.phase='live';G.goT=0;G.p=P;G.exitOpen=sn?sn.exitOpen:0;
+ G.bossDown=keep.bossDown;G.phase='live';G.goT=0;G.p=P;G.exitOpen=wasOpen||(sn?sn.exitOpen:0);
  P.brD=null;P.brT=0;
  P.x=alt.st[0];P.y=alt.st[1];P.vx=P.vy=0;
   if(!sn)initInfiltration(G.alerted?0:1);
@@ -5442,13 +5449,15 @@ function draw(){if(!G||!L)return;
  var vx=Math.max(0,Math.floor(CAM.x)),vy=Math.max(0,Math.floor(CAM.y)),
   vw2=Math.min(L.cfg.W-vx,Math.ceil(kw)+2),vh2=Math.min(L.cfg.H-vy,Math.ceil(kh)+2);
  if(vw2>0&&vh2>0)ctx.drawImage(L.base,vx,vy,vw2,vh2,vx,vy,vw2,vh2);
- var ex=G.exit;
- ctx.fillStyle=G.exitOpen?'rgba(120,200,120,.2)':'rgba(120,130,135,.1)';
- ctx.fillRect(ex[0],ex[1],ex[2],ex[3]);
- ctx.strokeStyle=G.exitOpen?'#8ee08e':'#69757d';ctx.lineWidth=2;
- ctx.setLineDash([9,7]);ctx.lineDashOffset=-G.t*20;ctx.strokeRect(ex[0],ex[1],ex[2],ex[3]);ctx.setLineDash([]);
- if(G.exitOpen){ctx.fillStyle='rgba(142,224,142,.9)';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
-  ctx.fillText('EXTRACT',ex[0]+ex[2]/2,ex[1]+ex[3]/2+4)}
+ if(!L.cfg.noExit){
+  var ex=G.exit;
+  ctx.fillStyle=G.exitOpen?'rgba(120,200,120,.2)':'rgba(120,130,135,.1)';
+  ctx.fillRect(ex[0],ex[1],ex[2],ex[3]);
+  ctx.strokeStyle=G.exitOpen?'#8ee08e':'#69757d';ctx.lineWidth=2;
+  ctx.setLineDash([9,7]);ctx.lineDashOffset=-G.t*20;ctx.strokeRect(ex[0],ex[1],ex[2],ex[3]);ctx.setLineDash([]);
+  if(G.exitOpen){ctx.fillStyle='rgba(142,224,142,.9)';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+   ctx.fillText('EXTRACT',ex[0]+ex[2]/2,ex[1]+ex[3]/2+4)}
+ }
  for(i=0;i<L.cr.length;i++){var c=L.cr[i];if(c.got||!vis(c.x,c.y,18)||c._vis===0)continue;
   var kc={ammo:['#3f4b3a','#8ea06b','#c9d3a8'],med:['#4b3a3a','#b06b6b','#e6c8c8'],
    gren:['#4b463a','#b09a5b','#e6d8a8'],full:['#3a454b','#6b9ab0','#c8e0e6']}[c.kind]||['#3f4b3a','#8ea06b','#c9d3a8'];
@@ -5936,6 +5945,7 @@ function updHud(){var p=G.p,g=cur(),i;
    (G.gas?' · 毒气中':'');}
  if(G.tut&&TUTS[TUT.i])ot='新兵训练 · '+(TUT.i+1)+'/'+TUTS.length+' · '+TUTS[TUT.i].t;
  if(G.inf&&G.phase==='live'&&!G.alerted)ot='潜入阶段 · 未被发现 · '+ot;
+ if(G.exitOpen&&L.cfg.noExit)ot='回 1F 前门撤离 · 当前在 2F';
  if(ot!==HD.ob){HD.ob=ot;$('objT').textContent=ot}
  var bd=56,pr='';
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.f||c.down)continue;
@@ -5974,8 +5984,10 @@ function updHud(){var p=G.p,g=cur(),i;
  for(i=0;i<L.en.length;i++){var ee=L.en[i];if(ee.dead||!ee._seen)continue;
   mmCtx.fillStyle=ee.sub>0?'#e6d78a':(ee.tp==='boss'?'#ff5a4a':(ee.tp==='sniper'?'#7fd0ff':'#e06a52'));
   mmCtx.fillRect((ee._sx!=null?ee._sx:ee.x)*s2-2,(ee._sy!=null?ee._sy:ee.y)*s2-2,4,4)}
- mmCtx.fillStyle=G.exitOpen?'rgba(140,224,142,.45)':'rgba(120,130,135,.25)';
- mmCtx.fillRect(G.exit[0]*s2,G.exit[1]*s2,G.exit[2]*s2,G.exit[3]*s2);
+ if(!L.cfg.noExit){
+  mmCtx.fillStyle=G.exitOpen?'rgba(140,224,142,.45)':'rgba(120,130,135,.25)';
+  mmCtx.fillRect(G.exit[0]*s2,G.exit[1]*s2,G.exit[2]*s2,G.exit[3]*s2);
+ }
  if(G.al)for(i=0;i<G.al.length;i++){var ag=G.al[i];if(ag.down)continue;
   mmCtx.fillStyle='#8ee08e';mmCtx.fillRect(ag.x*s2-1.8,ag.y*s2-1.8,3.6,3.6)}
  mmCtx.fillStyle='#dff0d8';mmCtx.beginPath();mmCtx.arc(p.x*s2,p.y*s2,2.6,0,TAU);mmCtx.fill();
@@ -6524,6 +6536,14 @@ var PATCHES=[
     '删除剪线器：战术腰封只保留破片手雷与震爆弹，槽位循环、补给、HUD、投掷选择面板与军械库说明同步移除；旧存档中的剪线器槽位会自动清空。',
     '保留阻门器：仍可用手雷炸毁，或按住 F 以约六成速度慢慢破拆，不会造成卡关。',
     '其余 v20 内容不变。'
+   ]},
+  {v:22,d:'2026-11-18',t:'机场撤离修复 · 缴械计入清除',
+   items:[
+    '修复机场双层撤离点绑定错误：撤离区现在跟随当前楼层，2F 不再绘制或触发 1F 的撤离点；清空两层后回 1F 前门才能撤离。',
+    '修复机场清空后撤离点无法使用：楼层切换不再用旧楼层快照覆盖已开放的撤离状态，回 1F 后撤离点保持开放并可正常结算。',
+    '修复投降敌人交互后不计入清除：按 F 缴械与指挥面板缴械现在都计入击毙/清除总数，机场分楼层击杀数同步更新，清空后能正常开放撤离点。',
+    '全地图复核：01–08 关清空后 aliveAll 均归零、撤离点正常开放；机场 1F/2F 切换、2F 清空、回 1F 撤离全流程通过。',
+    '已验证脚本无语法错误。'
    ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
