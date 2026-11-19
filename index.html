@@ -1545,11 +1545,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
  <h3>敌人活跃度</h3>
- <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、同屏开火人数、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。</p>
+ <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。敌人会打出比过去密集得多的点射，但单发精度很低、连发会越打越散，靠火力压制而不是精准点杀。</p>
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
   <h3>潜入与警报</h3>
-  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。潜入阶段守卫只有正面视野锥，开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
+  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫始终只有正面视野锥，并与玩家共用同一套锥形视野与 LOS 遮挡；开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
+  <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
   <h3>视野与配件</h3>
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
@@ -3097,6 +3098,8 @@ var snd={
  empty:function(){auN(.012,.07,'highpass',2600,1);auO(950,620,.04,'square',.035)},
  /* 换枪 */
  swap:function(){auN(.06,.055,'bandpass',1200,1.1);auO(520,760,.05,'triangle',.04)},
+ /* 子弹掠过头顶/身边 */
+ whiz:function(){auN(.035,.030,'highpass',3400,1.5);auO(2300,900,.05,'sine',.018)},
  /* 破门/爆炸 */
  boom:function(){auN(.10,.26,'lowpass',2600);auN(.55,.22,'lowpass',320);auO(96,26,.62,'sine',.20);
   auO(58,22,.9,'sine',.12,.01)},
@@ -3156,13 +3159,22 @@ var FOE={grunt:{hp:56,r:14,sp:95,acc:1,dm:1},rush:{hp:44,r:13,sp:118,acc:1.15,dm
  heavy:{hp:158,r:16,sp:58,acc:.9,dm:1.15,ar:.35},sniper:{hp:48,r:14,sp:48,acc:.55,dm:1.6},
  boss:{hp:250,r:17,sp:92,acc:.72,dm:1.4}};
 var ECOL={grunt:'#6b4a3c',rush:'#7a5230',heavy:'#4b5560',sniper:'#45573f',boss:'#7b3a3a'};
+/* v28：敌人武器表——与玩家共用 WM 的射速/弹匣/换弹/弹速/视野。
+   伤害不直接套玩家数值，仍按地图 edm 缩放，避免高射速把玩家秒掉。 */
+var EFOE_GUN={grunt:'hk416',rush:'mp5',heavy:'scarh',sniper:'m24',boss:'scarh'};
+function foeGunOf(tp){
+ var o=WM[EFOE_GUN[tp]||'hk416']||WM.hk416;
+ return {w:o,am:o.cap,res:o.cap*3,rl:0,heat:0}}
 function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  var av=EARM[tp]||0,ap=ARM[av];
- return{tp:tp,hp:b.hp*mul,mh:b.hp*mul,r:b.r,sp:b.sp,acc:b.acc,dm:b.dm,ar:ap.v,arv:av,arn:ap.n,
+ var f={tp:tp,hp:b.hp*mul,mh:b.hp*mul,r:b.r,sp:b.sp,acc:b.acc,dm:b.dm,ar:ap.v,arv:av,arn:ap.n,
  x:x,y:y,vx:0,vy:0,a:0,st:'patrol',ph:Math.random()*TAU,hx:x,hy:y,sw:.5,hurt:0,sup:0,
  sub:0,dead:0,dt:0,dis:0,alert:0,rt:0,losT:0,canSee:0,pf:Math.random()*TAU,
  nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6,
- hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0}}
+ hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0};
+ f.gun=foeGunOf(tp);f.lx=x;f.ly=y;f.lastSeen=-99;
+ f.fireN=0;f.fireT=0;f.aimBias=0;f.shotsFired=0;
+ return f}
 function FUDfor(i){return FUD[i-1]}
 var TH={apartment:{f:'#3a322b',f2:'#453b32',w:'#6d635a',w2:'#413a33'},
  embassy:{f:'#3c3931',f2:'#464239',w:'#8a8378',w2:'#4e4941'},
@@ -3991,9 +4003,9 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  var rad=(w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480))*(fx.noise||1),jj;
  if(!G.lastNoise||G.t-G.lastNoise>.3)for(jj=0;jj<L.en.length;jj++){var se=L.en[jj];
   if(se.dead||se.sub>0||se.alert)continue;
-  if(se.dormant){if(Math.hypot(se.x-p.x,se.y-p.y)<rad){wakeEnemy(se,1);se.hx=p.x;se.hy=p.y}continue}
+  if(se.dormant){if(Math.hypot(se.x-p.x,se.y-p.y)<rad){wakeEnemy(se,1);var es=alertSpot(p.x,p.y,55);se.hx=es.x;se.hy=es.y}continue}
   if(Math.hypot(se.x-p.x,se.y-p.y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
-   se.hx=p.x;se.hy=p.y}}
+   var es2=alertSpot(p.x,p.y,55);se.hx=es2.x;se.hy=es2.y}}
  G.lastNoise=G.t;
  /* 敌人躲子弹：危险等级越高，侧移反应越频繁 */
  var lvD=ST.lv||1,de;
@@ -4008,9 +4020,9 @@ function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
   G.inf=0;G.alerted=1;feed('声响暴露 · 潜入阶段结束',0);toast('声响惊动了守军',2400)}
  for(i=0;i<L.en.length;i++){var se=L.en[i];
   if(se.dead||se.sub>0||se.alert)continue;
-  if(se.dormant){if(Math.hypot(se.x-x,se.y-y)<rad){wakeEnemy(se,1);se.hx=x;se.hy=y}continue}
+  if(se.dormant){if(Math.hypot(se.x-x,se.y-y)<rad){wakeEnemy(se,1);var ns=alertSpot(x,y,55);se.hx=ns.x;se.hy=ns.y}continue}
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
-   se.hx=x;se.hy=y}}}
+   var ns2=alertSpot(x,y,55);se.hx=ns2.x;se.hy=ns2.y}}}
 /* ---- 战术投掷物：腰封槽位 → 长按选择 → 长按开火温雷 → 松手投向准星 ---- */
 var GREN_FUSE=3.4, THROW_MAX=660;   /* 不做抛物线：投出后直线落到准星位置 */
 var THROW=[
@@ -4260,7 +4272,7 @@ function neutralized(e){
 }
 function hitEnemy(e,dm,head,wp,src){if(e.dead)return;
  var wasSub=e.sub>0;
- if(wasSub){e.sub=0;e.subT=0;e.alert=1;e.st='engage';e.rt=0;e.sw=0;
+ if(wasSub){e.sub=0;e.subT=0;e.alert=1;e.st='engage';e.rt=0;e.sw=0;e.fireN=0;
   if(wp){var rp=scorePts(160);G.roe++;G.sc-=rp;
    ksAdd('⚑','向投降者开火 · ROE 违规',-rp,'bad');
    feed('你向投降者开火 · ROE 违规 -'+rp,0);toast('向投降者开火 · ROE 违规',2600)}}
@@ -4388,7 +4400,9 @@ function allTargetsDown(){var i;if(!L||!L.cfg||!(L.cfg.tgt||L.cfg.exam))return f
 /* 单个靶标复位（训练场自动立起时调用） */
 function reviveTarget(e){
  if(!e)return;
- e.dead=0;e.dt=0;e.reviveT=0;e.hp=e.mh;e.hurt=0;e.alert=0;e.canSee=0;e.st='patrol';
+ e.dead=0;e.dt=0;e.reviveT=0;e.hp=e.mh;e.hurt=0;e.alert=0;e.canSee=0;e.st='patrol';e.fireN=0;
+ if(e.gun){e.gun.rl=0;e.gun.am=e.gun.w.cap}
+ e.lastSeen=-99;e.lx=e.x;e.ly=e.y;
  e.vx=e.vy=0;e.sub=0;e.stun=0;e.para=0;e.dodgeT=0;e.a=Math.PI;
  if(e.rail){e.x=e.rail.x0;e.y=e.rail.y0}
  if(G){G.killed=Math.max(0,(G.killed||0)-1);G.exitOpen=0}}
@@ -4431,17 +4445,20 @@ function tryDodge(e,tx,ty,dur){
 var INF_WAKE=560;
 function wakeEnemy(e,alarm){
  if(!e||e.dead)return false;
- e.dormant=0;e._vis=0;e._seen=0;e.canSee=0;
+ e.dormant=0;e._vis=0;e._seen=0;e.canSee=0;e.fireN=0;e.lx=e.x;e.ly=e.y;
  if(alarm){e.alert=1;e.st='alert';e.rt=Math.max(.2,e.rt||.2)}
  else{e.alert=0;e.st='patrol'}
  return true}
+function alertSpot(x,y,r){var a=Math.random()*TAU,d=(r||0)*(.3+Math.random()*.7);
+ return {x:x+Math.cos(a)*d,y:y+Math.sin(a)*d}}
 function wakeNear(x,y,r,cap){
  if(!G||!L)return 0;
  var arr=[],i,e,d;
  for(i=0;i<L.en.length;i++){e=L.en[i];if(e.dead||!e.dormant)continue;
   d=Math.hypot(e.x-x,e.y-y);if(d<r)arr.push([d,e])}
  arr.sort(function(a,b){return a[0]-b[0]});
- for(i=0;i<arr.length&&i<(cap||3);i++){wakeEnemy(arr[i][1],1);arr[i][1].hx=x;arr[i][1].hy=y}
+ for(i=0;i<arr.length&&i<(cap||3);i++){var sp=alertSpot(x,y,70);
+  wakeEnemy(arr[i][1],1);arr[i][1].hx=sp.x;arr[i][1].hy=sp.y}
  return i}
 function initInfiltration(stealth){
  if(!G||!L||L.cfg.tutorial||L.cfg.range||L.cfg.exam)return;
@@ -4455,10 +4472,90 @@ function initInfiltration(stealth){
    wakeEnemy(list[i],stealth?0:1);n++}}
  G.inf=stealth?1:0;G.infMsg=0;G.wakeT=0;G.infT=0;
 }
-function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
+/* v28 敌方火力：套用玩家武器数据，但点射节奏与精度单独调校。
+   - 每轮点射在开火瞬间锁定目标点，玩家横移能真正躲开，不再实时追踪；
+   - 散布 = 武器基础散布 × 远大于玩家的倍率 × 连发热度 × 移动惩罚；
+   - 每轮重新生成一次瞄准偏置，避免「第一发永远贴脸」。 */
+var E_BURST={grunt:[13,17],rush:[14,19],heavy:[7,10],sniper:[1,1],boss:[14,18]};
+function foeSpread(e,w){
+ var mv=clamp(Math.hypot(e.vx||0,e.vy||0)/Math.max(1,e.sp||1),0,1.3);
+ var heat=1+Math.min(1.15,e.gun.heat||0);
+ var k=e.tp==='sniper'?.52:(e.tp==='heavy'?1.10:(e.tp==='rush'?1.38:1));
+ var diff=clamp(1.05/(G.eAcc||L.cfg.acc||1),.62,1.8);
+ var sup=1+Math.max(0,e.sup||0)*1.6,
+  moveK=w.moveK||1.6;
+ return (w.sp||.03)*11.2*k*diff*(1+mv*moveK*.35)*heat*sup}
+function foeDamage(e,w,cfg){
+ var k=e.tp==='sniper'?1.9:Math.sqrt((w.dmg||28)/28);
+ return (cfg.edm||5)*(e.dm||1)*k*.62}
+function foeBurstPause(e){
+ if(e.tp==='sniper')return 1.6+Math.random()*1.3;
+ if(e.tp==='heavy')return .72+Math.random()*.55;
+ if(e.tp==='rush')return .42+Math.random()*.35;
+ return .36+Math.random()*.34}
+function foeStartBurst(e,p,sees){
+ var g=e.gun;if(!g||g.rl>0||g.am<=0)return;
+ var br=E_BURST[e.tp]||[8,12];
+ e.fireN=br[0]+((Math.random()*(br[1]-br[0]+1))|0);
+ e.fireT=0;e.suppress=sees?0:1;
+ if(sees){e.ftx=p.x;e.fty=p.y}
+ else{
+  var hx=e.lastSeen>=0?(e.lx==null?e.x:e.lx):(e.hx==null?e.x:e.hx),
+   hy=e.lastSeen>=0?(e.ly==null?e.y:e.ly):(e.hy==null?e.y:e.hy);
+  e.ftx=hx;e.fty=hy}
+ var ab=e.tp==='sniper'?.028:.14;
+ e.aimBias=(Math.random()-.5)*ab}
+function foeShoot(e,p){
+ var g=e.gun;if(!g||g.rl>0||g.am<=0)return 0;
+ var w=g.w;
+ g.am--;g.heat=Math.min(1.2,(g.heat||0)+.06*(w.recK||1));e.shotsFired=(e.shotsFired||0)+1;
+ var ax=e.ftx==null?p.x:e.ftx,ay=e.fty==null?p.y:e.fty,
+  dd=Math.hypot(ax-e.x,ay-e.y)||1,
+  aimBase=e.tp==='sniper'?45:(e.tp==='rush'?95:80),
+  aimCap=e.tp==='sniper'?80:120,
+  aimR=Math.min(aimCap,aimBase+dd*(e.tp==='sniper'?.03:.035)),
+  jx=(Math.random()-.5)*aimR*2,jy=(Math.random()-.5)*aimR*2,
+  a=Math.atan2(ay+jy-e.y,ax+jx-e.x)+e.aimBias+(Math.random()+Math.random()-1)*foeSpread(e,w),
+  vv=Math.max(680,(w.bs||1500)*1.05),
+  b=gpb();
+ b.a=1;b.x=e.x+Math.cos(a)*(e.r+3);b.y=e.y+Math.sin(a)*(e.r+3);
+ b.vx=Math.cos(a)*vv;b.vy=Math.sin(a)*vv;
+ b.lm=Math.max(.35,(w.rn||2000)/vv);b.tm=0;b.own=0;
+ b.dm=foeDamage(e,w,L.cfg);b.pen=0;b.wp=w;
+ G.nc=0;
+ if(G.t-(G._efS||-9)>.028){G._efS=G.t;
+  snd.fire(w,clamp(1-Math.hypot(e.x-p.x,e.y-p.y)/1250,0,1))}
+ if(!ST.low)burst(e.x+Math.cos(a)*(e.r+3),e.y+Math.sin(a)*(e.r+3),2,'#ffcf6a',80,130);
+ return 1}
+function foeFireTick(e,dt,cfg,p){
+ var g=e.gun;if(!g)return;
+ if(g.rl>0){g.rl-=dt;if(g.rl<=0){g.rl=0;g.am=g.w.cap}return}
+ if(g.am<=0){g.rl=Math.max(.8,(g.w.rl||2.3)*(.9+Math.random()*.2));e.fireN=0;return}
+ if(e.fireN>0){
+  e.fireT-=dt;
+  while(e.fireN>0&&e.fireT<=0){
+   if(g.am<=0){g.rl=Math.max(.8,g.w.rl||2.3);e.fireN=0;break}
+   foeShoot(e,p);e.fireN--;
+   e.fireT+=60/Math.max(30,(g.w.rpm||600))}
+  if(e.fireN<=0){e.fireN=0;e.sw=foeBurstPause(e)}
+  return}
+ if(e.st==='alert'||e.stun>0||e.para>0||e.blind>0)return;
+ e.sw-=dt;
+ if(e.sw>0)return;
+ if(e.canSee){
+  /* 开火瞬间再验一次 LOS：0.1 秒的感知缓存也不能拿来隔墙开火 */
+  if(!foeCanSee(e,p)){e.canSee=0;return}
+  e.lx=p.x;e.ly=p.y;e.lastSeen=G.t;
+  foeStartBurst(e,p,1);return}
+ /* 丢失视线后的短促压制：朝最后可见位置打，绝不读墙后的实时坐标 */
+ if(e.alert&&e.lastSeen>=0&&G.t-e.lastSeen<3.2&&e.lx!=null&&los(e.x,e.y,e.lx,e.ly)&&Math.random()<dt*1.5){
+  foeStartBurst(e,p,0)}
+}
+function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
  if(G.wakeT>0)G.wakeT-=dt;
  if(G.bossCmd>0)G.bossCmd-=dt;
  if(G.bossCmd>0)cfg={acc:cfg.acc*.6,rea:cfg.rea,edm:cfg.edm,ehp:cfg.ehp};
+ G.eAcc=cfg.acc;
  for(i=0;i<L.en.length;i++){var e=L.en[i];
   if(e.dead){
    e.dt+=dt;
@@ -4472,7 +4569,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
     if(G.phase==='live'&&!G.over){
      var dd0=Math.hypot(e.x-p.x,e.y-p.y);
      if(dd0<(G.alerted?680:INF_WAKE)&&G.wakeT<=0){
-      wakeEnemy(e,G.alerted?1:0);if(G.alerted){e.hx=p.x;e.hy=p.y}G.wakeT=G.alerted?.45:.4}}
+      wakeEnemy(e,G.alerted?1:0);if(G.alerted){var ws=alertSpot(p.x,p.y,90);e.hx=ws.x;e.hy=ws.y}G.wakeT=G.alerted?.45:.4}}
     continue}
    /* 靶场人形靶：只沿轨道横移，不寻路、不开火 */
   if((L.cfg.exam||L.cfg.tgt)&&!e.fight){
@@ -4490,14 +4587,14 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
      feed('诈降！佣兵突然开火',0);snd.alert();
      if(Math.hypot(e.x-p.x,e.y-p.y)<140)dmgPlayer(8)}}
    continue}
-  if(e.para>0){e.para=Math.max(0,e.para-dt);e.vx=e.vy=0;e.canSee=0;e.sw=Math.max(e.sw,0);continue}
-  if(e.stun>0){e.stun-=dt;e.vx=e.vy=0;continue}
+  if(e.para>0){e.para=Math.max(0,e.para-dt);e.vx=e.vy=0;e.canSee=0;e.fireN=0;e.sw=Math.max(e.sw,0);continue}
+  if(e.stun>0){e.stun-=dt;e.vx=e.vy=0;e.fireN=0;continue}
   /* 致盲：震爆/闪光之后一段时间完全无法行动（不移动、不转向、不开火） */
-  if(e.blind>0){e.blind-=dt;e.vx=e.vy=0;e.canSee=0;e.sw=Math.max(e.sw,0);
+  if(e.blind>0){e.blind-=dt;e.vx=e.vy=0;e.canSee=0;e.fireN=0;e.sw=Math.max(e.sw,0);
    if(e.blind<=0){e.blind=0}
    continue}
   /* 躲闪（躲雷 / 躲子弹）：向远离威胁的方向快速侧移，期间不开火 */
-  if(e.dodgeT>0){e.dodgeT-=dt;
+  if(e.dodgeT>0){e.fireN=0;e.dodgeT-=dt;
    var ddz=Math.hypot(e.dx-e.x,e.dy-e.y);
    if(ddz>8){var ddz2=Math.atan2(e.dy-e.y,e.dx-e.x),spd3=e.sp*1.9,
      sx3=e.x+Math.cos(ddz2)*spd3*dt,sy3=e.y+Math.sin(ddz2)*spd3*dt;
@@ -4506,16 +4603,26 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    else e.dodgeT=0;
    e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;e.sup=Math.max(0,(e.sup||0)-dt*.45);continue}
   e.hurt=Math.max(0,e.hurt-dt);e.losT-=dt;e.sup=Math.max(0,(e.sup||0)-dt*.45);
-  var dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;
-  if(e.losT<=0){e.losT=.17;
-   var canSee=d<(e.tp==='sniper'?1050:520)*(cfg.eview||1)*(attFx().detect||1)&&los(e.x,e.y,p.x,p.y);
-   /* 潜入阶段：刚进任务的 6 秒是渗透窗口，远距离守卫不会立刻发现你；
-      只有贴脸（<72px）或开枪/爆炸才会马上暴露。窗口过后守卫恢复正面视野锥。 */
-   if(canSee&&G.inf&&!e.alert){
-    var ida=Math.atan2(dy,dx)-e.a;ida=Math.atan2(Math.sin(ida),Math.cos(ida));
-    canSee=((G.infT||0)<6)?(d<64):((d<135)||(d<430&&Math.abs(ida)<.92))}
-   e.canSee=canSee}
-  if(!e.alert&&e.canSee){e.alert=1;e.rt=cfg.rea*(.9+Math.random()*.8);e.st='alert';
+  if(e.gun)e.gun.heat=Math.max(0,(e.gun.heat||0)-dt*.55);
+  if(e.losT<=0){e.losT=.10;
+   var dSee=Math.hypot(p.x-e.x,p.y-e.y), see=foeCanSee(e,p);
+   /* 潜入窗口：只缩短发现距离，不再绕过 LOS。旧版在这里直接判 d<135，
+      墙后也能看见，是「隔墙锁定」的来源之一。 */
+   if(see&&G.inf&&!e.alert){
+    var ida=Math.atan2(p.y-e.y,p.x-e.x)-e.a;ida=Math.atan2(Math.sin(ida),Math.cos(ida));
+    if((G.infT||0)<6)see=dSee<64;
+    else see=(dSee<135)?los(e.x,e.y,p.x,p.y):(dSee<430&&Math.abs(ida)<.92&&los(e.x,e.y,p.x,p.y));
+   }
+   e.canSee=see?1:0;
+   if(see){e.lx=p.x;e.ly=p.y;e.lastSeen=G.t}
+  }
+  /* 墙后不更新目标：敌人只记得最后一次真正看见的位置 */
+  var sees=!!e.canSee,
+   hasMem=e.lastSeen>=0,
+   tx=sees?p.x:(hasMem?(e.lx==null?e.hx:e.lx):(e.hx==null?e.x:e.hx)),
+   ty=sees?p.y:(hasMem?(e.ly==null?e.hy:e.ly):(e.hy==null?e.y:e.hy)),
+   dx=tx-e.x,dy=ty-e.y,d=Math.hypot(dx,dy)||1;
+  if(!e.alert&&e.canSee){e.alert=1;e.hx=e.lx;e.hy=e.ly;e.rt=cfg.rea*(.9+Math.random()*.8);e.st='alert';
    G.inf=0;alertAt(e.x,e.y);G.alerted=1;snd.alert();wakeNear(e.x,e.y,680,2);
    feed('敌方发现你 · 交火开始',0);
    playerShout()}
@@ -4539,34 +4646,34 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    if(Lv===5&&G.bossDown&&e.tp!=='boss')mul*=.6;
    if(e.tp==='boss'){e.vx=e.vy=0;var dab=ta-e.a;while(dab>PI)dab-=TAU;while(dab<-PI)dab+=TAU;
     e.a+=clamp(dab,-dt*3,dt*3);
-    if(d<440&&e.sw<=0&&e.canSee){e.sw=2.6;G.bossCmd=3.2;feed('指挥官下令交叉压制',0)}
+    e.cmdT=(e.cmdT||0)-dt;
+    if(d<440&&e.cmdT<=0&&e.canSee){e.cmdT=6;G.bossCmd=3.2;feed('指挥官下令交叉压制',0)}
+    foeFireTick(e,dt,cfg,p);
     continue}
-   var mv=e.hold?0:e.sp*mul;
+   /* 看不到人时只向最后可见点搜索/绕点，不再朝墙后的实时坐标移动 */
+   if(!sees){
+    var hasMem=e.lastSeen>=0,
+     lx=hasMem?(e.lx==null?e.x:e.lx):(e.hx==null?e.x:e.hx),
+     ly=hasMem?(e.ly==null?e.y:e.ly):(e.hy==null?e.y:e.hy),
+     ld=Math.hypot(lx-e.x,ly-e.y);
+    if(ld>52){want=Math.atan2(ly-e.y,lx-e.x);mul=.62}
+    else{want=e.a+(Math.sin(G.t*1.15+e.ph)>0?1:-1)*.9;mul=.28}
+   }
+   var mv=(e.hold&&sees)?0:e.sp*mul;
    if(freeAt(e.x+Math.cos(want)*mv*dt,e.y+Math.sin(want)*mv*dt,e.r)){e.vx=Math.cos(want)*mv;e.vy=Math.sin(want)*mv}
    else if(!moveToward(e,e.x+Math.cos(want)*mv*4,e.y+Math.sin(want)*mv*4,mv,dt)){
     e.vx=Math.cos(want+1.7)*mv*.55;e.vy=Math.sin(want+1.7)*mv*.55}
    var da=ta-e.a;while(da>PI)da-=TAU;while(da<-PI)da+=TAU;
    e.a+=clamp(da,-dt*4.5,dt*4.5);
-   e.sw-=dt;
+   if(!sees&&e.lastSeen>=0&&G.t-e.lastSeen>9){
+    e.alert=0;e.st='patrol';e.hx=e.lx;e.hy=e.ly;e.fireN=0;e.canSee=0}
    /* 敌方投雷：距离合适 + 有视线时按概率投，危险等级越高越频繁 */
    if(e.nade>0&&e.canSee&&e.alert&&G.phase==='live'&&!L.cfg.exam&&!L.cfg.tgt&&(G.eg?G.eg.length:0)<3){
     e.ndC=(e.ndC==null?(6+Math.random()*7):(e.ndC-dt));
     if(e.ndC<=0){e.ndC=8+Math.random()*9;
      var ndC=0.06+0.05*(ST.lv||1);
      if(d>190&&d<430&&Math.random()<ndC&&los(e.x,e.y,p.x,p.y))throwEnemyNade(e)}}
-   if(e.canSee&&e.sw<=0&&G.phase==='live'&&shootCnt<G.shootCap&&!(e.stun>0)&&!L.cfg.exam){
-    shootCnt++;G.nc=0;
-    e.sw=e.tp==='rush'?(.38+Math.random()*.24):(.58+Math.random()*.58);
-    var acc=cfg.acc*e.acc*.78*(e.tp==='sniper'?.26:1)*(p.aim?.78:1)*(e.hp<e.mh*.45?1.4:1)*(1-(e.sup||0)*.35);
-    var off=Math.atan2(p.y-e.y,p.x-e.x)+(Math.random()+Math.random()-1)*.18*acc;
-    var ns=e.tp==='heavy'?2:1,k2;
-    for(k2=0;k2<ns;k2++){var b=gpb();b.a=1;
-     b.x=e.x+Math.cos(off)*(e.r+2);b.y=e.y+Math.sin(off)*(e.r+2);
-     var vv=e.tp==='sniper'?1750:1150;
-     b.vx=Math.cos(off+(Math.random()-.5)*.06)*vv;b.vy=Math.sin(off+(Math.random()-.5)*.06)*vv;
-     b.lm=e.tp==='sniper'?3000:1600;b.tm=0;b.own=0;b.dm=cfg.edm*e.dm;b.pen=0}
-    snd.fire(EFW[e.tp]||EFW.grunt,clamp(1-Math.hypot(e.x-G.p.x,e.y-G.p.y)/1250,0,1));
-    burst(e.x+Math.cos(off)*(e.r+3),e.y+Math.sin(off)*(e.r+3),2,'#ffcf6a',80,130)}}
+   foeFireTick(e,dt,cfg,p);}
   /* v19：敌人不会开门，门只能由玩家破拆 */
   if(freeAt(e.x,e.y,e.r)){e._okx=e.x;e._oky=e.y}
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
@@ -4579,9 +4686,9 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg,shootCnt=0;
    if(od>0&&od<mn){var pu=Math.min(4,(mn-od)*.45),sx=ox/od*pu,sy=oy/od*pu;
     if(pathFree(e.x,e.y,e.x+sx,e.y+sy,e.r)){e.x+=sx;e.y+=sy}
     if(o.sub>0&&od<mn*.8&&pathFree(o.x,o.y,o.x-sx,o.y-sy,o.r)){o.x-=sx;o.y-=sy}}}
-  var pd=Math.hypot(e.x-p.x,e.y-p.y);
+  var pdx=p.x-e.x,pdy=p.y-e.y,pd=Math.hypot(pdx,pdy);
   if(e.tp!=='boss'&&pd<e.r+p.r){var pdd=Math.max(pd,1),ov=Math.min(4,(e.r+p.r-pd)*.5),
-   ppx=-dx/pdd*ov,ppy=-dy/pdd*ov;
+   ppx=-pdx/pdd*ov,ppy=-pdy/pdd*ov;
    if(pathFree(e.x,e.y,e.x+ppx,e.y+ppy,e.r)){e.x+=ppx;e.y+=ppy}}
   /* 只有真的卡进实体才救援：贴着墙走不会触发，更不会顺着采样点穿墙 */
   if(!freeAt(e.x,e.y,e.r)){
@@ -4618,6 +4725,9 @@ function updateBullets(dt){var i,k;
    if(b.pen>0){b.pen--;burst(nx,ny,2,'#a8b0b8',50,120)}
    else{b.a=0;burst(nx,ny,ST.low?2:4,'#c8b98a',80,150);if(b.own===1)snd.ping()}}
   else{b.x=nx;b.y=ny}
+  if(b.a&&b.own===0&&G.p){
+   var wzx=G.p.x-b.x,wzy=G.p.y-b.y;
+   if(wzx*wzx+wzy*wzy<34*34&&G.t-(G.p._wz||-9)>.13){G.p._wz=G.t;snd.whiz()}}
   if(b.a){done=hitSeg(b,ox,oy,nx,ny);
    /* 木门穿透：子弹穿过关闭的木门时留下弹孔 */
    if(b.own===1||b.own===2){var dq2;
@@ -4834,14 +4944,24 @@ function weaponViewW(w,p){
  var v=(w.vw||150)*(om.view||1)/(fx.view||1);
  if(p&&p.aim)v*=.92;
  return Math.max(70,v)}
-function inView(x,y,p){
- var dx=x-p.x,dy=y-p.y,d=Math.hypot(dx,dy);
- if(d<105)return true;
- var f=dx*Math.cos(p.aa)+dy*Math.sin(p.aa);
+function inViewAt(x,y,ox,oy,aa,len,wid,near){
+ var dx=x-ox,dy=y-oy,d=Math.hypot(dx,dy);
+ if(d<(near||105))return true;
+ var f=dx*Math.cos(aa)+dy*Math.sin(aa);
  if(f<0)return false;
- var lat=Math.abs(-dx*Math.sin(p.aa)+dy*Math.cos(p.aa)),
-  len=G.viewLen||500,hw=(G.viewW||150)*(.28+.72*clamp(f/Math.max(1,len),0,1));
+ var lat=Math.abs(-dx*Math.sin(aa)+dy*Math.cos(aa)),
+  hw=(wid||150)*(.28+.72*clamp(f/Math.max(1,len),0,1));
  return f<=len&&lat<=hw}
+function inView(x,y,p){
+ return inViewAt(x,y,p.x,p.y,p.aa,G.viewLen||500,G.viewW||150,105)}
+/* 敌人视野：与玩家同一条锥形公式，长度/宽度直接取当前武器 vr/vw */
+function foeView(e){
+ var w=e&&e.gun&&e.gun.w;
+ return {len:((w&&w.vr)||500)*(e.viewK||1),wid:(w&&w.vw)||150}}
+function foeCanSee(e,p){
+ var v=foeView(e),near=e.tp==='sniper'?110:82;
+ if(!inViewAt(p.x,p.y,e.x,e.y,e.a,v.len,v.wid,near))return 0;
+ return los(e.x,e.y,p.x,p.y)?1:0}
 /* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
 function updVis(dt){if(!G||!L)return;
  G._vT=(G._vT==null?0:G._vT-dt);if(G._vT>0)return;G._vT=.12;
@@ -6579,7 +6699,16 @@ var PATCHES=[
     '修复过去圆形照亮会穿过掩体、把墙后区域一起点亮的问题；掩体后、拐角后与关闭门后不再提前显示。',
     '门被破开后碰撞体同步更新，光线与迷雾会从门洞正常穿过；已探索区域仍保留，不会被重新盖黑。',
     '其余 v26 内容不变。'
-   ]} ];
+   ]},
+   {v:28,d:'2026-11-19',t:'敌人接入玩家武器/视野系统 · 隔墙锁定修复',
+    items:[
+     '敌人改用与玩家同一套武器数据：射速、弹匣容量、换弹时间、子弹速度、有效射程与视野长度/宽度都取自对应枪械；不同兵种分别使用 HK416、MP5、SCAR-H、M24。',
+     '敌人改用与玩家相同的锥形视野公式，并保留 LOS 判定；背后、侧后方和墙后不再「全知」。',
+     '修复隔墙锁定：丢失视线后只记住最后可见点，不再读取墙后的实时玩家坐标；开火前必须通过 LOS 门禁；潜入阶段近身发现判定补上了 LOS，墙后不再触发发现。',
+     '大幅降低敌人精度：基础散布约为玩家的 11 倍，连发会累积枪口热量继续扩大散布，每轮点射还会重新生成一次瞄准偏置；点射目标在开火瞬间锁定，玩家横移可以真正躲开。',
+     '大幅提升火力密度：步枪/冲锋枪改为 13–19 发点射，移除「每帧只有一名敌人能开火」的全局限制，敌人会持续压制；单发伤害相应下调，避免高密度火力直接秒杀。',
+     '新增近失弹掠过音效，子弹擦身而过时有声音提示；敌人弹匣打空后会按武器换弹时间停顿，给玩家反击窗口。'
+    ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
  for(i=0;i<PATCHES.length;i++)if(PATCHES[i].v>pv)p=PATCHES[i];
