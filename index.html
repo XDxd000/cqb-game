@@ -3173,6 +3173,7 @@ function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6,
  hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0};
  f.gun=foeGunOf(tp);f.lx=x;f.ly=y;f.lastSeen=-99;
+ f.viewK=(L&&L.cfg&&L.cfg.eview)||1;
  f.fireN=0;f.fireT=0;f.aimBias=0;f.shotsFired=0;
  return f}
 function FUDfor(i){return FUD[i-1]}
