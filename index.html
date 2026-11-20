@@ -3976,8 +3976,10 @@ function shotSpread(w,p,fm){
  var hipPenalty=(w.cls==='sniper'&&!ads)?2.1:1;
  return w.sp*aimF*moveF*modeF*heat*hip*opAim*auto*hipPenalty}
 function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
- /* 第一枪就会打破潜入：附近守敌被枪声惊醒 */
- if(G.inf){G.inf=0;G.alerted=1;wakeNear(p.x,p.y,820,4);
+ /* 第一枪打破潜入，但只把附近守敌推进到「?」搜索，不再直接全员警戒；
+    真正命中/击杀仍会被 hitEnemy 升级为交战。 */
+ var stealthShot=!!G.inf;
+ if(G.inf){G.inf=0;
   feed('枪声暴露 · 潜入阶段结束',0);toast('枪声惊动了守军',2600)}
  tutEv('fire');
  var g=cur(),w1=g.w,fx=attFx();
@@ -4008,6 +4010,7 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  snd.fire(w1,0);
  burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170*(fx.flash||1));
  var rad=(w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480))*(fx.noise||1),jj;
+ if(stealthShot)rad=Math.max(rad,820);
  if(!G.lastNoise||G.t-G.lastNoise>.3)gunshotHeard(p.x,p.y,base,rad);
  G.lastNoise=G.t;
  /* 敌人躲子弹：危险等级越高，侧移反应越频繁 */
@@ -6845,6 +6848,13 @@ var PATCHES=[
      '反应加入 0.6–2 秒的迟滞，不会立刻转身集火；搜索约 5–8 秒后若无发现就恢复巡逻。',
      '搜索中只有真正看见玩家，才会升级为「!」警戒并进入正常交战；重复枪声会更新搜索点，但不会缩短已经开始的搜索停顿。',
      '其余 v29 命中判定、墙角抽搐与震爆弹修复内容不变。'
+    ]},
+   {v:31,d:'2026-11-20',t:'首枪搜索 · 不再全员警戒',
+    items:[
+     '修复第一枪打破潜入时仍会调用 wakeNear 导致附近守敌直接进入警戒的问题：首枪不再设置全局 alerted，也不会让守敌立刻开火。',
+     '首枪的枪声反应半径扩大到 820px，但只把弹道前方/侧方和近距离守敌推进到「?」搜索；远处枪口背后的守敌仍保持巡逻。',
+     '搜索状态下不会主动开火；只有实际命中、击杀或真正看见玩家，才会升级为「!」警戒并进入正常交战。',
+     '其余 v30 枪声方向性警觉、问号搜索、命中判定、墙角抽搐与震爆弹修复内容不变。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
