@@ -1546,6 +1546,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
  <h3>敌人活跃度</h3>
  <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。敌人会打出比过去密集得多的点射，但单发精度很低、连发会越打越散，靠火力压制而不是精准点杀。</p>
+  <p><b>投掷物</b>：破片手雷负责杀伤；M84 震爆弹不造成伤害，只致眩、致盲并让有视线的敌人麻痹 1–2 秒，适合突入前控场。队友不会阻挡你的子弹，平民仍会挡枪并按 ROE 处理。</p>
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
   <h3>潜入与警报</h3>
@@ -3992,7 +3993,12 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  var sp2=shotSpread(w1,p,fm);
  var i,n=w1.pl||1,spd=w1.bs*2.1;
  for(i=0;i<n;i++){var a=base+(Math.random()+Math.random()-1)*sp2,b=gpb();
-  b.a=1;b.x=p.x+Math.cos(base)*18;b.y=p.y+Math.sin(base)*18;
+  /* 枪口离墙太近时不能把出膛点塞进墙体，否则整发子弹会在墙内消失。
+     先退到 8px，仍被实体压住就直接从身体中心出膛。 */
+  var mx=p.x+Math.cos(base)*18,my=p.y+Math.sin(base)*18;
+  if(!freeAt(mx,my,2)){mx=p.x+Math.cos(base)*8;my=p.y+Math.sin(base)*8}
+  if(!freeAt(mx,my,2)){mx=p.x;my=p.y}
+  b.a=1;b.x=mx;b.y=my;
   b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1}
  p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1)*(p.recK||1)*(fx.recoil||1);
  if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12*(w1.recK||1));
@@ -4030,7 +4036,7 @@ var THROW=[
  {id:'frag', n:'M67 破片手雷', s:'破片', col:'#5c6b3a', hi:'#93ac6d', ring:'#8fae5d',
   r:105, dmg:85, fuse:3.6, stun:0,  d:'杀伤半径 105 · 伤害 85 · 引信 3.6 秒'},
  {id:'stun', n:'M84 震爆弹',  s:'震爆', col:'#7d7052', hi:'#e2c06a', ring:'#d8b25a',
-  r:210, dmg:12,  fuse:1.8, stun:5.2, paraMin:1, paraMax:2, d:'致眩 5.2 秒 · 麻痹 1–2 秒 · 低伤害 · 引信 1.8 秒'}
+  r:210, dmg:0,  fuse:1.8, stun:5.2, paraMin:1, paraMax:2, d:'致眩 5.2 秒 · 麻痹 1–2 秒 · 无伤害 · 引信 1.8 秒'}
 ];
 function throwDef(id){for(var i=0;i<THROW.length;i++)if(THROW[i].id===id)return THROW[i];return THROW[0]}
 function defBelt(){return ['frag','stun','','','','']}
@@ -4620,6 +4626,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
   /* 墙后不更新目标：敌人只记得最后一次真正看见的位置 */
   var sees=!!e.canSee,
    hasMem=e.lastSeen>=0,
+   lost=!sees&&(!hasMem||(G.t-e.lastSeen)>.8),
    tx=sees?p.x:(hasMem?(e.lx==null?e.hx:e.lx):(e.hx==null?e.x:e.hx)),
    ty=sees?p.y:(hasMem?(e.ly==null?e.hy:e.ly):(e.hy==null?e.y:e.hy)),
    dx=tx-e.x,dy=ty-e.y,d=Math.hypot(dx,dy)||1;
@@ -4641,7 +4648,18 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    else{e.vx=e.vy=0;e.a=ta}}
   else{
    var ideal=e.tp==='sniper'?540:(e.tp==='rush'?105:(e.tp==='heavy'?235:300));
-   var want=d>ideal*1.3?ta:(d<ideal*.65?ta+PI:ta+(Math.sin(G.t*.7+e.ph)>0?PI*.45:-PI*.45));
+   /* 距离档位加滞后：避免在 ideal*0.65 / 1.3 的边界上来回切换「前进/横移」，
+      墙角附近这种切换会被碰撞放大成抖动。 */
+   if(!e.mvMode)e.mvMode='strafe';
+   if(d>ideal*1.35)e.mvMode='approach';
+   else if(d<ideal*.65)e.mvMode='retreat';
+   else if(e.mvMode==='approach'&&d<ideal*1.12)e.mvMode='strafe';
+   else if(e.mvMode==='retreat'&&d>ideal*.88)e.mvMode='strafe';
+   var want=e.mvMode==='approach'?ta:(e.mvMode==='retreat'?ta+PI:ta+(Math.sin(G.t*.7+e.ph)>0?PI*.45:-PI*.45));
+   /* 贴墙/贴角时不横移：横移方向一侧被墙压住时，局部避障会左右选边，
+      表现为在墙角来回抽动。此时改为直接朝目标/导航路径走。 */
+   var sxw=Math.cos(ta+PI/2)*24,syw=Math.sin(ta+PI/2)*24;
+   if(!freeAt(e.x+sxw,e.y+syw,e.r)||!freeAt(e.x-sxw,e.y-syw,e.r))want=ta;
    var mul=.42;if(e.tp==='rush')mul=.48;if(e.tp==='heavy'||e.tp==='sniper')mul=.34;
    if(e.hp<e.mh*.4)mul*=.85;
    if(Lv===5&&G.bossDown&&e.tp!=='boss')mul*=.6;
@@ -4651,8 +4669,10 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
     if(d<440&&e.cmdT<=0&&e.canSee){e.cmdT=6;G.bossCmd=3.2;feed('指挥官下令交叉压制',0)}
     foeFireTick(e,dt,cfg,p);
     continue}
-   /* 看不到人时只向最后可见点搜索/绕点，不再朝墙后的实时坐标移动 */
-   if(!sees){
+   /* 看不到人时只向最后可见点搜索/绕点，不再朝墙后的实时坐标移动。
+      但转角处 LOS 可能一帧通一帧断，必须等“真正丢失”0.8 秒后才切换搜索移动，
+      否则会在「直冲玩家」和「横移」之间每帧切换，表现为墙角抽搐。 */
+   if(lost){
     var hasMem=e.lastSeen>=0,
      lx=hasMem?(e.lx==null?e.x:e.lx):(e.hx==null?e.x:e.hx),
      ly=hasMem?(e.ly==null?e.y:e.ly):(e.hy==null?e.y:e.hy),
@@ -4661,9 +4681,13 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
     else{want=e.a+(Math.sin(G.t*1.15+e.ph)>0?1:-1)*.9;mul=.28}
    }
    var mv=(e.hold&&sees)?0:e.sp*mul;
-   if(freeAt(e.x+Math.cos(want)*mv*dt,e.y+Math.sin(want)*mv*dt,e.r)){e.vx=Math.cos(want)*mv;e.vy=Math.sin(want)*mv}
-   else if(!moveToward(e,e.x+Math.cos(want)*mv*4,e.y+Math.sin(want)*mv*4,mv,dt)){
-    e.vx=Math.cos(want+1.7)*mv*.55;e.vy=Math.sin(want+1.7)*mv*.55}
+   /* 这里只写速度，不在状态分支里直接移动位置；位置统一交给下方
+      pathFree/moveToward 一次处理。旧代码在分支里先 moveToward 一次、
+      再在下方按 vx/vy 移动一次，墙角会变成双倍位移并反复过冲。 */
+   if(freeAt(e.x+Math.cos(want)*mv*dt,e.y+Math.sin(want)*mv*dt,e.r)){
+    var kk=Math.min(1,dt*9);e.vx+=(Math.cos(want)*mv-e.vx)*kk;e.vy+=(Math.sin(want)*mv-e.vy)*kk}
+   else{
+    var kk2=Math.min(1,dt*9);e.vx+=(Math.cos(want)*mv*.55-e.vx)*kk2;e.vy+=(Math.sin(want)*mv*.55-e.vy)*kk2}
    var da=ta-e.a;while(da>PI)da-=TAU;while(da<-PI)da+=TAU;
    e.a+=clamp(da,-dt*4.5,dt*4.5);
    if(!sees&&e.lastSeen>=0&&G.t-e.lastSeen>9){
@@ -4680,7 +4704,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
   var nx=e.x+e.vx*dt,ny=e.y+e.vy*dt;
   if(pathFree(e.x,e.y,nx,ny,e.r)){e.x=nx;e.y=ny}
   else{var mm=Math.hypot(e.vx,e.vy);
-   if(mm>.6){if(!moveToward(e,e.x+e.vx*4,e.y+e.vy*4,mm,dt)){e.vx*=.25;e.vy*=.25}}
+   if(mm>.6){if(!foeNavStep(e,tx,ty,dt)&&!moveToward(e,e.x+e.vx*4,e.y+e.vy*4,mm,dt)){e.vx*=.25;e.vy*=.25}}
    else{e.vx=0;e.vy=0}}
   for(j=0;j<L.en.length;j++){if(j===i)continue;var o=L.en[j];if(o.dead)continue;
    var ox=e.x-o.x,oy=e.y-o.y,od=Math.hypot(ox,oy),mn=e.r+o.r+2;
@@ -4699,6 +4723,14 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
  }
  if(!G.bossDown){var bs=null;for(i=0;i<L.en.length;i++)if(L.en[i].tp==='boss'&&!L.en[i].dead)bs=L.en[i];
   if(!bs&&cfg.boss===undefined&&Lv===5){G.bossDown=1}}}
+function rayExit(a,x,y,dx,dy){var lo=0,hi=1e9,t1,t2,sw;
+ if(Math.abs(dx)<1e-9){if(x<a.x||x>a.x+a.w)return 0}
+ else{t1=(a.x-x)/dx;t2=(a.x+a.w-x)/dx;if(t1>t2){sw=t1;t1=t2;t2=sw}
+  if(t1>lo)lo=t1;if(t2<hi)hi=t2;if(lo>hi)return 0}
+ if(Math.abs(dy)<1e-9){if(y<a.y||y>a.y+a.h)return 0}
+ else{t1=(a.y-y)/dy;t2=(a.y+a.h-y)/dy;if(t1>t2){sw=t1;t1=t2;t2=sw}
+  if(t1>lo)lo=t1;if(t2<hi)hi=t2;if(lo>hi)return 0}
+ return hi===1e9?0:hi}
 function updateBullets(dt){var i,k;
  for(i=0;i<POOL.b.length;i++){var b=POOL.b[i];if(!b.a)continue;
   var vx=b.vx*dt,vy=b.vy*dt,len=Math.hypot(vx,vy);
@@ -4708,6 +4740,11 @@ function updateBullets(dt){var i,k;
   var nx=b.x+vx,ny=b.y+vy,done=0;
   if(hit<len){
    var px2=b.x+vx/len*hit,py2=b.y+vy/len*hit;
+   /* 关键：子弹在这一帧就会撞墙时，必须先检查「墙前」的目标。
+      旧逻辑先把 b.a=0 再走 hitSeg，墙前 1 个步长内的敌人会被整帧跳过。
+      strictEnd 只接受投影落在墙面前的目标，贴墙另一侧的人不会被隔墙命中。 */
+   if(hitSeg(b,ox,oy,px2,py2,1)){
+    b.x=px2;b.y=py2;b.tm+=dt;continue}
    /* 物理跳弹：打在墙体上按入射面反弹一次，威力衰减 */
    if(hitObj&&!hitObj.type&&(b.rc|0)<1&&b.pen<=0&&Math.random()<.34){
     var dl=Math.abs(px2-hitObj.x),dr2=Math.abs(px2-(hitObj.x+hitObj.w)),
@@ -4723,7 +4760,12 @@ function updateBullets(dt){var i,k;
     if(hitObj.holes.length<14&&Math.random()<.5)hitObj.holes.push({x:px2,y:py2})}
    nx=px2;ny=py2;
    b.x=nx;b.y=ny;
-   if(b.pen>0){b.pen--;burst(nx,ny,2,'#a8b0b8',50,120)}
+   if(b.pen>0){
+    var pdx=vx/len,pdy=vy/len,pex=rayExit(hitObj,ox,oy,pdx,pdy);
+    b.pen--;b.dm*=.78;
+    if(pex>0){b.x=ox+pdx*(pex+2);b.y=oy+pdy*(pex+2)}
+    else b.a=0;
+    burst(nx,ny,2,'#a8b0b8',50,120)}
    else{b.a=0;burst(nx,ny,ST.low?2:4,'#c8b98a',80,150);if(b.own===1)snd.ping()}}
   else{b.x=nx;b.y=ny}
   if(b.a&&b.own===0&&G.p){
@@ -4742,15 +4784,15 @@ function updateBullets(dt){var i,k;
    if(b.x<-40||b.y<-40||b.x>L.cfg.W+40||b.y>L.cfg.H+40)b.a=0;
    else if(!done){b.tm+=dt;if(b.tm>b.lm)b.a=0}}}
 }
-function nearestHit(ox,oy,dx,dy,l2,list,getR){var best=null,bt=2,i;
+function nearestHit(ox,oy,dx,dy,l2,list,getR,strictEnd){var best=null,bt=2,i;
  for(i=0;i<list.length;i++){var o=list[i],r=getR(o);if(r<0)continue;
-  var cx=o.x-ox,cy=o.y-oy,t=(cx*dx+cy*dy)/l2;
-  t=t<0?0:(t>1?1:t);
-  var px=ox+dx*t-cx-ox,py=oy+dy*t-cy-oy;
+  var cx=o.x-ox,cy=o.y-oy,rt=(cx*dx+cy*dy)/l2;
+  if(strictEnd&&rt>1)continue;
+  var t=rt<0?0:(rt>1?1:rt);
   var ddx=cx-dx*t,ddy=cy-dy*t;
   if(ddx*ddx+ddy*ddy<(r+2)*(r+2)&&t<bt){bt=t;best=o}}
  return best?{o:best,t:bt}:null}
-function hitSeg(b,ox,oy,nx,ny){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
+function hitSeg(b,ox,oy,nx,ny,strictEnd){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
  if(l2<1e-6)return 0;
  var dmF=b.dm;if(b.wp&&b.wp.rn>600){var trav=Math.hypot(b.vx,b.vy)*b.tm;
   dmF=b.dm*(1-.2*clamp(trav/b.wp.rn,0,1))}
@@ -4758,23 +4800,20 @@ function hitSeg(b,ox,oy,nx,ny){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
  for(i=0;i<L.en.length;i++){e=L.en[i];if(!e.dead)eL.push(e)}
  if(b.own===1){
   for(i=0;i<L.civ.length;i++){if(!L.civ[i].down)cL.push(L.civ[i])}
-  if(G.al)for(i=0;i<G.al.length;i++)if(!G.al[i].down)aL.push(G.al[i]);
-  var he=nearestHit(ox,oy,dx,dy,l2,eL,function(o){return o.r});
-  var hc=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r});
-  var ha=nearestHit(ox,oy,dx,dy,l2,aL,function(o){return o.r});
+  var he=nearestHit(ox,oy,dx,dy,l2,eL,function(o){return o.r},strictEnd);
+  var hc=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r},strictEnd);
   var first=he,bt=he?he.t:2;
   if(hc&&hc.t<bt){first=hc;bt=hc.t}
-  if(ha&&ha.t<bt){first=ha;bt=ha.t}
-  /* 关键修复：只有真正命中时才销毁子弹；未命中时继续飞行（此前写在这里会让子弹每帧都被灭掉） */
+  /* 队友不再挡玩家的枪线：己方 AI 站位不会再让敌人「打不死」。
+     平民仍然会挡枪，误伤按 ROE 处理。 */
   if(!first)return 0;
   b.a=0;
   if(first===he){G.hits++;hitEnemy(he.o,dmF,Math.random()<.14,b.wp);return 1}
-  if(first===hc){civHit(hc.o,dmF);return 1}
-  feed('你的枪线挡到了队友',0);return 1}
+  civHit(hc.o,dmF);return 1}
  if(b.own===2){
   for(i=0;i<L.civ.length;i++){if(!L.civ[i].down)cL.push(L.civ[i])}
-  var h2e=nearestHit(ox,oy,dx,dy,l2,eL,function(o){return o.r});
-  var h2c=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r});
+  var h2e=nearestHit(ox,oy,dx,dy,l2,eL,function(o){return o.r},strictEnd);
+  var h2c=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r},strictEnd);
   if(!(h2e||h2c))return 0;
   b.a=0;
   if(h2e&&(!h2c||h2e.t<=h2c.t)){if(b.al)b.al.kills=(b.al.kills||0)+1;
@@ -4789,9 +4828,9 @@ function hitSeg(b,ox,oy,nx,ny){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
   var hp=[{x:G.p.x,y:G.p.y,r:G.p.r}];
   if(G.al)for(i=0;i<G.al.length;i++)if(!G.al[i].down)aL.push(G.al[i]);
   for(i=0;i<L.civ.length;i++){if(!L.civ[i].down)cL.push(L.civ[i])}
-  var hpf=nearestHit(ox,oy,dx,dy,l2,hp,function(o){return o.r});
-  var hpa=nearestHit(ox,oy,dx,dy,l2,aL,function(o){return o.r});
-  var hpc=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r});
+  var hpf=nearestHit(ox,oy,dx,dy,l2,hp,function(o){return o.r},strictEnd);
+  var hpa=nearestHit(ox,oy,dx,dy,l2,aL,function(o){return o.r},strictEnd);
+  var hpc=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r},strictEnd);
   var pick=hpf,pv=hpf?hpf.t:2;
   if(hpa&&hpa.t<pv){pick=hpa;pv=hpa.t}
   if(hpc&&hpc.t<pv){pick=hpc;pv=hpc.t}
@@ -4855,12 +4894,11 @@ function stunBurst(x,y,t){t=t||throwDef('stun');snd.stun();
    var pmin=t.paraMin==null?1:t.paraMin,pmax=t.paraMax==null?2:t.paraMax;
    e.para=Math.max(e.para||0,pmin+Math.random()*(pmax-pmin));
    e.alert=1;e.st='alert';e.rt=1.2;e.hx=e.x;e.hy=e.y;
-   e.vx=e.vy=0;
-   if(t.dmg)hitEnemy(e,t.dmg*(1-d2/t.r),0)}
+   e.vx=e.vy=0}
   if(d2<t.r*1.25)enemyBlindShout(e,d2<t.r)}
  var dp=Math.hypot(G.p.x-x,G.p.y-y);
  if(dp<t.r*.8){G.p.aimT=Math.max(G.p.aimT,1.1);shake=Math.max(shake,10)}
- noiseAt(x,y,t.r+220);feed('M84 震爆：'+t.stun.toFixed(1)+' 秒致眩 · 麻痹 1–2 秒',1)}
+ noiseAt(x,y,t.r+220);feed('M84 震爆：'+t.stun.toFixed(1)+' 秒致眩 · 麻痹 1–2 秒 · 无伤害',1)}
 /* 被震爆/闪光波及的敌人：抱头喊叫 + 短暂失能 */
 var BLIND_SHOUT=['我的眼睛！','看不见了——','震爆！捂脸！！','耳朵嗡嗡的……','谁把灯关了！','我瞎了！掩护我！'];
 function enemyBlindShout(e,hit){
@@ -5196,10 +5234,32 @@ function allySlot(a){var p=G.p,sp=Math.hypot(p.vx||0,p.vy||0),base;
 /* 带角度扇面的移动：直线走不通就绕，避免卡在墙角/家具边 */
 var STEER_OFF=[0,.42,-.42,.85,-.85,1.25,-1.25,1.7,-1.7,2.2,-2.2];
 function moveToward(o,tx,ty,spd,dt){var a0=Math.atan2(ty-o.y,tx-o.x),d=spd*dt,i,ang,nx,ny;
+ /* 优先短暂沿用上一帧成功的绕行角，避免在墙角同一位置左右来回选边；
+    但只保留 0.3 秒，目标方向真正改变后必须重新寻路。 */
+ if(o._mvA!=null&&(o._mvT||0)>0){var da=o._mvA-a0;da=Math.atan2(Math.sin(da),Math.cos(da));
+  if(Math.abs(da)<.9){ang=o._mvA;nx=o.x+Math.cos(ang)*d;ny=o.y+Math.sin(ang)*d;
+   if(pathFree(o.x,o.y,nx,ny,o.r)){o.x=nx;o.y=ny;o._mvT=Math.max(0,(o._mvT||0)-dt);return true}}}
  for(i=0;i<STEER_OFF.length;i++){ang=a0+STEER_OFF[i];
   nx=o.x+Math.cos(ang)*d;ny=o.y+Math.sin(ang)*d;
-  if(pathFree(o.x,o.y,nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;return true}}
+  if(pathFree(o.x,o.y,nx,ny,o.r)){o.x=nx;o.y=ny;o._mvA=ang;o._mvT=.3;return true}}
  return false}
+/* 敌人绕墙角：局部扇形避障在凹角仍可能左右选边，触发时改用 20px 导航网格
+   的 BFS 路径；路径缓存 0.8–1.1 秒，只有真正走不过去时才计算。 */
+function foeNavStep(e,tx,ty,dt){
+ if(!e.alert||e.tp==='boss'||!L)return false;
+ if(e.pathT>0)e.pathT-=dt;
+ var need=!e.path||e.pathT<=0||e.pi>=e.path.length||
+  !e.pg||Math.hypot(tx-e.pg.x,ty-e.pg.y)>80;
+ if(need){
+  e.path=navPath(e.x,e.y,tx,ty,e.r);e.pi=0;e.pg={x:tx,y:ty};
+  e.pathT=.8+Math.random()*.3;
+  if(e.path&&e.path.length)e.path[0]={x:e.x,y:e.y};
+ }
+ if(!e.path||!e.path.length)return false;
+ var wp=e.path[e.pi];
+ if(!wp)return false;
+ if(Math.hypot(wp.x-e.x,wp.y-e.y)<12){e.pi++;wp=e.path[e.pi];if(!wp)return false}
+ return moveToward(e,wp.x,wp.y,Math.max(40,e.sp*.7),dt)}
 /* ---- 人质导航网格 / BFS 寻路 ----
    人质只靠 moveToward 的扇形转向时，遇到 L 形墙角、柜台和门框会原地打转。
    这里给当前楼层建一张 20px 导航网格，用人质半径判定可走格；
@@ -6709,6 +6769,15 @@ var PATCHES=[
      '大幅降低敌人精度：基础散布约为玩家的 11 倍，连发会累积枪口热量继续扩大散布，每轮点射还会重新生成一次瞄准偏置；点射目标在开火瞬间锁定，玩家横移可以真正躲开。',
      '大幅提升火力密度：步枪/冲锋枪改为 13–19 发点射，移除「每帧只有一名敌人能开火」的全局限制，敌人会持续压制；单发伤害相应下调，避免高密度火力直接秒杀。',
      '新增近失弹掠过音效，子弹擦身而过时有声音提示；敌人弹匣打空后会按武器换弹时间停顿，给玩家反击窗口。'
+    ]},
+   {v:29,d:'2026-11-20',t:'命中判定 · 墙角抽搐 · 震爆弹无伤害',
+    items:[
+     '修复「墙前敌人打不死」：子弹在某一帧会撞墙时，先检查墙前、同一段位移内的敌人再处理墙体，不再整帧跳过；同时不会隔墙命中贴墙另一侧的人。',
+     '队友不再阻挡玩家的枪线：己方 AI 站在你和敌人之间时，子弹会穿过队友命中敌人；平民仍然会挡枪并按 ROE 处理。',
+     '修复穿墙武器：AX50、M107 等带穿透层数的枪现在会真正越过墙体并在墙后继续飞行，普通步枪仍被墙体挡住。',
+     '修复贴墙枪口：出膛点如果压进墙体，会自动退到 8px 或身体中心，避免整发子弹在墙内消失。',
+     '修复墙角抽搐：移除状态分支里的二次位移；给「前进/横移」加距离滞后；转角 LOS 抖动改为丢失视线 0.8 秒后才切换搜索移动；贴墙时禁用横移；卡角时用导航网格 BFS 绕行。',
+     '震爆弹改为纯控制投掷物：伤害 0，只保留致眩、致盲与 1–2 秒麻痹，不再直接炸死敌人；破片手雷的杀伤不变。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
