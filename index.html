@@ -1545,7 +1545,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
  <h3>敌人活跃度</h3>
- <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。敌人会打出比过去密集得多的点射，但单发精度很低、连发会越打越散，靠火力压制而不是精准点杀。</p>
+ <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。敌人会打出比过去密集得多的点射，但单发精度很低、连发会越打越散，靠火力压制而不是精准点杀。开枪即使没有命中，弹道附近或近距离的敌人也会进入「?」搜索状态，先朝枪声方向搜寻而不主动开火；只有真正看见你才会升级为「!」交战。</p>
   <p><b>投掷物</b>：破片手雷负责杀伤；M84 震爆弹不造成伤害，只致眩、致盲并让有视线的敌人麻痹 1–2 秒，适合突入前控场。队友不会阻挡你的子弹，平民仍会挡枪并按 ROE 处理。</p>
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
@@ -4008,11 +4008,7 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over)return;
  snd.fire(w1,0);
  burst(p.x+Math.cos(base)*20,p.y+Math.sin(base)*20,ST.low?2:4,'#ffd27a',110,170*(fx.flash||1));
  var rad=(w1.cls==='sniper'?760:(w1.cls==='shotgun'?600:480))*(fx.noise||1),jj;
- if(!G.lastNoise||G.t-G.lastNoise>.3)for(jj=0;jj<L.en.length;jj++){var se=L.en[jj];
-  if(se.dead||se.sub>0||se.alert)continue;
-  if(se.dormant){if(Math.hypot(se.x-p.x,se.y-p.y)<rad){wakeEnemy(se,1);var es=alertSpot(p.x,p.y,55);se.hx=es.x;se.hy=es.y}continue}
-  if(Math.hypot(se.x-p.x,se.y-p.y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
-   var es2=alertSpot(p.x,p.y,55);se.hx=es2.x;se.hy=es2.y}}
+ if(!G.lastNoise||G.t-G.lastNoise>.3)gunshotHeard(p.x,p.y,base,rad);
  G.lastNoise=G.t;
  /* 敌人躲子弹：危险等级越高，侧移反应越频繁 */
  var lvD=ST.lv||1,de;
@@ -4030,6 +4026,44 @@ function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
   if(se.dormant){if(Math.hypot(se.x-x,se.y-y)<rad){wakeEnemy(se,1);var ns=alertSpot(x,y,55);se.hx=ns.x;se.hy=ns.y}continue}
   if(Math.hypot(se.x-x,se.y-y)<rad){se.alert=1;se.st='alert';se.rt=.5+Math.random()*.7;
    var ns2=alertSpot(x,y,55);se.hx=ns2.x;se.hy=ns2.y}}}
+/* 枪声方向性警觉：不要求命中/击杀，只要玩家朝某个方向开枪，
+   附近（尤其是弹道前方）的敌人就会进入“?”搜索状态，而不是立刻开火。 */
+function suspectAt(e,x,y,ang,dot,delay){
+ if(!e||e.dead||e.sub>0||e.alert)return false;
+ var dist=dot>=0?(190+Math.random()*130):(70+Math.random()*70),
+  tx=x+(dot>=0?Math.cos(ang)*dist:(Math.random()-.5)*90),
+  ty=y+(dot>=0?Math.sin(ang)*dist:(Math.random()-.5)*90),tr=0;
+ tx=clamp(tx,24,L.cfg.W-24);ty=clamp(ty,24,L.cfg.H-24);
+ while(tr<8&&!freeAt(tx,ty,e.r)){
+  tr++;dist*=.72;
+  tx=clamp(x+(dot>=0?Math.cos(ang)*dist:(Math.random()-.5)*90),24,L.cfg.W-24);
+  ty=clamp(y+(dot>=0?Math.sin(ang)*dist:(Math.random()-.5)*90),24,L.cfg.H-24)}
+ if(!freeAt(tx,ty,e.r)){tx=clamp(x,24,L.cfg.W-24);ty=clamp(y,24,L.cfg.H-24)}
+ var wasSus=e.st==='suspect';
+ e.st='suspect';e.alert=0;e.hx=tx;e.hy=ty;e.lx=tx;e.ly=ty;e.lastSeen=-99;
+ e.susWait=wasSus?Math.min(e.susWait||0,delay||(.75+Math.random()*1.0)):(delay||(.75+Math.random()*1.0));
+ e.susT=Math.max(wasSus?e.susT||0:0,e.susWait+4.5+Math.random()*2.2);
+ e.vx=e.vy=0;e.fireN=0;e.sw=0;
+ e.a=Math.atan2(ty-e.y,tx-e.x);
+ return true}
+function gunshotHeard(x,y,ang,rad){
+ if(!L)return 0;
+ var n=0,i,e,d,dot;
+ for(i=0;i<L.en.length;i++){
+  e=L.en[i];
+  if(e.dead||e.sub>0||e.alert||e.st==='alert'||e.st==='engage')continue;
+  d=Math.hypot(e.x-x,e.y-y);if(d>rad)continue;
+  dot=d>1?(Math.cos(ang)*(e.x-x)+Math.sin(ang)*(e.y-y))/d:1;
+  /* 弹道背后且距离较远：听得到但不会把它当成直接威胁 */
+  if(d>240&&dot<-.15)continue;
+  if(e.dormant)wakeEnemy(e,0);
+  if(e.canSee){
+   e.alert=1;e.st='alert';e.rt=.55+Math.random()*.8;e.hx=x;e.hy=y;n++;continue}
+  var delay=clamp(.55+d/900,.6,1.5)+Math.random()*.55;
+  if(suspectAt(e,x,y,ang,dot,delay))n++;
+ }
+ if(n&&G&&G.t-(G.susMsg||-9)>6){G.susMsg=G.t;feed('枪声引起敌方警觉 · 正在搜索弹道方向',0)}
+ return n}
 /* ---- 战术投掷物：腰封槽位 → 长按选择 → 长按开火温雷 → 松手投向准星 ---- */
 var GREN_FUSE=3.4, THROW_MAX=660;   /* 不做抛物线：投出后直线落到准星位置 */
 var THROW=[
@@ -4536,6 +4570,7 @@ function foeShoot(e,p){
  return 1}
 function foeFireTick(e,dt,cfg,p){
  var g=e.gun;if(!g)return;
+ if(e.st==='suspect')return;   /* 搜索状态绝不主动开火 */
  if(g.rl>0){g.rl-=dt;if(g.rl<=0){g.rl=0;g.am=g.w.cap}return}
  if(g.am<=0){g.rl=Math.max(.8,(g.w.rl||2.3)*(.9+Math.random()*.2));e.fireN=0;return}
  if(e.fireN>0){
@@ -4640,6 +4675,25 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    var wx=e.hx+Math.cos(e.pf)*80,wy=e.hy+Math.sin(e.pf*1.27)*80,a2=Math.atan2(wy-e.y,wx-e.x);
    if(freeAt(e.x+Math.cos(a2)*6,e.y+Math.sin(a2)*6,e.r)){e.a=a2;e.vx=Math.cos(a2)*e.sp*.24;e.vy=Math.sin(a2)*e.sp*.24}
    else{e.vx=e.vy=0;e.pf+=2.1}}
+  else if(e.st==='suspect'){
+   /* 枪声搜索：先停顿 0.6–2 秒抬头找方向，再慢速摸向弹道方向；
+      此状态不进入开火分支，只有真正看见玩家才会升级为 alert/engage。 */
+   var sda=Math.atan2(e.hy-e.y,e.hx-e.x)-e.a;
+   while(sda>PI)sda-=TAU;while(sda<-PI)sda+=TAU;
+   e.a+=clamp(sda,-dt*2.2,dt*2.2);
+   if(e.susWait>0){e.susWait-=dt;e.vx=e.vy=0}
+   else{
+    e.susT-=dt;
+    var sd=Math.hypot(e.hx-e.x,e.hy-e.y),ssp=e.sp*.34;
+    if(sd>42){
+     var sa2=Math.atan2(e.hy-e.y,e.hx-e.x);
+     if(freeAt(e.x+Math.cos(sa2)*ssp*dt,e.y+Math.sin(sa2)*ssp*dt,e.r)){
+      e.vx=Math.cos(sa2)*ssp;e.vy=Math.sin(sa2)*ssp}
+     else{e.vx=Math.cos(sa2)*ssp*.55;e.vy=Math.sin(sa2)*ssp*.55}
+    }else{e.vx=e.vy=0;e.a+=dt*1.15}
+    if(e.susT<=0){e.st='patrol';e.alert=0;e.hx=e.x;e.hy=e.y;e.vx=e.vy=0}
+   }
+  }
   else if(e.st==='alert'){var ad=Math.hypot(e.hx-e.x,e.hy-e.y);
    if(ad>44){var aa2=Math.atan2(e.hy-e.y,e.hx-e.x);
     if(freeAt(e.x+Math.cos(aa2)*e.sp*.4*dt,e.y+Math.sin(aa2)*e.sp*.4*dt,e.r)){
@@ -5246,7 +5300,7 @@ function moveToward(o,tx,ty,spd,dt){var a0=Math.atan2(ty-o.y,tx-o.x),d=spd*dt,i,
 /* 敌人绕墙角：局部扇形避障在凹角仍可能左右选边，触发时改用 20px 导航网格
    的 BFS 路径；路径缓存 0.8–1.1 秒，只有真正走不过去时才计算。 */
 function foeNavStep(e,tx,ty,dt){
- if(!e.alert||e.tp==='boss'||!L)return false;
+ if((!e.alert&&e.st!=='suspect')||e.tp==='boss'||!L)return false;
  if(e.pathT>0)e.pathT-=dt;
  var need=!e.path||e.pathT<=0||e.pi>=e.path.length||
   !e.pg||Math.hypot(tx-e.pg.x,ty-e.pg.y)>80;
@@ -6007,7 +6061,12 @@ function drawFoe(e){if(L.cfg&&(L.cfg.exam||L.cfg.tgt)){ /* 人形靶：人形剪
  if(e.para>0){ctx.fillStyle='#8fd0e8';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
   ctx.fillText('麻痹',e.x,e.y-e.r-26);ctx.textAlign='left'}
  if(e.st==='alert'){ctx.fillStyle='#e2a93e';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
-  ctx.fillText('!',e.x,e.y-e.r-13)}}
+  ctx.fillText('!',e.x,e.y-e.r-13)}
+ if(e.st==='suspect'){ctx.save();ctx.translate(e.x,e.y-e.r-20);
+  ctx.fillStyle='rgba(20,18,12,.82)';ctx.beginPath();ctx.arc(0,0,10,0,TAU);ctx.fill();
+  ctx.strokeStyle='#e2a93e';ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(0,0,10,0,TAU);ctx.stroke();
+  ctx.fillStyle='#ffd76a';ctx.font='bold 15px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('?',0,1);ctx.restore()}}
 function drawSub(e){
  /* 投降：同一套士兵模型，双手举起、枪收在背后 */
  var ebody=ECOL[e.tp]||'#6b4a3c',wv=Math.sin(e.ph*3)*2.4;
@@ -6778,6 +6837,14 @@ var PATCHES=[
      '修复贴墙枪口：出膛点如果压进墙体，会自动退到 8px 或身体中心，避免整发子弹在墙内消失。',
      '修复墙角抽搐：移除状态分支里的二次位移；给「前进/横移」加距离滞后；转角 LOS 抖动改为丢失视线 0.8 秒后才切换搜索移动；贴墙时禁用横移；卡角时用导航网格 BFS 绕行。',
      '震爆弹改为纯控制投掷物：伤害 0，只保留致眩、致盲与 1–2 秒麻痹，不再直接炸死敌人；破片手雷的杀伤不变。'
+    ]},
+   {v:30,d:'2026-11-20',t:'枪声方向性警觉 · 问号搜索',
+    items:[
+     '开枪就会惊动弹道附近/近距离的敌人，不要求命中或击杀；弹道正前方与侧方敌人的反应最明显，较远且位于枪口背后的敌人不会把它当成直接威胁。',
+     '被枪声惊动的敌人头顶显示黄色「?」，进入搜索状态：不会主动开火，只会朝弹道方向或声源低速搜寻。',
+     '反应加入 0.6–2 秒的迟滞，不会立刻转身集火；搜索约 5–8 秒后若无发现就恢复巡逻。',
+     '搜索中只有真正看见玩家，才会升级为「!」警戒并进入正常交战；重复枪声会更新搜索点，但不会缩短已经开始的搜索停顿。',
+     '其余 v29 命中判定、墙角抽搐与震爆弹修复内容不变。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
