@@ -4036,14 +4036,19 @@ function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
    附近（尤其是弹道前方）的敌人就会进入“?”搜索状态，而不是立刻开火。 */
 function suspectAt(e,x,y,ang,dot,delay){
  if(!e||e.dead||e.sub>0||e.alert)return false;
- var dist=dot>=0?(190+Math.random()*130):(70+Math.random()*70),
-  tx=x+(dot>=0?Math.cos(ang)*dist:(Math.random()-.5)*90),
-  ty=y+(dot>=0?Math.sin(ang)*dist:(Math.random()-.5)*90),tr=0;
+ /* 枪声的“源头”是玩家位置，不是子弹飞出的远端。搜索点取玩家附近
+    45–140px 的随机偏移，既不会精确锁定，也能让敌人转向枪声方向并
+    在真正看见玩家时升级交战；旧版把搜索点放到玩家前方 190–320px，
+    导致很多地图的敌人一直朝远处搜索、永远不回头看玩家。 */
+ var dist=45+Math.random()*95,
+  sa=ang+(Math.random()-.5)*.9,
+  tx=x+Math.cos(sa)*dist,
+  ty=y+Math.sin(sa)*dist,tr=0;
  tx=clamp(tx,24,L.cfg.W-24);ty=clamp(ty,24,L.cfg.H-24);
  while(tr<8&&!freeAt(tx,ty,e.r)){
   tr++;dist*=.72;
-  tx=clamp(x+(dot>=0?Math.cos(ang)*dist:(Math.random()-.5)*90),24,L.cfg.W-24);
-  ty=clamp(y+(dot>=0?Math.sin(ang)*dist:(Math.random()-.5)*90),24,L.cfg.H-24)}
+  tx=clamp(x+Math.cos(sa)*dist,24,L.cfg.W-24);
+  ty=clamp(y+Math.sin(sa)*dist,24,L.cfg.H-24)}
  if(!freeAt(tx,ty,e.r)){tx=clamp(x,24,L.cfg.W-24);ty=clamp(y,24,L.cfg.H-24)}
  var wasSus=e.st==='suspect';
  e.st='suspect';e.alert=0;e.hx=tx;e.hy=ty;e.lx=tx;e.ly=ty;e.lastSeen=-99;
@@ -6904,6 +6909,14 @@ var PATCHES=[
      '致眩、致盲、1–2 秒麻痹、0 伤害以及玩家也会被干扰的规则不变；墙体仍然阻挡震爆效果。',
      '投掷物说明同步标注「范围 280」；M67 破片手雷的半径与伤害不变。',
      '其余 v32 玩家震爆干扰、v31 首枪搜索、v30 问号搜索内容不变。'
+    ]},
+   {v:34,d:'2026-11-21',t:'枪声搜索点修正 · 敌人回头还击',
+    items:[
+     '修复「玩家开火后敌人一直不还击」：旧版把枪声搜索点放在玩家前方 190–320px，敌人会转头朝子弹飞去的远端搜索，背对玩家，导致 1/2/3/4/5/7/8 图大量出现只搜索、不发现、不还击。',
+     '搜索点改为玩家附近 45–140px 的随机偏移，并保留方向偏置与随机抖动；敌人会转向枪声源头附近，不再直接获得玩家精确坐标。',
+     '问号搜索、0.6–2 秒反应迟滞、搜索期间不主动开火、看见玩家才升级交战的规则保持不变。',
+     '8 张地图逐一验证：所有测试敌人均能在 4 秒内完成搜索→发现→警戒→还击；地图 6 机场原本可还击，现仍正常。',
+     '其余 v33 震爆弹范围、v32 玩家震爆干扰等修复内容不变。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
