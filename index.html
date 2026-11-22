@@ -2222,24 +2222,20 @@ var GD=[
   info:'EOTech EXPS3 全息与 Aimpoint Micro T-2 红点为 CQB 主流；据枪时散布额外 −15%（本作效果），瞄具视线更稳。',
   opts:[{n:'机械瞄具',d:'无附加'},{n:'红点瞄具',d:'据枪散布 −15%'}]},
  {id:'plate',n:'防弹插板',mk:'3M（美国）／ESAI（美国）／Hesco（加拿大）',
-  info:'NIJ III 级碳化硼/陶瓷复合插板可抵御步枪弹；ESAI HIKS、3M Advanced Balle B 为商用代表。重插板增加护甲但降低机动。',
-  opts:[{n:'NIJ IIIA 软板',d:'护甲 +20，移速 −4%'},{n:'NIJ IV 陶瓷板',d:'护甲 +45，移速 −11%'}]}];
+  info:'IIIA 软板为芳纶／超高分子量聚乙烯软质插板，重量轻、可藏在背心内，主要挡手枪弹与破片，但抗步枪弹能力有限，命中约 3 次后失效；IV 硬板为氧化铝／碳化硼陶瓷复合硬板，可挡 7.62 AP，约 8 次命中，但重量大、明显拖慢移动。',
+  opts:[{n:'NIJ IIIA 软板',d:'护甲 +30 · 防弹 3 次 · 移速 −2%',arm:30,mob:-.02,hits:3,mat:'芳纶/PE 软质'},
+   {n:'NIJ IV 陶瓷板',d:'护甲 +60 · 防弹 8 次 · 移速 −14%',arm:60,mob:-.14,hits:8,mat:'氧化铝/碳化硼陶瓷'}]}];
 function gdDef(id){for(var i=0;i<GD.length;i++)if(GD[i].id===id)return GD[i];return null}
 function gdHas(id,oi){return (ST.gd[id]||0)===oi}
 function gdOpt(id){var g=gdDef(id);if(!g)return null;return g.opts[ST.gd[id]||0]}
 var OUTF=[
- {id:'g3',n:'Crye Precision G3 战斗服',mk:'Crye Precision（美国·纽约州  纽堡）',
-  info:'官网资料：Mil-Spec 50/50 NYCO 防撕裂格纹布 + 四面弹力拼接，G3 作战裤 10 袋布局、可调腰廓与内置护膝袋；与 MultiCam 迷彩同为 Crye 专利体系。',
-  look:'#4a4f3f',arm:25,mob:.06,alert:-.15,note:'被敌发现延迟 +15%（防撕裂哑光布与低可视剪裁）'},
- {id:'stryke',n:'5.11 Stryke 战术服',mk:'5.11 Tactical（美国·加州  莫德斯托）',
-  info:'官网资料：Flex-Tac 双向弹力面料 + Teflon 抗污整理；5.11 品牌源于攀岩难度等级“5.11”，1968 年创立，战术裤累计销售两千万条。',
-  look:'#3c3c42',arm:22,mob:.13,alert:0,note:'机动最佳：全向移动 +13%'},
- {id:'striker',n:'UF PRO Striker X 战斗裤',mk:'UF PRO（奥地利·格拉茨）',
-  info:'官网资料：NyCo 防撕裂 + Schoeller 弹力复合，集成内腰带、3D 后腰垫、4 级高度可调护膝与腿部拉链通风；Flecktarn/MultiCam 多色可选。',
-  look:'#54503b',arm:32,mob:.02,alert:-.08,note:'高护甲低损耗：护甲 +32'},
- {id:'leaf',n:"Arc'teryx LEAF Assault Pant",mk:'Arc\u2019teryx LEAF（加拿大·温哥华，军警线）',
-  info:'LEAF（Law Enforcement Armed Forces）为始祖鸟军警支线：Cordura NYCO 防撕裂、内置护膝套、无熔无滴面料；AR 型面向严寒、LT 型面向热带直行动作。',
-  look:'#444a54',arm:28,mob:.08,alert:-.10,note:'均衡款：护甲 +28、机动 +8%'}];
+ {id:'stryke',n:'5.11 Stryke 轻量战术服',mk:'5.11 Tactical（美国·加州  莫德斯托）',
+  info:'Flex-Tac 双向弹力面料 + Teflon 抗污整理，轻量、散热快、关节活动范围大；为追求速度牺牲了面料厚度与低可视处理，近距离更容易被敌方辨认。',
+  look:'#3c3c42',arm:16,mob:.16,hide:1.12,note:'强机动 / 弱隐蔽：移速 +16%、敌方识别距离 +12%、护甲 +16'},
+ {id:'g3',n:'Crye Precision G3 低可视战斗服',mk:'Crye Precision（美国·纽约州  纽堡）',
+  info:'Mil-Spec 50/50 NYCO 防撕裂格纹布 + 四面弹力拼接，G3 作战裤 10 袋布局、可调腰廓与内置护膝袋；哑光低可视剪裁与 MultiCam 体系，代价是面料更厚、机动性下降。',
+  look:'#4a4f3f',arm:26,mob:-.06,hide:.72,note:'低机动 / 高隐蔽：移速 −6%、敌方识别距离 −28%、护甲 +26'}
+];
 function ofDef(id){for(var i=0;i<OUTF.length;i++)if(OUTF[i].id===id)return OUTF[i];return OUTF[0]}
 /* SECTION: data-levels */
 function ring(a,W2,H2,t){a.push([0,0,W2,t],[0,H2-t,W2,t],[0,0,t,H2],[W2-t,0,t,H2])}
@@ -3543,16 +3539,16 @@ g.restore();
  /* 弹匣：按当前选择的弹匣替换容量/换弹/机动 */
  guns=guns.map(magGun);
  var om=opMods();
- var of=ofDef(ST.outfit),pl=ST.gd.plate|0,armBase=90+of.arm+(pl?45:20)+om.arm;
+ var of=ofDef(ST.outfit),po=gdOpt('plate')||{arm:0,mob:0,hits:0,n:''},armBase=90+of.arm+(po.arm||0)+om.arm;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
-  nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1+of.alert,
+  nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1,
   dn2:0,allyOn:c.cqb?0:(ST.ally!==0),cqb:c.cqb?1:0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
   p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
-   sp:Math.round(208*(1+of.mob+om.move)*(pl?1-.11:1-.04)),vx:0,vy:0,
+   sp:Math.round(208*(1+of.mob+om.move+(po.mob||0))),vx:0,vy:0,
    recK:om.recoil,relK:om.reload,aimK:om.ads,viewK:om.view,brK:om.breach,
    brD:null,brT:0,adsT:0,
-   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,press:0,prevL:0,fm:'',heat:0,burstN:0,
+   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,hide:(of.hide||1),plateHits:(po.hits||0),plateMax:(po.hits||0),plateArmor:(po.arm||0),plateName:(po.n||''),press:0,prevL:0,fm:'',heat:0,burstN:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:0,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
@@ -4473,7 +4469,19 @@ function dmgPlayer(v){var p=G.p;if(p.hp<=0)return;
   $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
   dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
   shake=13;toast('现实难度 · 一发致命',1800);die();return}
- var a=Math.min(p.ar,v*.7);p.ar=Math.max(0,p.ar-a);p.hp=Math.max(0,p.hp-(v-a));G.dmg+=v;
+ var a=Math.min(p.ar,v*.7);p.ar=Math.max(0,p.ar-a);
+ /* 插板按“可防弹次数”消耗：IIIA 软板 3 次、IV 硬板 8 次；
+    次数耗尽后插板失效，护甲上限同步扣除，而不是无限吸收。 */
+ if(p.plateHits>0&&a>.01){
+  p.plateHits--;
+  if(p.plateHits<=0){
+   var ploss=p.plateArmor||0;
+   p.mar=Math.max(0,(p.mar||0)-ploss);
+   p.ar=Math.min(p.ar,p.mar);
+   toast('插板失效 · '+(p.plateName||'防弹插板')+'已达寿命',2200);
+  }
+ }
+ p.hp=Math.max(0,p.hp-(v-a));G.dmg+=v;
  $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
  dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
  shake=Math.min(13,shake+2.6);
@@ -5076,8 +5084,9 @@ function foeView(e){
  var w=e&&e.gun&&e.gun.w;
  return {len:((w&&w.vr)||500)*(e.viewK||1),wid:(w&&w.vw)||150}}
 function foeCanSee(e,p){
- var v=foeView(e),near=e.tp==='sniper'?110:82;
- if(!inViewAt(p.x,p.y,e.x,e.y,e.a,v.len,v.wid,near))return 0;
+ var v=foeView(e),near=e.tp==='sniper'?110:82,
+  len=v.len*(p&&p.hide?p.hide:1);
+ if(!inViewAt(p.x,p.y,e.x,e.y,e.a,len,v.wid,near))return 0;
  return los(e.x,e.y,p.x,p.y)?1:0}
 /* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
 function updVis(dt){if(!G||!L)return;
@@ -6214,7 +6223,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(str!==HD.h){HD.h=str;$('sT').textContent=str}
  var hv=G.sec2+'/'+L.civ.length+(G.civD?(' · 伤亡 '+G.civD):'');
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
- var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+'×'+Math.round(weaponViewW(g.w,p))+(p.stunT>0?(' · 震爆干扰 '+p.stunT.toFixed(1)+'s'):(p.aimT>0?' · 受压制':''));
+ var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+'×'+Math.round(weaponViewW(g.w,p))+(p.plateMax?(' · 插板 '+p.plateHits+'/'+p.plateMax):'')+(p.stunT>0?(' · 震爆干扰 '+p.stunT.toFixed(1)+'s'):(p.aimT>0?' · 受压制':''));
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var flg=airOn()?('【'+L.cfg.flName+'】'):'';
  var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 Esc 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
@@ -6917,6 +6926,15 @@ var PATCHES=[
      '问号搜索、0.6–2 秒反应迟滞、搜索期间不主动开火、看见玩家才升级交战的规则保持不变。',
      '8 张地图逐一验证：所有测试敌人均能在 4 秒内完成搜索→发现→警戒→还击；地图 6 机场原本可还击，现仍正常。',
      '其余 v33 震爆弹范围、v32 玩家震爆干扰等修复内容不变。'
+    ]},
+   {v:35,d:'2026-11-22',t:'作战服重做 · 防弹插板材质实装',
+    items:[
+     '作战服精简为两套：5.11 Stryke 轻量战术服（移速 +16%、敌方识别距离 +12%、护甲 +16）与 Crye G3 低可视战斗服（移速 −6%、敌方识别距离 −28%、护甲 +26）；原 UF PRO Striker 与 LEAF 已移除。',
+     '高隐蔽不再只是文字：会实际缩短敌人发现玩家的视野距离（G3 约 −28%，Stryke 约 +12%），高机动则直接提高玩家移动速度；两套衣服形成明确的“跑得快但更容易被看见 / 走得慢但更难被发现”取舍。',
+     'IIIA 软板：护甲 +30、可防弹 3 次、移速 −2%，芳纶/PE 软质，轻便但抗步枪弹有限。',
+     'IV 陶瓷硬板：护甲 +60、可防弹 8 次、移速 −14%，氧化铝/碳化硼陶瓷复合，防护更强但明显拖慢移动。',
+     '插板按实际命中次数消耗：每次中弹消耗 1 次，耗尽后插板失效并扣除护甲上限；HUD 显示“插板 x/x”。软板更早失效，硬板更耐打但更慢。',
+     '其余 v34 索敌修复、v33 震爆范围、v32 玩家震爆干扰等内容不变。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -8329,14 +8347,16 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
    '对局中<b>长按投掷键</b>可随时重新挑选，短按切换握持；投掷落点就是<b>枪械准星</b>所指的位置。';
   gl.appendChild(ip2)}
  var ol=$('ofList');if(ol){ol.innerHTML='';
+  if(!OUTF.some(function(o){return o.id===ST.outfit}))ST.outfit=OUTF[0].id;
   OUTF.forEach(function(o){var bt=mk('button','kbd'+(ST.outfit===o.id?' on':''));
    bt.style.cssText='flex:1 1 46%';bt.textContent=o.n.split(' ')[0]+'·'+(o.id===ST.outfit?'用':'选');
    bt.addEventListener('click',function(e){e.preventDefault();snd.ui();ST.outfit=o.id;save();renderGear()});
    ol.appendChild(bt)});
   var of=ofDef(ST.outfit),ofi=mk('div');
   ofi.style.cssText='width:100%;font-size:10.5px;color:#8ba0ae;line-height:1.6;margin-top:6px';
+  var hpk=Math.round(((of.hide||1)-1)*100);
   ofi.innerHTML='<b style="color:#cbb073">'+of.n+'</b> · '+of.mk+'<br>'+of.info+
-   '<br><b>效果</b>：'+of.note+' · 护甲 +'+of.arm+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 被发现延迟'+(of.alert>=0?'+':'')+(of.alert*100|0)+'%';
+   '<br><b>效果</b>：'+of.note+' · 护甲 +'+of.arm+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 敌方识别距离'+(hpk>=0?'+':'')+hpk+'%';
   ol.appendChild(ofi)}
  renderAtt()}
 /* 枪械改件：只显示当前枪械平台能装的件（北约 1913 / 国产专用 / AK 侧轨 / 手枪） */
