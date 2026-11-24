@@ -2428,7 +2428,7 @@ var BOMB_WL=function(a){
  a.push([400,680,180,56],[1500,680,180,56],[900,250,180,56],[900,970,180,56]);
  return a};
 var BOMB_LV={code:'OP-08 · BOMB',nm:'拆弹行动 · 定时装置',W:2000,H:1200,dk:.14,th:'port',sd:86,par:240,rq:2,
- bomb:1,bombTime:150,bombSite:[1000,580],
+ bomb:1,bombTime:300,bombSite:[1000,580],
  fl:[[20,20,1960,1160]],
  wl:BOMB_WL,
  dr:[[920,780,160,20,0,'metal'],[700,540,20,100,0,'wood'],[1280,520,20,100,0,'wood']],
@@ -5095,7 +5095,7 @@ var QTE_WIRES=['红线','蓝线','黄线','绿线'];
 function bombActive(){return !!(L&&L.bomb&&!L.bomb.done&&!L.bomb.failed)}
 function startBombQTE(){
  if(!bombActive()||G.qte)return;
- var q={seq:[],i:0,t:0,limit:2.2,on:1},k;
+ var q={seq:[],i:0,t:0,limit:3.0,on:1},k;
  for(k=0;k<3;k++)q.seq.push(1+((Math.random()*4)|0));
  G.qte=q;
  var el=$('qte');if(el){el.classList.add('on');el.setAttribute('aria-hidden','false')}
@@ -5144,6 +5144,9 @@ function bombExplode(reason){
 }
 function bombTick(dt){
  var b=L&&L.bomb;if(!b||b.done||b.failed)return;
+ /* QTE 进行期间暂停总倒计时：剪线正确不会因为总计时刚好归零而被误炸；
+    剪错/单步超时仍由 qteFail 立即引爆。 */
+ if(G.qte)return;
  b.left-=dt;
  if(b.left<=0){b.left=0;bombExplode('倒计时归零');return}
  var s=Math.ceil(b.left);
@@ -7121,7 +7124,7 @@ var PATCHES=[
      '敌人智能分层：重甲步兵血厚、智能低、精度低、伤害中；狙击步兵血低、智能高、精度高、伤害高；普通步枪/冲锋枪步兵全部中等；首领血量/智能/精度/伤害全高，伤害为普通步兵 2 倍，并双倍消耗插板耐久。',
      '索敌扇形按武器区分：狙击细长（约 1090×135）、步枪中等（约 600×300）、冲锋枪短小（约 400×170）；敌人同时拥有自身小圈视野（重甲 78、步枪 88、冲锋枪 84、狙击 112、首领 100）。',
      '敌人发现玩家的反应时间改为约 2 秒基准：普通兵 2.0 秒、重甲约 2.14 秒、狙击/首领约 1.84 秒，且不会低于 1.7 秒；枪声搜索与搜索时长也会受智能影响。',
-     '新增 OP-08「拆弹行动」：靠近中央定时装置按住 F 进入 3 步剪线 QTE，每步 2.2 秒；剪错或超时立即引爆，老兵/现实难度直接致命。完成后撤离点开放，通关记录独立保存。',
+     '新增 OP-08「拆弹行动」：靠近中央定时装置按住 F 进入 3 步剪线 QTE，每步 3 秒；剪错或单步超时立即引爆，老兵/现实难度直接致命。QTE 期间总倒计时暂停，剪线正确不会被总倒计时误炸。完成后撤离点开放，通关记录独立保存。',
      '新增 AT4 反坦克火箭：军械库「反坦克」分类，单发预装填、大范围爆炸，命中目标或墙体都会引爆；重甲步兵与首领可被一发重创或击杀，火箭有独立模型与尾焰。',
      '全关卡复查敌人卡墙：OP-01～OP-05、机场 1F/2F、OP-07、CQB、OP-08 与训练场逐图检查，开局与 360 帧模拟均未发现卡墙。'
     ]} ];
