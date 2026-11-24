@@ -3988,7 +3988,7 @@ function gunshotHeard(x,y,ang,rad){
 var GREN_FUSE=3.4, THROW_MAX=660;   /* 不做抛物线：投出后直线落到准星位置 */
 var THROW=[
  {id:'frag', n:'M67 破片手雷', s:'破片', col:'#5c6b3a', hi:'#93ac6d', ring:'#8fae5d',
-  r:105, dmg:85, fuse:3.6, stun:0,  d:'杀伤半径 105 · 伤害 85 · 引信 3.6 秒'},
+  r:132, dmg:120, fuse:3.6, stun:0,  d:'杀伤半径 132 · 伤害 120 · 引信 3.6 秒'},
  {id:'stun', n:'M84 震爆弹',  s:'震爆', col:'#7d7052', hi:'#e2c06a', ring:'#d8b25a',
   r:280, dmg:0,  fuse:1.8, stun:5.2, paraMin:1, paraMax:2, d:'范围 280 · 致眩 5.2 秒 · 麻痹 1–2 秒 · 无伤害 · 引信 1.8 秒'}
 ];
@@ -4052,7 +4052,7 @@ function updGrenHold(dt){
 function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
  p.cook+=dt;
  if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
-  explode(p.x,p.y,130,120);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
+  explode(p.x,p.y,132,120);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
 /* 投掷目标：只算「第一落点」用于预览——贴墙前 6px。
    真正的飞行在 updateGren 里逐段推进，撞墙会回弹，不再穿过墙。 */
 function throwTarget(){
