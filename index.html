@@ -120,7 +120,7 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .avr.down b{color:#c8574a}
 .avr.down em{color:#c8574a}
 #hpF{background:linear-gradient(90deg,#a63a2c,#d8503f)}
-#arF{background:linear-gradient(90deg,#2f6489,#5fa8d3)}
+#plateF{background:linear-gradient(90deg,#2f6489,#5fa8d3)}
 #eq{font-size:10.5px;color:#93a8b6}
 #am{text-align:right}
 #amW{font-size:11.5px;letter-spacing:.1em;color:#c6d6e0}
@@ -987,7 +987,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="hb">
     <div id="vit">
       <div class="vr"><b>体力</b><span class="vbar"><i id="hpF"></i></span><i id="hpN">100</i></div>
-      <div class="vr"><b>护甲</b><span class="vbar"><i id="arF"></i></span><i id="arN">60</i></div>
+      <div class="vr"><b>插板</b><span class="vbar"><i id="plateF"></i></span><i id="plateN">8/8</i></div>
       <div id="eq">M67 手雷 ×2 · 战术医疗 ×1</div>
       <div id="rankHud"><b id="rhN">列兵</b><span class="rhBar"><i id="rhF"></i></span><span class="rhX" id="rhX">0/200</span></div>
       <div id="alv" style="font-size:10px;letter-spacing:.04em;margin-top:2px"></div>
@@ -1085,7 +1085,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">五个场景由易到难逐级解锁：公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院。后面还有机场双层行动与猎鹰招募考核；完成新兵训练后还可进入 CQB 战术学习训练楼。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
+  <p class="bootLead">五个场景由易到难逐级解锁：公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院。后面还有机场双层行动与终局综合考核；完成新兵训练后还可进入 CQB 战术学习训练楼。全部行动均由你单人执行，不再编入英雄队员。全部武器为现实列装枪族，附厂商与公开参数；军衔每升一级，都会解锁新的枪械配置。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
@@ -1134,7 +1134,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。五个场景按难度由易到难依次解锁——公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院；之后是机场双层行动与猎鹰招募。完成新兵训练后开放 CQB 战术学习训练楼，用低活跃度目标练观察、切角与清房。
+      <p class="bgLead">俯视角战术射击演练。五个场景按难度由易到难依次解锁——公寓、商场、郊野储运站（室外）、王子门使馆区、杜布罗夫卡剧院；之后是机场双层行动与终局综合考核。完成新兵训练后开放 CQB 战术学习训练楼，用低活跃度目标练观察、切角与清房。所有行动均为单人作战，英雄队员系统已移除。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
 界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
@@ -1162,22 +1162,13 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <button class="ic" id="bHelp" title="作战手册"><svg><use href="#ic-book"/></svg><span>手册</span></button>
         <button class="ic" id="bMail" title="邮件 · 行动报告"><svg><use href="#ic-mail"/></svg><span>邮件</span><i class="ddot" id="mailDot">0</i></button>
         <button class="ic" id="bBoard" title="全服排行榜"><svg><use href="#ic-award"/></svg><span>排行</span></button>
-        <button class="ic" id="bHero" title="英雄队员"><svg><use href="#ic-star"/></svg><span>英雄</span></button>
         <button class="ic" id="bSet" title="设置"><svg><use href="#ic-gear"/></svg><span>设置</span></button>
       </div>
     </div>
 
-    <!-- 出战队员：普通队员 / 英雄队员（OP-07 通过后解锁） -->
-    <div class="opRow" id="opRow">
-      <span class="opL">出战队员</span>
-      <button class="opB on" id="bOpNorm"><span>普通队员</span><b>你自己 · 主武器 + 副武器</b></button>
-      <button class="opB" id="bOpHero"><span>英雄队员 · 燕锋</span><b>通过 OP-07 后解锁</b></button>
-      <button class="opB" id="bOpGrey"><span>英雄队员 · 格雷</span><b>通关机场后解锁</b></button>
-      <button class="opB hidden" id="bOpDuo"><span>联合编队 · 燕锋 + 格雷</span><b>第三章后解锁</b></button>
-    </div>
-    <div class="opTip" id="opTip"></div>
+    <div class="note" style="margin:0 0 8px">全部行动由你单人执行：主武器 + 副武器，无英雄队员、无联合编队。</div>
 
-    <!-- 难度：折叠成一张卡，点开是五档叠加 -->
+    <!-- 难度：折叠成一张卡，点开是三档叠加 -->
     <div class="dfCard" id="dfCard">
       <button class="dfHead" id="bDfToggle">
         <span class="dfL">难度</span><b id="dfNow">—</b><i id="dfNowD"></i><span class="dfArrow" id="dfArrow">展开 ▾</span>
@@ -1208,7 +1199,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <button class="btn sm" data-c="pistol">副武器</button>
       </div>
       <div id="wpList"></div>
-      <div class="note">固定装备：战术医疗包 ×1。战场补给箱可现场补充弹药、投掷物与护甲。</div>
+      <div class="note">固定装备：战术医疗包 ×1。战场补给箱可现场补充弹药、投掷物与医疗；防弹插板不能被补给修复，打碎后只能靠走位。</div>
       <h3 style="margin-top:14px">战术装备</h3><div id="gdList"></div>
       <h3 style="margin-top:12px">枪械改件 <span class="h3sub" id="attPlat">—</span></h3><div id="attList"></div>
       <h3 style="margin-top:12px">作战服</h3><div id="ofList"></div>
@@ -1380,58 +1371,6 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="note" id="rNote"></div>
 </div></section>
 
-<!-- SECTION: markup-hero -->
-<section class="screen" id="sHero"><div class="wrap" style="max-width:760px">
-  <div class="eyebrow">HERO OPERATOR · 五区行动序列</div>
-  <h1>英雄队员</h1>
-  <div class="heroCard">
-    <div class="heroArt">
-      <svg viewBox="0 0 120 168" aria-hidden="true">
-        <defs><linearGradient id="hg1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#2b3a46"/><stop offset="1" stop-color="#10171d"/></linearGradient></defs>
-        <rect x="0" y="0" width="120" height="168" fill="url(#hg1)"/>
-        <ellipse cx="60" cy="150" rx="42" ry="12" fill="rgba(0,0,0,.45)"/>
-        <path d="M28 150 Q28 92 60 92 Q92 92 92 150 Z" fill="#3c4a3a"/>
-        <path d="M34 150 Q34 100 60 100 Q86 100 86 150 Z" fill="#4a5a46"/>
-        <rect x="44" y="104" width="32" height="34" rx="5" fill="#2f3a2c"/>
-        <rect x="48" y="108" width="10" height="12" rx="2" fill="#1d241b"/>
-        <rect x="62" y="108" width="10" height="12" rx="2" fill="#1d241b"/>
-        <circle cx="60" cy="78" r="21" fill="#c9a184"/>
-        <path d="M38 74 Q38 50 60 50 Q82 50 82 74 L82 82 Q60 70 38 82 Z" fill="#2f3a2c"/>
-        <rect x="39" y="66" width="42" height="7" rx="3" fill="#1b2220"/>
-        <path d="M28 118 Q20 130 24 150" stroke="#3c4a3a" stroke-width="10" fill="none" stroke-linecap="round"/>
-        <path d="M92 118 Q100 130 96 150" stroke="#3c4a3a" stroke-width="10" fill="none" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="heroMeta">
-      <div class="heroName">燕锋<span class="heroTag">猎鹰调配 · 强化训练</span></div>
-      <div class="heroRankRow"><i>★</i> 中尉 · 原猎鹰突击队突击手</div>
-      <p class="heroDesc">从猎鹰突击队调遣至五区行动序列的突击手。随调令一同移交的还有一份强化训练计划——通过 OP-07 猎鹰招募后，训练完成，他即由玩家操控出战：三武器槽（两主一副）＋ 护甲 +18 ／ 移速 +4%。调令附带的临时调阅授权，可动用军械库中尚未解锁的装备。</p>
-      <div class="heroQuota">今日剩余授权 <b id="hqLeft">3</b> / 3 · 每日 00:00（北京时间）刷新</div>
-    </div>
-  </div>
-  <h3>武器槽与装备调阅 <span class="h3sub">三槽位随时可换 · 每次调阅消耗 1 次授权</span></h3>
-  <div id="heroList" class="heroList"></div>
-  <div class="bar"><button class="btn p" id="bHeroGo">去选择出战队员</button>
-    <button class="btn" id="bHeroBack">返回</button></div>
-</div></section>
-
-<!-- SECTION: markup-op-load 英雄队员配装（与普通队员的军械库完全分开） -->
-<section class="screen" id="sOpLoad"><div class="wrap" style="max-width:820px">
-  <div class="eyebrow">OPERATOR LOADOUT · 英雄队员配装</div>
-  <h1 id="olName">—</h1>
-  <div class="opCard" id="olCard"></div>
-  <h3>三武器配置 <span class="h3sub" id="olPlat">—</span></h3>
-  <div class="heroList" id="olSlots"></div>
-  <h3>可选枪械 <span class="h3sub">点右侧按钮装进对应槽位</span></h3>
-  <div class="rlWrap"><div id="olGuns"></div></div>
-  <div class="note">主武器装步枪／冲锋枪／霰弹枪／狙击枪，副武器只装手枪。这里的配装只属于英雄队员，不会改动普通队员在军械库里的两把枪。</div>
-  <div class="bar">
-    <button class="btn p" id="olSet">设为出战队员</button>
-    <button class="btn" id="olBack">返回任务列表</button>
-  </div>
-</div></section>
-
 <!-- SECTION: markup-range-load -->
 <section class="screen" id="sRangeLoad"><div class="wrap" style="max-width:820px">
   <div class="eyebrow">RANGE LOADOUT · 训练场专用配装</div>
@@ -1504,17 +1443,17 @@ table.rt td:last-child{text-align:right;font-weight:600}
 <!-- SECTION: markup-drama -->
 <div id="dramaBox">
   <div id="dHead">
-    <span class="tag"><i></i><span id="dAct">猎鹰招募 · 剧情</span></span>
+    <span class="tag"><i></i><span id="dAct">终局考核 · 剧情</span></span>
     <span class="mid" id="dMid">虚构演绎 · 致敬我国特种警察部队，不代表任何真实单位与行动</span>
   </div>
   <div id="dScene"><canvas id="dArt"></canvas><span id="dScnTag"></span></div>
   <div id="dDossier"><div class="dsCard">
-    <div class="dsK" id="dsK">RECRUITMENT FILE · 招收档案</div>
+    <div class="dsK" id="dsK">FINAL EVALUATION · 终局考核档案</div>
     <h2 id="dsTtl">—</h2>
     <div id="dsBody"></div>
-    <div class="dsFoot"><span class="dsHint" id="dsHint">读完点右侧按钮，进入招募现场</span>
+    <div class="dsFoot"><span class="dsHint" id="dsHint">读完点右侧按钮，进入考核现场</span>
       <span class="dsBtns"><button class="btn" id="dsBack">返回</button>
-      <button class="btn p" id="dsGo">进入招募现场</button></span></div>
+      <button class="btn p" id="dsGo">进入考核现场</button></span></div>
   </div></div>
   <div id="dStage">
     <div id="dWhoRow">
@@ -1546,7 +1485,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
  <h3>敌人活跃度</h3>
  <p>所有任务统一采用低活跃度校准：开局只有极少量近处守卫清醒，其余守敌在玩家接近或枪声/爆炸后才分批激活；敌人发现距离、反应时间、移动速度、投掷频率与躲弹概率都下调。这样才有窗口做切角与逐屋清理，而不是一进门就被全图集火。敌人会打出比过去密集得多的点射，但单发精度很低、连发会越打越散，靠火力压制而不是精准点杀。开枪即使没有命中，弹道附近或近距离的敌人也会进入「?」搜索状态，先朝枪声方向搜寻而不主动开火；只有真正看见你才会升级为「!」交战。</p>
-  <p><b>投掷物</b>：破片手雷负责杀伤；M84 震爆弹不造成伤害，范围 280，只致眩、致盲并让有视线的敌人麻痹 1–2 秒，适合突入前控场。玩家自己站在震爆范围内也会被闪盲、减速并暂时无法瞄准，投掷后不要立刻跟进；墙体能挡住震爆效果。队友不会阻挡你的子弹，平民仍会挡枪并按 ROE 处理。</p>
+  <p><b>投掷物</b>：破片手雷负责杀伤；M84 震爆弹不造成伤害，范围 280，只致眩、致盲并让有视线的敌人麻痹 1–2 秒，适合突入前控场。玩家自己站在震爆范围内也会被闪盲、减速并暂时无法瞄准，投掷后不要立刻跟进；墙体能挡住震爆效果。手雷爆炸受墙体阻挡；老兵/现实难度下，爆炸范围内的玩家和敌人都会直接死亡，新兵难度才按距离衰减。平民仍会挡枪并按 ROE 处理。</p>
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
   <h3>潜入与警报</h3>
@@ -1556,7 +1495,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>难度曲线</h3>
-  <p>CQB 战术学习（完成新兵训练后开放，不计分）→ 01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 郊野储运站（室外场区 + 4 名狙击手）→ 04 王子门（使馆人质 + 处决倒计时）→ 05 杜布罗夫卡（剧院人质 + 毒气倒计时）→ 06 机场（双层）→ 07 猎鹰考核。</p>
+  <p>CQB 战术学习（完成新兵训练后开放，不计分）→ 01 公寓（新手 CQB）→ 02 商场（开阔中庭 + 2 名精确射手）→ 03 郊野储运站（室外场区 + 4 名狙击手）→ 04 王子门（使馆人质 + 处决倒计时）→ 05 杜布罗夫卡（剧院人质 + 毒气倒计时）→ 06 机场（双层）→ 07 终局考核。OP-07 需完成机场行动后解锁，通过后解锁国产枪族。</p>
+  <p><b>三档难度</b>：新兵（敌人迟缓、伤害低，破甲后可抗 8 枪）→ 老兵（敌人伤害约为新兵 4 倍，破甲后 4 枪倒下，手雷直接致命）→ 现实（一枪致命，手雷直接致命）。所有行动固定单人，无英雄队员。</p>
   <h3>武器与厂商</h3>
   <p>军械库每把枪都标注真实制造商（Glock、SIG Sauer、Beretta、Heckler &amp; Koch、FN Herstal、Colt、Kalashnikov、IWI、Steyr Arms、
 Remington、Benelli、Franchi、Barrett、Accuracy International、CheyTac）与公开参数，用于呈现现实轻武器知识。</p>
@@ -1935,7 +1875,7 @@ w({id:'qbz191',n:'QBZ-191 精确射手型',cls:'rifle',cn:'国产新一代制式
  mg:'30 发弹匣',br:'精确射手型较长枪管（公开数据为区间值）',mz:'公开数据未详（本作取近似值）',
  rg:'公开口径约 600 m 级（区间值）',wt:'空枪约 3.6–4.0 kg（区间值）',
  it:'191 式枪族是我国现役新一代制式轻武器，2019 年国庆阅兵首次公开。精确射手型配可变倍率瞄具——本作战例中猎鹰考核的指定枪型。',
- dmg:35,rpm:700,cap:30,rl:2.3,sp:.019,bs:1560,rn:2700,au:1,kk:1.05,mb:-.02,pen:1,pl:1,hero:1});
+ dmg:35,rpm:700,cap:30,rl:2.3,sp:.019,bs:1560,rn:2700,au:1,kk:1.05,mb:-.02,pen:1,pl:1});
 /* ==== 国产枪族（公开资料口径 · 虚构演绎，不含任何涉密参数） ==== */
 w({id:'type54',n:'54 式手枪',cls:'pistol',cn:'国产手枪',g:'▮',
  mk:'中国（仿制自 TT-33，公开资料）',
@@ -2110,10 +2050,10 @@ function rankName(xp){return RKLAD[rankOf(xp)][0]}
 /* SECTION: data-rank 军衔展示
    军衔由经验推导，每级对应可解锁的武器档次（tk 0–3，阈值见 TIER_XP）。
    DIFF_NAME / LV_REC 用于把作战序列标成「由易到难」的阶梯。 */
-var DIFF_NAME=['入门','常规','高压','硬核','极限','地狱'];
+var DIFF_NAME=['新兵','老兵','现实'];
 var LV_REC=['列兵','上等兵','下士','中士','上士'];
 function weaponsAtXp(xp){var out=[],i,o,tk;
- for(i=0;i<WP.length;i++){o=WP[i];if(o.hero)continue;tk=o.tk==null?0:o.tk;
+ for(i=0;i<WP.length;i++){o=WP[i];tk=o.tk==null?0:o.tk;
   if(tk>0&&TIER_XP[tk]===xp)out.push(o.n)}
  return out}
 function rankBadgeSvg(r){var i,s='<svg viewBox="0 0 40 40" aria-hidden="true">',
@@ -2209,7 +2149,7 @@ function renderLvRail(){var el=$('lvRail');if(!el)return;
   var st=done?'已通过':(cur?'当前任务':(!unl?'未解锁':(!rankOk?('需 '+RKLAD[LS[i].rq][0]):(dev?'已开放 · 开发者':'可重打'))));
   h+='<div class="lvStep '+cls+'"><div class="n">OP-0'+(i+1)+'</div>'+
    '<div class="m">'+LS[i].nm.split(' · ')[0]+'</div>'+
-   '<div class="d">'+st+' · '+DIFF_NAME[i]+' '+('★'.repeat(Math.min(5,i+1)))+'</div></div>'}
+   '<div class="d">'+st+' · '+diffDef(ST.diff||1).n+' '+('★'.repeat(Math.min(5,i+1)))+'</div></div>'}
  return el.innerHTML=h}
 var ARM={0:{n:'无甲',v:0},1:{n:'轻型软质防弹衣',v:.28},2:{n:'NIJ IIIA 防弹背心',v:.45},3:{n:'NIJ IV 陶瓷插板',v:.68}};
 var EARM={grunt:1,rush:1,heavy:3,sniper:2,boss:3};
@@ -2222,19 +2162,19 @@ var GD=[
   info:'EOTech EXPS3 全息与 Aimpoint Micro T-2 红点为 CQB 主流；据枪时散布额外 −15%（本作效果），瞄具视线更稳。',
   opts:[{n:'机械瞄具',d:'无附加'},{n:'红点瞄具',d:'据枪散布 −15%'}]},
  {id:'plate',n:'防弹插板',mk:'3M（美国）／ESAI（美国）／Hesco（加拿大）',
-  info:'IIIA 软板为芳纶／超高分子量聚乙烯软质插板，重量轻、可藏在背心内，主要挡手枪弹与破片，但抗步枪弹能力有限，命中约 3 次后失效；IV 硬板为氧化铝／碳化硼陶瓷复合硬板，可挡 7.62 AP，约 8 次命中，但重量大、明显拖慢移动。',
-  opts:[{n:'NIJ IIIA 软板',d:'护甲 +30 · 防弹 3 次 · 移速 −2%',arm:30,mob:-.02,hits:3,mat:'芳纶/PE 软质'},
-   {n:'NIJ IV 陶瓷板',d:'护甲 +60 · 防弹 8 次 · 移速 −14%',arm:60,mob:-.14,hits:8,mat:'氧化铝/碳化硼陶瓷'}]}];
+  info:'IIIA 软板为芳纶／超高分子量聚乙烯软质插板，重量轻、可藏在背心内，主要挡手枪弹与破片，但抗步枪弹能力有限，只能承受 3 次命中；IV 硬板为氧化铝／碳化硼陶瓷复合硬板，可挡 7.62 AP，能承受 8 次命中，但重量大、明显拖慢移动。插板没有“护甲数值”，只看剩余可承受命中次数；插板打碎后，新兵难度还能再抗 8 枪、老兵 4 枪，现实难度一枪致命。',
+  opts:[{n:'NIJ IIIA 软板',d:'可防弹 3 次 · 移速 −2%',mob:-.02,hits:3,mat:'芳纶/PE 软质'},
+   {n:'NIJ IV 陶瓷板',d:'可防弹 8 次 · 移速 −14%',mob:-.14,hits:8,mat:'氧化铝/碳化硼陶瓷'}]}];
 function gdDef(id){for(var i=0;i<GD.length;i++)if(GD[i].id===id)return GD[i];return null}
 function gdHas(id,oi){return (ST.gd[id]||0)===oi}
 function gdOpt(id){var g=gdDef(id);if(!g)return null;return g.opts[ST.gd[id]||0]}
 var OUTF=[
  {id:'stryke',n:'5.11 Stryke 轻量战术服',mk:'5.11 Tactical（美国·加州  莫德斯托）',
   info:'Flex-Tac 双向弹力面料 + Teflon 抗污整理，轻量、散热快、关节活动范围大；为追求速度牺牲了面料厚度与低可视处理，近距离更容易被敌方辨认。',
-  look:'#3c3c42',arm:16,mob:.16,hide:1.12,note:'强机动 / 弱隐蔽：移速 +16%、敌方识别距离 +12%、护甲 +16'},
+  look:'#3c3c42',mob:.16,hide:1.12,note:'强机动 / 弱隐蔽：移速 +16%、敌方识别距离 +12%'},
  {id:'g3',n:'Crye Precision G3 低可视战斗服',mk:'Crye Precision（美国·纽约州  纽堡）',
   info:'Mil-Spec 50/50 NYCO 防撕裂格纹布 + 四面弹力拼接，G3 作战裤 10 袋布局、可调腰廓与内置护膝袋；哑光低可视剪裁与 MultiCam 体系，代价是面料更厚、机动性下降。',
-  look:'#4a4f3f',arm:26,mob:-.06,hide:.72,note:'低机动 / 高隐蔽：移速 −6%、敌方识别距离 −28%、护甲 +26'}
+  look:'#4a4f3f',mob:-.06,hide:.72,note:'低机动 / 高隐蔽：移速 −6%、敌方识别距离 −28%'}
 ];
 function ofDef(id){for(var i=0;i<OUTF.length;i++)if(OUTF[i].id===id)return OUTF[i];return OUTF[0]}
 /* SECTION: data-levels */
@@ -2357,7 +2297,7 @@ var RECRUIT_WL=function(a){
  a.push([1080,720,20,180],[1080,980,20,100]);
  a.push([1700,720,20,160],[1700,960,20,120]);
  return a};
-var RGD={code:'OP-07 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:1,
+var RGD={code:'OP-07 · FINAL',nm:'终局考核 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:0,
  fl:[[20,20,2160,1360]],
  wl:RECRUIT_WL,
  dr:[[300,520,140,20,0,'wood'],[860,520,120,20,0,'metal'],[1300,520,120,20,0,'wood'],
@@ -2373,8 +2313,8 @@ var RGD={code:'OP-07 · RECRUIT',nm:'猎鹰招募 · 实弹综合考核',W:2200,
  threat:'12 名持械佣兵（含 2 名重装、2 名精确射手）· 2 名人质',
  terr:'两进式训练楼：上下三层房间 + 两道横向走廊，门多、拐角多',
  hint:'先破门再切角 · 重装兵打头用穿甲，精确射手优先压制',
- intel:'猎鹰突击队（本作虚构演绎）年度招募的最终科目已改为实弹环境考核：一整栋训练楼、十二名持械“佣兵”、两名人质。你不再是打靶，而是独自进楼，把人清出来、把人质带出来。',
- obj:['看完猎鹰剧情讲解','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
+ intel:'五区行动的终局考核：一整栋训练楼、十二名持械“佣兵”、两名人质。没有英雄队员随行，也没有第二套配装；你带自己的主副武器独自进楼，把人清出来、把人质带出来。通过后解锁全部国产枪族。',
+ obj:['听完终局考核简报','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
  roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
 /* ==== CQB 战术学习：单人条件下的原则训练 ====
    现实中的 CQB 以 2–4 人小组为单位，单人清房只作为原则演示；
@@ -2734,7 +2674,7 @@ function softSprite(g,x,y,w,h,t){
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
  xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
- swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:5,
+ swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:1,dv3:0,
  gd:{muzzle:1,optic:1,grip:1,plate:1},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
  name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0};
 try{var rraw=localStorage.getItem('ta5_v2');
@@ -2752,7 +2692,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.cq)ST.cqb=1;
   if(jd&&jd.ml&&jd.ml.length)ST.mail=jd.ml.slice(0,30);
   if(jd&&jd.sd)ST.storyDone=1;
-  if(jd&&jd.cl&&jd.cl.length>=5)ST.clr=jd.cl.slice(0,8);
+  if(jd&&jd.cl&&jd.cl.length)ST.clr=jd.cl.slice(0,8);
   if(jd&&jd.hl&&jd.hl.length)ST.heroLoad=jd.hl;
  if(jd&&jd.rl&&jd.rl.length===3)ST.rgLoad=jd.rl;
  if(jd&&jd.mg&&typeof jd.mg==='object')ST.mag=jd.mg;
@@ -2762,7 +2702,8 @@ try{var rraw=localStorage.getItem('ta5_v2');
  if(jd&&jd.sv)ST.sv=jd.sv|0;
  if(jd&&jd.pv)ST.pv=jd.pv|0;
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
-  if(jd&&jd.df)ST.diff=jd.df;
+  if(jd&&jd.df){var odf=jd.df|0;ST.diff=odf>=5?3:(odf>=3?2:1)}
+  if(jd&&jd.dv3)ST.dv3=1;
   if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
    return (x==='frag'||x==='stun')?x:''});
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
@@ -2818,6 +2759,17 @@ if((ST.mv|0)<1){
   for(i2=1;i2<=8;i2++){try{localStorage.removeItem('ta5_lv2'+i2)}catch(e){}}
   save()
  })()}
+/* 难度从旧五档并为三档：把 5 位通关掩码换算成新的 3 位掩码，避免旧进度丢失 */
+if(!ST.dv3){
+ (function(){var i,m5,nm;
+  for(i=0;i<(ST.clr||[]).length;i++){
+   m5=(ST.clr[i]|0)&31;if(!m5)continue;nm=0;
+   if(m5&1)nm|=1;                 /* 新兵 */
+   if(m5&2)nm|=1;                 /* 旧常规：并入新兵 */
+   if(m5&3)nm|=2;                 /* 旧老兵/精英：并入老兵 */
+   if(m5&4||m5&5)nm|=3;           /* 旧现实：最高档 */
+   ST.clr[i]=nm}
+  ST.dv3=1;save()})()}
 normalizeClears();
 purgeLvSaves();   /* v19：清除旧版任务中途存档，敌人/人质/门状态不再被续关带回来 */
 
@@ -2838,8 +2790,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(/国产/.test(o.cn||'')){
   if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
   return ST.storyDone===1}
- if(o.hero)return ST.hero===1;
- if(ST.hw&&ST.hw[id])return true;    /* 临时调阅授权（仅非国产装备） */
+ if(ST.hw&&ST.hw[id])return true;    /* 旧存档中的临时调阅授权仍可用 */
  return (o.tk==null?0:o.tk)<=tierPk()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'hk416';
@@ -2848,7 +2799,7 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(!WM[ST.sel]||WP.indexOf(WM[ST.sel])<0)ST.sel='hk416'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
  x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,cq:ST.cqb,ml:ST.mail,
- sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,fm:ST.fm,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,
+ sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,fm:ST.fm,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,dv3:ST.dv3,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,tp:ST.tutP,tc:ST.tutC,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
@@ -3520,6 +3471,9 @@ g.restore();
   if(ef){c.ex[0]=clamp(ef.x-c.ex[2]/2,10,c.W-c.ex[2]-10);
          c.ex[1]=clamp(ef.y-c.ex[3]/2,10,c.H-c.ex[3]-10)}})();
  rebuildCW();
+ /* 每次建图后复查敌人落点：任何卡进墙体/家具的单位立即吸附到最近安全点 */
+ for(k=0;k<L.en.length;k++){var en1=L.en[k];
+  if(!freeAt(en1.x,en1.y,en1.r))snapFree(en1)}
  /* 难度：敌人移速与发现距离按档位生效；补给按房间分配 */
  for(k=0;k<L.en.length;k++){var en0=L.en[k];en0.sp=(en0.sp||95)*(c.esp||1);en0.viewK=(c.eview||1)}
  L.cr=placeSupplies(c);
@@ -3529,26 +3483,22 @@ g.restore();
  /* 训练场：读取独立配装页的三槽位（与任务配装互不影响） */
  if(c.range){var rgl=rgLoadOf();guns=[pickGun(rgl[0],'hk416'),pickGun(rgl[1],'hk416'),pickGun(rgl[2],'g19')]}
  else if(c.recruit)guns=[WM.qbz191||WM.hk416,WM.qsz19||WM.g19];
- /* 英雄队员：两把主武器 + 一把副武器（三把可切换） */
- else if(curOp()==='duo'){
-  var dhl=heroLoadOf();guns=[pickGun(dhl[0],'hk416'),pickGun(dhl[1],'scarh'),pickGun(dhl[2],'g19')]}
- else if(curOp()!=='norm'){
-  var hl;
-  if(greyActive()){hl=heroLoadOf2();guns=[pickGun(hl[0],'scarh'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}
-  else{hl=heroLoadOf();guns=[pickGun(hl[0],'hk416'),pickGun(hl[1],'scarh'),pickGun(hl[2],'g19')]}}
  /* 弹匣：按当前选择的弹匣替换容量/换弹/机动 */
  guns=guns.map(magGun);
  var om=opMods();
- var of=ofDef(ST.outfit),po=gdOpt('plate')||{arm:0,mob:0,hits:0,n:''},armBase=90+of.arm+(po.arm||0)+om.arm;
+ var of=ofDef(ST.outfit),po=gdOpt('plate')||{mob:0,hits:0,n:''},
+  brk=(diffDef(c.diff||ST.diff||1).brk)||0;
  G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1,
-  dn2:0,allyOn:c.cqb?0:(ST.ally!==0),cqb:c.cqb?1:0,
+  dn2:0,allyOn:0,cqb:c.cqb?1:0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
-  p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,ar:armBase,mar:armBase,
+  p:{x:c.st[0],y:c.st[1],r:14,a:0,aa:0,hp:120,mhp:120,
    sp:Math.round(208*(1+of.mob+om.move+(po.mob||0))),vx:0,vy:0,
    recK:om.recoil,relK:om.reload,aimK:om.ads,viewK:om.view,brK:om.breach,
    brD:null,brT:0,adsT:0,
-   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,hide:(of.hide||1),plateHits:(po.hits||0),plateMax:(po.hits||0),plateArmor:(po.arm||0),plateName:(po.n||''),press:0,prevL:0,fm:'',heat:0,burstN:0,
+   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,hide:(of.hide||1),
+   plateHits:(po.hits||0),plateMax:(po.hits||0),plateName:(po.n||''),breakMax:brk,breakHits:brk,
+   press:0,prevL:0,fm:'',heat:0,burstN:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
    fuse:GREN_FUSE,gren:0,cook:0,cooking:0,throwT:0,bl:null,actItem:'',light:0,eg:[],
    guns:guns.map(function(o,i){return{w:o,am:o.cap,res:o.cap*(i?3:4),tm:0}})}};
@@ -3559,52 +3509,16 @@ g.restore();
   spawnWing();
 }
 
-/* ---- 英雄队员三武器槽 ---- */
-/* 当前出战队员：普通队员（你）／英雄队员（燕锋，需通过 OP-07 猎鹰招募） */
-function curOp(){
- if(ST.op==='duo'&&ST.duo===1)return 'duo';
- if(ST.op==='grey'&&ST.hero2===1)return 'grey';
- if((ST.op==='hero'||ST.op==='yan')&&ST.hero===1)return 'yan';
- return 'norm'}
-function heroActive(){return curOp()==='yan'}
-function greyActive(){return curOp()==='grey'}
-/* 每名出战队员的专长：乘算/加算到玩家属性上，英雄角色身份与武器槽不变。
-   norm  普通队员：破拆专家（破门最快、腰封 +1 格）
-   yan   燕锋：强袭（护甲、移速、据枪精度）
-   grey  格雷：老练（换弹、后坐、视野）
-   duo   联合编队：燕锋主控 + 格雷僚机，取两者长处 */
+/* ---- 单人作战：英雄队员系统已移除，保留普通队员的破拆专长 ---- */
+function curOp(){return 'norm'}
+function heroActive(){return false}
+function greyActive(){return false}
 function opMods(){
- var op=curOp();
- if(op==='yan')return {arm:18,move:.04,reload:1.00,ads:.82,recoil:.92,view:1.08,breach:1.15,belt:0,label:'强袭'};
- if(op==='grey')return {arm:12,move:.02,reload:.85,ads:.90,recoil:.82,view:1.16,breach:1.00,belt:0,label:'老练'};
- if(op==='duo')return {arm:18,move:.04,reload:.90,ads:.86,recoil:.88,view:1.12,breach:1.10,belt:0,label:'联合'};
- return {arm:0,move:.01,reload:1.00,ads:1.00,recoil:1.00,view:1.00,breach:1.35,belt:1,label:'破拆'};
+ return {move:.01,reload:1.00,ads:1.00,recoil:1.00,view:1.00,breach:1.35,belt:1,label:'破拆'};
 }
-function setOp(op){
- var v='norm';
- if(op==='duo'&&ST.duo===1)v='duo';
- else if(op==='grey'&&ST.hero2===1)v='grey';
- else if((op==='hero'||op==='yan')&&ST.hero===1)v='yan';
- ST.op=v;save();renderOpRow()}
+function setOp(op){ST.op='norm';save()}
 function keepGun(id,fb){var o=WM[id];return (o&&WP.indexOf(o)>=0)?id:fb}
-function heroLoadOf2(){
- var m1=(WM[ST.load[0]]&&WM[ST.load[0]].cls!=='pistol')?ST.load[0]:'scarh';
- var d=[m1,'scarh','g19'],h=ST.hero2Load;
- if(!h||h.length<3)return d;
- return [keepGun(h[0],d[0]),keepGun(h[1],d[1]),keepGun(h[2],d[2])]}
-function setHeroSlot2(i,id){var h=heroLoadOf2().slice();h[i]=id;ST.hero2Load=h;save();
- try{renderHero()}catch(e){}}
-function heroLoadOf(){
- var m1=ST.load[0]||'hk416',m2=ST.load[1],pd=WM[m2]&&WM[m2].cls==='pistol'?m2:'g19';
- if(!m2||WM[m2].cls==='pistol')m2=(WM.scarh?'scarh':'hk416');
- var d=[m1,m2,pd],h=ST.heroLoad;
- if(!h||h.length<3)return d;
- return [keepGun(h[0],d[0]),keepGun(h[1],d[1]),keepGun(h[2],d[2])]}
 function pickGun(id,fb){var o=WM[id];return (o&&gunOk(id))?o:(WM[fb]||WM.hk416)}
-function setHeroSlot(i,id){
- var h=heroLoadOf().slice();h[i]=id;ST.heroLoad=h;save();
- try{renderHero()}catch(e){}
- try{updGun()}catch(e){}}
 /* 训练场独立配装：三槽位（主武器一／主武器二／副武器），只作用于训练场，不碰 ST.load */
 function rgTaskLoad(){
  var m1=(WM[ST.load[0]]&&WM[ST.load[0]].cls!=='pistol')?ST.load[0]:'hk416';
@@ -3618,38 +3532,37 @@ function rgLoadOf(){
   keepGun((WM[r[1]]&&WM[r[1]].cls!=='pistol')?r[1]:d[1],d[1]),
   keepGun((WM[r[2]]&&WM[r[2]].cls==='pistol')?r[2]:d[2],d[2])]}
 function setRgSlot(i,id){var a=rgLoadOf().slice();a[i]=id;ST.rgLoad=a;save();renderRangeLoad()}
-/* SECTION: difficulty v19
-   五档难度重新拉开梯度：中间三档不再只差几个百分点。
+/* SECTION: difficulty v36
+   三档依次叠加：新兵 → 老兵 → 现实。
    acc 敌人命中 / rea 反应时间 / hp 血量 / dmg 伤害 / spd 移速 / detect 发现距离 / t 时限系数。
-   最高档「现实」仍是一枪致命，但敌人不再同时拥有超高命中与超高血量。 */
+   brk 破甲后还能承受的枪数；nade=1 表示手雷在爆炸范围内直接致命。
+   现实仍是一枪致命；老兵伤害大幅提高，但不再一枪必死。 */
 var DIFF=[
- {k:1,n:'新兵',s:'训练',xp:.8,acc:.58,hp:.70,dmg:.60,spd:.82,detect:.78,rea:1.75,t:1.55,d:'敌人反应迟缓、命中率低、伤害低，适合熟悉地图与据枪'},
- {k:2,n:'常规',s:'标准',xp:1.0,acc:.88,hp:1.00,dmg:1.00,spd:1.00,detect:1.00,rea:1.30,t:1.20,d:'标准交战强度，护甲能扛住两三发'},
- {k:3,n:'老兵',s:'困难',xp:1.45,acc:1.18,hp:1.30,dmg:1.35,spd:1.10,detect:1.18,rea:.95,t:1.00,d:'敌人更准、更耐打、伤害更高，补枪要快'},
- {k:4,n:'精英',s:'极难',xp:2.00,acc:1.48,hp:1.65,dmg:1.80,spd:1.20,detect:1.34,rea:.78,t:.88,d:'高反应高精度，暴露一秒就会被击穿护甲'},
- {k:5,n:'现实',s:'一枪致命',xp:2.80,acc:1.70,hp:1.00,dmg:3.00,spd:1.28,detect:1.45,rea:.70,t:.82,ohk:1,d:'一发致命：你与敌人中弹即倒，护甲不再保命；通关此档才能解锁下一区域'}
+ {k:1,n:'新兵',s:'训练',xp:.8,acc:.58,hp:.70,dmg:.60,spd:.82,detect:.78,rea:1.75,t:1.55,brk:8,nade:0,d:'敌人反应迟缓、命中率低、伤害低；破甲后可抗 8 枪；手雷不直接致命'},
+ {k:2,n:'老兵',s:'困难',xp:1.6,acc:1.18,hp:1.30,dmg:2.40,spd:1.10,detect:1.18,rea:.95,t:1.00,brk:4,nade:1,d:'敌人更准、更耐打，伤害大幅提高；破甲后 4 枪倒下；手雷直接致命'},
+ {k:3,n:'现实',s:'一枪致命',xp:2.80,acc:1.70,hp:1.00,dmg:3.00,spd:1.28,detect:1.45,rea:.70,t:.82,brk:0,nade:1,ohk:1,d:'一发致命：你与敌人中弹即倒；手雷直接致命；通关此档才能解锁下一区域'}
 ];
-function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[1]}
-function diffOf(r){return r&&r.k||2}
-/* 通关记录：ST.clr[地图-1] 是 5 位位掩码 */
+function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[0]}
+function diffOf(r){return r&&r.k||1}
+/* 通关记录：ST.clr[地图-1] 是 3 位位掩码（新兵/老兵/现实） */
 function clrMask(m){ST.clr=ST.clr||[];return ST.clr[m-1]|0}
 function isCleared(m,d){return (clrMask(m)&(1<<((d||1)-1)))!==0}
 function markClear(m,d){
  ST.clr=ST.clr||[];
- var k,dd=clamp(d||1,1,5);
+ var k,dd=clamp(d||1,1,3);
  /* 高难度通关直接覆盖低难度：打过高档，低档全部点亮 */
  for(k=1;k<=dd;k++)ST.clr[m-1]=(ST.clr[m-1]|0)|(1<<(k-1));
- if(dd>=5&&m<7)ST.unl=Math.max(ST.unl,m+1);
+ if(dd>=3&&m<7)ST.unl=Math.max(ST.unl,m+1);
  save()}
-/* 该地图已通关的最高难度（1-5，0=从未通关） */
+/* 该地图已通关的最高难度（1-3，0=从未通关） */
 function clearTop(m){var mask=clrMask(m),d=0,k;
- for(k=1;k<=5;k++)if(mask&(1<<(k-1)))d=k;return d}
-/* 旧存档可能只有高位：例如只记了现实通关，就把 1-4 也补成已通过 */
+ for(k=1;k<=3;k++)if(mask&(1<<(k-1)))d=k;return d}
+/* 旧存档可能只有高位：例如只记了现实通关，就把 1-2 也补成已通过 */
 function normalizeClears(){var i,k,mask,top,ch=0;
  ST.clr=ST.clr||[];
  for(i=0;i<ST.clr.length;i++){
   mask=ST.clr[i]|0;if(!mask)continue;top=0;
-  for(k=1;k<=5;k++)if(mask&(1<<(k-1)))top=k;
+  for(k=1;k<=3;k++)if(mask&(1<<(k-1)))top=k;
   for(k=1;k<=top;k++)if(!(mask&(1<<(k-1)))){ST.clr[i]=(ST.clr[i]|0)|(1<<(k-1));ch=1}}}
 
 function diffPar(c,d){return Math.max(40,Math.round((c.par||120)*diffDef(d).t))}
@@ -4139,7 +4052,7 @@ function updGrenHold(dt){
 function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
  p.cook+=dt;
  if(p.cook>=GREN_FUSE){p.gren=0;p.cooking=0;p.cook=0;
-  explode(p.x,p.y,130,120);dmgPlayer(55);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
+  explode(p.x,p.y,130,120);shake=18;toast('投掷物在手中引爆！',2600);feed('温雷过久 · 自伤',0)}}
 /* 投掷目标：只算「第一落点」用于预览——贴墙前 6px。
    真正的飞行在 updateGren 里逐段推进，撞墙会回弹，不再穿过墙。 */
 function throwTarget(){
@@ -4212,7 +4125,7 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
   feed('缴械 '+ename(e2)+' · ROE 合规 +'+dsv,1);checkOpen()}
    else{var box=best.o,kind=box.kind||'full';box.got=1;var g=cur(),msgs=[];
   if(kind==='ammo'||kind==='full'){g.res+=g.w.cap*2;msgs.push('弹药 +2 匣')}
-  if(kind==='med'||kind==='full'){p.md++;p.ar=Math.min(p.mar,p.ar+30);msgs.push('医疗 +1 · 护甲 +30')}
+  if(kind==='med'||kind==='full'){p.md++;p.hp=Math.min(p.mhp,p.hp+35);msgs.push('医疗 +1 · 体力 +35')}
   if(kind==='gren'||kind==='full'){if(beltResupply())msgs.push('投掷 +1')}
   snd.sec();
   feed('补给箱：'+msgs.join(' · '),1);toast('补给箱：'+msgs.join(' · '));updGun()}}
@@ -4318,6 +4231,18 @@ function neutralized(e){
  e.dead=1;e.dt=0;G.killed++;
  if(G.kf&&airOn())G.kf[L.fi]=(G.kf[L.fi]|0)+1;
 }
+/* 重装兵 / 敌方领袖：按弹匣比例决定“多少发倒下”，不再靠虚高护甲拖子弹。
+   步枪半个弹匣、冲锋枪三分之二个弹匣、狙击枪一发；霰弹枪按 3 发、手枪按大半个弹匣。 */
+function heavyShots(w){
+ if(!w)return 1;
+ var cap=w.cap||30;
+ if(w.cls==='sniper')return 1;
+ if(w.cls==='smg')return Math.max(1,Math.ceil(cap*2/3));
+ if(w.cls==='rifle')return Math.max(1,Math.ceil(cap/2));
+ if(w.cls==='shotgun')return 3;
+ if(w.cls==='pistol')return Math.max(1,Math.ceil(cap*.75));
+ return Math.max(1,Math.ceil(cap/2));
+}
 function hitEnemy(e,dm,head,wp,src){if(e.dead)return;
  var wasSub=e.sub>0;
  if(wasSub){e.sub=0;e.subT=0;e.alert=1;e.st='engage';e.rt=0;e.sw=0;e.fireN=0;
@@ -4327,14 +4252,19 @@ function hitEnemy(e,dm,head,wp,src){if(e.dead)return;
  if(e.dormant)wakeEnemy(e,1);
  e.sup=Math.min(1,(e.sup||0)+.45);   /* 中弹/擦弹后短暂压制，命中率下降 */
  if(G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<760){G.inf=0;G.alerted=1;wakeNear(e.x,e.y,700,3);feed('交火暴露 · 潜入阶段结束',0)}
- var ins=wp&&wp.ins||0,arv=e.arv||0;
- if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
+ var ins=wp&&wp.ins||0,arv=e.arv||0,
+  big=!!(wp&&wp.cls&&(e.tp==='heavy'||e.tp==='boss'));
+ if(big){
+  /* 按目标满血与当前武器弹匣折算：步枪 1/2 匣、冲锋枪 2/3 匣、狙击 1 发 */
+  dm=(e.mh||e.hp||1)/Math.max(.5,heavyShots(wp)-.0001);
+  if(head)dm*=1.35;
+ }else if(wp){var red=e.ar*(1-(wp.ap||0));dm*=1-clamp(red,0,.86);if(head&&arv>0)dm*=1.35}
  if(!e.alert&&!L.cfg.exam&&!L.cfg.tgt){e.alert=1;e.rt=L.cfg.rea*(.7+Math.random()*.6)*(G.alertMod||1);e.st='alert';
   G.alerted=1;snd.alert();feed('敌方发现你 · 交火开始',0)}
  if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk||(wp&&wp.cls==='sniper')){e.hp=0;e.hurt=.2}
- else if(ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
+ else if(!big&&ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
   e.hp-=dm;e.hurt=.2}
- else if(ins&&arv===3&&head&&wp&&(wp.ap||0)>=.7&&Math.random()<ins*.4){e.hp=0}
+ else if(!big&&ins&&arv===3&&head&&wp&&(wp.ap||0)>=.7&&Math.random()<ins*.4){e.hp=0}
  else e.hp-=dm;
  markHit(head);
  if(e.hp<=0){neutralized(e);markKill();
@@ -4460,31 +4390,39 @@ function resetTargets(){ if(!allTargetsDown())return false;
  G.killed=0;G.exitOpen=0;
  toast('靶标复位 ×'+n+' · 继续练习',1800);feed('靶标已重新立起',1);snd.sec();
  return true}
-function dmgPlayer(v){var p=G.p;if(p.hp<=0)return;
+function dmgPlayer(v,kind){var p=G.p;if(!G||!p||p.hp<=0)return;
  if(G.tut)return;
  G.nc=0;
- /* 现实难度：任何伤害都直接致命，护甲不再抵扣 */
- if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk){
-  p.ar=0;p.hp=0;G.dmg+=v;
-  $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
-  dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
-  shake=13;toast('现实难度 · 一发致命',1800);die();return}
- var a=Math.min(p.ar,v*.7);p.ar=Math.max(0,p.ar-a);
- /* 插板按“可防弹次数”消耗：IIIA 软板 3 次、IV 硬板 8 次；
-    次数耗尽后插板失效，护甲上限同步扣除，而不是无限吸收。 */
- if(p.plateHits>0&&a>.01){
+ var DF=diffDef((L&&L.cfg&&L.cfg.diff)||ST.diff||1);
+ function hurtFx(){$('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
+  dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110)}
+ G.dmg+=v;
+ /* 现实难度：任何伤害都直接致命 */
+ if(DF.ohk){
+  p.hp=0;hurtFx();shake=13;toast('现实难度 · 一发致命',1800);die();return}
+ /* 爆炸：老兵/现实在爆炸范围内直接死亡；新兵按距离掉血，且插板不能挡爆炸 */
+ if(kind==='blast'){
+  if(DF.nade){p.hp=0;hurtFx();shake=13;
+   toast('老兵/现实难度 · 手雷直接致命',2400);die();return}
+  p.hp=Math.max(0,p.hp-v);hurtFx();shake=Math.min(13,shake+5);
+  if(p.hp<=0)die();return}
+ /* 子弹：先消耗插板耐久；插板没有数值护甲，只有可承受命中次数 */
+ if(p.plateHits>0){
   p.plateHits--;
+  /* 插板吸收绝大部分冲击，只透传少量钝性伤害，用来体现难度伤害差 */
+  p.hp=Math.max(1,p.hp-Math.min(28,v*.22));
   if(p.plateHits<=0){
-   var ploss=p.plateArmor||0;
-   p.mar=Math.max(0,(p.mar||0)-ploss);
-   p.ar=Math.min(p.ar,p.mar);
-   toast('插板失效 · '+(p.plateName||'防弹插板')+'已达寿命',2200);
+   p.breakMax=DF.brk||0;p.breakHits=DF.brk||0;
+   toast('插板失效 · '+(p.plateName||'防弹插板')+'已达寿命 · 破甲后还能承受 '+(DF.brk||0)+' 枪',3200);
   }
+ }else if(p.breakHits>0){
+  p.breakHits--;
+  if(p.breakHits<=0){p.hp=0;hurtFx();shake=13;die();return}
+  p.hp=Math.min(p.hp,p.mhp*(p.breakHits/Math.max(1,p.breakMax)));
+ }else{
+  p.hp=0;
  }
- p.hp=Math.max(0,p.hp-(v-a));G.dmg+=v;
- $('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
- dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110);
- shake=Math.min(13,shake+2.6);
+ hurtFx();shake=Math.min(13,shake+2.6);
  if(p.hp<=0)die()}
 function die(){if(G.over)return;G.over='dead';snd.dead();setTimeout(function(){showRes(0)},850)}
 /* 战斗特效复位：死亡/爆炸留下的屏幕震动与命中、击杀、警报标记不带到下一局 */
@@ -5010,17 +4948,22 @@ function flashBurst(x,y,t){t=t||throwDef('flash');snd.flash();
  }
  noiseAt(x,y,t.r+300);feed('M18 闪光：目标被致盲',1)}
 function explode(x,y,r,dm,byEnemy){var i;snd.boom();shake=15;
+ var DF=diffDef((L&&L.cfg&&L.cfg.diff)||ST.diff||1),lethal=!!DF.nade;
  burst(x,y,ST.low?10:28,'#ffb84d',400,620);smoke(x,y,ST.low?3:8);
  for(i=0;i<L.en.length;i++){var e=L.en[i];if(e.dead)continue;
   var d=Math.hypot(e.x-x,e.y-y);
   if(d<r*1.8)e.sup=Math.min(1,(e.sup||0)+.55);
-  if(d<r&&los(x,y,e.x,e.y)){if(!e.alert){e.alert=1;e.st='engage'}hitEnemy(e,dm*(1-d/r),0)}}
+  if(d<r&&los(x,y,e.x,e.y)){
+   if(!e.alert){e.alert=1;e.st='engage'}
+   /* 老兵/现实：爆炸范围内直接死亡；新兵按距离衰减 */
+   hitEnemy(e,lethal?999999:dm*(1-d/r),0)}
+ }
  for(i=0;i<L.civ.length;i++){var c=L.civ[i];if(c.down||c.f)continue;
   var dc=Math.hypot(c.x-x,c.y-y);
   if(dc<r*.85&&los(x,y,c.x,c.y)){c.down=1;if(!byEnemy){G.civD++;G.roe++;G.sc-=scorePts(400);ksAdd('☢','平民伤亡 · 手雷波及',scorePts(-400),'bad');toast('ROE 违规 · 手雷波及平民',3200)}
    else{feed('敌方手雷波及平民',0)}}}
  var dp=Math.hypot(G.p.x-x,G.p.y-y);
- if(dp<r*.9)dmgPlayer(dm*.5*(1-dp/r));
+ if(dp<r&&los(x,y,G.p.x,G.p.y))dmgPlayer(lethal?999999:dm*.55*(1-dp/r),'blast');
  noiseAt(x,y,r+340);
  if(G)G.lastNoise=G.t;
  var di;for(di=0;di<L.dr.length;di++){var dd=L.dr[di],
@@ -5181,7 +5124,7 @@ function updatePlayer(dt){var p=G.p,i;
  p.run=BF.sp||(kb('sprint')?1:0);
  if(p.gren)p.run=0;               /* 手持投掷物时不能疾跑 */
  if(p.stunT>0)p.run=0;            /* 震爆干扰期间无法疾跑 */
- var spr=0;if(p.run&&ml>.2&&p.ar>=0){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
+ var spr=0;if(p.run&&ml>.2){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
  var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1);
  var acc=want*8;
@@ -5206,7 +5149,6 @@ function updatePlayer(dt){var p=G.p,i;
  fireHold(holding);
  if(cur().am<=0&&p.rl<=0&&cur().res>0&&p.sw<=0)tryReload();
  G.nc+=dt;
- if(G.nc>4&&p.ar<p.mar){p.ar=Math.min(p.mar,p.ar+8*dt)}
  var tx=p.x-VW/2,ty=p.y-VH/2;
  if(!sa.on){tx+=Math.cos(p.aa)*30;ty+=Math.sin(p.aa)*30}
  var kw=VW,kh=VH,ww=L.cfg.W-kw,wh=L.cfg.H-kh;
@@ -5291,24 +5233,7 @@ var ALLY=[{role:'assault',n:' Bravo-2 · 突击',sp:196,r:13,hp:130,col:'#4e6f4a
   gun:{n:'M110（半精确）',ap:.6,pl:1,bs:1700,rn:3900,pen:1,ins:0}}];
 function initAllies(){if(!G)return;G.al=[];
  /* 暂时全部改为单人作战：AI 队员会卡在出生点，先停用以保证体验 */
- return;
- if(!G.allyOn)return;
- if(L.cfg&&L.cfg.tutorial)return;
- var c=L.cfg,i,cap=(c.allyN==null?ALLY.length:c.allyN);
- for(i=0;i<cap&&i<ALLY.length;i++){var A=ALLY[i];
-  G.al.push({i:i,n:A.n,role:A.role,x:c.st[0]+(i?-26:26),y:c.st[1]+(i?18:-18),
-   hp:A.hp,mhp:A.hp,sp:A.sp,r:A.r,col:A.col,gun:A.gun,dm:A.dm,rpm:A.rpm,acc:A.acc,range:A.range,
-   a:0,aa:0,kd:0,rl:0,sw:.2,ammo:30,mg:150,down:0,dt2:0,heal:0,
-   tx:0,ty:0,mv:0,shC:0,seeT:0,canSee:0,kills:0,mode:1,search:0,ph:Math.random()*TAU,
-   qst:'follow',qd:0,sx9:0,sy9:0,aggro:1,ord:'follow'})}
- if(ST.hero===1&&L.cfg&&!L.cfg.recruit){var HI=G.al.length;
-  G.al.push({i:HI,n:' 猎鹰 · 燕锋',role:'hero',x:c.st[0]+26,y:c.st[1]-26,
-   hp:190,mhp:190,sp:216,r:13,col:'#8a2f2f',dm:35,rpm:700,acc:.55,range:1600,
-   gun:{n:'QBZ-191',ap:.5,pl:1,bs:1560,rn:3500,pen:1,ins:0},
-   a:0,aa:0,kd:0,rl:0,sw:.2,ammo:30,mg:150,down:0,dt2:0,heal:0,
-   tx:0,ty:0,mv:0,shC:0,seeT:0,canSee:0,kills:0,mode:1,search:0,ph:Math.random()*TAU,
-   qst:'follow',qd:0,sx9:0,sy9:0,aggro:1,ord:'follow'})}
- if(G.al.length)feed('Bravo 编入小队 · 默认跟队并自动交火，按 E 调整战术指令'+(ST.hero===1&&!L.cfg.exam?' · 猎鹰「燕锋」':''),1)}
+ return}
 function allySlot(a){var p=G.p,sp=Math.hypot(p.vx||0,p.vy||0),base;
  /* 队形只跟「玩家移动方向」走：静止时沿用最后一次移动方向，不再随鼠标/准星乱转 */
  if(sp>24)p._fDir=Math.atan2(p.vy,p.vx);
@@ -6183,7 +6108,7 @@ function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
  ctx.fillStyle='rgba(226,169,62,.9)';ctx.fillRect(mx-1,my-1,2,2)}
 
 /* SECTION: hud */
-var mmCtx=$('mm').getContext('2d'),HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',al:'',sc2:-1};
+var mmCtx=$('mm').getContext('2d'),HD={hp:-1,plate:'',am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',al:'',sc2:-1};
 function updKbar(){var el=$('kbar');if(!el)return;
  if(touchUI||!ST.hint||ST.scr!=='play'){el.classList.add('hidden');return}
  el.classList.remove('hidden');
@@ -6197,8 +6122,12 @@ function updKbar(){var el=$('kbar');if(!el)return;
 function updHud(){var p=G.p,g=cur(),i;
  if(p.hp!==HD.hp){HD.hp=p.hp;$('hpF').style.width=clamp(p.hp/p.mhp*100,0,100)+'%';
   $('hpN').textContent=Math.round(p.hp)}
- if(p.ar!==HD.ar){HD.ar=p.ar;$('arF').style.width=clamp(p.ar/p.mar*100,0,100)+'%';
-  $('arN').textContent=Math.round(p.ar)}
+ var pv=p.plateHits+'/'+p.plateMax+'/'+p.breakHits;
+ if(pv!==HD.plate){HD.plate=pv;
+  var pmax=Math.max(1,p.plateMax||1);
+  $('plateF').style.width=clamp((p.plateHits||0)/pmax*100,0,100)+'%';
+  $('plateF').style.background=p.plateHits>0?'linear-gradient(90deg,#2f6489,#5fa8d3)':'linear-gradient(90deg,#7a3a33,#c9503f)';
+  $('plateN').textContent=(p.plateHits||0)+'/'+(p.plateMax||0)}
  /* 战局内军衔条：随时知道自己离下一级还差多少经验 */
  var rk=rankOf(ST.xp),rkSig=rk+':'+ST.xp;
  if(rkSig!==HD.rk){HD.rk=rkSig;
@@ -6223,7 +6152,7 @@ function updHud(){var p=G.p,g=cur(),i;
  if(str!==HD.h){HD.h=str;$('sT').textContent=str}
  var hv=G.sec2+'/'+L.civ.length+(G.civD?(' · 伤亡 '+G.civD):'');
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
- var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+'×'+Math.round(weaponViewW(g.w,p))+(p.plateMax?(' · 插板 '+p.plateHits+'/'+p.plateMax):'')+(p.stunT>0?(' · 震爆干扰 '+p.stunT.toFixed(1)+'s'):(p.aimT>0?' · 受压制':''));
+ var eqt=beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+'×'+Math.round(weaponViewW(g.w,p))+(p.plateMax?(' · 插板 '+p.plateHits+'/'+p.plateMax+(p.plateHits<=0?(' · 破甲承伤 '+p.breakHits):'')):'')+(p.stunT>0?(' · 震爆干扰 '+p.stunT.toFixed(1)+'s'):(p.aimT>0?' · 受压制':''));
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
  var flg=airOn()?('【'+L.cfg.flName+'】'):'';
  var ot=flg+(G.exitOpen?((L.cfg.range)?'训练场 · 靶标自动复位 · 走到左侧撤离点结束训练':(L.cfg.tutorial?'全部靶标击倒 · 按 F 重置靶标（或按 Esc 退出）':'前往撤离点（停留 1 秒）')):((L.cfg.exam||L.cfg.tgt)?('击倒全部人形靶 · 剩余 '+al):('清除全部守敌 · 残敌 '+al+(G.reinLeft?('（增援 '+G.reinLeft+'）'):''))));
@@ -6561,11 +6490,8 @@ function playIntro(cb){
  },2550)}
 function goMenu(){
  resetCombatFx();
- if((ST.duoPend|0)===1&&ST.duo!==1){ST.duoPend=0;save();
-  playDrama3(function(){ST.duo=1;save();goMenu();
-   try{toast('联合编队已解锁 · 可在出战时带上僚机',3200)}catch(e){}});return}
  show('sMenu');setScr('menu');renderLv()}
-function show(id){['sBoot','sMenu','sArs','sHero','sOpLoad','sRangeLoad','sBoard','sMail','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){$(s).classList.remove('on')});
+function show(id){['sBoot','sMenu','sArs','sRangeLoad','sBoard','sMail','sSet','sBrief','sRes','sPause','sHelp','sKeys','sAsk','sName','sTutDone'].forEach(function(s){var e=$(s);if(e)e.classList.remove('on')});
  if(id)$(id).classList.add('on')}
 function openKm(){ST.kmFrom=ST.scr;show('sKeys');setScr('keys');renderKm();updHint()}
 function closeKm(){if(typeof editMode!=='undefined'&&editMode&&typeof TP_draft!=='undefined'&&TP_draft){tpRevert();}
@@ -6935,6 +6861,17 @@ var PATCHES=[
      'IV 陶瓷硬板：护甲 +60、可防弹 8 次、移速 −14%，氧化铝/碳化硼陶瓷复合，防护更强但明显拖慢移动。',
      '插板按实际命中次数消耗：每次中弹消耗 1 次，耗尽后插板失效并扣除护甲上限；HUD 显示“插板 x/x”。软板更早失效，硬板更耐打但更慢。',
      '其余 v34 索敌修复、v33 震爆范围、v32 玩家震爆干扰等内容不变。'
+    ]},
+   {v:36,d:'2026-11-24',t:'护甲删除 · 三档难度 · 终局考核 · 手雷致命',
+    items:[
+     '删除全部“护甲值”：玩家不再有护甲条或护甲数值，改为防弹插板耐久。HUD 直接显示“插板 x/x”，每次中弹消耗 1 次；软板 3 次、硬板 8 次，打碎后按难度进入破甲承伤。',
+     '难度合并为三档：新兵 → 老兵 → 现实。老兵敌人伤害大幅提高（约新兵的 4 倍）；现实仍为一枪致命；旧五档存档自动换算，不丢通关记录。',
+     '破甲后承伤：新兵还能承受 8 枪，老兵 4 枪，现实一枪致命；插板打碎时会提示剩余承伤次数，HUD 同步显示“破甲承伤”。',
+     '手雷爆炸重做：老兵/现实难度在爆炸范围内直接死亡（玩家与敌人同一规则）；新兵按距离衰减。爆炸伤害现在受墙体阻挡，隔墙不再被炸；温雷自爆不再重复结算两次伤害。',
+     '删除全部英雄队员（燕锋、格雷）及联合编队：移除英雄按钮、英雄配装页、三武器槽、英雄剧情与机场观察员剧情。所有行动固定为单人，主武器 + 副武器。',
+     '关卡条件同步调整：OP-07 改为“终局考核 · 实弹综合考核”，需完成机场行动 OP-06 后解锁；通过后解锁国产枪族，不再与英雄队员挂钩。任务介绍、剧情档案与结算文案同步改写。',
+     '重装兵与敌方领袖不再靠虚高护甲拖子弹：步枪半个弹匣、冲锋枪三分之二个弹匣、狙击枪一发；不同枪械按自身弹匣容量换算，SCAR-H 等 20 发步枪为 10 发。',
+     '全关卡复查敌人卡墙：随机出生、导航落点与开局位置逐图检查，发现卡进墙体的单位立即吸附到最近安全点。'
     ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -7139,7 +7076,7 @@ function renderOpLoad(){
    r.appendChild(b)}
   if(!un){
    var tg=mk('span','rc');tg.style.flex='0 0 64px';
-   tg.textContent=/国产/.test(o.cn||'')?'剧情解锁':(o.hero?'需考核':'未解锁');
+   tg.textContent=/国产/.test(o.cn||'')?'剧情解锁':'未解锁';
    r.appendChild(tg)}
   g.appendChild(r)});
  if($('olPlat'))$('olPlat').textContent='共 '+WP.length+' 把枪';
@@ -7175,7 +7112,7 @@ function renderOpRow(){
 function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderPbar();
  if($('rankCard')&&!$('rankCard').classList.contains('hidden'))renderRank();
- renderLvRail();sweepTick();syncMailBadge();renderOpRow();renderDiffCard();
+ renderLvRail();sweepTick();syncMailBadge();renderDiffCard();
  if($('chipW'))$('chipW').textContent=WP.length;
  if($('chipR'))$('chipR').textContent=RKLAD.length;
  /* 遍历 5 张主线地图；机场与 OP-07 考核各由独立卡片渲染，避免重复 */
@@ -7185,7 +7122,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
   var sc=mk('div','sc');sc.textContent=c.nm+(c.story?' · 剧情':'');b.appendChild(sc);
   var df=mk('div','dftag');
-  df.textContent=ST.dev?'开发者模式 · 全部开放':'难度 '+DIFF_NAME[i]+' · 需要 '+RKLAD[c.rq||0][0];
+  df.textContent=ST.dev?'开发者模式 · 全部开放':'难度 '+diffDef(ST.diff||1).n+' · 需要 '+RKLAD[c.rq||0][0];
   b.appendChild(df);
   var ob=mk('div','ob');
   ob.textContent=locked?why:(c.obj[0]+' → '+c.obj[c.obj.length-1]);
@@ -7221,16 +7158,16 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=i+1;brief()});
   l.appendChild(b)})
  function lvCard6(){
-  var need=LS6[6].rq||0,locked=!ST.dev&&(ST.unl<2||rankPk()<need);
+  var need=LS6[6].rq||0,locked=!ST.dev&&(ST.unl<7||rankPk()<need);
   var b=mk('div','card'+(locked?' lock':''));b.style.borderStyle='dashed';
   var no=mk('div','no');no.textContent='07';b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=LS6[6].code;b.appendChild(e2);
-  var sc=mk('div','sc');sc.textContent=LS6[6].nm+(ST.hero===1?' · 已通过':'');b.appendChild(sc);
+  var sc=mk('div','sc');sc.textContent=LS6[6].nm+(ST.storyDone===1?' · 已通过':'');b.appendChild(sc);
   var ob=mk('div','ob');ob.textContent=ST.dev?'开发者模式 · 已解锁 · 可直接参加考核':
-    (ST.hero===1?'英雄队员「燕锋」与 QBZ-191 已解锁 · 可重考'
-    :(ST.unl<2?'完成第一战后解锁 · 猎鹰突击队招募剧情（约5分钟）':'需晋升 '+RKLAD[need][0]+' 才能参加考核'));b.appendChild(ob);
+    (ST.storyDone===1?'国产枪族已解锁 · 可重考'
+    :(ST.unl<7?'完成机场行动（OP-06）后解锁 · 终局综合考核（约5分钟）':(rankPk()<need?'需晋升 '+RKLAD[need][0]+' 才能参加考核':'已完成机场行动 · 可参加终局考核')));b.appendChild(ob);
   var mt=mk('div','mt');
-  var bs=mk('span','badge');bs.textContent=ST.hero===1?'已通过':(locked?'未解锁':'考核');bs.className='badge'+(ST.hero===1?' p':'');mt.appendChild(bs);
+  var bs=mk('span','badge');bs.textContent=ST.storyDone===1?'已通过':(locked?'未解锁':'考核');bs.className='badge'+(ST.storyDone===1?' p':'');mt.appendChild(bs);
   b.appendChild(mt);
   if(!locked)b.addEventListener('click',function(){aInit();snd.ui();ST.lv=7;brief()});
   l.appendChild(b)}
@@ -7301,7 +7238,7 @@ var DRG=[
  ['沈钺','讲不清楚的人打不好，摸不熟的枪会走火，打不了实弹的人我不带上街。','office'],
  ['你','我不打算走到一半。','office'],
  ['沈钺','记住这句话。等会儿在靶场，我会再问你一次。','office'],
- ['沈钺','还有件事：这次不止你一个。猎鹰调了一名突击手过来，叫燕锋，跟你同一批练。','office'],
+ ['沈钺','还有件事：这次考核只有你一个人。没有英雄队员，没有僚机，也没有第二套配装。','office'],
  ['你','猎鹰的人，怎么会到这儿来？','office'],
  ['沈钺','调令上写的是「特别强化训练」。练完，他就编进你的作战序列。','office'],
  {A:'第二幕 · 枪',S:'range'},
@@ -7337,37 +7274,36 @@ var DRG=[
  ['你','人质在几层？','building'],
  ['沈钺','不知道。你得自己找。','building'],
  ['沈钺','还有一条：找到人质之后，你的每一步都会写进报告。','building'],
- ['燕锋','沈教官让我守侧门。你从正门进，后面交给我。','building'],
- ['沈钺','你们两个都别抢。今天的科目是清楼，不是比谁快。','building'],
+ ['沈钺','没有侧门接应，也没有第二个人。你从正门进，整栋楼都归你。','building'],
+ ['沈钺','别抢。今天的科目是清楼，不是比谁快。','building'],
  {A:'第六幕 · 确认'},
  ['考官','考核标准：清空全部守敌，两名人质生还，从指定门撤离。任一条件不满足即为不合格。','building'],
  ['考官','装备按军衔发放，用不惯也别怨枪。','building'],
- ['燕锋','我在侧门等你。出来的时候别回头。','building'],
  ['沈钺','枪在右手，道理在心里。','building'],
- ['沈钺','通过之后别急着走。下一趟是机场——赤隼把那儿当撤离通道。','building'],
- ['沈钺','那栋楼有两层：一层航站楼大厅，一层商业区，楼梯只有中央那一处。','building'],
- ['你','两层都要清？','building'],
- ['沈钺','两层都要清，人质也要带出来。到时候没人给你讲第二遍。','building'],
+ ['沈钺','通过之后，五区这条线就交给你了。','building'],
+ ['沈钺','五个区域、机场，你都走完了。','building'],
+ ['你','接下来呢？','building'],
+ ['沈钺','接下来没有考核了。只剩下每次进门时，你自己怎么选。','building'],
  ['沈钺','去吧。我跟着你，最后一发我看着。','building']
 ];
-/* 招收背景：剧情开始前读的一段档案，不与任何角色对话混在一起 */
-var DRG_BG={t:'五区行动 · 第三期补充招募',b:[
+/* 终局考核档案：剧情开始前读的一段档案，不与任何角色对话混在一起 */
+var DRG_BG={t:'五区行动 · 终局考核档案',b:[
  '背景：城南工业带往外，五片城区被同一伙人分段占着——老公寓、商场、郊野储运站、使馆区，还有一座剧院。他们不喊口号，只收过路费、扣人质，把军火往外卖。半年下来，这五片地方被统称为「五区」。',
  '处置：武警与特警联合展开清剿，行动代号「五区行动」。顺序由易到难，一区一区往里推；每推进一区，对方的装备和反应都会更硬。',
  '主力：猎鹰突击队。编制不大，接的都是最里面那扇门后面的活——破门、清房、把人质带出来。',
- '抽调：猎鹰突击队向本批训练调遣一名突击手「燕锋」，随第三期一同强化训练。训练合格后，他编入五区行动序列，由你调遣出战。',
+ '编成：本次终局考核不编入任何英雄队员，也不提供第二套配装。你带自己的主武器与副武器独自进场。',
  '你：档案上名字后面跟着「预备队员」。你从基层单位选拔上来，考核成绩排在前面，但还没有人见过你在门后是什么样。',
  '须知：人质优先于击毙；能缴械就不开枪；误伤平民按违规重处。任务失败会扣军衔分，但已经解锁的装备永不回收。',
- '今天：猎鹰第三期补充招募，考核编号 OP-07。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
+ '今天：五区行动终局考核，考核编号 OP-07。地点在猎鹰驻地三楼，时间是上午 08:12。带好档案袋，别迟到。'
 ]};
 var drgI=0,drgL=0,drgBuf='',drgR=0,drgVote=[],drgT0=0,drgDone=false;
 /* 角色卡：字形、身份、强调色 */
 var DRG_SPK={
  '旁白':{g:'旁',role:'行动记录',col:'#6f8494'},
- '沈钺':{g:'沈',role:'猎鹰招募教官 · 代号「沈钺」',col:'#c9a15a'},
- '燕锋':{g:'燕',role:'猎鹰突击队 · 调遣队员',col:'#e2a93e'},
- '格雷':{g:'格',role:'SAS 第22特别空勤团 · 指挥官',col:'#7fb3d5'},
- '考官':{g:'考',role:'猎鹰考核组',col:'#c9503f'},
+ '沈钺':{g:'沈',role:'终局考核教官 · 代号「沈钺」',col:'#c9a15a'},
+ 
+ 
+ '考官':{g:'考',role:'终局考核组',col:'#c9503f'},
  '你':{g:'我',role:'新兵',col:'#93ac6d'}
 };
 /* ---- 合流主线 · 第二章：机场行动前，SAS 指挥官「格雷」报到 ---- */
@@ -7497,10 +7433,10 @@ function drgShowBG(){
  if($('dsTtl'))$('dsTtl').textContent=DRG_BG.t;
  $('dramaBox').classList.add('bgmode');
  var isA=!!(DRG_BG&&DRG_BG.act);
- if($('dsK'))$('dsK').textContent=isA?'TACTICAL ARCHIVE · 战术档案':'RECRUITMENT FILE · 招收档案';
- if($('dsHint'))$('dsHint').textContent=isA?'读完点右侧按钮，进入行动简报':'读完点右侧按钮，进入招募现场';
- if($('dsGo'))$('dsGo').textContent=isA?'进入行动':'进入招募现场';
- $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'猎鹰招募 · 招收档案';
+ if($('dsK'))$('dsK').textContent=isA?'TACTICAL ARCHIVE · 战术档案':'FINAL EVALUATION · 终局考核档案';
+ if($('dsHint'))$('dsHint').textContent=isA?'读完点右侧按钮，进入行动简报':'读完点右侧按钮，进入考核现场';
+ if($('dsGo'))$('dsGo').textContent=isA?'进入行动':'进入考核现场';
+ $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'终局考核 · 档案';
  var c=document.querySelector('#dDossier .dsCard');if(c)c.scrollTop=0}
 function drgStartStory(){
  $('dramaBox').classList.remove('bgmode');
@@ -7534,7 +7470,7 @@ function drgNext(){if(drgDone)return;
  if(nx&&nx.T){drgMini();return}
  drgType()}
 function drgOpts(seg){var o=$('dOpts');o.innerHTML='';drgSpeaker('考官');
- $('dWho').textContent='甄别 · '+seg.Q;$('dRole').textContent='猎鹰考核组 · 情景判断';
+ $('dWho').textContent='甄别 · '+seg.Q;$('dRole').textContent='终局考核组 · 情景判断';
  $('dTxt').textContent=seg.P||'你的处置是——';
  $('dNext').classList.remove('on');
  seg.O.forEach(function(label,i){var b=mk('button','btn sm');
@@ -7545,7 +7481,7 @@ function drgOpts(seg){var o=$('dOpts');o.innerHTML='';drgSpeaker('考官');
   o.appendChild(b)})}
 function drgMini(){var o=$('dOpts');o.innerHTML='';
  var box=$('dramaBox'),left=3,t0=performance.now(),tmr=0;
- drgSpeaker('燕锋');$('dWho').textContent='模拟打靶';$('dRole').textContent='限时 12 秒 · 点击人形靶';
+ drgSpeaker('考官');$('dWho').textContent='模拟打靶';$('dRole').textContent='限时 12 秒 · 点击人形靶';
  $('dTxt').textContent='点亮全部 3 个人形靶。手稳、眼稳、呼吸稳。';
  function spawnT(){var d=D.createElement('div');d.className='dTarget';
   d.style.left=(14+Math.random()*72)+'%';d.style.top=(18+Math.random()*46)+'%';
@@ -7566,7 +7502,7 @@ function drgProg(){
  var pb=$('dBar').firstChild;if(pb)pb.style.width=Math.round(drgI/Math.max(1,DRG.length-1)*100)+'%';
  $('dTime').textContent=fmt(Math.floor((performance.now()-drgT0)/1000));
  var ch='',i;for(i=0;i<=drgI&&i<DRG.length;i++){var s=DRG[i];if(s&&s.A)ch=s.A}
- $('dAct').textContent=(DRG_BG&&DRG_BG.act)?('战术档案 · '+(ch?ch.split(' · ')[0]:'行动')):('猎鹰招募 · '+(ch?ch.split(' · ')[0]:'招募现场'));
+ $('dAct').textContent=(DRG_BG&&DRG_BG.act)?('战术档案 · '+(ch?ch.split(' · ')[0]:'行动')):('终局考核 · '+(ch?ch.split(' · ')[0]:'考核现场'));
  var scn=drgSceneOf(drgI);
  if(scn!==drgScn){drgScn=scn;drgPaint(scn)}}
 var drgScn='',drgSzW=0;
@@ -7873,7 +7809,7 @@ function startTut(resume){
  G.phase='live';G.tut=1;G.over=0;G.xp0=ST.xp;
  CAM.x=clamp(G.p.x-VW/2,0,Math.max(0,L.cfg.W-VW));
  CAM.y=clamp(G.p.y-VH/2,0,Math.max(0,L.cfg.H-VH));
- HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:'',rk:''};
+ HD={hp:-1,plate:'',am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:'',rk:''};
  initAllies();
  TUT.on=true;TUT.done=false;TUT.i=0;TUT.moved=0;TUT.run=0;TUT.aim=0;TUT.mode=0;TUT.kills=0;TUT.k0=0;TUT.kTotal=0;TUT.simKills=0;TUT.simSpawn=0;TUT._p=-1;
  TUT.fire=0;TUT.reload=0;TUT.swap=0;TUT.gren=0;TUT.act=0;TUT.med=0;
@@ -7908,14 +7844,14 @@ function brief2Exam(){leaveRange();
  var dr0=$('diffRow');if(dr0)dr0.classList.add('hidden');
  var go0=$('bGo');if(go0)go0.textContent='进入战场';
  var c=LS6[6];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho(heroActive()?'英雄队员 燕锋 · 实弹环境':'你 · 实弹环境（单人）');
+ renderWho('你 · 终局考核（单人）');
  var o=$('fO');o.innerHTML='';c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  $('fE').textContent='12 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
  $('fP').textContent=fmt(c.par)+' 内完成为满分基准';$('fG').textContent=c.roe;
  var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
  if($('bCont'))$('bCont').classList.add('hidden');
- $('bDeploy').textContent='进入实弹考核'}
+ if(go0)go0.textContent='进入实弹考核'}
 /* 任务简报顶部：显示登记代号 + 军衔 + 本场编队 */
 function renderWho(squad){
  var w=$('fWho');if(!w)return;
@@ -7923,7 +7859,7 @@ function renderWho(squad){
  w.innerHTML='<span class="cmd"><span class="lbl">行动指挥官</span><b>'+nm+'</b>'+
   '<span class="rk">'+rankName(ST.xp)+'</span></span>'+
   '<span class="sq">编队 · '+(squad||'你一人')+'</span>'}
-/* 难度选择条：简报页底部一行 5 档 */
+/* 难度选择条：简报页底部一行 3 档 */
 function renderDiffRow(){
  var bp=$('bGo');if(!bp||!bp.parentNode)return;
  var dr=$('diffRow');
@@ -7967,7 +7903,7 @@ function startRange(){
  $('go').classList.add('on');$('goT').textContent='T-3';
  $('goS').textContent='训练场 · 自由射击';
  $('hurt').style.opacity='0';
- HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
+ HD={hp:-1,plate:'',am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
  G.xp0=ST.xp;G.exitOpen=1;G.rxCool=0;updGun();updHud();LOWD=0;resize();snd.go();
  toast('训练场已开放 · 全部枪械可用；按 Esc 可随时退出',3200)}
 function leaveRange(){RANGEMODE=0;ST.rangeSel=0;ST.fromRange=0}
@@ -8023,7 +7959,7 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  leaveRange();
  var go=$('bGo');if(go)go.textContent=isCqb?'进入训练楼':'进入战场';
  $('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho(isCqb?'单人 · CQB 原则训练':(curOp()==='duo'?'联合编队 燕锋 + 格雷 · 僚机随行':(heroActive()?'英雄队员 燕锋 · 三武器槽':(greyActive()?'英雄队员 格雷 · 三武器槽':(ST.ally?'你 · Bravo-2 突击 · Bravo-3 精确':'你一人（单人 +150 分）')))));
+ renderWho(isCqb?'单人 · CQB 原则训练':'你一人 · 主武器 + 副武器（单人 +150 分）');
  var o=$('fO');o.innerHTML='';
  c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
  var tot=0,k;for(k in c.foe)tot+=c.foe[k];
@@ -8031,7 +7967,7 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  if(c.cqbFoes)tot=c.cqbFoes.length;
  $('fE').textContent=isCqb?(tot+' 名低活跃模拟目标 · 5 道关闭门洞 · 不计分'):(tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+(c.hostNeed?(' · 人质 '+c.civ.length+' 名（至少带出 '+c.hostNeed+' 名）'):'')+' · 难度 '+'★★★★★'.slice(0,ST.lv));
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
- var mn=heroActive()?(WM[heroLoadOf()[0]]||WM.hk416).n:WM[ST.load[0]].n;
+ var mn=WM[ST.load[0]].n;
  $('fH').textContent=c.hint+'（当前主武器：'+mn+'）';
  $('fP').textContent=isCqb?'不设时间基准 · 训练不计军衔分':(fmt(diffPar(c,ST.diff))+' 内完成为满分基准（'+diffDef(ST.diff).n+'）');
  $('fG').textContent=c.roe;
@@ -8043,9 +7979,8 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  /* v19：不再提供中途续关；任务必须一次打完 */
  if($('bCont'))$('bCont').classList.add('hidden');
  if(c.story&&!ST['s'+c.story]){playStory(c.story,function(){show('sBrief');setScr('brief')});return}
- if(c.air&&ST.hero2!==1){if(!ST.seenGrey){ST.seenGrey=1;save();playDrama2(function(){show('sBrief');setScr('brief')});return}}
- if(c.recruit&&ST.hero!==1){playDrama();return}
- if(c.recruit&&ST.hero===1){brief2Exam();return}
+ if(c.recruit&&!ST.storyDone){playDrama();return}
+ if(c.recruit){brief2Exam();return}
  show('sBrief');setScr('brief')}
 function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  if($('tut'))$('tut').classList.add('hidden');
@@ -8069,7 +8004,7 @@ function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  $('go').classList.add('on');$('goT').textContent='T-3';
  $('goS').textContent=L.cfg.code+' · '+L.cfg.threat;
  $('hurt').style.opacity='0';
- HD={hp:-1,ar:-1,am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
+ HD={hp:-1,plate:'',am:'',w:'',e:'',en:-1,ti:-1,h:'',ob:'',pr:'',ti2:'',al:''};
  G.xp0=ST.xp;initAllies();G.p.shots=0;updGun();updHud();
  LOWD=0;resize();snd.ui()}
 /* v19：startCont 已删除；任务不再支持中途续关。 */
@@ -8134,9 +8069,9 @@ function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
  var DF=diffDef((L.cfg&&L.cfg.diff)||1);
  if(win){delta=Math.round((70+stv*20)*DF.xp);addXp(delta);
   if(L.cfg&&!L.cfg.recruit&&!L.cfg.tutorial&&!L.cfg.range){
-   var wasTop=isCleared(ST.lv,5);
+   var wasTop=isCleared(ST.lv,3);
    markClear(ST.lv,DF.k);
-   if(DF.k>=5&&!wasTop){
+   if(DF.k>=3&&!wasTop){
     toast('现实难度通关 · '+(ST.lv<5?('OP-0'+(ST.lv+1)+' 已解锁'):'全部区域已解锁'),3400);
     feed('难度成就：现实难度通关',1)}}}
  else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
@@ -8146,8 +8081,7 @@ function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
   G.mailSent=1;
   var why=win?'全部目标达成':(G.abandon?'放弃人质撤离':(G.over==='dead'?'行动中阵亡':
     (G.over==='late'?'考核超时':(L.cfg.hostNeed?'人质带出不足':'任务失败'))));
-  var sq=curOp()==='duo'?'联合编队 燕锋 + 格雷':(heroActive()?'英雄队员 燕锋':
-    (greyActive()?'英雄队员 格雷':(ST.ally?'Bravo-2 突击 · Bravo-3 精确':'单人')));
+  var sq='单人';
   addMail({kind:'mission',lv:ST.lv,code:c.code,nm:c.nm,diff:DF.n,win:win?1:0,why:why,
    time:sec,par:Math.round((L.cfg&&L.cfg.par)||c.par||120),
    kills:G.killed,dis:G.disarmed,hits:G.hits,shots:shots,acc:accS,dmg:Math.round(G.dmg),
@@ -8169,11 +8103,9 @@ function showRes(win){stopLoop();resetCombatFx();setScr('res');show('sRes');
   (ST.xpm>ST.xp?('（峰值 '+RKLAD[rankPk()][0]+'）'):''));
  $('bNext').classList.toggle('hidden',!(win&&ST.lv<5));
  $('bNext').textContent=ST.lv>=5?'任务列表':'下一区域';
- if(win&&ST.lv===6&&(ST.hero2!==1||ST.duo!==1)){ST.hero2=1;if(ST.duo!==1)ST.duoPend=1;save();
-  try{toast('机场行动完成 · 英雄队员「格雷」已编入序列',3400)}catch(e){}}
- if(win&&ST.lv===7&&ST.hero!==1){ST.hero=1;ST.storyDone=1;save();
-  try{toast('剧情完成 · 国产枪族全部解锁',3200)}catch(e){}
-  $('rTtl').textContent='猎鹰招募通过 · QBZ-191 与英雄队员「燕锋」已解锁';}
+ if(win&&ST.lv===7&&!ST.storyDone){ST.storyDone=1;save();
+  try{toast('终局考核通过 · 国产枪族全部解锁',3200)}catch(e){}
+  $('rTtl').textContent='终局考核通过 · 国产枪族全部解锁';}
  if(win){ST.unl=Math.min(7,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
   if(!ob||ob.sc<sc){ST.best[key]={sc:sc,rate:rate,time:sec}}
@@ -8232,7 +8164,7 @@ function renderHero(){if(!$('heroList'))return;var q=heroQuota();
    row.appendChild(de);
    var bt=mk('button','btn sm');bt.textContent='换枪';
    bt.onclick=function(e){e.preventDefault();snd.ui();
-    var pool=WP.filter(function(o){return gunOk(o.id)&&!o.hero&&(i===2?o.cls==='pistol':o.cls!=='pistol')});
+    var pool=WP.filter(function(o){return gunOk(o.id)&&(i===2?o.cls==='pistol':o.cls!=='pistol')});
     if(!pool.length)return;var at=-1,k;
     for(k=0;k<pool.length;k++)if(pool[k].id===h2[i])at=k;
     setHeroSlot2(i,pool[(at+1)%pool.length].id)};
@@ -8277,14 +8209,14 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
   var m=mk('div','m');m.textContent=o.mk.split('（')[0];
   t.appendChild(n);t.appendChild(m);r.appendChild(t);
   if(!gunOk(o.id)){r.style.opacity=.45}
-  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':(o.hero?'需猎鹰考核':'需'+rankName(TIER_XP[o.tk]))));
+  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':(/国产/.test(o.cn||'')?'需终局考核':'需'+rankName(TIER_XP[o.tk]))));
   r.appendChild(tg);
   r.addEventListener('click',function(){ST.sel=o.id;renderArs();snd.ui()});
   lst.appendChild(r)});
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成剧情任务 OP-07「猎鹰招募」后，全部国产枪族自动解锁】':(o.hero?' 【解锁条件：通过猎鹰招募考核 OP-07】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】')));
+ $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：通过 OP-07 终局考核后，全部国产枪族自动解锁】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】'));
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
@@ -8356,7 +8288,7 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   ofi.style.cssText='width:100%;font-size:10.5px;color:#8ba0ae;line-height:1.6;margin-top:6px';
   var hpk=Math.round(((of.hide||1)-1)*100);
   ofi.innerHTML='<b style="color:#cbb073">'+of.n+'</b> · '+of.mk+'<br>'+of.info+
-   '<br><b>效果</b>：'+of.note+' · 护甲 +'+of.arm+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 敌方识别距离'+(hpk>=0?'+':'')+hpk+'%';
+   '<br><b>效果</b>：'+of.note+' · 机动'+(of.mob>=0?'+':'')+(of.mob*100|0)+'% · 敌方识别距离'+(hpk>=0?'+':'')+hpk+'%';
   ol.appendChild(ofi)}
  renderAtt()}
 /* 枪械改件：只显示当前枪械平台能装的件（北约 1913 / 国产专用 / AK 侧轨 / 手枪） */
@@ -8477,12 +8409,12 @@ bind('bDeploy',function(){var pick=-1,i;
  if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
  ST.lv=(pick<0?0:pick)+1;brief()});
 bind('bSetP',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-07）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需通过 OP-07 终局考核解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls==='pistol'){$('dI').textContent='手枪只能配为副武器——主武器需步枪／冲锋枪／霰弹枪／狙击枪。';
   setTimeout(showDtl,1300);return}
  ST.load[0]=o.id;save();renderArs()});
 bind('bSetS',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(o.hero?'需通过猎鹰招募考核（OP-07）':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需通过 OP-07 终局考核解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls!=='pistol'){$('dI').textContent='副武器栏只能装手枪；把 '+o.n+' 设为主武器即可。';
   setTimeout(showDtl,1300);return}
  ST.load[1]=o.id;save();renderArs()});
@@ -8529,7 +8461,7 @@ bind('bResetStory',function(){var b=$('bResetStory');
  if(b&&b.getAttribute('data-arm')==='1'){
   b.removeAttribute('data-arm');b.textContent='重置进度';
   storyReset();renderLv();
-  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始，通过 OP-07 后重新解锁英雄队员与国产枪族。');
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始；通过 OP-07 终局考核后重新解锁国产枪族。英雄队员系统已移除，所有行动为单人作战。');
   goMenu();return}
  if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
  setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
@@ -8610,7 +8542,7 @@ resize();setScr('boot');renderLv();showDtl();updHint();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
- '请从 OP-01 开始重新推进五个区域，并通过 OP-07「猎鹰招募」——通过后英雄队员「燕锋」与国产枪族会一并重新解锁。军衔分、已授权解锁的枪械与训练场进度保留。');
+ '请从 OP-01 开始重新推进五个区域，并完成 OP-07「终局考核」——通过后国产枪族会重新解锁。英雄队员系统已移除，所有行动为单人作战；军衔分、已授权解锁的枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
