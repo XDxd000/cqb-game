@@ -2422,7 +2422,7 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
  intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
  obj:['在门外据枪切角，不站进门洞正中','按住 F 破开第一道门','破门后投掷震爆弹','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
  roe:'现实 CQB 至少两人一组；本关只演示单人可执行的原则，不鼓励单人强行清房'};
-/* ==== OP-08 拆弹行动：QTE 拆弹 + 反坦克武器演示场 ==== */
+/* ==== OP-08 拆弹行动：QTE 拆弹 + 反坦克武器局内拾取 ==== */
 var BOMB_WL=function(a){
  ring(a,2000,1200,20);
  /* 中央拆弹室：三面墙；南侧 160px 门洞，东/西侧各 100px 门洞，门扇与墙洞同轴 */
@@ -7635,7 +7635,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var no=mk('div','no');no.textContent='08';b.appendChild(no);
   var e2=mk('div','en2');e2.textContent=c.code;b.appendChild(e2);
   var sc=mk('div','sc');sc.textContent=c.nm+(bb?' · 已通过':'');b.appendChild(sc);
-  var df=mk('div','dftag');df.textContent='QTE 拆弹 · 反坦克武器展示 · 不计入主线';b.appendChild(df);
+  var df=mk('div','dftag');df.textContent='QTE 拆弹 · 局内 AT4 拾取 · 不计入主线';b.appendChild(df);
   var ob=mk('div','ob');
   ob.textContent=ok?'靠近中央定时装置按住 F 拆弹：3 步剪线 QTE，剪错或超时立即引爆'
    :'完成 OP-07 终局考核后解锁';b.appendChild(ob);
