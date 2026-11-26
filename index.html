@@ -4926,7 +4926,7 @@ function foeFireTick(e,dt,cfg,p){
    - 坦克 3 发 AT4 击毁，第 1 发冒烟、第 2 发冒火；步战车 1 发冒烟、2 发殉爆；
    - 轻武器对装甲完全免疫，只有 AT4 战斗部能累计装甲命中。 */
 var ARMOR_MG={tank:{rate:.075,burst:7,pause:1.45,spread:.068,spd:1120},
- ifv:{rate:.030,burst:14,pause:1.18,spread:.060,spd:1280}};
+ ifv:{rate:.030,burst:14,pause:1.10,spread:.060,spd:1280}};
 function armorTurn(e,ta,rate,dt,key){
  var d=ta-e[key];while(d>PI)d-=TAU;while(d<-PI)d+=TAU;
  e[key]+=clamp(d,-dt*rate,dt*rate);
