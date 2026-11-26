@@ -154,15 +154,47 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .qcoin{display:inline-flex;width:13px;height:13px;border-radius:50%;align-items:center;justify-content:center;
  background:linear-gradient(145deg,#f6dd8a,#b17a26);border:1px solid #ffe9a9;color:#3b2a0c;
  font-style:normal;font-size:8px;font-weight:800;box-shadow:0 0 6px rgba(226,169,62,.45)}
-#qteSup{position:absolute;right:clamp(8px,2vw,16px);bottom:200px;display:flex;flex-direction:column;gap:5px;
- pointer-events:auto;z-index:24}
-#qteSup button{font:inherit;font-size:10.5px;letter-spacing:.04em;color:#e8f0e8;background:rgba(8,15,12,.88);
- border:1px solid rgba(120,180,140,.42);border-radius:4px;padding:5px 8px;text-align:left;min-width:132px;cursor:pointer}
-#qteSup button b{display:inline-block;min-width:15px;color:#9fe0a9;font-size:10px}
-#qteSup button i{font-style:normal;color:#f0d890;float:right;margin-left:8px}
-#qteSup button:disabled{opacity:.42;cursor:default}
-#qteSup button:hover:not(:disabled){border-color:#8fe0a0;background:rgba(18,34,25,.94)}
-@media (max-width:720px){#qteSup{bottom:232px}#qteSup button{min-width:112px;font-size:10px}}
+#tabletBtn{position:absolute;right:clamp(8px,2vw,16px);bottom:200px;pointer-events:auto;z-index:24;
+ color:#e8f0e8;background:rgba(8,15,12,.9);border:1px solid rgba(120,180,140,.48);border-radius:5px;
+ padding:7px 12px;font-size:11px;letter-spacing:.06em;cursor:pointer;box-shadow:0 0 16px rgba(0,0,0,.4)}
+#tabletBtn b{color:#9fe0a9;margin-right:5px}
+#tabletBtn:hover{border-color:#8fe0a0;background:rgba(18,34,25,.96)}
+#tablet{position:fixed;left:0;right:0;top:0;bottom:0;z-index:70;display:flex;align-items:center;justify-content:center;
+ background:rgba(2,5,6,.82);backdrop-filter:blur(3px);font-size:12px;color:#d9e7dc}
+#tabFrame{width:min(980px,95vw);height:min(660px,92vh);background:linear-gradient(160deg,#202823,#121713 65%);
+ border:2px solid #52645a;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;
+ box-shadow:0 24px 80px rgba(0,0,0,.75),inset 0 1px rgba(255,255,255,.08);position:relative}
+#tabFrame:before{content:'';position:absolute;left:12px;right:12px;top:4px;height:2px;
+ background:linear-gradient(90deg,transparent,#8eaa92,transparent);opacity:.5}
+#tabHead{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 9px}
+#tabHead b{font-size:12px;letter-spacing:.16em;color:#a9c8ae}
+#tabHead span{display:block;font-size:9.5px;letter-spacing:.08em;color:#6f8876;margin-top:2px}
+#tabClose{font:inherit;font-size:22px;line-height:1;color:#9fb8a4;background:transparent;border:0;cursor:pointer;padding:0 4px}
+#tabBody{display:flex;gap:12px;flex:1;min-height:0}
+#tabMap{flex:1;min-width:0;width:100%;height:100%;background:#080c0a;border:1px solid #46574c;border-radius:4px}
+#tabSide{width:284px;display:flex;flex-direction:column;gap:8px}
+#tabCoin{font-size:12px;color:#e8d18e;letter-spacing:.05em;border:1px solid #4c5b4e;background:#141b16;padding:8px 9px;border-radius:4px}
+#tabCoin i{font-style:normal;color:#ffe4a0;font-weight:700}
+#tabNote{font-size:10px;line-height:1.55;color:#8fa493;border-bottom:1px solid #334037;padding-bottom:7px}
+#tabCards{display:flex;flex-direction:column;gap:6px;overflow:auto;flex:1}
+#tabCards button{font:inherit;text-align:left;color:#dce9dd;background:#19221b;border:1px solid #435445;border-radius:4px;
+ padding:7px 8px;cursor:pointer;position:relative}
+#tabCards button b{display:block;font-size:11px;letter-spacing:.02em}
+#tabCards button span{display:block;font-size:9.5px;color:#78937e;margin-top:2px}
+#tabCards button i{font-style:normal;position:absolute;right:8px;top:9px;font-size:10px;color:#e8d18e}
+#tabCards button:disabled{opacity:.4;cursor:not-allowed}
+#tabCards button:hover:not(:disabled){border-color:#8fc39a;background:#202e22}
+#tabExit{font:inherit;color:#d8e6d9;background:#26332a;border:1px solid #566b59;border-radius:4px;padding:7px 8px;cursor:pointer}
+#tabExit:hover{border-color:#9fc7a7}
+#tabFoot{display:flex;gap:14px;justify-content:space-between;font-size:9px;color:#6f8876;padding:7px 2px 0;letter-spacing:.05em}
+@media (max-width:720px){
+ #tabletBtn{bottom:232px;font-size:10px;padding:6px 9px}
+ #tabFrame{height:94vh;padding:7px}
+ #tabBody{flex-direction:column}
+ #tabSide{width:100%;height:230px}
+ #tabCards{display:grid;grid-template-columns:1fr 1fr}
+ #tabCards button i{display:none}
+}
 #am{text-align:right}
 #amW{font-size:11.5px;letter-spacing:.1em;color:#c6d6e0}
 #amN{font-size:clamp(20px,4.6vw,30px);font-weight:700;line-height:1.05}
@@ -1048,14 +1080,34 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="tutDots" id="tutDots"></div>
     <button id="tutSkip">跳过教程 ›</button>
   </div>
-  <div id="qteSup" class="hidden">
-    <button data-sup="tank"><b>G</b>装甲支援 · 坦克<i>3</i></button>
-    <button data-sup="ifv"><b>N</b>装甲支援 · 步战车<i>2</i></button>
-    <button data-sup="uav"><b>J</b>无人支援 · 无人机<i>1</i></button>
-    <button data-sup="dog"><b>K</b>无人支援 · 机器狗<i>1</i></button>
-  </div>
+  <div id="tabletBtn" class="hidden" title="战术平板"><b>T</b> 战术平板</div>
   <div id="kbar"></div>
   <div id="go"><div id="goT">T-3</div><div id="goS">交战规则生效</div></div>
+</div>
+
+<!-- SECTION: markup-tablet 战术平板（QTE 专属） -->
+<div id="tablet" class="hidden" aria-hidden="true">
+  <div id="tabFrame">
+    <div id="tabHead">
+      <div><b>TACTICAL TABLET · QTE</b><span id="tabSub">战术地图 / 支援调度</span></div>
+      <button id="tabClose" title="关闭平板">×</button>
+    </div>
+    <div id="tabBody">
+      <canvas id="tabMap" width="760" height="520"></canvas>
+      <div id="tabSide">
+        <div id="tabCoin"><b class="qcoin">Q</b> 拆弹币 <i id="tabCoinN">0</i></div>
+        <div id="tabNote">选择支援后自动出击；关闭平板则返回战场。平板打开期间所有单位与计时暂停。</div>
+        <div id="tabCards">
+          <button data-sup="tank"><b>装甲支援 · 主战坦克</b><span>3 币 · 主炮 + 机枪</span><i>呼叫</i></button>
+          <button data-sup="ifv"><b>装甲支援 · 步战车</b><span>2 币 · 高射速机炮</span><i>呼叫</i></button>
+          <button data-sup="uav"><b>无人支援 · 无人机</b><span>1 币 · 沿街侦察</span><i>呼叫</i></button>
+          <button data-sup="dog"><b>无人支援 · 机器狗</b><span>1 币 · 沿街压制</span><i>呼叫</i></button>
+        </div>
+        <button id="tabExit">退出战术平板</button>
+      </div>
+    </div>
+    <div id="tabFoot"><span>道路搜索 · 不穿楼</span><span>点击支援卡片 = 出击</span><span id="tabMode">QTE</span></div>
+  </div>
 </div>
 
 <!-- SECTION: markup-qte 拆弹 QTE -->
@@ -1555,6 +1607,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h3>潜入与警报</h3>
   <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫始终只有正面视野锥，并与玩家共用同一套锥形视野与 LOS 遮挡；开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
   <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
+  <p><b>背身感知</b>：非 QTE 地图的巡逻兵如果背对你，玩家进入约 190px 内且有视线，敌人会先出现「?」并停顿 2 秒，然后转身进入警戒；隔墙不会触发。任务建立后以及战斗中每 2 秒会自动巡检所有敌人，发现卡进墙体/掩体或四面堵死的单位会吸附到最近安全位置。</p>
   <h3>视野与配件</h3>
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
@@ -1562,7 +1615,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ OP-07 终局考核 → QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。剧情地图 OP-04 王子门与 OP-05 杜布罗夫卡已删除，不再出现在任务序列、存档或简介中。</p>
   <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。AT4 弹药箱散落在街区各处，每个补给点提供 2 发火箭弹。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援。</p>
   <p><b>拆弹币</b>：QTE 模式专属，击杀守敌与完成拆弹都会累积；显示在 HUD 左上角的金色货币标记中。它不能带入其他地图，也不能用于军械库或普通任务。QTE-02 开局会预拨 4 枚拆弹币。</p>
-  <p><b>支援</b>：QTE-02 起按 <span class="kbd">G</span> 呼叫我方坦克（3 币）、<span class="kbd">N</span> 步战车（2 币）、<span class="kbd">J</span> 无人机（1 币）、<span class="kbd">K</span> 机器狗（1 币），也可点击右侧支援按钮。我方坦克/步战车与敌方同型同装甲机制；所有支援单位只沿关卡定义的城市道路搜索，不穿楼、不穿墙。装甲支援会提供主炮与机枪火力，无人设备负责沿街侦察与轻武器压制。</p>
+  <p><b>支援</b>：QTE-02 起按 <span class="kbd">T</span> 打开战术平板。平板内可点击坦克（3 币）、步战车（2 币）、无人机（1 币）或机器狗（1 币）出击；选中后自动关闭平板并恢复游戏。平板打开期间所有角色、子弹与任务计时暂停。战术平板只在 QTE 模式出现，其他地图没有。我方坦克/步战车与敌方同型同装甲机制；所有支援单位只沿关卡定义的城市道路搜索，不穿楼、不穿墙。</p>
   <h3>难度曲线</h3>
   <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ OP-07 终局考核 → QTE-01/02/03 拆弹行动。通过终局考核后解锁国产枪族；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
   <p><b>三档难度</b>：新兵（敌人迟缓、伤害低，体力 8 格，医疗/血包回 2 格）→ 老兵（敌人伤害约为新兵 4 倍，体力 4 格，医疗/血包回 1 格，手雷直接致命）→ 现实（体力 1 格，一枪致命，手雷直接致命）。所有行动固定单人，无英雄队员。</p>
@@ -2661,7 +2714,7 @@ var QTE2_LV={code:'QTE-02 · CROSSROADS',nm:'拆弹行动 II · 十字街区',W:
   [140,1460,400,520],[1060,1460,480,520],[2060,1460,480,520]],
  threat:'16 名步兵 · 坦克 ×1 · 步战车 ×1 · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克',
  terr:'3600×2400 十字街区：三条平行纵向街道、三条横向连接路、八栋可进入楼宇；拆弹点在东南楼内',
- hint:'沿街拾取 AT4 · QTE币按 G 呼叫装甲、J 呼叫无人机、K 呼叫机器狗 · 支援只走街道',
+ hint:'沿街拾取 AT4 · QTE币按 T 打开战术平板，在平板里选择装甲/无人机/机器狗 · 支援只走街道',
  intel:'赤隼把三纵三横的街区改成伏击网，拆弹点藏在东南楼内。第二关起启用 QTE 币：完成拆弹、击杀守敌都能积累拆弹币，在开局或战斗中呼叫我方装甲与无人装备。装甲只能沿城市道路搜索，楼与楼之间要靠它们压制街道，再由你进入楼内拆弹。',
  obj:['进入十字街区','沿街收集 AT4 与拆弹币','呼叫装甲/无人支援清街','进入东南楼拆弹点','完成 QTE 拆弹','从东南侧撤离'],
  roe:'支援火力会沿道路推进 · 不要站在我方装甲炮口前方'};
@@ -2700,7 +2753,7 @@ var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4
   [140,1520,400,560],[1060,1520,480,560],[2060,1520,480,560],[3060,1520,280,560]],
  threat:'19 名步兵 · 坦克 ×1 · 步战车 ×1 · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克',
  terr:'4200×2800 四街合围：四条平行纵向街道、三条横向连接路、十栋楼宇；拆弹点在东南中楼',
- hint:'QTE币优先留给第二关的装甲支援 · G/J/K 呼叫后沿街道观察，不要自己冲进支援火力线',
+ hint:'QTE币优先留给第二关的装甲支援 · 按 T 打开战术平板调度，不要自己冲进支援火力线',
  intel:'第三关是赤隼的最后一条城市防线：四条平行街道把楼群切成五列，拆弹点藏在东南中楼。敌方装甲会沿主街压过来，我方的坦克、步战车、无人机与机器狗也只能沿道路搜索。用拆弹币先建立街道控制，再进入楼内完成 QTE。',
  obj:['进入四街合围区','收集 AT4 与拆弹币','呼叫装甲/无人支援控制街道','进入东南中楼拆弹点','完成 QTE 拆弹','从东南侧撤离'],
  roe:'我方支援沿道路推进 · 不要挡在装甲炮口与机炮射界前'};
@@ -3823,6 +3876,7 @@ g.restore();
  /* 每次建图后复查敌人落点：任何卡进墙体/家具的单位立即吸附到最近安全点 */
  for(k=0;k<L.en.length;k++){var en1=L.en[k];
   if(!freeAt(en1.x,en1.y,en1.r))snapFree(en1)}
+ auditEnemies();
  /* 难度：敌人移速与发现距离按档位生效；补给按房间分配 */
  for(k=0;k<L.en.length;k++){var en0=L.en[k];en0.sp=(en0.sp||95)*(c.esp||1);en0.viewK=(c.eview||1)}
  L.cr=addPlateSupply(c,placeSupplies(c));
@@ -3864,7 +3918,7 @@ g.restore();
   G.p.actItem=firstThrow(G.p);
   G.p.fm=modeOf(G.p.guns[0].w);
   if(c.wave){G.waveT=c.wave.iv;G.waveN=0;G.waveSpawned=0}
-  G.sup=[];
+  G.sup=[];G.tablet=0;
   if(c.qte){
    G.qteCoin=Math.max(0,ST.qteCoin|0);
    if(c.qte>=2&&G.qteCoin<4)G.qteCoin=4;
@@ -3987,6 +4041,32 @@ function snapFree(o){
    if(freeAt(nx,ny,o.r)&&rd<bd){bd=rd;best={x:nx,y:ny}}}}
  if(!best)return false;
  o.x=best.x;o.y=best.y;return true}
+/* 任务开始后与任务进行中自动巡检：敌方单位不能卡在墙体/掩体内，
+   也不能处于四面都被堵死的死角。只移动确实卡死的单位，正常贴墙不触发。 */
+function enemyOpenDirs(e){
+ var n=0,i,a;
+ for(i=0;i<8;i++){a=i*TAU/8;
+  if(freeAt(e.x+Math.cos(a)*(e.r+8),e.y+Math.sin(a)*(e.r+8),e.r))n++}
+ return n}
+function auditEnemies(){
+ if(!L||!L.en)return 0;
+ var fixed=0,i,j;
+ for(i=0;i<L.en.length;i++){
+  var e=L.en[i];if(!e||e.dead)continue;
+  if(!freeAt(e.x,e.y,e.r)){
+   if(snapFree(e)){e.path=null;e.pathT=0;e._mvT=0;fixed++;continue}
+  }
+  if(enemyOpenDirs(e)>0)continue;
+  var best=null,bd=1e9;
+  for(var rr=16;rr<=Math.max(60,e.r*4);rr+=8)for(j=0;j<16;j++){
+   var an=j*TAU/16,x=e.x+Math.cos(an)*rr,y=e.y+Math.sin(an)*rr;
+   if(!freeAt(x,y,e.r))continue;
+   var probe={x:x,y:y,r:e.r};
+   if(enemyOpenDirs(probe)>0&&rr<bd){bd=rr;best={x:x,y:y}}
+  }
+  if(best){e.x=best.x;e.y=best.y;e.path=null;e.pathT=0;e._mvT=0;fixed++}
+ }
+ return fixed}
 var RHIT=null;
 /* 标准 slab 射线测试：水平/垂直射线也能正确命中（旧版在这种角度会误判） */
 function rayHit(x,y,dx,dy){var best=1,i,a,lo,hi,t1,t2,sw;RHIT=null;
@@ -4041,7 +4121,7 @@ function pushFree(o,dt,speed){
 /* SECTION: keymap */
 var KM_DEF={up:'w',down:'s',left:'a',right:'d',sprint:'shift',reload:'r',
  gun1:'1',gun2:'2',gun3:'3',swap:'q',gren:'b',act:'f',fireAlt:'',ads:'space',adsAlt:'',
- mode:'v',med:'h',mute:'m',callArmor:'g',callIfv:'n',callUAV:'j',callDog:'k'};
+ mode:'v',med:'h',mute:'m',tablet:'t'};
 var KM_ACT=[
  ['up','前进'],['down','后退'],['left','向左'],['right','向右'],
  ['sprint','疾跑'],['reload','换弹'],
@@ -4049,8 +4129,7 @@ var KM_ACT=[
  ['gren','投掷手雷'],['act','互动（解救／缴械／补给／破拆）'],
  ['ads','据枪（按住）'],['mode','切换射击模式'],
  ['med','使用战术医疗包'],
- ['callArmor','QTE · 呼叫坦克支援'],['callIfv','QTE · 呼叫步战车支援'],
- ['callUAV','QTE · 呼叫无人机'],['callDog','QTE · 呼叫机器狗'],
+ ['tablet','QTE · 战术平板（支援调度）'],
  ['fireAlt','辅助开火键（可选，默认鼠标左键）'],['adsAlt','辅助据枪键（可选，默认 Space）'],
  ['mute','音效开关']];
 var KM={};for(var kmi in KM_DEF)KM[kmi]=KM_DEF[kmi];
@@ -4122,6 +4201,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    return}
   if(ST.scr==='pause'&&k==='escape'){pause(0);return}
   if(ST.scr==='play'){
+   if(G&&G.tablet){if(k==='escape'||kb('tablet'))closeTablet();return}
    if(G&&G.qte){
     if(k>='1'&&k<='4'){e.preventDefault();qtePress(+k)}
     else if(k==='escape'){toast('拆弹中 · 先完成 QTE',1600)}
@@ -4135,10 +4215,7 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
    else if(kb('swap'))swGun((G.p.wi+1)%G.p.guns.length);
    else if(kb('act'))interact();
    else if(kb('med'))com('med');
-   else if(kb('callArmor'))qteCall('tank');
-   else if(kb('callIfv'))qteCall('ifv');
-   else if(kb('callUAV'))qteCall('uav');
-   else if(kb('callDog'))qteCall('dog');
+   else if(kb('tablet'))toggleTablet();
    else if(kb('mute'))togAud();}
   if(k==='escape')closeThrowPick()}},{passive:false});
 D.addEventListener('keyup',function(e){KEY[kNorm(e)]=0});
@@ -5230,6 +5307,18 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    }
    e.canSee=see?1:0;
    if(see){e.lx=p.x;e.ly=p.y;e.lastSeen=G.t}
+   /* 背身近距离感知：非 QTE 地图中，玩家贴到巡逻兵背后时，
+      即使不在正面视野锥内，敌人也会先冒出「?」并停顿 2 秒，再转身查看。
+      这里只用 LOS + 距离，不隔墙感知。 */
+   if(!see&&!e.alert&&e.st==='patrol'&&!L.cfg.qte&&!L.cfg.tgt&&!L.cfg.tutorial&&
+      dSee<190&&los(e.x,e.y,p.x,p.y)){
+    var bda=Math.atan2(p.y-e.y,p.x-e.x)-e.a;
+    bda=Math.atan2(Math.sin(bda),Math.cos(bda));
+    if(Math.abs(bda)>1.9){
+     e.st='suspect';e.alert=0;e.backT=2.0;e.susWait=2.0;e.susT=2.0;
+     e.hx=p.x;e.hy=p.y;e.lx=p.x;e.ly=p.y;e.canSee=0;e.fireN=0;e.vx=e.vy=0;
+    }
+   }
   }
   /* 墙后不更新目标：敌人只记得最后一次真正看见的位置 */
   var sees=!!e.canSee,
@@ -5248,20 +5337,30 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    var wx=e.hx+Math.cos(e.pf)*80,wy=e.hy+Math.sin(e.pf*1.27)*80,a2=Math.atan2(wy-e.y,wx-e.x);
    e.a=a2;e.vx=Math.cos(a2)*e.sp*.24;e.vy=Math.sin(a2)*e.sp*.24}
   else if(e.st==='suspect'){
-   /* 枪声搜索：先停顿 0.6–2 秒抬头找方向，再慢速摸向弹道方向；
-      此状态不进入开火分支，只有真正看见玩家才会升级为 alert/engage。 */
-   var sda=Math.atan2(e.hy-e.y,e.hx-e.x)-e.a;
-   while(sda>PI)sda-=TAU;while(sda<-PI)sda+=TAU;
-   e.a+=clamp(sda,-dt*2.2,dt*2.2);
-   if(e.susWait>0){e.susWait-=dt;e.vx=e.vy=0}
-   else{
-    e.susT-=dt;
-    var sd=Math.hypot(e.hx-e.x,e.hy-e.y),ssp=e.sp*.34;
-    if(sd>42){
-     var sa2=Math.atan2(e.hy-e.y,e.hx-e.x);
-     e.vx=Math.cos(sa2)*ssp;e.vy=Math.sin(sa2)*ssp
-    }else{e.vx=e.vy=0;e.a+=dt*1.15}
-    if(e.susT<=0){e.st='patrol';e.alert=0;e.hx=e.x;e.hy=e.y;e.vx=e.vy=0}
+   if(e.backT>0){
+    /* 背身反应：先保持背对、头顶「?」2 秒，再转身进入警戒 */
+    e.backT-=dt;e.vx=e.vy=0;e.fireN=0;
+    if(e.backT<=0){
+     e.backT=0;e.a=Math.atan2(p.y-e.y,p.x-e.x);e.hx=p.x;e.hy=p.y;
+     e.st='alert';e.alert=1;e.rt=.35;e.susWait=0;
+     G.inf=0;G.alerted=1;wakeNear(e.x,e.y,420,1);
+    }
+   }else{
+    /* 枪声搜索：先停顿 0.6–2 秒抬头找方向，再慢速摸向弹道方向；
+       此状态不进入开火分支，只有真正看见玩家才会升级为 alert/engage。 */
+    var sda=Math.atan2(e.hy-e.y,e.hx-e.x)-e.a;
+    while(sda>PI)sda-=TAU;while(sda<-PI)sda+=TAU;
+    e.a+=clamp(sda,-dt*2.2,dt*2.2);
+    if(e.susWait>0){e.susWait-=dt;e.vx=e.vy=0}
+    else{
+     e.susT-=dt;
+     var sd=Math.hypot(e.hx-e.x,e.hy-e.y),ssp=e.sp*.34;
+     if(sd>42){
+      var sa2=Math.atan2(e.hy-e.y,e.hx-e.x);
+      e.vx=Math.cos(sa2)*ssp;e.vy=Math.sin(sa2)*ssp
+     }else{e.vx=e.vy=0;e.a+=dt*1.15}
+     if(e.susT<=0){e.st='patrol';e.alert=0;e.hx=e.x;e.hy=e.y;e.vx=e.vy=0}
+    }
    }
   }
   else if(e.st==='alert'){var ad=Math.hypot(e.hx-e.x,e.hy-e.y);
@@ -6269,6 +6368,85 @@ var SUP_DEF={tank:{cost:3,label:'我方主战坦克',r:38,armor:3,sp:76},
  ifv:{cost:2,label:'我方步战车',r:30,armor:2,sp:124},
  uav:{cost:1,label:'无人侦察机',r:14,armor:1,sp:150,life:70},
  dog:{cost:1,label:'无人机器狗',r:14,armor:1,sp:132,life:80}};
+/* ---- 战术平板：QTE 专属，单键 T 打开；打开期间 step 直接冻结 ---- */
+var TAB_COST={tank:3,ifv:2,uav:1,dog:1};
+function tabletAllowed(){
+ return !!(L&&L.cfg&&L.cfg.qte&&G&&G.phase==='live'&&!G.over&&!G.qte)}
+function toggleTablet(){
+ if(!tabletAllowed()){toast('战术平板只在 QTE 拆弹行动中可用',2200);return false}
+ if(G.tablet)closeTablet();else openTablet();
+ return true}
+function openTablet(){
+ if(!tabletAllowed()||G.tablet)return;
+ G.tablet=1;ACC2=0;
+ var el=$('tablet');if(el){el.classList.remove('hidden');el.setAttribute('aria-hidden','false')}
+ updateTabletCards();drawTablet();
+}
+function closeTablet(){
+ if(!G||!G.tablet)return;
+ G.tablet=0;ACC2=0;LT0=performance.now();
+ var el=$('tablet');if(el){el.classList.add('hidden');el.setAttribute('aria-hidden','true')}
+}
+function tabletDeploy(kind){
+ if(!G||!G.tablet)return;
+ if(qteCall(kind))closeTablet();
+ else{updateTabletCards();drawTablet()}
+}
+function updateTabletCards(){
+ var c=L&&L.cfg,coin=(G&&G.qteCoin)|0,cards=$('tabCards');
+ if($('tabCoinN'))$('tabCoinN').textContent=coin;
+ if($('tabMode'))$('tabMode').textContent=c?('QTE-0'+c.qte):'QTE';
+ if($('tabSub'))$('tabSub').textContent=(c?c.nm:'')+' · 战术地图 / 支援调度';
+ if($('tabNote'))$('tabNote').textContent=c&&c.qte>=2?
+  '选择支援后自动出击；关闭平板则返回战场。平板打开期间所有单位与计时暂停。':
+  '本关只提供战术地图，不开放支援调度。关闭平板后返回战场。';
+ if(!cards)return;
+ var bs=cards.querySelectorAll('button');
+ for(var i=0;i<bs.length;i++){
+  var k=bs[i].getAttribute('data-sup'),cost=TAB_COST[k]||0,
+   no=!(c&&c.qte>=2&&c.support),short=coin<cost;
+  bs[i].disabled=no||short;
+  var tag=bs[i].querySelector('i');
+  if(tag)tag.textContent=no?'未开放':(short?'币不足':'呼叫');
+ }
+}
+function drawTablet(){
+ var cv=$('tabMap');if(!cv||!L)return;
+ var g=cv.getContext('2d'),W=cv.width,H=cv.height,c=L.cfg,
+  pad=18,sc=Math.min((W-pad*2)/c.W,(H-pad*2)/c.H),
+  ox=(W-c.W*sc)/2,oy=(H-c.H*sc)/2;
+ function X(x){return ox+x*sc}function Y(y){return oy+y*sc}
+ g.clearRect(0,0,W,H);g.fillStyle='#080d0a';g.fillRect(0,0,W,H);
+ g.fillStyle='#111a14';g.fillRect(ox,oy,c.W*sc,c.H*sc);
+ if(c.roads)for(var ri=0;ri<c.roads.length;ri++){var r=c.roads[ri];
+  g.fillStyle='rgba(96,132,104,.22)';g.fillRect(X(r[0]),Y(r[1]),r[2]*sc,r[3]*sc)}
+ g.strokeStyle='rgba(126,160,134,.12)';g.lineWidth=1;
+ for(var gx=0;gx<c.W;gx+=200){g.beginPath();g.moveTo(X(gx),Y(0));g.lineTo(X(gx),Y(c.H));g.stroke()}
+ for(var gy=0;gy<c.H;gy+=200){g.beginPath();g.moveTo(X(0),Y(gy));g.lineTo(X(c.W),Y(gy));g.stroke()}
+ g.fillStyle='#52665a';g.strokeStyle='#7d9483';g.lineWidth=1;
+ for(var wi=0;wi<L.ws.length;wi++){var w=L.ws[wi];
+  g.fillRect(X(w.x),Y(w.y),Math.max(1,w.w*sc),Math.max(1,w.h*sc))}
+ g.strokeStyle='rgba(126,160,134,.4)';g.strokeRect(ox,oy,c.W*sc,c.H*sc);
+ function mark(x,y,r,col,fill,label){
+  g.strokeStyle=col;g.lineWidth=2;g.fillStyle=fill;
+  g.beginPath();g.arc(X(x),Y(y),r,0,TAU);g.fill();g.stroke();
+  if(label){g.fillStyle='#cfe4d3';g.font='bold 10px sans-serif';g.textAlign='center';g.fillText(label,X(x),Y(y)-r-5)}
+ }
+ for(var ei=0;ei<L.en.length;ei++){var e=L.en[ei];if(e.dead)continue;
+  var ec=e.tp==='tank'?'#d8a24a':(e.tp==='ifv'?'#a9b8a0':'#d0614f');
+  mark(e.x,e.y,e.tp==='tank'?7:5,ec,e.tp==='tank'?'rgba(216,162,74,.45)':'rgba(208,97,79,.35)','')}
+ if(G.sup)for(var si=0;si<G.sup.length;si++){var s=G.sup[si];if(!s.dead)mark(s.x,s.y,5,'#6fcf86','rgba(111,207,134,.35)','')}
+ if(L.bomb)mark(L.bomb.x,L.bomb.y,7,'#e2a93e','rgba(226,169,62,.4)','BOMB');
+ mark(G.exit[0]+G.exit[2]/2,G.exit[1]+G.exit[3]/2,5,'#8ee08e','rgba(142,224,142,.35)','EXIT');
+ mark(G.p.x,G.p.y,6,'#e8f3ea','rgba(232,243,234,.55)','YOU');
+ g.strokeStyle='#cfe4d3';g.lineWidth=1.5;g.beginPath();g.moveTo(X(G.p.x),Y(G.p.y));
+ g.lineTo(X(G.p.x)+Math.cos(G.p.aa)*14,Y(G.p.y)+Math.sin(G.p.y)*0+Math.sin(G.p.aa)*14);g.stroke();
+ g.fillStyle='rgba(220,236,223,.9)';g.font='bold 12px sans-serif';g.textAlign='left';
+ g.fillText(c.code,W-220,oy+20);
+ g.fillStyle='rgba(140,170,150,.8)';g.font='10px sans-serif';
+ g.fillText('TACTICAL MAP · '+c.W+' × '+c.H,W-220,oy+36);
+ g.fillStyle='rgba(140,170,150,.65)';g.fillText('● 敌方    ● 我方    ◆ BOMB    ▲ EXIT',ox+8,oy+c.H*sc-8);
+}
 function qteCall(kind){
  if(!L||!G||!L.cfg||!L.cfg.qte||!L.cfg.support)return false;
  if(G.qte||G.phase!=='live'||G.over){toast('当前无法呼叫支援',1600);return false}
@@ -7584,17 +7762,12 @@ function updHud(){var p=G.p,g=cur(),i;
  if(str!==HD.h){HD.h=str;$('sT').textContent=str}
  var hv=G.sec2+'/'+L.civ.length+(G.civD?(' · 伤亡 '+G.civD):'');
  if(hv!==HD.ti2){HD.ti2=hv;$('sH').textContent=hv}
- var qBox=$('qteCoinBox'),qSupEl=$('qteSup'),qCoinEl=$('qteCoin');
+ var qBox=$('qteCoinBox'),qCoinEl=$('qteCoin'),qTabBtn=$('tabletBtn');
  if(qBox)qBox.classList.toggle('hidden',!L.cfg.qte);
  if(qCoinEl)qCoinEl.textContent=G.qteCoin|0;
- if(qSupEl){
-  qSupEl.classList.toggle('hidden',!(L.cfg.qte>=2&&L.cfg.support));
-  var qbtns=qSupEl.querySelectorAll('button'),qcost={tank:3,ifv:2,uav:1,dog:1};
-  for(i=0;i<qbtns.length;i++){
-   var qk=qbtns[i].getAttribute('data-sup');
-   qbtns[i].disabled=!!(G.qte||G.over||(G.qteCoin|0)<(qcost[qk]||0));
-   qbtns[i].title=qbtns[i].disabled?'拆弹币不足或当前不可呼叫':'呼叫'+qk
-  }
+ if(qTabBtn){
+  qTabBtn.classList.toggle('hidden',!L.cfg.qte);
+  qTabBtn.innerHTML='<b>T</b> '+(L.cfg.qte>=2?'战术平板':'战术地图');
  }
  var eqt='体力 '+p.hp+'/'+p.mhp+' 格 · '+beltText(p)+' · 医疗 ×'+p.md+' · 弹匣 ×'+Math.floor(g.res/g.w.cap)+' · 视野 '+Math.round(weaponView(g.w,p))+'×'+Math.round(weaponViewW(g.w,p))+(p.plateMax?(' · 插板 '+p.plateHits+'/'+p.plateMax):'')+(p.stunT>0?(' · 震爆干扰 '+p.stunT.toFixed(1)+'s'):(p.aimT>0?' · 受压制':''));
  if(eqt!==HD.e){HD.e=eqt;$('eq').textContent=eqt}
@@ -7676,6 +7849,7 @@ function updHud(){var p=G.p,g=cur(),i;
 /* SECTION: loop */
 var ACC2=0,LT0=0,FT=16.7,FPSC=0,FPSD=0,LOWD=0;
 function step(dt){if(!G)return;
+ if(G.tablet)return;
  G.t+=dt;
  if(G.inf&&G.phase==='live')G.infT=(G.infT||0)+dt;
  if(G.tut&&TUT.on)tutTick(dt);
@@ -7693,6 +7867,8 @@ function step(dt){if(!G)return;
  if(G.p.act)updateGren(dt);
  updateDoors(dt);updateEn(dt);updateSupport(dt);updateAllies(dt);updWing(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updWave(dt);updArmorAnn(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);storyTick(dt);
  qteTick(dt);bombTick(dt);
+ G.auditT=(G.auditT==null?2:G.auditT)-dt;
+ if(G.auditT<=0){G.auditT=2;auditEnemies()}
  shake*=Math.pow(.002,dt);if(shake<.12)shake=0;
  /* 训练场：走到撤离点弹出「配置装备 / 退出训练场」 */
  if(L.cfg.range&&!G.over&&ST.scr==='play'){
@@ -8390,11 +8566,21 @@ var PATCHES=[
       '新增 QTE-02「拆弹行动 II · 十字街区」：3600×2400，三条平行纵向街道、三条横向连接路、八栋可进入楼宇；新增 QTE-03「拆弹行动 III · 四街合围」：4200×2800，四条平行街道、十条楼宇。',
       'QTE-01/02/03 全部改为 180 秒总倒计时与 3 步剪线；AT4 弹药箱增加到 12/12/14 个，仍分散在街区各处，每个点提供 2 发火箭弹。',
       'QTE 模式新增专属拆弹币：击杀守敌 +1、完成拆弹额外入账；HUD 用金色圆形货币图标显示，只在 QTE 模式出现，不能带入其他地图或军械库。QTE-02 开局预拨 4 枚。',
-      'QTE-02 起可呼叫支援：G 我方坦克（3 币）、N 步战车（2 币）、J 无人机（1 币）、K 机器狗（1 币），也可点右侧支援面板。我方坦克/步战车沿用敌方 3/2 发装甲机制，所有支援只沿城市道路搜索，不穿楼、不穿墙。',
+      'QTE-02 起按 T 打开战术平板；平板内呼叫坦克（3 币）、步战车（2 币）、无人机（1 币）或机器狗（1 币）。平板打开期间所有角色与任务计时暂停，选择支援出击或退出后恢复。我方坦克/步战车沿用敌方 3/2 发装甲机制，所有支援只沿城市道路搜索，不穿楼、不穿墙。',
       '新增无人装备模型：四旋翼侦察机（旋翼、云台、绿色识别灯）与四足机器狗（四腿步态、传感器头、天线、绿色识别灯）；我方装甲增加绿色识别环与“我方”标识。',
       'QTE 币只能用于 QTE 支援呼叫；其他地图进入时 HUD 不显示拆弹币，也无法购买/呼叫支援。',
       '任务简介、启动画面、作战手册、难度曲线与关卡卡全部按新顺序重写；旧存档按索引迁移，OP-01～03 进度保留。',
       '实测：QTE-02/03 出生点、撤离点、拆弹点、道路中心与 AT4 点均可通行；四种支援全部落在道路上并沿道路移动；拆弹币 4→1（坦克）、QTE-02 可正常呼叫；全图页面无异常。'
+     ]},
+    {v:43,d:'2026-11-26',t:'战术平板 · 背后索敌 · 自动卡位巡检',
+     items:[
+      '装甲与无人支援从四个独立按键整合为单键 T：按 T 进入 QTE 专属战术平板，在放大的战术地图与支援卡片中选择坦克、步战车、无人机或机器狗，选中出击后自动关闭平板并恢复游戏。',
+      '战术平板只在 QTE 模式出现；其他地图按 T 无效，也没有平板按钮。平板打开期间所有角色、支援、子弹、波次与炸弹计时全部冻结，直到选择支援或退出平板。',
+      '战术平板采用军品风格深色外壳、绿色识别灯、网格地图、道路/楼宇、我方与敌方单位、BOMB/EXIT 标记；并显示拆弹币、支援费用和可用状态。',
+      '所有非 QTE 地图新增背身近距离索敌：巡逻兵背对玩家时，玩家进入 190px 内且有视线，会先冒出「?」，停顿 2 秒后转身进入警戒；隔墙不会触发。',
+      '任务建立后自动巡检所有敌人，并在战斗中每 2 秒复查一次：卡进墙体/掩体的单位吸附到最近安全点，四面被堵死的单位移到最近可通行位置，避免长期卡掩体。',
+      '保留 QTE-02/03、拆弹币、12/12/14 个 AT4 弹药点与训练关前排序；其他地图不支持拆弹币或支援。',
+      '实测：平板打开 2 秒内 G.t、炸弹倒计时与敌人坐标均不变化；选择坦克后平板关闭、拆弹币 4→1、支援单位在道路上出现；背身测试 1 秒为「?」，2.5 秒转为交战；卡墙单位自动吸附到 34,34 安全点。'
      ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -8812,7 +8998,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var df=mk('div','dftag');
   df.textContent=c.qte?'QTE 拆弹模式 · 局内 AT4 · 拆弹币':'独立行动 · 不占主线';b.appendChild(df);
   var ob=mk('div','ob');
-  ob.textContent=ok?(c.qte?'进入后按 F 拆弹 · 支援键见 HUD':(c.obj[0]+' → '+c.obj[c.obj.length-1])):lockTxt;
+  ob.textContent=ok?(c.qte?'进入后按 F 拆弹 · 按 T 打开战术平板':(c.obj[0]+' → '+c.obj[c.obj.length-1])):lockTxt;
   b.appendChild(ob);
   var mt=mk('div','mt'),bs=mk('span','badge'+(ok?' g':''));
   bs.textContent=ok?'已开放':'未解锁';mt.appendChild(bs);
@@ -9581,7 +9767,7 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  if(c.ifvSite)tot++;
  $('fE').textContent=isCqb?(tot+' 名低活跃模拟目标 · 5 道关闭门洞 · 不计分'):(tot+' 人'+(c.alt?'（两层）':'')+(c.rein?(' ＋ 增援 '+c.rein.cap+' 人'):'')+(c.hostNeed?(' · 人质 '+c.civ.length+' 名（至少带出 '+c.hostNeed+' 名）'):'')+' · 难度 '+'★★★★★'.slice(0,Math.min(5,ST.lv)));
  if(c.qte){
-  var qs=c.qte>=2?(' · 拆弹币 '+((G&&G.qteCoin!=null?G.qteCoin:ST.qteCoin)|0)+' · G 坦克 / N 步战车 / J 无人机 / K 机器狗'):'';
+  var qs=c.qte>=2?(' · 拆弹币 '+((G&&G.qteCoin!=null?G.qteCoin:ST.qteCoin)|0)+' · T 战术平板调度'):'';
   $('fE').textContent=tot+' 个目标（含坦克与步战车） · 定时装置 '+fmt(c.bombTime||180)+' · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克 · 每 3 波 1 辆步战车'+qs;
  }
  $('fT').textContent=c.threat;$('fR').textContent=c.terr;
@@ -9974,9 +10160,14 @@ bind('bNameDef',function(){submitName('新兵')});
 bind('bTutGo',function(){show('sMenu');setScr('menu');renderLv();toast2('欢迎归队，'+(ST.name||'新兵'))});
 bind('bTutCqb',function(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  ST.lv=LV_CQB;brief()});
-(function(){var qs=$('qteSup');if(!qs)return;
- qs.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('button'):null;
-  if(!b||b.disabled)return;e.preventDefault();aInit();qteCall(b.getAttribute('data-sup'))})})();
+(function(){
+ var tb=$('tabletBtn');if(tb)tb.addEventListener('click',function(e){e.preventDefault();snd.ui();toggleTablet()});
+ var tc=$('tabClose');if(tc)tc.addEventListener('click',function(e){e.preventDefault();closeTablet()});
+ var tx=$('tabExit');if(tx)tx.addEventListener('click',function(e){e.preventDefault();closeTablet()});
+ var cards=$('tabCards');if(cards)cards.addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('button'):null;
+  if(!b||b.disabled)return;e.preventDefault();snd.ui();tabletDeploy(b.getAttribute('data-sup'))});
+})();
 bind('bTutArs',function(){openArs()});
 (function(){var ni=$('nameIn');if(!ni)return;
  ni.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitName(ni.value)}})})();
