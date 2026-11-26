@@ -1629,6 +1629,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫始终只有正面视野锥，并与玩家共用同一套锥形视野与 LOS 遮挡；开局 6 秒内远距离不会立刻发现你；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
   <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
   <p><b>背身感知</b>：非 QTE 地图的巡逻兵如果背对你，玩家进入约 190px 内且有视线，敌人会先出现「?」并停顿 2 秒，然后转身进入警戒；隔墙不会触发。任务建立后以及战斗中每 2 秒会自动巡检所有敌人，发现卡进墙体/掩体或四面堵死的单位会吸附到最近安全位置。</p>
+  <p><b>重装甲与楼宇</b>：敌方坦克/步战车不会驶入楼内——QTE 城市图只走道路，普通地图门洞对车体是不可穿越线。但门被破开后，车体可以停在门外，通过门洞向室内开火；步战车机炮改为 24 发一轮的高密度低精度弹幕，靠压制感逼你换位。</p>
   <h3>视野与配件</h3>
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
@@ -5141,7 +5142,7 @@ function foeFireTick(e,dt,cfg,p){
    - 坦克 3 发 AT4 击毁，第 1 发冒烟、第 2 发冒火；步战车 1 发冒烟、2 发殉爆；
    - 轻武器对装甲完全免疫，只有 AT4 战斗部能累计装甲命中。 */
 var ARMOR_MG={tank:{rate:.075,burst:7,pause:1.45,spread:.068,spd:1120},
- ifv:{rate:.030,burst:14,pause:1.10,spread:.060,spd:1280}};
+ ifv:{rate:.026,burst:24,pause:.88,spread:.165,spd:1280}};
 function armorTurn(e,ta,rate,dt,key){
  var d=ta-e[key];while(d>PI)d-=TAU;while(d<-PI)d+=TAU;
  e[key]+=clamp(d,-dt*rate,dt*rate);
@@ -5269,7 +5270,9 @@ function updateArmor(e,dt,cfg,p){
   var ma=Math.atan2(e.y-oy,e.x-ox);
   if(Math.hypot(e.x-ox,e.y-oy)>.2)armorTurn(e,ma,isIfv?1.9:1.05,dt,'a');
  }else armorTurn(e,ta,isIfv?1.6:.85,dt,'a');
+ if(!armorAllowedPoint(L.cfg,e.x,e.y)){e.x=ox;e.y=oy;e.path=null;e.pathT=0;e._mvT=0}
  armorSep(e);
+ if(!armorAllowedPoint(L.cfg,e.x,e.y)){e.x=ox;e.y=oy}
  /* 车体是实体：玩家不能直接站进车体 */
  var pdx=p.x-e.x,pdy=p.y-e.y,pd=Math.hypot(pdx,pdy),mn=e.r+p.r;
  if(pd<mn){
@@ -6228,7 +6231,7 @@ function foeNavStep(e,tx,ty,dt){
  var need=e.pathT<=0||!e.pg||(e.path&&e.pi>=e.path.length)||
   Math.hypot(tx-e.pg.x,ty-e.pg.y)>72;
  if(need){
-  e.path=navPath(e.x,e.y,tx,ty,e.r+2);e.pi=0;e.pg={x:tx,y:ty};
+  e.path=navPath(e.x,e.y,tx,ty,e.r+2,e.tp==='tank'||e.tp==='ifv');e.pi=0;e.pg={x:tx,y:ty};
   e.pathT=.65+Math.random()*.35;
   if(e.path&&e.path.length)e.path[0]={x:e.x,y:e.y};
  }
@@ -6242,24 +6245,25 @@ function foeNavStep(e,tx,ty,dt){
   if(e.pi>=e.path.length){e.path=null;e.pi=0}
  }
  return moved}
-function navBuild(r){
+function navBuild(r,armor){
  if(!L)return null;
  var cell=24,cols=Math.ceil(L.cfg.W/cell),rows=Math.ceil(L.cfg.H/cell),
   blocked=new Uint8Array(cols*rows),x,y,rad=Math.max(10,Math.ceil(r||12)),
   off=cell*.34;
  for(y=0;y<rows;y++)for(x=0;x<cols;x++){
   var cx=x*cell+cell/2,cy=y*cell+cell/2;
-  /* 中心 + 四角采样：薄墙不会从两个格中心之间漏过去 */
+  /* 中心 + 四角采样：薄墙不会从两个格中心之间漏过去；
+     重装甲额外禁止楼宇/门洞格，避免车体钻进室内。 */
   var ok=freeAt(cx,cy,rad)&&freeAt(cx-off,cy,rad)&&freeAt(cx+off,cy,rad)&&
-   freeAt(cx,cy-off,rad)&&freeAt(cx,cy+off,rad);
+   freeAt(cx,cy-off,rad)&&freeAt(cx,cy+off,rad)&&(!armor||armorAllowedPoint(L.cfg,cx,cy));
   blocked[y*cols+x]=ok?0:1}
  return {cell:cell,cols:cols,rows:rows,blocked:blocked,rad:rad}}
-function navEnsure(r){
+function navEnsure(r,armor){
  if(!L)return null;
  var rad=Math.ceil((Math.max(10,r||12))/4)*4;
  L.navs=L.navs||{};
- var key='r'+rad;
- if(!L.navs[key])L.navs[key]=navBuild(rad);
+ var key='r'+rad+(armor?'a':'');
+ if(!L.navs[key])L.navs[key]=navBuild(rad,armor);
  return L.navs[key]}
 function navCell(nav,x,y){var cx=Math.floor(x/nav.cell),cy=Math.floor(y/nav.cell);
  return {x:clamp(cx,0,nav.cols-1),y:clamp(cy,0,nav.rows-1)}}
@@ -6272,8 +6276,8 @@ function navFreeCell(nav,x,y){
   var nx=c.x+xx,ny=c.y+yy;if(nx<0||ny<0||nx>=nav.cols||ny>=nav.rows)continue;
   id=ny*nav.cols+nx;if(!nav.blocked[id])return id}
  return -1}
-function navPath(sx,sy,tx,ty,r){
- var nav=navEnsure(r||12);if(!nav)return null;
+function navPath(sx,sy,tx,ty,r,armor){
+ var nav=navEnsure(r||12,armor);if(!nav)return null;
  var s=navFreeCell(nav,sx,sy),g=navFreeCell(nav,tx,ty);
  if(s<0||g<0)return null;
  var rr=Math.max(8,(r||12)-1);
@@ -6331,6 +6335,20 @@ function roadAt(c,x,y){
  for(var i=0;i<c.roads.length;i++){var r=c.roads[i];
   if(x>=r[0]&&x<=r[0]+r[2]&&y>=r[1]&&y<=r[1]+r[3])return true}
  return false}
+/* 重装甲（坦克/步战车）不能进入楼宇：
+   QTE 图只允许在 roads 上活动；普通地图则把门洞（无论是否已破开）作为车体不可穿越线。
+   这不会影响 LOS —— 门破开后，车体仍可隔着门洞向室内射击。 */
+function armorDoorPoint(c,x,y){
+ if(!c||!c.dr)return false;
+ for(var i=0;i<c.dr.length;i++){var d=c.dr[i];
+  if(d.w>=d.h){if(x>d.x-4&&x<d.x+d.w+4&&y>d.y-5&&y<d.y+d.h+5)return true}
+  else{if(y>d.y-4&&y<d.y+d.h+4&&x>d.x-5&&x<d.x+d.w+5)return true}
+ }
+ return false}
+function armorAllowedPoint(c,x,y){
+ if(!c)return true;
+ if(c.roads&&c.roads.length)return roadAt(c,x,y);
+ return !armorDoorPoint(c,x,y)}
 function roadNav(r){
  var c=L&&L.cfg;if(!c||!c.roads)return null;
  var rad=Math.ceil((Math.max(12,r||12))/4)*4,key='r'+rad;
@@ -8707,6 +8725,14 @@ var PATCHES=[
       'QTE 地图新增少量散落拆弹币：QTE-01 4 处、QTE-02 3 处、QTE-03 5 处，每处 2 枚；靠近按 F 拾取，地图与小地图使用金色 Q 图标。',
       '战术平板操控权限改为敌方坦克/步战车入场后才开放；入场提示出现时解锁，按 T 才能进入平板调度。',
       '平板地图、支援卡片、费用状态与钱包同步更新；无人机/机器狗改为一次呼出 3 架/2 台。'
+     ]},
+    {v:45,d:'2026-11-26',t:'重装甲禁止入楼 · 步战车压制火力',
+     items:[
+      '所有敌方坦克/步战车新增楼宇禁入：QTE 城市图只允许沿 roads 街道活动；普通地图把门洞（无论是否破开）视为车体不可穿越线，车体不会钻进室内。',
+      '重装甲仍可通过已经打开的门洞向室内射击：门破开后移除门体碰撞，LOS 不被门洞截断；车体停在门外，主炮与机枪可向房间内开火。',
+      '步战车机炮改为高密度少精度：单轮 24 发、约 0.026 秒间隔、散布 0.165 rad，形成持续压制弹幕，但命中率明显低于坦克机枪；玩家会有被弹雨压住的压迫感。',
+      '重装甲寻路使用独立 clearance 网格，门洞与楼宇内部格子对坦克/步战车封锁；支援装甲仍只走道路。',
+      '实测：QTE-02 道路点可通行、楼内点不可通行；重装甲追击楼内玩家不进入楼体；关闭门洞时 LOS=0，破门后 LOS=1，可直接向室内射击。'
      ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
