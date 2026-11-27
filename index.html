@@ -4265,8 +4265,29 @@ var KM_ACT=[
  ['mute','音效开关']];
 var KM={};for(var kmi in KM_DEF)KM[kmi]=KM_DEF[kmi];
 if(ST.kraw){for(var kr in KM_DEF)if(typeof ST.kraw[kr]==='string')KM[kr]=ST.kraw[kr]}
-function kNorm(e){var k=e.key;if(k===' ')return 'space';
- if(k==='Escape')return 'escape';return k.toLowerCase()}
+/* 键盘按键归一化：
+   - 优先用 e.code（物理键位）识别字母/数字/空格/方向键/功能键，
+     这样即使用中文输入法、组合键或非 QWERTY 键盘布局，WASD 等仍然有效；
+   - e.code 无法识别的键（标点、小键盘等）退回 e.key，保持自定义键位兼容。 */
+function kCodeNorm(c){
+ if(!c)return '';
+ var mp={Space:'space',Escape:'escape',Tab:'tab',Enter:'enter',Backspace:'backspace',
+  PageUp:'pageup',PageDown:'pagedown',ArrowUp:'arrowup',ArrowDown:'arrowdown',
+  ArrowLeft:'arrowleft',ArrowRight:'arrowright',ShiftLeft:'shift',ShiftRight:'shift',
+  ControlLeft:'control',ControlRight:'control',AltLeft:'alt',AltRight:'alt',
+  MetaLeft:'meta',MetaRight:'meta'};
+ if(mp[c])return mp[c];
+ if(c.indexOf('Digit')===0)return c.slice(5).toLowerCase();
+ if(c.indexOf('Key')===0)return c.slice(3).toLowerCase();
+ if(/^F([1-9]|1[0-2])$/.test(c))return c.toLowerCase();
+ return ''}
+function kNorm(e){
+ var ck=e&&e.code?kCodeNorm(e.code):'';
+ if(ck)return ck;
+ var k=e&&e.key?e.key:'';
+ if(k===' ')return 'space';
+ if(k==='Escape')return 'escape';
+ return k.toLowerCase()}
 function kLabel(k){if(!k)return '未绑定';
  var mp={escape:'Esc',shift:'Shift',control:'Ctrl',alt:'Alt',tab:'Tab',
  ' ':'Space',space:'Space',arrowup:'↑',arrowdown:'↓',arrowleft:'←',arrowright:'→',
@@ -4351,10 +4372,13 @@ D.addEventListener('keydown',function(e){var k=kNorm(e);
   if(k==='escape')closeThrowPick()}},{passive:false});
 D.addEventListener('keyup',function(e){KEY[kNorm(e)]=0});
 D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0;BF.act=0});
+/* 切后台/最小化时清空按键状态，避免回来后出现“键一直按住”的假输入 */
+D.addEventListener('visibilitychange',function(){if(D.hidden){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0;BF.act=0}});
 function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_ACT[i][1];return a}
 cv.addEventListener('contextmenu',function(e){e.preventDefault()});
 /* 据枪改为键盘键（默认 Space）：鼠标右键不再据枪，避免和浏览器右键菜单/瞄准习惯冲突 */
-cv.addEventListener('mousedown',function(e){if(e.button===0){MS.l=1;G&&G.p&&(G.p.press=1)}});
+cv.addEventListener('mousedown',function(e){try{W.focus()}catch(e2){}
+ if(e.button===0){MS.l=1;G&&G.p&&(G.p.press=1)}});
 D.addEventListener('mouseup',function(e){if(e.button===0)MS.l=0});
 D.addEventListener('mousemove',function(e){MS.x=e.clientX;MS.y=e.clientY});
 function sEl(el,t){el.style.opacity='1';
@@ -4366,7 +4390,8 @@ function sMove(el,ox,oy,cx,cy,box){var dx=cx-ox,dy=cy-oy,d=Math.hypot(dx,dy)||1,
  el.firstElementChild.style.transform='translate('+(dx/d*cl-24)+'px,'+(dy/d*cl-24)+'px)';
  return{dx:dx/d*Math.min(1,d/box),dy:dy/d*Math.min(1,d/box)}}
 function sEnd(el){if(ST.tcf&&ST.tcf.stickFix&&el._tpk){el.style.opacity='.38';return}el.style.opacity='0'}
-cv.addEventListener('touchstart',function(e){if(!G||ST.scr!=='play'){return}
+cv.addEventListener('touchstart',function(e){try{W.focus()}catch(e2){}
+ if(!G||ST.scr!=='play'){return}
  if(!touchUI){touchUI=true;D.body.classList.add('touch');applyTP();
   toast('已切换触控布局：暂停→键位设置 内可摆放圆钮',3000)}
  var ts=e.changedTouches,i;
@@ -8901,6 +8926,14 @@ var PATCHES=[
        '每项任务结束自动复查无人装具与重装甲寻路：检查卡墙、卡掩体、离开道路、路径点失效；发现异常就地复位，并在结算备注显示“寻路复查”结果。战斗中每 2 秒也巡检一次，卡位超过 2.2/2.8 秒自动脱困。',
        '重装甲仍不能进入楼宇，但可隔着已打开的门洞向室内射击；支援装甲、无人机、机器狗继续只沿道路活动。',
        '实测：坦克视野 851、步战车 813（均为步枪 774 的 1.10/1.05 倍）；步战车单发伤害约为原来的 35%，3 发命中扣 1 格；敌方坦克可锁定 300px 外的我方坦克并累计装甲；任务结束寻路复查可识别并复位卡墙单位。'
+      ]},
+     {v:47,d:'2026-11-27',t:'键盘输入修复 · 输入法/键盘布局兼容',
+      items:[
+       '修复部分环境下按键无响应：改为优先用 e.code（物理键位）识别字母/数字/空格/方向键/功能键，中文输入法激活、死键或非 QWERTY 键盘布局下，WASD、换弹、切枪、据枪等仍能正常触发。',
+       '标点与自定义键位仍退回 e.key 识别，兼容既有自定义键位设置。',
+       '点击画面或触屏时自动把焦点收回游戏窗口，修复嵌入网页后必须先点击才能用键盘的问题。',
+       '窗口切后台/最小化时清空按键状态，避免回来后方向键/据枪被误判为一直按住。',
+       '实测：key=Process+code=KeyW 与 AZERTY 的 z+KeyW 均归一化为 W，端到端移动方向正确（上移 vy<0、下移 vy>0）；标点 ; 仍按原样识别。'
       ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
