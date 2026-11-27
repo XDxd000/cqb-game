@@ -1115,6 +1115,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
           <button data-sup="tank"><b>装甲支援 · 主战坦克</b><span>80 币 · 主炮 + 机枪</span><i>呼叫</i></button>
           <button data-sup="uav"><b>无人支援 · 自杀无人机 ×3</b><span>30 币 · 接触自爆 · 对坦克 6 架</span><i>呼叫</i></button>
           <button data-sup="dog"><b>无人支援 · 机器狗 ×2</b><span>20 币 · 步枪压制 · 100 发</span><i>呼叫</i></button>
+          <button data-sup="smoke"><b>战术装备 · 中等战术烟幕</b><span>40 币 · 地图标记 · 3 秒到达 · 持续 15 秒</span><i>标记</i></button>
         </div>
         <button id="tabExit">退出战术平板</button>
       </div>
@@ -1631,9 +1632,9 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>QTE 拆弹行动 · 拆弹币</h3>
   <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除，不再出现在任务序列、存档或简介中。</p>
-  <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。拆弹前没有任何 AT4；敌方坦克入场 30 秒后才会空投 3 具 AT4，分别落在街区三处远端，每具提供 2 发火箭弹，AT4 必须完全据枪才能发射；普通弹药补给箱不补火箭弹。QTE-01 的坦克使用正常装甲与速度，无视线时会沿街道游走，发现玩家后才转入交战。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援，第二关开局先有一辆坦克压街，需要立刻躲避；拆弹前没有 AT4，拆弹后空投 4 具到街区四角，同时第二辆坦克与 4 名步兵入场，两辆坦克都会锁定玩家并沿公路持续追击，每 60 秒再补 4 名步兵。QTE 三关分别有 2 / 4 / 6 名人质，全部藏在建筑内部，带出后每人奖励 10 拆弹币。</p>
+  <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。拆弹前没有任何 AT4；敌方坦克入场 30 秒后才会空投 3 具 AT4，分别落在街区三处远端，每具提供 2 发火箭弹，AT4 必须完全据枪才能发射；普通弹药补给箱不补火箭弹。QTE-01 的坦克使用正常装甲与速度，无视线时会沿街道游走，发现玩家后才转入交战。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援，第二关开局先有一辆坦克压街，需要立刻躲避；拆弹前没有 AT4，拆弹后空投 4 具到街区四角，同时第二辆坦克与 4 名步兵入场，两辆坦克都会锁定玩家并沿公路持续追击，每 60 秒再补 4 名步兵。QTE-03 拆除第一枚炸弹后会立刻刷出一辆坦克与 4 名步兵，坦克直接锁定玩家追杀；每 60 秒还会补充坦克与步兵，拆完两枚才停止。QTE 三关分别有 2 / 4 / 6 名人质，全部藏在建筑内部，带出后每人奖励 10 拆弹币。</p>
   <p><b>拆弹币</b>：QTE 模式专属；地图散落拆弹币每处 10 枚，拆弹成功 +20，带出 1 名人质 +10，击毁 1 辆敌方坦克 +40；普通步兵击杀与通关不再额外发币。任务列表顶部有金色 QTE 钱包卡显示持有量，HUD 左上角同步显示金色硬币标记。它不能带入其他地图，也不能用于军械库或普通任务。QTE-02/03 开局至少预拨 80 枚。</p>
-  <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（80 币）、自杀无人机 ×3（30 币）或机器狗 ×2（20 币）出击。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 位置。原小地图已移除。</p>
+  <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（80 币）、自杀无人机 ×3（30 币）、机器狗 ×2（20 币）或中等战术烟幕（40 币）出击。中等战术烟幕需要先在战术地图上标记落点，标记确认后 3 秒到达，抵达后双击鼠标左键在标记点释放；烟幕半径 280、持续 15 秒，烟内敌人无法索敌和开火，若玩家再次惊动敌人，敌方射击散布额外 ×2.4。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 位置。原小地图已移除。</p>
   <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对步战车累计 3 架、对坦克累计 6 架才能摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
   <h3>难度曲线</h3>
   <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁国产枪族与 QTE；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
@@ -2766,11 +2767,11 @@ var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4
   [220,220,3760,260],[220,1220,3760,260],[220,2320,3760,260],
   [140,540,400,520],[1060,540,480,520],[2060,540,480,520],[3060,540,280,520],[3860,540,180,520],
   [140,1520,400,560],[1060,1520,480,560],[2060,1520,480,560],[3060,1520,280,560]],
- threat:'开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 每 60 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
- terr:'4200×2800 四街合围：6 名人质分散在楼内；两枚定时装置分别藏在东南中楼与西侧楼内，开局有坦克与巡逻守卫',
- hint:'开局按 T 呼叫支援 · 6 名人质在楼内，带出每人 +10 拆弹币 · 两枚炸弹都要拆 · 每 60 秒来一辆坦克并带 6 名步兵 · 拆完两枚才停止增援',
- intel:'第三关是赤隼的最后一条城市防线：两枚定时装置分别藏在东南中楼与西侧楼内，6 名人质分散在楼内，开局就有一辆坦克压街，街道上还有巡逻守卫。每 60 秒还会再投入一辆坦克并带六名步兵；只有拆除两枚炸弹才会停止增援。开局按 T 呼叫坦克、无人机或机器狗，先用支援顶住街道，再逐楼拆弹并带出人质。',
- obj:['进入四街合围区并避开巡逻守卫','在楼内找到 6 名人质','按 T 呼叫支援单位','拆除第一枚炸弹','拆除第二枚炸弹','摧毁全部坦克','带出人质并清理残敌'],
+ threat:'开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 拆除第一枚炸弹后立即刷出坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
+ terr:'4200×2800 四街合围：6 名人质分散在楼内；两枚定时装置分别藏在东南中楼与西侧楼内，开局有坦克与巡逻守卫；拆掉第一枚后，一辆坦克与四名步兵会立即入场追杀',
+ hint:'开局按 T 呼叫支援 · 6 名人质在楼内，带出每人 +10 拆弹币 · 两枚炸弹都要拆 · 拆掉第一枚会立即刷出坦克×1 + 步兵×4 并锁定你 · 每 60 秒还会来一辆坦克并带 6 名步兵',
+ intel:'第三关是赤隼的最后一条城市防线：两枚定时装置分别藏在东南中楼与西侧楼内，6 名人质分散在楼内，开局就有一辆坦克压街，街道上还有巡逻守卫。拆除第一枚炸弹后，一辆坦克与四名步兵会立刻入场并锁定你的位置，必须马上转移；此后每 60 秒还会再投入一辆坦克并带六名步兵，只有拆除两枚炸弹才会停止增援。开局按 T 呼叫坦克、无人机、机器狗或中等战术烟幕，先用支援顶住街道，再逐楼拆弹并带出人质。',
+ obj:['进入四街合围区并避开巡逻守卫','在楼内找到 6 名人质','按 T 呼叫支援单位','拆除第一枚炸弹','立即转移并躲避坦克追杀','拆除第二枚炸弹','摧毁全部坦克','带出人质并清理残敌'],
  roe:'支援单位沿道路推进 · 不要挡在坦克炮口前 · 人质在楼内 · 潜入阶段先避开巡逻守卫'};
 LS.push(YARD,AIR_LV);
 var LS6=LS.concat([BOMB_LV,QTE2_LV,QTE3_LV,CQB_LV]);/* QTE1/2/3 在训练关之前 */
@@ -4200,7 +4201,7 @@ g.restore();
    sp:Math.round(208*(1+of.mob+om.move+(po.mob||0))),vx:0,vy:0,
    recK:om.recoil,relK:om.reload,aimK:om.ads,viewK:om.view,brK:om.breach,
    brD:null,brT:0,adsT:0,
-   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,hide:(of.hide||1),
+   wi:0,md:1,rl:0,aim:0,run:0,sT:2.2,kd:0,sw:0,bob:0,aimT:0,stunT:0,blindT:0,hide:(of.hide||1),fireMoveT:0,
    plateHits:(po.hits||0),plateMax:(po.hits||0),plateName:(po.n||''),
    press:0,prevL:0,fm:'',heat:0,burstN:0,
    act:null,gid:'',sx:0,sy:0,gx:0,gy:0,tx:0,ty:0,gt:0,travel:.06,landed:0,fuseT:0,
@@ -4212,6 +4213,8 @@ g.restore();
   G.p.fm=modeOf(G.p.guns[0].w);
   if(c.wave){G.waveT=c.wave.iv;G.waveN=0;G.waveSpawned=0}
   G.sup=[];G.tablet=0;G.tabletUnlock=0;G.wrecks=[];
+  /* v61：战术烟幕与 QTE-03 第一枚炸弹事件标记。 */
+  G.smokes=[];G.smokeCall=null;G.smokeMarking=0;G.qteFirstBomb=0;
   G.qteScript=c.qteScript||0;G.qtePhase=0;G.qteWaveT=60;G.qteAt4=0;G.qteAt4T=30;G.qteAt4Warn=0;G.qteIntro=0;
   if(c.qte){
    G.qteCoin=Math.max(0,ST.qteCoin|0);
@@ -4659,6 +4662,20 @@ function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_
 cv.addEventListener('contextmenu',function(e){e.preventDefault()});
 /* 据枪改为键盘键（默认 Space）：鼠标右键不再据枪，避免和浏览器右键菜单/瞄准习惯冲突 */
 cv.addEventListener('mousedown',function(e){try{W.focus()}catch(e2){}
+ if(e.button===0&&G&&G.smokeCall&&G.smokeCall.armed){
+  /* v61：烟幕到位后左键用于双击释放，单击不会开枪，避免误暴露。 */
+  var nt=performance.now();
+  if(nt-(G.smokeCall._ct||0)<450){
+   G.smokeCall._ct=0;
+   if(releaseSmoke()){e.preventDefault();return}
+  }
+  G.smokeCall._ct=nt;
+  if(G.t-(G.smokeCall._hintT||-99)>1.2){
+   G.smokeCall._hintT=G.t;
+   toast('烟幕已到位 · 双击鼠标左键释放（单击不会开火）',1800);
+  }
+  e.preventDefault();return;
+ }
  if(e.button===0){MS.l=1;G&&G.p&&(G.p.press=1)}});
 D.addEventListener('mouseup',function(e){if(e.button===0)MS.l=0});
 D.addEventListener('mousemove',function(e){MS.x=e.clientX;MS.y=e.clientY});
@@ -4808,6 +4825,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
  /* v58：AT4 必须完全据枪才能发射，腰射只提示，不消耗火箭弹。 */
  if(w1.cls==='launcher'&&!p.aim){toast('AT4 必须据枪才能发射 · 按住 Space 据枪',2400);return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
+ /* v61：除冲锋枪外，开火后 0.45 秒内移动速度降低 30%。 */
+ if(w1.cls!=='smg')p.fireMoveT=.45;
  if(L&&L.cfg&&L.cfg.cqb&&(p.fm||modeOf(w1))==='semi'&&p.aim)cqbEv('semiShot');
  var base=p.aa,fm=p.fm||modeOf(w1);
  var sp2=shotSpread(w1,p,fm);
@@ -4819,7 +4838,9 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
   if(!freeAt(mx,my,2)){mx=p.x+Math.cos(base)*8;my=p.y+Math.sin(base)*8}
   if(!freeAt(mx,my,2)){mx=p.x;my=p.y}
   b.a=1;b.x=mx;b.y=my;
-  b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1;
+  b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;
+   /* v61：狙击弹不再穿透任何墙体/掩体；只有弹体可以贯穿最多 2 名步兵。 */
+   b.pen=w1.cls==='sniper'?0:w1.pen;b.wp=w1;
    /* v60：狙击弹最多连续贯穿 2 名步兵；遇到坦克/步战车立即停止。 */
    b.pierce=w1.cls==='sniper'?2:0;b.hit=b.pierce?[]:null;
    b.armorDmg=1;b.at=w1.at||0;b.atR=w1.atR||132;b.atDmg=w1.atDmg||420;b.tank=0;b.mg=0;b.srcArmor=0;b.sup=0}
@@ -5568,7 +5589,7 @@ function foeSpread(e,w){
  var acc=clamp(e.acc||1,.6,1.45),
    iq=clamp(e.intel||1,.55,1.6),
    skill=acc*(.86+.14*iq);
-  return (w.sp||.03)*11.2*k*diff*(1+mv*moveK*.35)*heat*sup/skill}
+  return (w.sp||.03)*11.2*k*diff*(1+mv*moveK*.35)*heat*sup/skill*smokeAccuracyK()}
 function foeDamage(e,w,cfg){
  var k=e.tp==='sniper'?1.9:Math.sqrt((w.dmg||28)/28);
  return (cfg.edm||5)*(e.dm||1)*k*.62}
@@ -5613,6 +5634,8 @@ function foeShoot(e,p){
  return 1}
 function foeFireTick(e,dt,cfg,p){
  var g=e.gun;if(!g)return;
+ /* v61：烟幕内的敌人完全失去索敌与开火能力，连压制射击也停止。 */
+ if(enemyInSmoke(e)){e.canSee=0;e.fireN=0;return}
  if(e.st==='suspect')return;   /* 搜索状态绝不主动开火 */
  if(g.rl>0){g.rl-=dt;if(g.rl<=0){g.rl=0;g.am=g.w.cap}return}
  if(g.am<=0){g.rl=Math.max(.8,(g.w.rl||2.3)*(.9+Math.random()*.2));e.fireN=0;return}
@@ -5661,7 +5684,7 @@ function fireArmorMG(e,p,side,kind){
  if(!e||e.dead||!L||!L.cfg)return;
  var cfg=L.cfg,m=ARMOR_MG[kind]||ARMOR_MG.tank,
   lead=armorLead(e,p,m.spd),base=Math.atan2(lead.y-e.y,lead.x-e.x),
-  a=base+(Math.random()-.5)*m.spread*2+(side||0)*.008,
+  a=base+(Math.random()-.5)*m.spread*2*smokeAccuracyK()+(side||0)*.008,
   fwd=kind==='tank'?32:36,off=kind==='tank'?(side||0)*11:0,
   ox=e.x+Math.cos(a)*fwd+Math.cos(a+PI/2)*off,
   oy=e.y+Math.sin(a)*fwd+Math.sin(a+PI/2)*off,b=gpb();
@@ -5677,7 +5700,7 @@ function fireArmorMG(e,p,side,kind){
  if(G.t-(e._mgNoise||-9)>.32){e._mgNoise=G.t;noiseAt(e.x,e.y,720)}
 }
 function fireTankShell(e,p){
- var lead=armorLead(e,p,1450),a=Math.atan2(lead.y-e.y,lead.x-e.x),b=gpb();
+ var lead=armorLead(e,p,1450),a=Math.atan2(lead.y-e.y,lead.x-e.x)+(Math.random()-.5)*.012*smokeAccuracyK(),b=gpb();
  e.ta=a;
  b.a=1;b.x=e.x+Math.cos(a)*58;b.y=e.y+Math.sin(a)*58;
  b.vx=Math.cos(a)*1450;b.vy=Math.sin(a)*1450;
@@ -5765,7 +5788,10 @@ function armorPatrolStep(e,dt){
  return moved;
 }
 function updateArmor(e,dt,cfg,p){
- var isIfv=!!e.ifv,lock=!!e.qteLock,tgt=lock?p:armorPickTarget(e,p);
+ var isIfv=!!e.ifv,lock=!!e.qteLock,tgt;
+ /* v61：烟幕内的锁定坦克失去实时索敌，只能追到最后已知位置；离开烟幕才恢复锁定。 */
+ if(lock&&enemyInSmoke(e))lock=0;
+ tgt=lock?p:armorPickTarget(e,p);
  e.tgt=tgt;
  e.hurt=Math.max(0,e.hurt-dt);
  if(e.dead)return;
@@ -6121,18 +6147,21 @@ function hitSeg(b,ox,oy,nx,ny,strictEnd){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
  for(i=0;i<L.en.length;i++){e=L.en[i];if(!e.dead)eL.push(e)}
  if(b.own===1){
   for(i=0;i<L.civ.length;i++){if(!L.civ[i].down)cL.push(L.civ[i])}
-  /* v58：狙击弹体穿透。按命中距离依次结算最多 2 名步兵；
-     人质仍在弹道上，穿透步兵后可以继续击中并误伤人质；
+  /* v61：狙击弹体穿透。按命中距离依次结算最多 2 名步兵；
+     人质仍可能被弹体贯穿误伤，但任何墙/掩体后的目标都不会进入命中列表；
      坦克/步战车不被穿透，命中后立即停止。 */
   if(b.pierce>0&&b.wp&&b.wp.cls==='sniper'){
    if(!b.hit)b.hit=[];
    var cand=[],hq;
    for(i=0;i<eL.length;i++){var pe=eL[i];
     if(b.hit.indexOf(pe)>=0)continue;
+     /* v61：目标中心必须先有真实视线；隔墙/隔掩体的目标不进入贯穿列表。 */
+     if(!los(ox,oy,pe.x,pe.y))continue;
     hq=nearestHit(ox,oy,dx,dy,l2,[pe],function(o){return o.r},strictEnd);
     if(hq)cand.push({o:pe,t:hq.t,civ:0})}
    for(i=0;i<cL.length;i++){var pc=cL[i];
     if(b.hit.indexOf(pc)>=0)continue;
+     if(!los(ox,oy,pc.x,pc.y))continue;
     hq=nearestHit(ox,oy,dx,dy,l2,[pc],function(o){return o.r},strictEnd);
     if(hq)cand.push({o:pc,t:hq.t,civ:1})}
    if(!cand.length)return 0;
@@ -6564,11 +6593,59 @@ function foeView(e){
   wid:((w&&w.vw)||RIFLE_VIEW_W)*kk,
   near:Math.max(18,((e&&e.nearR)||(e&&e.tp==='sniper'?110:88))*FOE_VIEW_SCALE)}}
 function foeCanSee(e,p){
+ if(enemyInSmoke(e))return 0;
  var v=foeView(e),near=v.near,
   len=v.len*(p&&p.hide?p.hide:1),
   aa=(e&&(e.tp==='tank'||e.tp==='ifv'))?e.ta:e.a;
  if(!inViewAt(p.x,p.y,e.x,e.y,aa,len,v.wid,near))return 0;
  return los(e.x,e.y,p.x,p.y)?1:0}
+/* ==== v61 战术烟幕 ====
+   40 拆弹币；在战术地图标记落点，3 秒后到达，双击左键在标记点释放。
+   烟幕半径 280，持续 15 秒；烟内的敌人无法索敌/开火。
+   若玩家在烟幕存在期间再次惊动敌人，敌方射击散布额外 ×2.4。 */
+var SMOKE_R=280,SMOKE_LIFE=15,SMOKE_DELAY=3,SMOKE_COST=40;
+function inSmokeAt(x,y,pad){
+ if(!G||!G.smokes)return false;
+ var i,s,rr=pad||0;
+ for(i=0;i<G.smokes.length;i++){s=G.smokes[i];
+  if(s.left>0&&Math.hypot(x-s.x,y-s.y)<s.r+rr)return true}
+ return false}
+function enemyInSmoke(e){return !!(e&&!e.dead&&inSmokeAt(e.x,e.y,8))}
+function smokeAccuracyK(){return (G&&G.alerted&&G.smokes&&G.smokes.length)?2.4:1}
+function smokeLandPoint(x,y){
+ x=clamp(x,30,L.cfg.W-30);y=clamp(y,30,L.cfg.H-30);
+ var q={x:x,y:y,r:10};
+ if(!freeAt(x,y,10)&&snapFree(q)){x=q.x;y=q.y}
+ return {x:x,y:y}}
+function updSmoke(dt){
+ if(!G)return;
+ if(G.smokeCall&&!G.smokeCall.armed){
+  G.smokeCall.t=(G.smokeCall.t||0)+dt;
+  if(G.smokeCall.t>=SMOKE_DELAY){
+   G.smokeCall.t=SMOKE_DELAY;G.smokeCall.armed=1;
+   toast('战术烟幕已到达 · 双击鼠标左键释放',3600);
+   feed('烟幕弹到位 · 双击左键在标记点展开',1);snd.ping();
+  }
+ }
+ if(G.smokes&&G.smokes.length){
+  for(var i=G.smokes.length-1;i>=0;i--){var s=G.smokes[i];
+   s.left-=dt;if(s.left<=0)G.smokes.splice(i,1)}
+ }
+}
+function releaseSmoke(){
+ if(!G||!G.smokeCall||!G.smokeCall.armed)return false;
+ var q=G.smokeCall;G.smokes=G.smokes||[];
+ G.smokes.push({x:q.x,y:q.y,r:SMOKE_R,left:SMOKE_LIFE,total:SMOKE_LIFE});
+ G.smokeCall=null;G.smokeMarking=0;
+ var i,n=0;
+ for(i=0;i<L.en.length;i++){var e=L.en[i];
+  if(!e.dead&&enemyInSmoke(e)){e.canSee=0;e.fireN=0;n++}}
+ toast('战术烟幕展开 · 15 秒遮蔽',3000);
+ feed(n?('战术烟幕 · 烟内 '+n+' 名敌人失去索敌'):'战术烟幕展开 · 15 秒内遮蔽视线',1);
+ snd.go();
+ if(G.tablet)closeTablet();
+ return true}
+function smokeCallDelay(){return G&&G.smokeCall?Math.max(0,SMOKE_DELAY-(G.smokeCall.t||0)):0}
 /* 视线可见性：每 0.12 秒重算一次，门后与墙后的单位不渲染 */
 function updVis(dt){if(!G||!L)return;
  G._vT=(G._vT==null?0:G._vT-dt);if(G._vT>0)return;G._vT=.12;
@@ -6856,7 +6933,7 @@ function qteScenario(dt){
    feed('避开或清除巡逻守卫 · 拆弹前无 AT4 · 坦克入场 30 秒后空投 3 具',1)}
   if(sc===2){toast('QTE-02：先躲开局坦克 · 拆弹后空投 4 具 AT4，第二辆坦克入场',4400);
    feed('两辆坦克会锁定并沿公路追击 · 拆弹前没有 AT4 · 拆弹后空投 4 具',1);snd.alert()}
-  if(sc===3){toast('QTE-03：按 T 呼叫支援单位，顶住坦克增援',3800);feed('开局提醒 · 战术平板可呼叫坦克/无人机/机器狗',1)}
+  if(sc===3){toast('QTE-03：按 T 呼叫支援单位（含中等战术烟幕），顶住坦克增援',3800);feed('开局提醒 · 战术平板可呼叫坦克/无人机/机器狗/中等战术烟幕',1)}
  }
  if(sc===1){
   if(G.qtePhase===0&&bombsDone){
@@ -6905,6 +6982,19 @@ function qteScenario(dt){
   }
  }
  else if(sc===3){
+  /* v61：第三关拆掉第一枚炸弹后，立刻刷出一辆坦克 + 4 名步兵；
+     坦克直接锁定玩家并立即沿街追击，不等 60 秒波次。 */
+  var doneN=0,bj;
+  for(bj=0;bj<L.bombs.length;bj++)if(L.bombs[bj].done)doneN++;
+  if(!G.qteFirstBomb&&doneN>=1){
+   G.qteFirstBomb=1;
+   var tk3=qteSpawnArmor('tank',0);
+   if(tk3){tk3.qteLock=1;tk3.lastSeen=G.t;tk3.lx=G.p.x;tk3.ly=G.p.y}
+   var sm4=qteSpawnSquad(4);
+   toast('第一枚炸弹拆除 · 敌方坦克 + '+(sm4||4)+' 名步兵入场，立即追杀！',4400);
+   feed('QTE-03：第一枚炸弹拆除 · 坦克锁定你并立即追击'+(sm4?(' · 步兵 +'+sm4):''),0);
+   snd.alert();
+  }
   if(!bombsDone){
    G.qteWaveT-=dt;
    if(G.qteWaveT<=0){
@@ -7029,7 +7119,10 @@ function updatePlayer(dt){var p=G.p,i;
  var spr=0;if(p.run&&ml>.2){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
  var adsMove=aw.cls==='launcher'?0:(aw.cls==='sniper'?.34:.6);
- var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1);
+ /* v61：除冲锋枪外，开火后 0.45 秒内移速降至 70%；烟幕/开火惩罚与据枪、疾跑叠乘。 */
+ p.fireMoveT=Math.max(0,(p.fireMoveT||0)-dt);
+ var fireK=(p.fireMoveT>0&&aw.cls!=='smg')?.70:1;
+ var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1)*fireK;
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -7385,7 +7478,7 @@ var SUP_DEF={tank:{cost:80,label:'我方主战坦克',r:38,armor:3,sp:76,group:1
  uav:{cost:30,label:'自杀式无人机',r:14,armor:1,hp:3,sp:154,life:80,group:3},
  dog:{cost:20,label:'武装机器狗',r:14,armor:1,hp:5,sp:132,life:90,group:2}};
 /* ---- 战术平板：全地图单键 T 打开；QTE 地图附带支援调度，打开期间 step 直接冻结 ---- */
-var TAB_COST={tank:80,ifv:60,uav:30,dog:20};
+var TAB_COST={tank:80,ifv:60,uav:30,dog:20,smoke:40};
 function tabletAllowed(){
  return !!(L&&L.cfg&&G&&G.phase==='live'&&!G.over&&!G.qte)}
 function toggleTablet(){
@@ -7402,33 +7495,82 @@ function openTablet(){
 function closeTablet(){
  if(!G||!G.tablet)return;
  G.tablet=0;ACC2=0;LT0=performance.now();
+ if(G.smokeMarking)G.smokeMarking=0;
  var el=$('tablet');if(el){el.classList.add('hidden');el.setAttribute('aria-hidden','true')}
 }
 function tabletDeploy(kind){
  if(!G||!G.tablet)return;
+ if(kind==='smoke'){beginSmokeMark();return}
  if(qteCall(kind))closeTablet();
  else{updateTabletCards();drawTablet()}
 }
+/* v61：战术烟幕的“标记 → 3 秒到达 → 双击释放”流程。 */
+function beginSmokeMark(){
+ var c=L&&L.cfg;
+ if(!G||!G.tablet||!c||!c.qte||!c.support||c.qte<2)return false;
+ if(!G.tabletUnlock){toast('敌方装甲入场后才开放战术平板操控权限',2400);return false}
+ if(G.qte||G.phase!=='live'||G.over){toast('当前无法呼叫支援',1600);return false}
+ if(G.smokeCall||(G.smokes&&G.smokes.length)){
+  toast('烟幕已在投送或生效中 · 等它结束再呼叫',2400);return false}
+ if((G.qteCoin||0)<SMOKE_COST){toast('拆弹币不足 · 中等战术烟幕需要 '+SMOKE_COST,2200);return false}
+ G.smokeMarking=G.smokeMarking?0:1;
+ updateTabletCards();drawTablet();
+ toast(G.smokeMarking?'点击战术地图标记烟幕落点':'已取消烟幕标记',2000);
+ return true}
+function tabletGeom(){
+ var cv=$('tabMap');if(!cv||!L)return null;
+ var c=L.cfg,pad=18,
+  sc=Math.min((cv.width-pad*2)/c.W,(cv.height-pad*2)/c.H);
+ return {sc:sc,ox:(cv.width-c.W*sc)/2,oy:(cv.height-c.H*sc)/2}}
+function tabletWorldAt(e){
+ var cv=$('tabMap'),g=tabletGeom();if(!cv||!g)return null;
+ var r=cv.getBoundingClientRect(),mx=(e.clientX-r.left)*cv.width/(r.width||cv.width),
+  my=(e.clientY-r.top)*cv.height/(r.height||cv.height);
+ return {x:(mx-g.ox)/g.sc,y:(my-g.oy)/g.sc}}
+function confirmSmokeMark(x,y){
+ if(!G||!G.tablet||!G.smokeMarking||!L)return false;
+ if((G.qteCoin||0)<SMOKE_COST){toast('拆弹币不足 · 中等战术烟幕需要 '+SMOKE_COST,2200);return false}
+ var pt=smokeLandPoint(x,y);
+ G.qteCoin-=SMOKE_COST;ST.qteCoin=G.qteCoin;save();
+ G.smokeMarking=0;
+ G.smokeCall={x:pt.x,y:pt.y,t:0,armed:0};
+ closeTablet();
+ toast('烟幕投送确认 · 3 秒后到达标记点',3200);
+ feed('战术烟幕：3 秒后到达 · 到达后双击左键释放',1);snd.go();
+ return true}
 function updateTabletCards(){
  var c=L&&L.cfg,isQte=!!(c&&c.qte),coin=(G&&G.qteCoin)|0,
   cards=$('tabCards'),coinBox=$('tabCoin');
  if($('tabCoinN'))$('tabCoinN').textContent=coin;
+ if($('tabMap'))$('tabMap').style.cursor=(G&&G.smokeMarking)?'crosshair':'default';
  if(coinBox)coinBox.classList.toggle('hidden',!isQte);
  if(cards)cards.classList.toggle('hidden',!isQte);
  if($('tabMode'))$('tabMode').textContent=isQte?('QTE-0'+c.qte):'TACTICAL';
  if($('tabSub'))$('tabSub').textContent=(c?c.nm:'')+(isQte?' · 战术地图 / 支援调度':' · 人质 / 补给 / 撤离');
- if($('tabLegend'))$('tabLegend').textContent=isQte?'QTE：敌军/重装甲 / 人质 / 补给 / AT4':'● 人质  ● 补给箱  ▲ EXIT';
- if($('tabNote'))$('tabNote').textContent=isQte?
-  ('平板打开期间所有单位与计时暂停。实时显示敌方重装甲、人质、补给与 AT4；'+(!c.support?'本关不开放支援调度。':(G.tabletUnlock?'选择支援后自动出击。':'敌方坦克入场后解锁支援调度。'))):
-  '仅显示人质、补给箱与撤离点；不显示敌人、武器或其他单位。平板打开期间战斗暂停。';
+ if($('tabLegend'))$('tabLegend').textContent=isQte?'QTE：敌军/重装甲 / 人质 / 补给 / AT4 / 烟幕':'● 人质  ● 补给箱  ▲ EXIT';
+ var smokeOn=!!(G&&G.smokes&&G.smokes.length),smokeBusy=!!(G&&(G.smokeCall||smokeOn));
+ if($('tabNote')){
+  var note=isQte?
+   ('平板打开期间所有单位与计时暂停。实时显示敌方重装甲、人质、补给与 AT4；'+(!c.support?'本关不开放支援调度。':(G.tabletUnlock?'选择支援后自动出击。':'敌方坦克入场后解锁支援调度。'))):
+   '仅显示人质、补给箱与撤离点；不显示敌人、武器或其他单位。平板打开期间战斗暂停。';
+  if(isQte&&G&&G.smokeMarking)
+   note='点击战术地图选择烟幕落点 · 40 币 · 标记后 3 秒到达 · 持续 15 秒 · 到达后双击左键释放。';
+  else if(isQte&&G&&G.smokeCall)
+   note=G.smokeCall.armed?'烟幕已到达 · 双击战术地图上的标记点，或关闭平板后双击左键释放。':
+    ('烟幕投送中 · 还需 '+smokeCallDelay().toFixed(1)+' 秒到达标记点。');
+  else if(isQte&&smokeOn)
+   note='战术烟幕生效中 · 剩余 '+Math.ceil(G.smokes[0].left)+' 秒 · 烟内敌人无法索敌。';
+  $('tabNote').textContent=note}
  if(!isQte||!cards)return;
  var bs=cards.querySelectorAll('button');
  for(var i=0;i<bs.length;i++){
   var k=bs[i].getAttribute('data-sup'),cost=TAB_COST[k]||0,
-   no=!(c&&c.qte>=2&&c.support),short=coin<cost;
-  bs[i].disabled=no||short||!G.tabletUnlock;
+   no=!(c&&c.qte>=2&&c.support),short=coin<cost,
+   used=(k==='smoke'&&smokeBusy&&!G.smokeMarking);
+  bs[i].disabled=no||short||!G.tabletUnlock||used;
   var tag=bs[i].querySelector('i');
-  if(tag)tag.textContent=!G.tabletUnlock?'装甲未入场':(no?'未开放':(short?'币不足':'呼叫'));
+  if(tag)tag.textContent=!G.tabletUnlock?'装甲未入场':(no?'未开放':(short?'币不足':
+   (k==='smoke'?(G.smokeMarking?'标记中':(used?'已部署':'标记')):'呼叫')));
  }
 }
 function drawTablet(){
@@ -7469,6 +7611,13 @@ function drawTablet(){
    mark(wq.x,wq.y,4,'#7fc8e8','rgba(127,200,232,.35)',wq.id==='at4'?'AT4':'武器')}
   if(G.sup)for(var si=0;si<G.sup.length;si++){var s=G.sup[si];if(!s.dead)mark(s.x,s.y,5,'#6fcf86','rgba(111,207,134,.35)','')}
   if(L.bombs)for(var bi=0;bi<L.bombs.length;bi++)if(!L.bombs[bi].done)mark(L.bombs[bi].x,L.bombs[bi].y,7,'#e2a93e','rgba(226,169,62,.4)','BOMB');
+   /* v61：烟幕落点/覆盖范围在平板上持续可见。 */
+   if(G.smokes)for(var sk=0;sk<G.smokes.length;sk++){var smk=G.smokes[sk];
+    g.fillStyle='rgba(206,218,214,.13)';g.strokeStyle='rgba(206,218,214,.55)';g.lineWidth=1.5;
+    g.beginPath();g.arc(X(smk.x),Y(smk.y),Math.max(4,smk.r*sc),0,TAU);g.fill();g.stroke();
+    mark(smk.x,smk.y,4,'#d9e5e0','rgba(217,229,224,.45)','烟幕')}
+   if(G.smokeCall)mark(G.smokeCall.x,G.smokeCall.y,7,'#e8f2ec','rgba(232,242,236,.5)',
+    G.smokeCall.armed?'烟幕 · 双击释放':('烟幕 · '+smokeCallDelay().toFixed(1)+'s'));
  }else{
   /* 非 QTE：战术平板只公开人质、补给箱与撤离点，不显示敌人/武器/友军。 */
   for(var ci=0;ci<L.civ.length;ci++){var cvv=L.civ[ci];if(cvv.down)continue;
@@ -7487,7 +7636,7 @@ function drawTablet(){
  g.fillStyle='rgba(140,170,150,.8)';g.font='10px sans-serif';
  g.fillText('TACTICAL MAP · '+c.W+' × '+c.H,W-220,oy+36);
  g.fillStyle='rgba(140,170,150,.65)';
- g.fillText(isQte?'● 敌军/重甲   ● 人质   ● 补给   ● AT4   ◆ BOMB   ▲ EXIT':'● 人质    ● 补给箱    ▲ EXIT',ox+8,oy+c.H*sc-8);
+ g.fillText(isQte?'● 敌军/重甲   ● 人质   ● 补给   ● AT4   ◆ BOMB   ○ 烟幕   ▲ EXIT':'● 人质    ● 补给箱    ▲ EXIT',ox+8,oy+c.H*sc-8);
 }
 function qteCall(kind){
  if(!L||!G||!L.cfg||!L.cfg.qte||!L.cfg.support)return false;
@@ -8097,6 +8246,40 @@ function drawStunFx(){
  ctx.globalAlpha=.13*a;ctx.fillStyle='#ffe6a8';
  for(var i=0;i<5;i++){var yy=(i+.5)*VH/5+Math.sin(G.t*2.7+i)*6;ctx.fillRect(0,yy,VW,2)}
  ctx.restore()}
+function drawSmokeWorld(){
+ if(!G)return;
+ var i,k;
+ if(G.smokes)for(i=0;i<G.smokes.length;i++){var s=G.smokes[i];
+  if(!vis(s.x,s.y,s.r+60))continue;
+  var a=clamp(Math.min((s.total-(s.left||0))/.7,(s.left||0)/1.4),0,1);
+  ctx.save();ctx.beginPath();
+  for(k=0;k<12;k++){
+   var an=k*2.399+Math.sin(k*1.7)*.5+G.t*.06,
+    rr=s.r*(.18+.50*((k%4)/3)),
+    px=s.x+Math.cos(an)*rr,py=s.y+Math.sin(an)*rr,
+    pr=s.r*(.30+.13*((k%3)/2));
+   ctx.moveTo(px+pr,py);ctx.arc(px,py,pr,0,TAU)}
+  ctx.fillStyle='rgba(205,214,208,'+(.18*a)+')';ctx.fill();
+  ctx.restore();
+  ctx.save();ctx.setLineDash([7,6]);ctx.lineDashOffset=-G.t*12;
+  ctx.strokeStyle='rgba(190,205,198,'+(.28*a)+')';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,TAU);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(225,236,230,'+(.85*a)+')';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('烟幕 '+Math.max(0,s.left).toFixed(1)+'s',s.x,s.y-s.r-8);ctx.restore();
+ }
+ if(G.smokeCall){var q=G.smokeCall,armed=!!q.armed,
+  col=armed?'#dff0e7':'#c6d4ce',pulse=.55+.45*Math.sin(G.t*6);
+  ctx.save();ctx.setLineDash([6,5]);ctx.lineDashOffset=-G.t*16;
+  ctx.strokeStyle=col;ctx.globalAlpha=armed?(.7+.3*pulse):.75;ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(q.x,q.y,44,0,TAU);ctx.stroke();
+  ctx.setLineDash([]);ctx.globalAlpha=1;
+  ctx.strokeStyle=col;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(q.x-10,q.y);ctx.lineTo(q.x+10,q.y);
+  ctx.moveTo(q.x,q.y-10);ctx.lineTo(q.x,q.y+10);ctx.stroke();
+  ctx.fillStyle=col;ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.fillText(armed?'烟幕到位 · 双击左键':'烟幕投送 '+smokeCallDelay().toFixed(1)+'s',q.x,q.y-54);
+  ctx.restore()}
+}
 function draw(){if(!G||!L)return;
  var kw=VW,kh=VH,i;
  ctx.setTransform(DPR,0,0,DPR,0,0);
@@ -8176,6 +8359,7 @@ function draw(){if(!G||!L)return;
  drawSupportWrecks();
  if(G.wg&&!G.wg.dead&&vis(G.wg.x,G.wg.y,28))drawWing();
  drawP();
+  drawSmokeWorld();
  /* 锥形视野提示：不遮挡地图，只给出一条很淡的边界 */
  if(G.viewLen&&G.phase==='live'){
   var ha=Math.atan2((G.viewW||150)*.78,Math.max(120,G.viewLen));
@@ -9075,6 +9259,8 @@ function updHud(){var p=G.p,g=cur(),i;
   if(as!==HD.al){HD.al=as;var ae=$("alv");if(ae)ae.innerHTML=as}}
  else if(HD.al!==''){$("alv").innerHTML="";HD.al=""}
  if(G.sc!==HD.sc2){HD.sc2=G.sc;var kt=$('ksTot');if(kt)kt.textContent='作战分 '+G.sc}
+ if(G.smokeCall&&!pr)pr=G.smokeCall.armed?'烟幕已到达 · 双击鼠标左键在标记点释放':
+  ('烟幕投送中 · '+smokeCallDelay().toFixed(1)+' 秒后到达');
  if(pr!==HD.pr){HD.pr=pr;var el=$('prompt');el.textContent=pr;el.style.opacity=pr?'1':'0'}
 }
 
@@ -9096,6 +9282,7 @@ function step(dt){if(!G)return;
   updatePlayer(dt);updHud();return}
  if(G.over){updateEn(dt);updateAllies(dt);updateBullets(dt);tickFx(dt);updHud();return}
  updatePlayer(dt);
+ updSmoke(dt);
  if(G.p.act)updateGren(dt);
  updateDoors(dt);updateEn(dt);updateSupport(dt);updateAllies(dt);updWing(dt);updateBullets(dt);cookTick(dt);updGrenHold(dt);updEGren(dt);updCiv(dt);updRein(dt);updWave(dt);qteScenario(dt);updArmorAnn(dt);updParticles(dt);tickFx(dt);updVis(dt);updFog(dt);storyTick(dt);
  qteTick(dt);bombTick(dt);
@@ -9979,6 +10166,16 @@ var PATCHES=[
         'QTE-01 坦克改为正常装甲/速度，不再使用 2/3 数值；无视线时沿街道巡逻游走，发现玩家后才转入交战。',
         '所有作战地图中，同伙在 320px 内倒下时，附近步兵会进入搜索状态（不直接全图交火）；训练/靶场不触发。',
         '实测：QTE-01 坦克 armorMax=3/sp=76/patrol=true，2.5 秒沿街移动 156px；狙击穿透 3 人测试为前 2 死、第 3 活；QBU 54 伤害对普通兵/爆头/重甲首发均不致死；移动散布倍率 6.54；OP-01 普通补给箱 6→2。'
+       ]},
+      {v:61,d:'2026-11-28',t:'狙击掩体阻断 · QTE-03 即时追杀 · 烟幕支援 · 开火降速',
+       items:[
+        '所有狙击枪子弹不再穿透任何墙体、门板或掩体：狙击弹遇实体即停，贯穿只保留对最多 2 名步兵的弹体穿透；隔墙/隔掩体的小兵与人质不会被命中。',
+        'QTE-03 拆除第一枚炸弹后，立即刷出一辆坦克与 4 名步兵；坦克直接锁定玩家位置并沿街道追杀，不再等 60 秒波次。',
+        '除冲锋枪外，所有枪械开火后 0.45 秒内移动速度降低 30%；冲锋枪不受影响。',
+        '战术平板新增“中等战术烟幕”：40 拆弹币，点击后在地图上标记落点，确认后 3 秒到达，双击左键在标记点释放，持续 15 秒、半径 280。',
+        '烟幕内的所有敌人失去索敌和开火能力；若玩家在烟幕存在期间再次惊动敌人，敌方步兵、装甲机枪与坦克主炮的射击精准度大幅下降（散布 ×2.4）。',
+        '烟幕投送/生效期间，战术平板与 HUD 显示落点、倒计时和剩余时间；烟幕只能在 QTE-02/03 的支援面板购买。',
+        '实测：狙击弹被墙体/掩体阻断，墙后目标不进入贯穿列表；QTE-03 第一枚炸弹后坦克 qteLock=true + 4 名步兵；开火后 AR 移速为 70%、SMG 100%；烟幕 3 秒到达、15 秒结束，烟内敌人 foeCanSee=0、开火散布 ×2.4。'
        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -11159,7 +11356,7 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
   else if(c.qteScript===2)
     $('fE').textContent='开局坦克×1 + 巡逻步兵×10（3 人清醒）· 人质×4（楼内）· 拆弹前无 AT4 · 拆弹后空投 AT4×4 + 坦克×1 + 步兵×4 · 两辆坦克沿公路追击 · 每 60 秒步兵×4'+qs;
   else if(c.qteScript===3)
-    $('fE').textContent='开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 每 60 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
+    $('fE').textContent='开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 拆第一枚后立即刷坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
   else
     $('fE').textContent=tot+' 个目标（含坦克） · 定时装置 '+fmt(c.bombTime||180)+' · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克'+qs;
  }
@@ -11567,6 +11764,17 @@ bind('bTutCqb',function(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);retur
  var cards=$('tabCards');if(cards)cards.addEventListener('click',function(e){
   var b=e.target.closest?e.target.closest('button'):null;
   if(!b||b.disabled)return;e.preventDefault();snd.ui();tabletDeploy(b.getAttribute('data-sup'))});
+  var tm=$('tabMap');
+  if(tm){
+   tm.addEventListener('click',function(e){
+    if(!G||!G.tablet||!G.smokeMarking)return;
+    var pt=tabletWorldAt(e);if(!pt)return;
+    if(pt.x<0||pt.y<0||pt.x>L.cfg.W||pt.y>L.cfg.H)return;
+    e.preventDefault();confirmSmokeMark(pt.x,pt.y)});
+   tm.addEventListener('dblclick',function(e){
+    if(!G||!G.tablet||!G.smokeCall||!G.smokeCall.armed)return;
+    e.preventDefault();releaseSmoke()});
+  }
 })();
 bind('bTutArs',function(){openArs()});
 (function(){var ni=$('nameIn');if(!ni)return;
