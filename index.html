@@ -2133,7 +2133,7 @@ var RNG_TUNE={rifle:1.3,smg:1.4,pistol:1.7,shotgun:1.25,sniper:1.1,launcher:1};
    - recK   后坐系数，用于枪口上跳与热量
    这些值是游戏化平衡，参考 Door Kickers 2 的「移动射击惩罚 / 据枪收益 / 武器定位」
    设计，不是现实弹道计算。 */
-var VIEW_BASE={pistol:360,smg:430,shotgun:320,rifle:580,sniper:860,launcher:560};
+var VIEW_BASE={pistol:360,smg:430,shotgun:320,rifle:580,sniper:980,launcher:1250};
 var ADS_BASE={pistol:.62,smg:.48,shotgun:.56,rifle:.40,sniper:.28,launcher:.48};
 var MOVE_BASE={pistol:1.15,smg:1.10,shotgun:1.35,rifle:2.80,sniper:4.20,launcher:1.90};
 var ERGO_BASE={pistol:1.20,smg:1.05,shotgun:.95,rifle:.90,sniper:.55,launcher:.78};
@@ -2148,6 +2148,7 @@ var ERGO_BASE={pistol:1.20,smg:1.05,shotgun:.95,rifle:.90,sniper:.55,launcher:.7
   o.recK=o.kk||1;
   o.adsTime=clamp(.34/o.ergo,.18,.6);
   if(o.cls==='sniper'){o.vr=Math.round(o.vr*1.35);o.adsK=.22}
+  if(o.cls==='launcher'){o.vr=1900;o.adsK=.30}
   if(o.cls==='shotgun'){o.vr=Math.round(o.vr*.9)}
  }})();
 /* v20 军械库精简：突击步枪只保留 HK416A5 / AK-12 / SCAR-H / QBZ-191，
@@ -2161,7 +2162,7 @@ WP=WP.filter(function(o){
  if(o.cls==='sniper')return !!KEEP_SNIPER[o.id];
  return true});
 /* 视野宽度：突击步枪适中，狙击枪窄，冲锋枪/霰弹枪/副武器窄而短 */
-(function(){var W2={rifle:300,smg:170,shotgun:150,pistol:145,sniper:130,launcher:190};
+(function(){var W2={rifle:300,smg:170,shotgun:150,pistol:145,sniper:240,launcher:420};
  for(var i=0;i<WP.length;i++){var o=WP[i];o.vw=W2[o.cls]||170}
  /* 隐藏枪也补上，避免旧存档兜底时缺字段 */
  for(var id in WM){var q=WM[id];if(q.vw==null)q.vw=W2[q.cls]||170}
@@ -3846,18 +3847,24 @@ function coverPlan(c,ws,drs){
     ['jersey',1450,1040,120,34],['hesco',2050,1180,100,54],
     ['car',1200,1160,120,60],['barricade',3000,1180,100,30],
     ['container',120,1150,155,62],['dumpster',3300,1400,72,54],
-    ['jersey',1650,1240,120,34],['planter',3380,1120,110,40]
+    ['jersey',1650,1240,120,34],['planter',3380,1120,110,40],
+    ['car',1100,1500,120,60],['car',2480,1500,120,60],
+    ['jersey',1000,1800,120,34],['hesco',2440,600,100,54]
    ]:(c.code.indexOf('QTE-02')===0?[
     ['container',1100,300,155,62],['car',2500,1200,120,60],
     ['hesco',3050,1200,100,54],['barricade',1750,450,100,30],
     ['planter',800,1200,110,40],['jersey',1450,1200,120,34],
     ['barricade',2250,450,100,30],['planter',3300,1200,110,40],
-    ['dumpster',700,600,72,54]
+    ['dumpster',700,600,72,54],
+    ['car',650,1500,120,60],['car',1650,1500,120,60],['car',2650,1500,120,60],
+    ['jersey',600,900,120,34],['barricade',1600,900,100,30]
    ]:[
     ['jersey',1200,1900,120,34],['container',2800,1250,155,62],
     ['car',2200,2400,120,60],['planter',800,1900,110,40],
     ['barricade',3600,1200,100,30],['car',1500,2400,120,60],
-    ['container',900,1250,155,62],['dumpster',3700,1900,72,54]
+    ['container',900,1250,155,62],['dumpster',3700,1900,72,54],
+    ['car',650,1900,120,60],['car',1650,1900,120,60],['car',2650,1900,120,60],
+    ['jersey',3400,1900,120,34],['hesco',600,900,100,54]
    ]);
   for(i=0;i<sig.length;i++){
    var q=sig[i];
@@ -3905,6 +3912,7 @@ function coverPlan(c,ws,drs){
    out.push({t:type,x:x,y:y,w:w,h:h});add--;
   }
  }
+ for(i=0;i<out.length;i++)if(out[i].t==='car'){out[i].destructible=1;out[i].hp=out[i].hp||3}
  return out}
 function build(idx,ovr){
  var c0=ovr||LS6[clamp(idx,1,LS6.length)-1],c=c0,ck;
@@ -3994,7 +4002,7 @@ function build(idx,ovr){
   sandbag:1,office:1,armchair:1,chair:1,stool:1,pallet:1,plant:1,tyre:1,watercooler:1,
   jersey:1,hesco:1,container:1,car:1,barricade:1,dumpster:1,planter:1};
  for(k=0;k<covers.length;k++){var s0=covers[k];
-  if(SOLID_SF[s0.t])ws.push({x:s0.x,y:s0.y,w:s0.w,h:s0.h});
+  if(SOLID_SF[s0.t])ws.push({x:s0.x,y:s0.y,w:s0.w,h:s0.h,cover:s0});
   softSprite(g,s0.x,s0.y,s0.w,s0.h,s0.t)}
  var lgx,lgy,lgw;for(k=0;k<FU.lp.length;k++){lgw=FU.lp[k];
   var lg1=g.createRadialGradient(lgw[0],lgw[1],2,lgw[0],lgw[1],lgw[2]);
@@ -4121,7 +4129,7 @@ g.restore();
  var DFb=diffDef(c.diff||ST.diff||1),
   of=ofDef(ST.outfit),po=gdOpt('plate')||{mob:0,hits:0,n:''},
   brk=DFb.brk||1,hpMax=Math.max(1,brk);
- G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
+ G={t:0,phase:'go',goT:3.2,lastG:9,over:0,wt:0,asked:0,abandon:0,alerted:0,zoom:1,reinLeft:(c.rein?c.rein.cap:0),rt:(c.rein?c.rein.iv:9),
   nc:0,shootCap:c&&c.cqb?1:(idx>=4?2:1),bossDown:0,alertMod:1,
   dn2:0,allyOn:0,cqb:c.cqb?1:0,
   killed:0,disarmed:0,sec2:0,civD:0,roe:0,dmg:0,hits:0,sc:0,exit:c.ex,exitOpen:0,
@@ -4140,7 +4148,7 @@ g.restore();
   G.p.actItem=firstThrow(G.p);
   G.p.fm=modeOf(G.p.guns[0].w);
   if(c.wave){G.waveT=c.wave.iv;G.waveN=0;G.waveSpawned=0}
-  G.sup=[];G.tablet=0;G.tabletUnlock=0;
+  G.sup=[];G.tablet=0;G.tabletUnlock=0;G.wrecks=[];
   if(c.qte){
    G.qteCoin=Math.max(0,ST.qteCoin|0);
    if(c.qte>=2&&G.qteCoin<80)G.qteCoin=80;
@@ -4863,7 +4871,7 @@ function cookTick(dt){var p=G&&G.p;if(!p||!p.gren||!p.cooking)return;
    真正的飞行在 updateGren 里逐段推进，撞墙会回弹，不再穿过墙。 */
 function throwTarget(){
  var p=G.p,tx,ty;
- if(!touchUI){tx=CAM.x+MS.x;ty=CAM.y+MS.y}
+ if(!touchUI){var mp0=screenToWorld(MS.x,MS.y);tx=mp0.x;ty=mp0.y}
  else{
   var lr=Math.min(cur().w.rn,5200),hd0=rayHit(p.x,p.y,Math.cos(p.aa)*lr,Math.sin(p.aa)*lr);
   tx=p.x+Math.cos(p.aa)*hd0;ty=p.y+Math.sin(p.aa)*hd0}
@@ -5283,13 +5291,14 @@ function healPlayer(n){
 function dmgPlayer(v,kind,armorDmg){var p=G.p;if(!G||!p||p.hp<=0)return;
  armorDmg=armorDmg==null?1:Math.max(0,armorDmg);
  if(armorDmg<=0||G.tut)return;
+ var ifvHit=(kind==='ifvDirect'||kind==='ifvSplash');
  G.nc=0;
  var DF=diffDef((L&&L.cfg&&L.cfg.diff)||ST.diff||1);
  function hurtFx(){$('hurt').style.opacity='1';clearTimeout(dmgPlayer.t);
   dmgPlayer.t=setTimeout(function(){$('hurt').style.opacity='0'},110)}
  G.dmg+=v;
  /* 现实难度：任何伤害都直接致命 */
- if(DF.ohk){
+ if(DF.ohk&&!ifvHit){
   p.hp=0;hurtFx();shake=13;toast('现实难度 · 一发致命',1800);die();return}
  /* 爆炸：老兵/现实在爆炸范围内直接死亡；新兵按距离扣 1–3 格，插板不能挡爆炸 */
  if(kind==='blast'){
@@ -5316,7 +5325,7 @@ function dmgPlayer(v,kind,armorDmg){var p=G.p;if(!G||!p||p.hp<=0)return;
   p.hp=Math.max(0,p.hp-armorDmg);
  }
  hurtFx();shake=Math.min(13,shake+2.6);
- if(p.hp<=0)die()}
+ if(p.hp<=0){if(ifvHit){p.hp=1;toast('步战车炮火 · 重伤但未致命',2200)}else die()}}
 function die(){if(G.over)return;G.over='dead';snd.dead();setTimeout(function(){showRes(0)},850)}
 /* 战斗特效复位：死亡/爆炸留下的屏幕震动与命中、击杀、警报标记不带到下一局 */
 function resetCombatFx(){shake=0;HITM.length=0;KILLM.length=0;ALRT.length=0}
@@ -5457,10 +5466,10 @@ function foeFireTick(e,dt,cfg,p){
    - 坦克 3 发 AT4 击毁，第 1 发冒烟、第 2 发冒火；步战车 1 发冒烟、2 发殉爆；
    - 轻武器对装甲完全免疫，只有 AT4 战斗部能累计装甲命中。 */
 var ARMOR_MG={tank:{rate:.075,burst:7,pause:1.45,spread:.068,spd:1120},
- ifv:{rate:.026,burst:24,pause:.88,spread:.165,spd:1280}};
-/* 步战车机炮：保留高密度，但单发伤害与对玩家体力的实际扣除都大幅下调。
-   0.35 为伤害系数；0.34 为每发折算的体力格，约 3 发才扣 1 格。 */
-var ARMOR_IFV_DMG_K=.35,ARMOR_IFV_HIT_K=.34,SUP_ARMOR_CHIP=36;
+ ifv:{rate:.10,burst:8,pause:1.35,spread:.045,spd:1200}};
+/* 步战车机炮：低射速、高精度、单发高伤害；直接命中 2 格，近爆 1 格。 */
+var ARMOR_IFV_DMG_K=.35,ARMOR_IFV_HIT_K=.34,SUP_ARMOR_CHIP=36,
+ IFV_DIRECT_DMG=2,IFV_SPLASH_DMG=1,IFV_SPLASH_R=64;
 function armorTurn(e,ta,rate,dt,key){
  var d=ta-e[key];while(d>PI)d-=TAU;while(d<-PI)d+=TAU;
  e[key]+=clamp(d,-dt*rate,dt*rate);
@@ -5480,9 +5489,9 @@ function fireArmorMG(e,p,side,kind){
   oy=e.y+Math.sin(a)*fwd+Math.sin(a+PI/2)*off,b=gpb();
  b.a=1;b.x=ox;b.y=oy;b.vx=Math.cos(a)*m.spd;b.vy=Math.sin(a)*m.spd;
  b.lm=1.55;b.tm=0;b.own=0;
- b.dm=foeDamage({tp:'rush',dm:1,acc:1},WM.mp5,cfg)*(kind==='ifv'?ARMOR_IFV_DMG_K:1);
- b.pen=0;b.wp=WM.mp5;b.armorDmg=(kind==='ifv'?ARMOR_IFV_HIT_K:1);
- b.tank=0;b.at=0;b.mg=1;b.srcArmor=kind;b.sup=0;
+ b.dm=foeDamage({tp:'rush',dm:1,acc:1},WM.mp5,cfg)*(kind==='ifv'?1.15:1);
+ b.pen=0;b.wp=WM.mp5;b.armorDmg=(kind==='ifv'?IFV_DIRECT_DMG:1);
+ b.tank=0;b.at=0;b.mg=1;b.srcArmor=kind;b.sup=0;b.ifvShell=(kind==='ifv'?1:0);b.ifvR=IFV_SPLASH_R;
  e.shotsFired=(e.shotsFired||0)+1;e.mgFlash=.08;
  if(!ST.low)burst(ox,oy,2,'#ffd27a',90,150);
  if(G.t-(e._mgSnd||-9)>.055){e._mgSnd=G.t;
@@ -5504,6 +5513,7 @@ function fireTankShell(e,p){
 function tankBurst(x,y,b){
  if(!L)return;
  burst(x,y,ST.low?10:26,'#ffb84d',420,680);smoke(x,y,ST.low?3:8);
+ damageCoversInBlast(x,y,172,3);
  explode(x,y,172,86,1);
 }
 function armorDamageFx(e,dt){
@@ -5846,6 +5856,7 @@ function updateBullets(dt){var i,k;
    if(hitSeg(b,ox,oy,px2,py2,1)){
     b.x=px2;b.y=py2;b.tm+=dt;continue}
    /* 反坦克火箭：撞墙即爆炸，不会像穿甲弹一样继续钻墙 */
+   if(b.ifvShell){b.a=0;b.x=px2;b.y=py2;ifvBurst(px2,py2,b);b.tm+=dt;continue}
    if(b.tank){b.a=0;b.x=px2;b.y=py2;tankBurst(px2,py2,b);b.tm+=dt;continue}
    if(b.at){b.a=0;b.x=px2;b.y=py2;atBurst(px2,py2,b);b.tm+=dt;continue}
    /* 物理跳弹：打在墙体上按入射面反弹一次，威力衰减 */
@@ -5947,9 +5958,9 @@ function hitSeg(b,ox,oy,nx,ny,strictEnd){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
   if(hpc&&hpc.t<pv){pick=hpc;pv=hpc.t}
   if(!pick)return 0;
   b.a=0;
-  if(pick===hps){dmgSupport(hps.o,b);return 1}
+  if(pick===hps){dmgSupport(hps.o,b);if(b.ifvShell)ifvBurst(hps.o.x,hps.o.y,b,hps.o);return 1}
   if(b.tank){tankBurst(pick.o.x,pick.o.y,b);return 1}
-  if(pick===hpf){dmgPlayer(b.dm,'bullet',b.armorDmg);return 1}
+  if(pick===hpf){dmgPlayer(b.dm,b.ifvShell?'ifvDirect':'bullet',b.armorDmg);if(b.ifvShell)ifvBurst(pick.o.x,pick.o.y,b,pick.o);return 1}
   if(pick===hpa){allyDmg(hpa.o,b.dm);return 1}
   civHit(pick.o,b.dm,1);return 1}
  return 0}
@@ -6049,6 +6060,28 @@ function flashBurst(x,y,t){t=t||throwDef('flash');snd.flash();
   shake=Math.max(shake,12+7*pk2);
  }
  noiseAt(x,y,t.r+300);feed('M18 闪光：目标被致盲',1)}
+function damageCover(cv,dmg){
+ if(!cv||!cv.destructible||cv.destroyed)return false;
+ cv.hp=(cv.hp==null?3:cv.hp)-Math.max(1,dmg||1);
+ if(cv.hp<=0){
+  cv.hp=0;cv.destroyed=1;cv.destroyedAt=G.t;
+  burst(cv.x+cv.w/2,cv.y+cv.h/2,ST.low?10:22,'#ffb84d',300,520);
+  smoke(cv.x+cv.w/2,cv.y+cv.h/2,ST.low?3:7);
+  snd.boom();shake=Math.max(shake,5);
+  feed('废弃车辆被炸毁 · 残骸仍可作掩体',1);
+  return true
+ }
+ burst(cv.x+cv.w/2,cv.y+cv.h/2,ST.low?4:8,'#ffd27a',160,300);
+ return false
+}
+function damageCoversInBlast(x,y,r,dmg){
+ if(!L||!L.sof)return;
+ for(var i=0;i<L.sof.length;i++){var cv=L.sof[i];
+  if(!cv.destructible||cv.destroyed)continue;
+  var cx=clamp(x,cv.x,cv.x+cv.w),cy=clamp(y,cv.y,cv.y+cv.h);
+  if(Math.hypot(x-cx,y-cy)<=r)damageCover(cv,dmg)
+ }
+}
 function explode(x,y,r,dm,byEnemy,noPlayer){var i;snd.boom();shake=15;
  var DF=diffDef((L&&L.cfg&&L.cfg.diff)||ST.diff||1),lethal=!!DF.nade;
  burst(x,y,ST.low?10:28,'#ffb84d',400,620);smoke(x,y,ST.low?3:8);
@@ -6079,7 +6112,27 @@ function explode(x,y,r,dm,byEnemy,noPlayer){var i;snd.boom();shake=15;
 function atBurst(x,y,b){
  var r=(b&&b.atR)||132,dm=(b&&b.atDmg)||900;
  burst(x,y,ST.low?12:30,'#ffd27a',420,680);smoke(x,y,ST.low?4:10);
+ damageCoversInBlast(x,y,r,2);
  explode(x,y,r,dm,0,!!(b&&b.sup));
+}
+/* 步战车机炮：小范围爆裂。直接命中 2 格，爆心 64px 内 1 格；不触发老兵/现实的手雷秒杀。 */
+function ifvBurst(x,y,b,skip){
+ if(!L)return;
+ var r=(b&&b.ifvR)||IFV_SPLASH_R;
+ burst(x,y,ST.low?8:18,'#ffd27a',260,420);smoke(x,y,ST.low?2:4);
+ if(G.t-(G._ifvBoom||-9)>.10){G._ifvBoom=G.t;snd.boom();shake=Math.max(shake,3)}
+ damageCoversInBlast(x,y,r,1);
+ if(G.p&&G.p!==skip&&G.p.hp>0&&Math.hypot(G.p.x-x,G.p.y-y)<r&&los(x,y,G.p.x,G.p.y))
+  dmgPlayer(24,'ifvSplash',IFV_SPLASH_DMG);
+ if(G.sup)for(var i=0;i<G.sup.length;i++){var o=G.sup[i];
+  if(!o||o.dead||o===skip)continue;
+  if(Math.hypot(o.x-x,o.y-y)<r&&los(x,y,o.x,o.y))
+   dmgSupport(o,{ifvSplash:1,dm:8,own:0});
+ }
+ if(L.civ)for(i=0;i<L.civ.length;i++){var c=L.civ[i];
+  if(c.down||c.f)continue;
+  if(Math.hypot(c.x-x,c.y-y)<r*.8&&los(x,y,c.x,c.y))civHit(c,1,1);
+ }
 }
 /* ---- QTE 拆弹：3 步剪线，每步 2.2 秒；剪错/超时立即引爆 ---- */
 var QTE_WIRES=['红线','蓝线','黄线','绿线'];
@@ -6169,9 +6222,14 @@ function updEGren(dt){if(!G.eg||!G.eg.length)return;var i,g2;
   if(g2.t>=g2.fuse){G.eg.splice(i--,1);explode(g2.x,g2.y,115,95,1);snd.boom()}}}
 /* 视野：长度 vr + 宽度 vw 组成锥形。突击步枪适中，狙击枪窄而最长，
    冲锋枪/霰弹枪/副武器窄而短；据枪长度 +8%、宽度略收。 */
+var LAUNCHER_ADS_LEN=Math.round(((WM.m200&&WM.m200.vr)||1767)*1.08),LAUNCHER_ADS_W=221;
 function weaponView(w,p){
  if(!w)return 500;
  var fx=attFx(),om=opMods();
+ if(w.cls==='launcher'&&p&&p.aim){
+  var lv=LAUNCHER_ADS_LEN*(fx.view||1)*(om.view||1);
+  if(p.stunT>0)lv*=.82;
+  return lv}
  var v=(w.vr||500)*(fx.view||1)*(om.view||1);
  if(p&&p.aim)v*=1.08;
  if(p&&p.stunT>0)v*=.82;
@@ -6179,6 +6237,8 @@ function weaponView(w,p){
 function weaponViewW(w,p){
  if(!w)return 150;
  var fx=attFx(),om=opMods();
+ if(w.cls==='launcher'&&p&&p.aim)
+  return Math.max(70,LAUNCHER_ADS_W*(om.view||1)/(fx.view||1));
  var v=(w.vw||150)*(om.view||1)/(fx.view||1);
  if(p&&p.aim)v*=.92;
  return Math.max(70,v)}
@@ -6413,7 +6473,7 @@ function updatePlayer(dt){var p=G.p,i;
  /* 原有操控：W/A/S/D 沿世界方向移动；鼠标/右摇杆只负责瞄准，
     不再把移动方向旋转到准星前方。 */
  if(sa.on&&Math.hypot(sa.dx,sa.dy)>.22)p.aa=Math.atan2(sa.dy,sa.dx);
- else if(!touchUI){var wx=CAM.x+MS.x,wy=CAM.y+MS.y;
+ else if(!touchUI){var mp=screenToWorld(MS.x,MS.y),wx=mp.x,wy=mp.y;
   if(wx!==p.x||wy!==p.y)p.aa=Math.atan2(wy-p.y,wx-p.x)}
  if(p.stunT>0)p.aa+=(Math.random()-.5)*(.018+Math.min(.08,p.stunT*.03));
  var ix=0,iy=0;
@@ -6423,17 +6483,28 @@ function updatePlayer(dt){var p=G.p,i;
  var il=Math.hypot(ix,iy);if(il>1){ix/=il;iy/=il;il=1}
  var mx=ix,my=iy;
  var ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;ml=1}
+ var aw=cur().w;
  p.aim=((kb('ads')||kb('adsAlt')||BF.ads||(sa.on&&Math.hypot(sa.dx,sa.dy)>.5))?1:0);
  /* 据枪过渡：刚按下 Space 时精度还没完全收拢；松开后 3 倍速度回落 */
  if(p.aim)p.adsT=Math.min(1.4,(p.adsT||0)+dt);
  else p.adsT=Math.max(0,(p.adsT||0)-dt*3);
+ /* 狙击枪/火箭筒据枪时做整体视角缩放；火箭筒据枪完全锁步 */
+ var zt=(p.aim&&(aw.cls==='sniper'||aw.cls==='launcher'))?1.22:1;
+ G.zoom=G.zoom||1;
+ G.zoom+=(zt-G.zoom)*Math.min(1,dt*9);
+ if(!isFinite(G.zoom)||G.zoom<1)G.zoom=1;
+ if(p.aim&&aw.cls==='launcher'){
+  mx=my=0;ml=0;p.vx*=Math.pow(.0004,dt);p.vy*=Math.pow(.0004,dt);p.run=0;
+ }
  /* 据枪：键盘按住（默认 Space），触屏仍用「据枪」圆钮；鼠标右键不再据枪 */
  p.run=BF.sp||(kb('sprint')?1:0);
  if(p.gren)p.run=0;               /* 手持投掷物时不能疾跑 */
  if(p.stunT>0)p.run=0;            /* 震爆干扰期间无法疾跑 */
+ if(p.aim&&aw.cls==='launcher')p.run=0;
  var spr=0;if(p.run&&ml>.2){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
- var want=p.sp*(1+mob(p))*(p.aim?.6:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1);
+ var adsMove=aw.cls==='launcher'?0:(aw.cls==='sniper'?.34:.6);
+ var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1);
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -6904,10 +6975,16 @@ function dmgSupport(e,b){
  if(!e||e.dead)return;
  if(e.kind==='tank'||e.kind==='ifv'){
   var hit=0,chip=0;
-  if(b&&b.tank)hit=1;
+  if(b&&(b.tank||b.at||b.ifvShell||b.ifvSplash))hit=1;
   else if(b&&b.mg&&b.srcArmor==='ifv'){
    e.armorChip=(e.armorChip||0)+1;
    if(e.armorChip>=SUP_ARMOR_CHIP){e.armorChip=0;hit=1}else chip=1;
+  }
+  else if(b&&b.own===0&&b.dm>0){
+   /* 敌方步枪/机枪等轻型火力也能磨损我方装甲：坦克更耐打，步战车更快掉段 */
+   var need=e.kind==='tank'?30:18;
+   e.lightHits=(e.lightHits||0)+1;
+   if(e.lightHits>=need){e.lightHits=0;hit=1}else chip=1;
   }
   if(!hit){
    burst(e.x,e.y,ST.low?3:5,'#d8e8c8',70,160);
@@ -6917,12 +6994,18 @@ function dmgSupport(e,b){
   }
   e.armorHits=(e.armorHits||0)+1;e.hurt=.25;
   burst(e.x,e.y,ST.low?5:12,'#ffb84d',220,360);smoke(e.x,e.y,3);
-  if(e.armorHits>=e.armorMax){e.dead=1;toast(SUP_DEF[e.kind].label+'被击毁',2400);snd.boom()}
+  if(e.armorHits>=e.armorMax){e.dead=1;pushSupportWreck(e);toast(SUP_DEF[e.kind].label+'被击毁',2400);snd.boom()}
   return
  }
  e.hp=(e.hp==null?18:e.hp)-Math.max(1,(b&&b.dm||8)*.8);
  e.hurt=.18;
- if(e.hp<=0){e.dead=1;toast(SUP_DEF[e.kind].label+'被击落',2200);snd.dead()}
+ if(e.hp<=0){e.dead=1;pushSupportWreck(e);toast(SUP_DEF[e.kind].label+'被击落',2200);snd.dead()}
+}
+function pushSupportWreck(e){
+ if(!G||!e)return;
+ G.wrecks=G.wrecks||[];
+ if(G.wrecks.length>24)G.wrecks.shift();
+ G.wrecks.push({kind:e.kind,x:e.x,y:e.y,a:e.a||0,t0:G.t,dt:0});
 }
 function supportTarget(e){
  var best=null,bd=1500,i;
@@ -6955,7 +7038,7 @@ function uavArmorHit(o){
 }
 function uavDetonate(e){
  if(!e||e.dead)return;
- e.dead=1;
+ e.dead=1;pushSupportWreck(e);
  burst(e.x,e.y,ST.low?12:34,'#ffd27a',420,680);
  smoke(e.x,e.y,ST.low?3:10);snd.boom();shake=Math.max(shake,8);
  for(var i=0;i<L.en.length;i++){var o=L.en[i];if(o.dead)continue;
@@ -6986,6 +7069,46 @@ function drawSupport(){
    var ex=e.kind==='dog'?(' · '+(e.rl>0?('装填 '+Math.ceil(e.rl)+'s'):(e.ammo+'/100'))):(' · HP '+Math.max(0,e.hp||0));
    ctx.fillStyle=e.kind==='dog'?'#9fe0a9':'#ffd890';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
    ctx.fillText(SUP_DEF[e.kind].label+ex,e.x,e.y-e.r-18);ctx.textAlign='left'}
+ }
+}
+function drawUAVWreck(e){
+ var age=e.dt||0;
+ ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.a||0);
+ ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(3,5,20,9,0,0,TAU);ctx.fill();
+ ctx.fillStyle='#20262a';ctx.fillRect(-10,-5,20,10);
+ ctx.strokeStyle='#3a444a';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(-16,-8);ctx.lineTo(15,7);ctx.moveTo(15,-8);ctx.lineTo(-16,7);ctx.stroke();
+ ctx.fillStyle='#4a565e';ctx.beginPath();ctx.arc(-14,-7,4,0,TAU);ctx.arc(13,6,4,0,TAU);ctx.fill();
+ ctx.strokeStyle='#8a3a2a';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(4,-2);ctx.lineTo(12,4);ctx.stroke();
+ ctx.restore();
+ if(age<10){ctx.fillStyle='rgba(40,42,40,'+(.20-Math.min(.16,age*.015)).toFixed(3)+')';
+  ctx.beginPath();ctx.arc(e.x+Math.sin(G.t*2)*4,e.y-8-age*2,8+age*.6,0,TAU);ctx.fill()}
+}
+function drawDogWreck(e){
+ var age=e.dt||0;
+ ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.a||0);
+ ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(2,5,18,8,0,0,TAU);ctx.fill();
+ ctx.fillStyle='#252b26';ctx.fillRect(-12,-6,24,12);
+ ctx.strokeStyle='#151a16';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(-9,4);ctx.lineTo(-16,12);ctx.moveTo(-2,5);ctx.lineTo(-4,14);
+ ctx.moveTo(7,4);ctx.lineTo(13,12);ctx.moveTo(11,2);ctx.lineTo(18,8);ctx.stroke();
+ ctx.fillStyle='#3a423a';ctx.fillRect(9,-4,8,8);
+ ctx.fillStyle='#c95a3a';ctx.beginPath();ctx.arc(-5,-2,2,0,TAU);ctx.fill();
+ ctx.restore();
+ if(age<8){ctx.strokeStyle='rgba(255,150,60,'+(.55-age*.05).toFixed(3)+')';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(e.x-2,e.y-2);ctx.lineTo(e.x+4,e.y-8);ctx.stroke()}
+}
+function drawSupportWrecks(){
+ if(!G||!G.wrecks||!G.wrecks.length)return;
+ for(var i=G.wrecks.length-1;i>=0;i--){
+  var e=G.wrecks[i];if(!e)continue;
+  e.dt=G.t-e.t0;
+  if(e.dt>75){G.wrecks.splice(i,1);continue}
+  if(!vis(e.x,e.y,60))continue;
+  if(e.kind==='tank')drawTankWreck(e);
+  else if(e.kind==='ifv')drawIFVWreck(e);
+  else if(e.kind==='uav')drawUAVWreck(e);
+  else drawDogWreck(e);
  }
 }
 function updateSupport(dt){
@@ -7419,10 +7542,14 @@ function draw(){if(!G||!L)return;
  ctx.setTransform(DPR,0,0,DPR,0,0);
  ctx.fillStyle='#04060a';ctx.fillRect(0,0,VW,VH);
  var ox=(Math.random()-.5)*shake,oy=(Math.random()-.5)*shake;
- ctx.save();ctx.translate(-CAM.x+ox,-CAM.y+oy);
+ ctx.save();
+ var dz=worldZoom();
+ if(dz!==1){ctx.translate(VW/2,VH/2);ctx.scale(dz,dz);ctx.translate(-VW/2,-VH/2)}
+ ctx.translate(-CAM.x+ox,-CAM.y+oy);
  var vx=Math.max(0,Math.floor(CAM.x)),vy=Math.max(0,Math.floor(CAM.y)),
   vw2=Math.min(L.cfg.W-vx,Math.ceil(kw)+2),vh2=Math.min(L.cfg.H-vy,Math.ceil(kh)+2);
  if(vw2>0&&vh2>0)ctx.drawImage(L.base,vx,vy,vw2,vh2,vx,vy,vw2,vh2);
+  drawDestroyedCovers();
  if(!L.cfg.noExit){
   var ex=G.exit;
   ctx.fillStyle=G.exitOpen?'rgba(120,200,120,.2)':'rgba(120,130,135,.1)';
@@ -7484,6 +7611,7 @@ function draw(){if(!G||!L)return;
  for(i=0;i<L.dr.length;i++){var ddd=L.dr[i];if(vis(ddd.x+ddd.w/2,ddd.y+ddd.h/2,90))drawBreach(ddd)}
  if(G.al)for(i=0;i<G.al.length;i++)if(vis(G.al[i].x,G.al[i].y,24))drawAlly(G.al[i]);
  drawSupport();
+ drawSupportWrecks();
  if(G.wg&&!G.wg.dead&&vis(G.wg.x,G.wg.y,28))drawWing();
  drawP();
  /* 锥形视野提示：不遮挡地图，只给出一条很淡的边界 */
@@ -7588,7 +7716,11 @@ function draw(){if(!G||!L)return;
   vg2.addColorStop(0,'rgba(80,108,74,0)');vg2.addColorStop(1,'rgba(48,70,44,.46)');
   ctx.fillStyle=vg2;ctx.fillRect(0,0,VW,VH);ctx.restore()}
  if(G.phase==='live'){drawStunFx();crosshair();drawMarkers()}}
-function toScreen(x,y){return{x:x-CAM.x+(Math.random()-.5)*0,y:y-CAM.y}}
+function worldZoom(){return (G&&G.zoom)||1}
+function screenToWorld(sx,sy){var z=worldZoom();
+ return{x:CAM.x+VW/2+(sx-VW/2)/z,y:CAM.y+VH/2+(sy-VH/2)/z}}
+function toScreen(x,y){var z=worldZoom();
+ return{x:VW/2+(x-CAM.x-VW/2)*z,y:VH/2+(y-CAM.y-VH/2)*z}}
 /* SECTION: models 俯视角士兵模型（头盔/携板背心/战术裤/武器/队标） */
 function rrect(c,x,y,w,h,r){c.beginPath();
  c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);
@@ -8002,6 +8134,28 @@ function drawIFV(e){
  ctx.fillStyle='#f0e2c4';ctx.font='bold 10px "PingFang SC","Microsoft YaHei",sans-serif';
  ctx.textAlign='center';ctx.fillText((e.side?'我方':'')+'步战车 · 装甲 '+left2+'/'+amax2,e.x,by3-6);ctx.textAlign='left';
 }
+function drawCarWreck(cv){
+ var cx=cv.x+cv.w/2,cy=cv.y+cv.h/2,age=G?G.t-(cv.destroyedAt||G.t):0;
+ ctx.save();ctx.translate(cx,cy);
+ if(cv.w>=cv.h){ctx.fillStyle='#3a3028';ctx.fillRect(-cv.w/2,-cv.h/2,cv.w,cv.h);
+  ctx.fillStyle='#24282a';ctx.fillRect(-cv.w*.28,-cv.h*.32,cv.w*.56,cv.h*.64);
+  ctx.fillStyle='#1a1d1f';ctx.beginPath();ctx.arc(-cv.w*.28,cv.h*.38,4,0,TAU);ctx.arc(cv.w*.28,cv.h*.38,4,0,TAU);ctx.fill();
+  ctx.strokeStyle='#15120f';ctx.lineWidth=2;ctx.strokeRect(-cv.w/2,-cv.h/2,cv.w,cv.h)}
+ else{ctx.fillStyle='#3a3028';ctx.fillRect(-cv.w/2,-cv.h/2,cv.w,cv.h);
+  ctx.fillStyle='#24282a';ctx.fillRect(-cv.w*.32,-cv.h*.28,cv.w*.64,cv.h*.56);
+  ctx.fillStyle='#1a1d1f';ctx.beginPath();ctx.arc(cv.w*.38,-cv.h*.28,4,0,TAU);ctx.arc(cv.w*.38,cv.h*.28,4,0,TAU);ctx.fill();
+  ctx.strokeStyle='#15120f';ctx.lineWidth=2;ctx.strokeRect(-cv.w/2,-cv.h/2,cv.w,cv.h)}
+ ctx.restore();
+ if(age<14){for(var k=0;k<3;k++){ctx.fillStyle='rgba(45,46,42,'+(.20-k*.04).toFixed(3)+')';
+  ctx.beginPath();ctx.arc(cx+Math.sin(G.t*1.6+k)*7,cy-16-k*9-age*2,9+k*4,0,TAU);ctx.fill()}}
+}
+function drawDestroyedCovers(){
+ if(!L||!L.sof)return;
+ for(var i=0;i<L.sof.length;i++){var cv=L.sof[i];
+  if(cv.t!=='car'||!cv.destroyed)continue;
+  if(!vis(cv.x+cv.w/2,cv.y+cv.h/2,Math.max(cv.w,cv.h)))continue;
+  drawCarWreck(cv)}
+}
 function drawTankWreck(e){
  var age=e.dt||0;
  ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.a);
@@ -8195,7 +8349,7 @@ function lighting(){var c=L.cfg.dk,s=.5;
   ctx.restore()}}
 function crosshair(){var g=cur().w,mx,my,sp,p=G.p;
  var fm=p.fm||modeOf(g),cone=shotSpread(g,p,fm);
- var dq=touchUI?Math.min(g.rn,820):Math.max(40,Math.hypot(CAM.x+MS.x-p.x,CAM.y+MS.y-p.y));
+ var dq=touchUI?Math.min(g.rn,820):(function(){var mp1=screenToWorld(MS.x,MS.y);return Math.max(40,Math.hypot(mp1.x-p.x,mp1.y-p.y))})();
  sp=clamp(cone*dq*.5,3.5,64);
  if(touchUI){
   var lr=Math.min(g.rn,5200),hd=rayHit(p.x,p.y,Math.cos(p.aa)*lr,Math.sin(p.aa)*lr);
@@ -9148,6 +9302,17 @@ var PATCHES=[
        'QTE 街区加入标志性掩体：QTE-01 隔离墩/HESCO/废弃车/路障/集装箱/垃圾箱；QTE-02 集装箱/废弃车/HESCO/路障/长花坛/隔离墩/垃圾箱；QTE-03 隔离墩/集装箱/废弃车/长花坛/路障/垃圾箱。',
        '区域散点掩体池同步扩充，新模型会按房间空地自动补充；原有沙袋、木箱、油桶、轮胎、托盘、桌椅、文件柜、售货机仍保留。',
        '实测：QTE-01/02/03 楼体压路 0 处；三图掩体 83/47/58 处且全部实体化；拆弹点不在公路上、可达；出生点到拆弹点寻路全部可达。'
+      ]},
+     {v:51,d:'2026-11-27',t:'狙击/火箭筒视野 · IFV爆裂 · 可毁车辆 · 支援残骸',
+      items:[
+       '狙击枪正常视野加宽加长：M200 1767×240、AX50 1683×240；据枪时画面整体放大 1.22×，移动速度降到正常的 34%。',
+       '火箭筒正常视野 1900×420，为全枪械最大；据枪时视野 1908×221，与狙击枪 ADS 相同，画面同样放大 1.22×，但据枪期间完全不能移动。',
+       '玩家呼出的坦克/步战车现在会被敌方轻型火力磨损：坦克累计 30 发、步战车累计 18 发步枪/机枪命中掉 1 段装甲；原来只有重武器能造成伤害。',
+       '步战车机炮改为低射速高精度：8 发/轮、0.10 秒间隔、散布 0.045、弹速 1200；直接命中扣 2 格，64px 内爆裂扣 1 格，爆炸不会直接致命（最低保留 1 格）。',
+       'QTE 三图公路四周新增废弃车辆与街道掩体：QTE-01 3 辆车、QTE-02 5 辆车、QTE-03 2 辆车，另有隔离墩/HESCO/路障等；废弃车被重装甲火力或爆炸击毁后残骸继续阻挡、仍可作掩体。',
+       '我方支援坦克/步战车被击毁后不再直接消失：复用敌方 drawTankWreck / drawIFVWreck 残骸；无人机与机器狗新增坠毁残骸、烟雾与火花效果。',
+       'QTE 三图再次逐栋复查：楼体压路 0、门洞错位 0、拆弹点/出生点堵死 0；掩体总数 84/52/60，全部实体化。',
+       '实测：火箭筒正常视野 1900＞狙击 1767；火箭筒 ADS 1908×221 = M200 狙击 ADS；火箭筒据枪位移 0；IFV 直接命中 8→6、爆裂 6→5、1 格时不再致死；轻型火力 30 发掉 1 段；车辆击毁后仍阻挡。'
       ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
