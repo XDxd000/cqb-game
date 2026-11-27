@@ -1210,14 +1210,14 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="bootTtl">战术突袭</div>
   <div class="bootSub">TACTICAL CQB OPERATION</div>
   <div class="bootChips">
-    <span class="chip"><b>9</b> 张地图</span>
+    <span class="chip"><b>8</b> 张地图</span>
     <span class="chip"><b id="chipW">22</b> 把枪械</span>
     <span class="chip"><b id="chipR">14</b> 级军衔</span>
     <span class="chip">页游</span>
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → OP-07 终局考核 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。剧情地图 OP-04/05 已删除；机场与 QTE 全部排在训练关之前。QTE 第二关起可用拆弹币呼叫装甲、无人机与机器狗支援。全部行动由你单人执行，武器附厂商与公开参数。</p>
+  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。OP-07 终局考核地图已删除；OP-04/05 剧情地图同样已删除。机场通关后解锁国产枪族与 QTE 拆弹模式。全部行动由你单人执行，武器附厂商与公开参数。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
@@ -1266,7 +1266,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。行动顺序固定为：公寓 → 商场 → 郊野储运站（室外）→ 机场双层 → 终局考核 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。剧情地图 OP-04/05 已全部删除；机场与 QTE 全部排在训练关之前。QTE 模式有独立拆弹币：击杀守敌、完成拆弹都会积累，只能在拆弹行动中使用；QTE 第二关起可呼叫我方坦克、步战车、无人机与机器狗，支援单位只沿城市道路搜索。所有行动均为单人作战，英雄队员系统已移除。
+      <p class="bgLead">俯视角战术射击演练。行动顺序固定为：公寓 → 商场 → 郊野储运站（室外）→ 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除；机场通关后解锁国产枪族与 QTE。QTE 模式有独立拆弹币：击杀守敌、完成拆弹都会积累，只能在拆弹行动中使用；QTE 第二关起可呼叫我方坦克、步战车、无人机与机器狗，支援单位只沿城市道路搜索。所有行动均为单人作战，英雄队员系统已移除。
 军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
 界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
 敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
@@ -1580,12 +1580,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
 <!-- SECTION: markup-drama -->
 <div id="dramaBox">
   <div id="dHead">
-    <span class="tag"><i></i><span id="dAct">终局考核 · 剧情</span></span>
+    <span class="tag"><i></i><span id="dAct">战术档案 · 剧情</span></span>
     <span class="mid" id="dMid">虚构演绎 · 致敬我国特种警察部队，不代表任何真实单位与行动</span>
   </div>
   <div id="dScene"><canvas id="dArt"></canvas><span id="dScnTag"></span></div>
   <div id="dDossier"><div class="dsCard">
-    <div class="dsK" id="dsK">FINAL EVALUATION · 终局考核档案</div>
+    <div class="dsK" id="dsK">TACTICAL ARCHIVE · 战术档案</div>
     <h2 id="dsTtl">—</h2>
     <div id="dsBody"></div>
     <div class="dsFoot"><span class="dsHint" id="dsHint">读完点右侧按钮，进入考核现场</span>
@@ -1634,13 +1634,13 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>QTE 拆弹行动 · 拆弹币</h3>
-  <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ OP-07 终局考核 → QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。剧情地图 OP-04 王子门与 OP-05 杜布罗夫卡已删除，不再出现在任务序列、存档或简介中。</p>
+  <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除，不再出现在任务序列、存档或简介中。</p>
   <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。AT4 弹药箱散落在街区各处，每个补给点提供 2 发火箭弹。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援。</p>
   <p><b>拆弹币</b>：QTE 模式专属，击杀守敌与完成拆弹都会累积；任务列表顶部有金色 QTE 钱包卡显示持有量，HUD 左上角同步显示金色硬币标记，地图中散落拆弹币补给（每处 20 枚）。它不能带入其他地图，也不能用于军械库或普通任务。QTE-01 拾取后带入后续关卡，QTE-02/03 开局至少预拨 80 枚。</p>
   <p><b>支援</b>：QTE-02 起按 <span class="kbd">T</span> 打开战术平板，但必须先有敌方坦克/步战车入场，平板操控权限才会开放。平板内可点击坦克（100 币）、步战车（60 币）、自杀无人机 ×3（30 币）或机器狗 ×2（45 币）出击；选中后自动关闭平板并恢复游戏。平板打开期间所有角色、子弹、波次与任务计时暂停。战术平板只在 QTE 模式出现，其他地图没有。</p>
   <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对步战车累计 3 架、对坦克累计 6 架才能摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
   <h3>难度曲线</h3>
-  <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ OP-07 终局考核 → QTE-01/02/03 拆弹行动。通过终局考核后解锁国产枪族；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
+  <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁国产枪族与 QTE；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
   <p><b>三档难度</b>：新兵（敌人迟缓、伤害低，体力 8 格，医疗/血包回 2 格）→ 老兵（敌人伤害约为新兵 4 倍，体力 4 格，医疗/血包回 1 格，手雷直接致命）→ 现实（体力 1 格，一枪致命，手雷直接致命）。所有行动固定单人，无英雄队员。</p>
   <h3>武器与厂商</h3>
   <p>军械库每把枪都标注真实制造商（Glock、SIG Sauer、Beretta、Heckler &amp; Koch、FN Herstal、Colt、Kalashnikov、IWI、Steyr Arms、
@@ -2305,7 +2305,7 @@ function syncAud(){var a=$('bSetAud'),b=$('bAud2');
 function syncFx(){var f=$('bSetFx');if(!f)return;
  f.textContent=ST.fx==='low'?'低（强制）':'自适应';f.classList.toggle('on',ST.fx!=='low')}
 function renderLvRail(){var el=$('lvRail');if(!el)return;
- var h='',i,codes=['OP-01','OP-02','OP-03','OP-06','OP-07'];
+ var h='',i,codes=['OP-01','OP-02','OP-03','OP-06'];
  for(i=0;i<LS.length;i++){
   var done=!!ST.best[''+(i+1)],dev=!!ST.dev,unl=dev||(i+1)<=ST.unl,rankOk=dev||rankPk()>=(LS[i].rq||0),
    cur=unl&&rankOk&&(i+1)===ST.unl&&!done,
@@ -2468,32 +2468,6 @@ var RECRUIT_WL=function(a){
  a.push([1080,720,20,180],[1080,980,20,100]);
  a.push([1700,720,20,160],[1700,960,20,120]);
  return a};
-var RGD={code:'OP-07 · FINAL',nm:'终局考核 · 实弹综合考核',W:2200,H:1400,dk:.12,th:'port',sd:77,par:240,rq:2,recruit:1,allyN:0,
- fl:[[20,20,2160,1360]],
- wl:RECRUIT_WL,
- dr:[[300,520,140,20,0,'wood'],[860,520,120,20,0,'metal'],[1300,520,120,20,0,'wood'],
-     [580,720,120,20,0,'wood'],[1300,720,120,20,0,'metal'],
-     [400,1080,120,20,0,'wood'],[1220,1080,120,20,0,'wood'],
-     [740,240,20,90,0,'wood'],[1500,260,20,100,0,'metal'],
-     [1080,900,20,80,0,'wood'],[1700,880,20,80,0,'wood']],
- cr2:[[160,1240],[2060,1250]],
- foe:{grunt:9,heavy:3,sniper:2},acc:.52,rea:.72,edm:1,ehp:1,
- sf:[['sandbag',300,300,120,26],['crates',600,900,60,60],['barrel',1200,400,28,28],
-     ['table',1600,700,110,50],['locker',1900,300,46,84],['pallet',1000,1250,64,32],
-     ['sandbag',1800,1100,120,26]],
- civ:[[1000,300],[1620,900]],
- zn:[[120,120,600,340],[1600,120,520,360],[120,760,900,280],[1500,760,600,280],[120,1120,2000,220]],
- st:[150,1300],ex:[2080,60,90,90],
- threat:'14 名步兵（含 3 名重甲、2 名狙击）· 2 名人质',
- terr:'两进式训练楼：上下三层房间 + 两道横向走廊，门多、拐角多',
- hint:'先破门再切角 · 重甲步兵打头用穿甲，狙击步兵优先压制',
- intel:'五区行动的终局考核：一整栋训练楼、十四名持械步兵、两名人质。没有英雄队员随行，也没有第二套配装；你带自己的主副武器独自进楼，把人清出来、把人质带出来。通过后解锁全部国产枪族。',
- obj:['听完终局考核简报','进入训练楼实弹环境','清空全部守敌','带出人质并从楼顶侧门撤离'],
- roe:'人质优先于击毙 · 平民伤亡会重扣分并下调评级'};
-/* ==== CQB 战术学习：单人条件下的原则训练 ====
-   现实中的 CQB 以 2–4 人小组为单位，单人清房只作为原则演示；
-   关卡里的「观察→切角→破门→投掷→控制射击→复检」都对应真实的
-   door procedure / slicing the pie / limited penetration，不教游戏化花招。 */
 var CQB_WL=function(a){
  ring(a,2000,1300,20);
  /* 南侧待机区：两道门洞，第一道就是教学门 */
@@ -2541,27 +2515,27 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
    每 2 波追加 1 辆坦克，每 3 波追加 1 辆步战车。 */
 var BOMB_WL=function(a){
  ring(a,3600,2400,20);
- /* A · 西北居民楼 */
- a.push([260,260,740,20],[260,260,20,600],[1000,260,20,600],
-  [260,860,260,20],[640,860,360,20]);
+ /* A · 西北居民楼（西移 20px，让东墙退出公路） */
+ a.push([240,260,740,20],[240,260,20,600],[980,260,20,600],
+  [240,860,260,20],[620,860,360,20]);
  /* B · 东北办公楼 */
- a.push([1700,260,740,20],[1700,260,20,600],[2440,260,20,600],
-  [1700,860,300,20],[2120,860,320,20]);
+ a.push([1680,260,740,20],[1680,260,20,600],[2420,260,20,600],
+  [1680,860,300,20],[2100,860,320,20]);
  /* C · 西南仓库 */
- a.push([260,1480,740,20],[260,1480,20,620],[1000,1480,20,620],
-  [260,2100,280,20],[660,2100,340,20]);
+ a.push([240,1480,740,20],[240,1480,20,620],[980,1480,20,620],
+  [240,2100,280,20],[640,2100,340,20]);
  /* D · 东南厂房 */
- a.push([1700,1480,740,20],[1700,1480,20,620],[2440,1480,20,620],
-  [1700,2100,260,20],[2080,2100,360,20]);
- /* E · 东侧市政楼（含内嵌拆弹室） */
- a.push([2600,900,700,20],[2600,900,20,800],[3300,900,20,800],
-  [2600,1700,300,20],[3020,1700,280,20]);
+ a.push([1680,1480,740,20],[1680,1480,20,620],[2420,1480,20,620],
+  [1680,2100,260,20],[2060,2100,360,20]);
+ /* E · 东侧市政楼（整体下移到横向公路 y=1000–1280 以南） */
+ a.push([2600,1300,700,20],[2600,1300,20,800],[3300,1300,20,800],
+  [2600,2100,300,20],[3020,2100,280,20]);
  /* 拆弹室：四面墙，南侧 120px 门洞 */
- a.push([2760,1180,400,20],[2760,1180,20,320],[3160,1180,20,320],
-  [2760,1500,150,20],[3030,1500,130,20]);
+ a.push([2760,1580,400,20],[2760,1580,20,320],[3160,1580,20,320],
+  [2760,1900,150,20],[3030,1900,130,20]);
  return a};
 var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,dk:.16,th:'urban',sd:86,par:480,rq:0,qte:1,support:0,
- bomb:1,bombTime:180,bombSite:[2960,1340],
+ bomb:1,bombTime:180,bombSite:[2960,1740],
  /* 最新地图专属：AT4 只在本局地图内拾取，不进军械库、不带去其他关卡。
     发射管与备用火箭散落在街区各处，出生点附近不再直接刷新。 */
  pickup:[['at4',700,1300],['at4',1500,1000],['at4',2200,180],['at4',3450,700],
@@ -2578,9 +2552,9 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
   [700,1250],[3430,1300],[2500,850],[1300,1000]],
  fl:[[20,20,3560,2360]],
  wl:BOMB_WL,
- dr:[[520,860,120,20,0,'wood'],[2000,860,120,20,0,'metal'],
-     [540,2100,120,20,0,'wood'],[1960,2100,120,20,0,'metal'],
-     [2900,1700,120,20,0,'metal'],[2910,1500,120,20,0,'metal']],
+ dr:[[500,860,120,20,0,'wood'],[1980,860,120,20,0,'metal'],
+     [520,2100,120,20,0,'wood'],[1940,2100,120,20,0,'metal'],
+     [2900,2100,120,20,0,'metal'],[2910,1900,120,20,0,'metal']],
  sf:[ /* 中央大道掩体 */
      ['crates',1090,1080,60,60],['crates',1150,1080,60,60],
      ['barrel',1540,1160,28,28],['barrel',1590,1160,28,28],
@@ -2605,8 +2579,8 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
      ['barrel',2300,1900,28,28],['pallet',2100,1700,64,32],
      ['locker',1800,1980,46,84],
      /* E 市政楼内部 */
-     ['crates',2680,1000,50,44],['vending',3220,1640,42,66],
-     ['table',2740,1620,100,48],['plant',3260,960,32,32],
+     ['crates',2640,1360,50,44],['vending',3220,1740,42,66],
+     ['table',2660,1950,100,48],['plant',3260,1360,32,32],
      /* v41 巷战增补：中央大道、南北横街与楼间空地的第二层掩体 */
      ['sandbag',1250,950,120,26],['crates',1400,1050,60,60],
      ['barrel',1700,1200,28,28],['tyre',1050,1300,40,40],
@@ -2615,10 +2589,10 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
      ['crates',1500,700,60,60],['sandbag',2500,500,120,26],
      ['tyre',3000,700,40,40],['sandbag',650,1800,120,26],
      ['crates',2600,1900,60,60],['barrel',3200,2200,28,28],
-     ['pallet',1100,2200,64,32],['locker',3200,1000,46,84],
-     ['crates',3100,1600,50,44],['sandbag',2150,1960,120,26]],
+     ['pallet',1100,2200,64,32],['locker',3220,1950,46,84],
+     ['crates',2640,1500,50,44],['sandbag',2150,1960,120,26]],
  foe:{grunt:7,rush:4,heavy:1,sniper:1},acc:.58,rea:.80,edm:1.05,ehp:1,
- civ:[[900,360],[1840,760],[3000,980]],
+ civ:[[900,360],[1840,760],[3000,1450]],
  st:[280,2280],ex:[3340,2280,120,80],
  zn:[[120,120,800,600],[1200,120,1200,600],[2500,120,1000,600],
   [120,1000,880,400],[1000,1000,500,400],[1500,1000,500,400],
@@ -2783,9 +2757,9 @@ var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4
  intel:'第三关是赤隼的最后一条城市防线：四条平行街道把楼群切成五列，拆弹点藏在东南中楼。敌方装甲会沿主街压过来，我方的坦克、步战车、无人机与机器狗也只能沿道路搜索。用拆弹币先建立街道控制，再进入楼内完成 QTE。',
  obj:['进入四街合围区','收集 AT4 与拆弹币','呼叫装甲/无人支援控制街道','进入东南中楼拆弹点','完成 QTE 拆弹','从东南侧撤离'],
  roe:'我方支援沿道路推进 · 不要挡在装甲炮口与机炮射界前'};
-LS.push(YARD,AIR_LV,RGD);
+LS.push(YARD,AIR_LV);
 var LS6=LS.concat([BOMB_LV,QTE2_LV,QTE3_LV,CQB_LV]);/* QTE1/2/3 在训练关之前 */
-var LV_AIR=4,LV_RGD=5,LV_QTE1=6,LV_QTE2=7,LV_QTE3=8,LV_CQB=9;
+var LV_AIR=4,LV_QTE1=5,LV_QTE2=6,LV_QTE3=7,LV_CQB=8;
 var TUTLV={code:'OP-00 · TRAINING',nm:'新兵训练 · 靶场基础',W:1500,H:900,dk:.10,th:'port',sd:99,par:120,range:1,tutorial:1,tgt:1,
  fl:[[20,20,1460,860]],
  wl:RANGE_WL,
@@ -2997,6 +2971,48 @@ function softSprite(g,x,y,w,h,t){
  else if(t==='ktvtable'){g.fillStyle='#6a4f8a';g.fillRect(x,y,w,h);
   g.strokeStyle='#b08ad0';g.lineWidth=1.4;g.strokeRect(x+2,y+2,w-4,h-4);
   g.fillStyle='#8a6aae';g.fillRect(x+6,y+6,w-12,h-12)}
+ else if(t==='jersey'){g.fillStyle='#c8d0d4';g.fillRect(x,y,w,h);
+  g.fillStyle='#e2e8eb';g.fillRect(x+4,y+3,w-8,h-6);
+  g.strokeStyle='#7a868e';g.lineWidth=2;g.strokeRect(x,y,w,h);
+  g.fillStyle='rgba(255,248,215,.75)';var j1,step=w>=h?20:20;
+  if(w>=h){for(j1=x+8;j1<x+w-6;j1+=step)g.fillRect(j1,y+4,6,h-8)}
+  else{for(j1=y+8;j1<y+h-6;j1+=step)g.fillRect(x+4,j1,w-8,6)}}
+ else if(t==='hesco'){g.fillStyle='#c9b06a';g.fillRect(x,y,w,h);
+  g.strokeStyle='#8a6a2a';g.lineWidth=2;g.strokeRect(x+1,y+1,w-2,h-2);
+  g.fillStyle='rgba(255,245,205,.28)';g.fillRect(x+3,y+3,w-6,4);
+  var h1;if(w>=h){for(h1=x+18;h1<x+w-8;h1+=24){g.strokeStyle='rgba(120,85,25,.45)';g.beginPath();g.moveTo(h1,y+4);g.lineTo(h1,y+h-4);g.stroke()}}
+  else{for(h1=y+18;h1<y+h-8;h1+=24){g.strokeStyle='rgba(120,85,25,.45)';g.beginPath();g.moveTo(x+4,h1);g.lineTo(x+w-4,h1);g.stroke()}}}
+ else if(t==='container'){g.fillStyle='#3a7f8f';g.fillRect(x,y,w,h);
+  g.strokeStyle='#24545e';g.lineWidth=2;g.strokeRect(x+1,y+1,w-2,h-2);
+  g.fillStyle='rgba(255,255,255,.10)';g.fillRect(x+3,y+3,w-6,4);
+  var c1;if(w>=h){for(c1=x+10;c1<x+w-16;c1+=11){g.strokeStyle='rgba(15,55,65,.35)';g.beginPath();g.moveTo(c1,y+4);g.lineTo(c1,y+h-4);g.stroke()}
+   g.fillStyle='#2a5a66';g.fillRect(x+w-14,y+2,12,h-4);g.fillStyle='#e8f0f0';g.fillRect(x+w-12,y+h*.4,8,3)}
+  else{for(c1=y+10;c1<y+h-16;c1+=11){g.strokeStyle='rgba(15,55,65,.35)';g.beginPath();g.moveTo(x+4,c1);g.lineTo(x+w-4,c1);g.stroke()}
+   g.fillStyle='#2a5a66';g.fillRect(x+2,y+h-14,w-4,12)}}
+ else if(t==='car'){g.fillStyle='#d9b04a';g.fillRect(x+2,y+6,w-4,h-12);
+  g.strokeStyle='#7a4a20';g.lineWidth=2;g.strokeRect(x+2,y+6,w-4,h-12);
+  if(w>=h){g.fillStyle='#5a7f96';g.fillRect(x+w*.28,y+8,w*.28,h-16);
+   g.fillStyle='#2a2e33';g.beginPath();g.arc(x+w*.22,y+7,5,0,TAU);g.arc(x+w*.78,y+7,5,0,TAU);g.fill();
+   g.beginPath();g.arc(x+w*.22,y+h-7,5,0,TAU);g.arc(x+w*.78,y+h-7,5,0,TAU);g.fill();
+   g.fillStyle='#e8d090';g.fillRect(x+w*.58,y+7,w*.18,h-14)}
+  else{g.fillStyle='#5a7f96';g.fillRect(x+8,y+h*.28,w-16,h*.28);
+   g.fillStyle='#2a2e33';g.beginPath();g.arc(x+7,y+h*.22,5,0,TAU);g.arc(x+7,y+h*.78,5,0,TAU);g.fill();
+   g.beginPath();g.arc(x+w-7,y+h*.22,5,0,TAU);g.arc(x+w-7,y+h*.78,5,0,TAU);g.fill()}}
+ else if(t==='barricade'){g.fillStyle='#3a6fb0';g.fillRect(x,y,w,h);
+  g.strokeStyle='#244a78';g.lineWidth=2;g.strokeRect(x+1,y+1,w-2,h-2);
+  var b1;for(b1=x+4;b1<x+w-4;b1+=18){g.fillStyle='rgba(255,255,255,.82)';g.beginPath();
+   g.moveTo(b1,y+3);g.lineTo(Math.min(x+w-2,b1+8),y+3);g.lineTo(Math.min(x+w-2,b1+16),y+h-3);g.lineTo(Math.min(x+w-2,b1+8),y+h-3);g.closePath();g.fill()}
+  g.fillStyle='#d8e4f0';g.fillRect(x+2,y+h-4,w-4,3)}
+ else if(t==='dumpster'){g.fillStyle='#3f8a5a';g.fillRect(x,y,w,h);
+  g.strokeStyle='#245a38';g.lineWidth=2;g.strokeRect(x+1,y+1,w-2,h-2);
+  g.fillStyle='#5fb07a';g.fillRect(x+3,y+3,w-6,h*.28);
+  g.fillStyle='#1f3f2c';g.fillRect(x+4,y+h-8,w-8,4);
+  g.fillStyle='#c8d8cc';g.fillRect(x+w*.2,y+h*.42,w*.6,3)}
+ else if(t==='planter'){g.fillStyle='#b8c4cc';g.fillRect(x,y,w,h);
+  g.strokeStyle='#7a868e';g.lineWidth=2;g.strokeRect(x+1,y+1,w-2,h-2);
+  g.fillStyle='#6a4a2a';g.fillRect(x+5,y+5,w-10,h-10);
+  var p1;for(p1=0;p1<5;p1++){g.fillStyle=p1%2?'#65c46a':'#4fa85a';
+   g.beginPath();g.arc(x+10+(p1%3)*(w-20)/3,y+10+((p1/3)|0)*(h-20)/2,Math.max(4,Math.min(w,h)*.12),0,TAU);g.fill()}}
  else{wallSprite(g,x,y,w,h,t)}
 }
 
@@ -3007,7 +3023,7 @@ var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:1,dv3:0,
  gd:{muzzle:1,optic:1,grip:1,plate:1},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
  name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0,
- qteCoin:0,v42:0};
+ qteCoin:0,v42:0,v49:0};
 try{var rraw=localStorage.getItem('ta5_v2');
  if(rraw){var jd=JSON.parse(rraw);
   if(jd&&jd.u)ST.unl=clamp(jd.u|0,1,9);
@@ -3034,6 +3050,7 @@ try{var rraw=localStorage.getItem('ta5_v2');
  if(jd&&jd.pv)ST.pv=jd.pv|0;
   if(jd&&typeof jd.qc==='number')ST.qteCoin=Math.max(0,Math.floor(jd.qc));
   if(jd&&jd.v42)ST.v42=1;
+  if(jd&&jd.v49)ST.v49=1;
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
   if(jd&&jd.df){var odf=jd.df|0;ST.diff=odf>=5?3:(odf>=3?2:1)}
   if(jd&&jd.dv3)ST.dv3=1;
@@ -3110,6 +3127,28 @@ if(!ST.v42){
   if(ob[8])ST.cqb=1;
   ST.v42=1;save()
  })()}
+/* v49：删除 OP-07「终局考核」地图。旧 9 关索引换算为 8 关：
+   OP-01/02/03 → 机场 → QTE-01/02/03 → CQB；旧 RGD 进度丢弃，
+   机场通关即视为完成终局考核，解锁国产枪族与 QTE。 */
+if(!ST.v49){
+ (function(){
+  var ob=ST.best||{},nb={},i2,
+   map={1:1,2:2,3:3,4:4,6:5,7:6,8:7,9:8},oldRgd=!!ob[5];
+  for(i2 in ob){var ni=map[+i2];if(!ni)continue;nb[ni]=ob[i2]}
+  ST.best=nb;
+  var oc=[],old=ST.clr||[];
+  for(i2=1;i2<=9;i2++){
+   var ni2=map[i2];if(!ni2)continue;
+   var v=old[i2-1]|0;if(v)oc[ni2-1]=v}
+  ST.clr=oc;
+  var ou=ST.unl|0;
+  if(ou===5)ST.unl=4;else if(ou>5)ST.unl=ou-1;
+  var olv=ST.lv|0;
+  if(olv===5)ST.lv=4;else if(olv>5)ST.lv=olv-1;
+  if(oldRgd||nb[4]||nb[5]||nb[6]||nb[7])ST.storyDone=1;
+  if(nb[8])ST.cqb=1;
+  ST.v49=1;save()
+ })()}
 /* 难度从旧五档并为三档：把 5 位通关掩码换算成新的 3 位掩码，避免旧进度丢失 */
 if(!ST.dv3){
  (function(){var i,m5,nm;
@@ -3153,7 +3192,7 @@ function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,fm:ST.fm,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,dv3:ST.dv3,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,tp:ST.tutP,tc:ST.tutC,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5,
- qc:ST.qteCoin,v42:ST.v42}))}catch(e){}}
+ qc:ST.qteCoin,v42:ST.v42,v49:ST.v49}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
 function addXp(v){
  var b=rankOf(ST.xp);
@@ -3782,11 +3821,11 @@ function coverPlan(c,ws,drs){
   for(var k=0;k<keep.length;k++){
    if(coverPointNear(x,y,w,h,keep[k].x,keep[k].y,keep[k].p+(pad||0)))return true}
   return false}
- function bad(x,y,w,h,doorPad,keepPad){
+ function bad(x,y,w,h,doorPad,keepPad,allowRoad){
   if(x<18||y<18||x+w>c.W-18||y+h>c.H-18)return true;
   for(var j=0;j<ws.length;j++)if(coverRectPad(x,y,w,h,ws[j],4))return true;
   for(j=0;j<drs.length;j++)if(coverRectPad(x,y,w,h,drs[j],doorPad==null?14:doorPad))return true;
-  if(c.qte&&c.roads&&coverRoadHit(c,x,y,w,h))return true;
+  if(!allowRoad&&c.qte&&c.roads&&coverRoadHit(c,x,y,w,h))return true;
   if(nearKeep(x,y,w,h,keepPad||0))return true;
   for(j=0;j<out.length;j++)if(coverRectPad(x,y,w,h,out[j],10))return true;
   return false}
@@ -3800,6 +3839,32 @@ function coverPlan(c,ws,drs){
   if(bad(x,y,w,h,14,0)){w=s[3];h=s[4];x=s[1];y=s[2]}
   if(w<12||h<12)continue;
   out.push({t:s[0],x:x,y:y,w:w,h:h})
+ }
+ /* 1b) QTE 街区标志性掩体：混凝土隔离墩、HESCO、集装箱、废弃车、路障、垃圾箱、长花坛 */
+ if(c.qte){
+  var sig=c.code.indexOf('QTE-01')===0?[
+    ['jersey',1450,1040,120,34],['hesco',2050,1180,100,54],
+    ['car',1200,1160,120,60],['barricade',3000,1180,100,30],
+    ['container',120,1150,155,62],['dumpster',3300,1400,72,54],
+    ['jersey',1650,1240,120,34],['planter',3380,1120,110,40]
+   ]:(c.code.indexOf('QTE-02')===0?[
+    ['container',1100,300,155,62],['car',2500,1200,120,60],
+    ['hesco',3050,1200,100,54],['barricade',1750,450,100,30],
+    ['planter',800,1200,110,40],['jersey',1450,1200,120,34],
+    ['barricade',2250,450,100,30],['planter',3300,1200,110,40],
+    ['dumpster',700,600,72,54]
+   ]:[
+    ['jersey',1200,1900,120,34],['container',2800,1250,155,62],
+    ['car',2200,2400,120,60],['planter',800,1900,110,40],
+    ['barricade',3600,1200,100,30],['car',1500,2400,120,60],
+    ['container',900,1250,155,62],['dumpster',3700,1900,72,54]
+   ]);
+  for(i=0;i<sig.length;i++){
+   var q=sig[i];
+   if(bad(q[1],q[2],q[3],q[4],14,0,1))continue;
+   if(!coverCircleClear(q[1]+q[3]/2,q[2]+q[4]/2,20,ws,out,drs))continue;
+   out.push({t:q[0],x:q[1],y:q[2],w:q[3],h:q[4],extra:1})
+  }
  }
  /* 2) 伴随掩体：沿原掩体长边外侧再加一座，形成双掩体/交叉掩体 */
  if(!c.range&&!c.tutorial){
@@ -3817,16 +3882,20 @@ function coverPlan(c,ws,drs){
  }
  /* 3) 区域散点掩体：在 zn 空地内补充亮色沙袋/木箱/油桶等 */
  if(!c.range&&!c.tutorial&&c.zn){
-  var pool=['sandbag','crates','barrel','pallet','tyre','plant','bench','table','locker','office'],
-   add=Math.min(14,4+Math.round(src.length*.35)),tries2=0;
+  var pool=['sandbag','crates','barrel','pallet','tyre','plant','bench','table','locker','office'];
+  if(c.qte)pool=pool.concat(['jersey','hesco','container','car','barricade','dumpster','planter']);
+  var add=Math.min(14,4+Math.round(src.length*.35)),tries2=0;
   while(add>0&&tries2<120&&c.zn.length){
    tries2++;
    var z=c.zn[(rnd()*c.zn.length)|0];if(!z||z[2]<90||z[3]<90)continue;
    type=pool[(rnd()*pool.length)|0];
    var sz={sandbag:[120,34],crates:[66,66],barrel:[36,36],pallet:[78,44],tyre:[48,48],
-    plant:[42,42],bench:[110,38],table:[110,54],locker:[54,92],office:[88,48]}[type]||[60,40];
+    plant:[42,42],bench:[110,38],table:[110,54],locker:[54,92],office:[88,48],
+    jersey:[120,34],hesco:[100,54],container:[155,62],car:[120,60],
+    barricade:[100,30],dumpster:[72,54],planter:[110,40]}[type]||[60,40];
    w=sz[0];h=sz[1];
    if(type==='sandbag'&&rnd()<.45){w=34;h=110}
+   else if((type==='container'||type==='car'||type==='jersey'||type==='planter'||type==='barricade')&&rnd()<.38){var tw=w;w=h;h=tw}
    else if(rnd()<.35){w=Math.round(w*1.2);h=Math.round(h*1.12)}
    x=Math.round(z[0]+40+rnd()*Math.max(8,z[2]-80-w));
    y=Math.round(z[1]+40+rnd()*Math.max(8,z[3]-80-h));
@@ -3922,7 +3991,8 @@ function build(idx,ovr){
  L={cfg:c,ws:ws,en:[],civ:[],cr:[],dr:drs,sof:covers,
   lp:FU.lp,base:base,mmc:mmc,sc:sc,neon:neon,fi:c.flIdx||0};
  var SOLID_SF={table:1,ktvtable:1,bench:1,locker:1,vending:1,barrel:1,crates:1,
-  sandbag:1,office:1,armchair:1,chair:1,stool:1,pallet:1,plant:1,tyre:1,watercooler:1};
+  sandbag:1,office:1,armchair:1,chair:1,stool:1,pallet:1,plant:1,tyre:1,watercooler:1,
+  jersey:1,hesco:1,container:1,car:1,barricade:1,dumpster:1,planter:1};
  for(k=0;k<covers.length;k++){var s0=covers[k];
   if(SOLID_SF[s0.t])ws.push({x:s0.x,y:s0.y,w:s0.w,h:s0.h});
   softSprite(g,s0.x,s0.y,s0.w,s0.h,s0.t)}
@@ -9060,6 +9130,24 @@ var PATCHES=[
        '原本只有贴图、没有碰撞的掩体全部实体化：轮胎、托盘、盆栽、椅子、凳子、扶手椅、饮水机，以及原有的沙袋/木箱/桌子/长椅/文件柜/售货机/办公桌/油桶，均写入 ws 阻挡移动与子弹；纸张保留为地面贴花，不阻挡。',
        '新增掩体自动避开墙体、门洞、出生点、撤离点、炸弹点、AT4 拾取点、拆弹币、支援点与装甲出生点；QTE 地图的散点掩体不落在道路上。',
        '实测：九图掩体数量全部增加且全部实体化；掩体压门 0、压出生点 0、压撤离点 0、压炸弹点 0；出生点到撤离点、QTE 出生点到炸弹点的寻路全部可达；九图敌人与门框巡检仍为 0 异常。'
+      ]},
+     {v:49,d:'2026-11-27',t:'删除终局考核地图 · 八关重排',
+      items:[
+       '删除 OP-07「终局考核 · 实弹综合考核」地图：地图数据、关卡卡片、任务简报、终局考核剧情档案、解锁链与关卡索引全部移除。',
+       '行动顺序缩为 8 关：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 训练楼 → 自由训练场。',
+       '机场通关即视为完成原终局考核：解锁全部国产枪族与 QTE 拆弹模式；QTE-01 不再检查额外考核前置。',
+       '旧存档自动换算：9 关索引压缩为 8 关，机场与 QTE-01/02/03、CQB 的进度保留；原终局考核进度丢弃，不影响已解锁枪械与军衔。',
+       '任务列表、启动页、作战手册、训练场解锁提示、国产枪族解锁提示与选枪页条件全部按 8 关重写。',
+       '实测：关卡总数 8、任务列表 4 张主线卡 + 3 张 QTE 卡 + CQB + 训练场；机场通关后国产枪族与 QTE-01 正常开放；旧 9 关存档索引迁移后无越界。'
+      ]},
+     {v:50,d:'2026-11-27',t:'QTE 楼宇公路纠偏 · 掩体样式扩充',
+      items:[
+       'QTE-01 东侧市政楼整体下移 400px，避开横向主路 y=1000–1280；拆弹室、炸弹点与人质同步下移，A/B/C/D 四栋楼西移 20px，让东墙退出纵向公路。',
+       'QTE-02、QTE-03 楼宇与公路逐段复查：楼体、门洞、拆弹点、出生点与道路保持 20–40px 净距；QTE-03 下层楼恢复 y=1500–2100，不再压 y=1200–1500 与 y=2300–2600 两条横路。',
+       'QTE 三图新增 7 种实体掩体模型：混凝土隔离墩、HESCO 土笼、集装箱、废弃车辆、警用路障、垃圾箱、长花坛；均写入 ws，真实阻挡移动与子弹。',
+       'QTE 街区加入标志性掩体：QTE-01 隔离墩/HESCO/废弃车/路障/集装箱/垃圾箱；QTE-02 集装箱/废弃车/HESCO/路障/长花坛/隔离墩/垃圾箱；QTE-03 隔离墩/集装箱/废弃车/长花坛/路障/垃圾箱。',
+       '区域散点掩体池同步扩充，新模型会按房间空地自动补充；原有沙袋、木箱、油桶、轮胎、托盘、桌椅、文件柜、售货机仍保留。',
+       '实测：QTE-01/02/03 楼体压路 0 处；三图掩体 83/47/58 处且全部实体化；拆弹点不在公路上、可达；出生点到拆弹点寻路全部可达。'
       ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -9234,7 +9322,7 @@ function olSetSlot(i,id){
  var h=heroLoadOf().slice();h[i]=id;ST.heroLoad=h;save();renderOpLoad()}
 function openOpLoad(op){
  if(!olUnlocked(op)){
-  toast(op==='grey'?'通关机场后解锁「格雷」':(op==='duo'?'看完第三章后解锁「联合编队」':'通过 OP-07 后解锁「燕锋」'),2800);return}
+  toast(op==='grey'?'通关机场后解锁「格雷」':(op==='duo'?'看完第三章后解锁「联合编队」':'完成机场行动后解锁「燕锋」'),2800);return}
  OLOP=op;show('sOpLoad');setScr('opload');renderOpLoad()}
 function renderOpLoad(){
  var inf=opInfo(OLOP),c=$('olCard');
@@ -9285,14 +9373,14 @@ function renderOpRow(){
   if(db)db.textContent=unD?'燕锋打头 · 格雷随行':'第三章后解锁'}
  var ny=n.querySelector('b'),yy=y.querySelector('b'),gy=g.querySelector('b');
  if(ny)ny.textContent='你自己 · 破拆专家 · 主武器 + 副武器';
- if(yy)yy.textContent=unY?'猎鹰调配 · 强袭 · 三武器槽':'通过 OP-07 后解锁';
+ if(yy)yy.textContent=unY?'猎鹰调配 · 强袭 · 三武器槽':'完成机场行动后解锁';
  if(gy)gy.textContent=unG?'SAS 指挥官 · 老练 · 三武器槽':'通关机场后解锁';
  var t=$('opTip');
  if(!t)return;
  if(op==='duo')t.textContent='当前为联合编队：燕锋出击（据枪 +14%），格雷作为僚机随行（自动跟随与交火）';
  else if(op==='yan')t.textContent='当前由「燕锋」出击：强袭专长 · 护甲 +18 · 移速 +4% · 据枪精度 +18% · 后坐 −8%';
  else if(op==='grey')t.textContent='当前由「格雷」出击：老练专长 · 护甲 +12 · 换弹 −15% · 后坐 −18% · 视野 +16%';
- else if(!unY)t.textContent='英雄队员「燕锋」将在通过 OP-07 猎鹰招募后编入作战序列';
+ else if(!unY)t.textContent='英雄队员「燕锋」将在完成机场行动后编入作战序列';
  else if(!unG)t.textContent='英雄队员「格雷」将在通关机场后编入作战序列';
  else if(!unD)t.textContent='联合编队将在机场行动结束后解锁';
  else t.textContent='当前由你自己出击：破拆专家 · 破门快 35% · 腰封 +1 格；一主一副，配装以军械库为准';
@@ -9490,17 +9578,16 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
  }
  for(var i=0;i<3;i++)mainCard(i);
  special('04',3,!!ST.dev||(ST.unl>=LV_AIR&&rankPk()>=(LS6[3].rq||0)),LV_AIR,'机场双层','完成 OP-03 后解锁');
- special('05',4,!!ST.dev||ST.unl>=LV_RGD,LV_RGD,'终局考核','完成机场行动后解锁');
- special('06',5,!!ST.dev||ST.storyDone===1,LV_QTE1,'QTE-01 · 3:00','完成终局考核后解锁');
- special('07',6,!!ST.dev||!!ST.best['6'],LV_QTE2,'QTE-02 · 支援启用','完成 QTE-01 后解锁');
- special('08',7,!!ST.dev||!!ST.best['7'],LV_QTE3,'QTE-03 · 高密度','完成 QTE-02 后解锁');
- special('CQ',8,!!ST.dev||ST.tut===1,LV_CQB,'CQB 原则训练','完成新兵训练后解锁');
+ special('05',4,!!ST.dev||ST.storyDone===1,LV_QTE1,'QTE-01 · 3:00','完成机场行动后解锁');
+ special('06',5,!!ST.dev||!!ST.best['5'],LV_QTE2,'QTE-02 · 支援启用','完成 QTE-01 后解锁');
+ special('07',6,!!ST.dev||!!ST.best['6'],LV_QTE3,'QTE-03 · 高密度','完成 QTE-02 后解锁');
+ special('CQ',7,!!ST.dev||ST.tut===1,LV_CQB,'CQB 原则训练','完成新兵训练后解锁');
  var okR=!!ST.dev||ST.tut===1,bR=mk('div','card'+(okR?'':' lock'));bR.style.borderStyle='dashed';
  var noR=mk('div','no');noR.textContent='00';bR.appendChild(noR);
  var eR=mk('div','en2');eR.textContent='OP-00 · TRAINING RANGE';bR.appendChild(eR);
  var sR=mk('div','sc');sR.textContent='训练场 · 自由射击';bR.appendChild(sR);
  var dR=mk('div','dftag');dR.textContent='沙盒演练 · 全部枪械开放 · 不计分';bR.appendChild(dR);
- var oR=mk('div','ob');oR.textContent=okR?'训练场排在机场、终局考核与 QTE 全部地图之后':'完成新兵训练后解锁';bR.appendChild(oR);
+ var oR=mk('div','ob');oR.textContent=okR?'训练场排在机场与 QTE 全部地图之后':'完成新兵训练后解锁';bR.appendChild(oR);
  var mR=mk('div','mt'),bRg=mk('span','badge'+(okR?' g':''));bRg.textContent=okR?'已开放':'未解锁';mR.appendChild(bRg);bR.appendChild(mR);
  if(okR)bR.addEventListener('click',function(){aInit();snd.ui();openRange()});
  l.appendChild(bR)
@@ -9565,7 +9652,7 @@ var DRG=[
  ['沈钺','去吧。我跟着你，最后一发我看着。','building']
 ];
 /* 终局考核档案：剧情开始前读的一段档案，不与任何角色对话混在一起 */
-var DRG_BG={t:'五区行动 · 终局考核档案',b:[
+var DRG_BG={t:'五区行动 · 战术档案',b:[
  '背景：城南工业带往外，同一伙人分段占着老公寓、商场、郊野储运站与机场。他们不喊口号，只收过路费、扣人质，把军火往外卖；这一片被统称为「五区」。',
  '处置：武警与特警联合展开清剿，行动代号「五区行动」。顺序由易到难，一区一区往里推；每推进一区，对方的装备和反应都会更硬。',
  '主力：猎鹰突击队。编制不大，接的都是最里面那扇门后面的活——破门、清房、把人质带出来。',
@@ -9711,10 +9798,10 @@ function drgShowBG(){
  if($('dsTtl'))$('dsTtl').textContent=DRG_BG.t;
  $('dramaBox').classList.add('bgmode');
  var isA=!!(DRG_BG&&DRG_BG.act);
- if($('dsK'))$('dsK').textContent=isA?'TACTICAL ARCHIVE · 战术档案':'FINAL EVALUATION · 终局考核档案';
+ if($('dsK'))$('dsK').textContent=isA?'TACTICAL ARCHIVE · 战术档案':'TACTICAL ARCHIVE · 战术档案';
  if($('dsHint'))$('dsHint').textContent=isA?'读完点右侧按钮，进入行动简报':'读完点右侧按钮，进入考核现场';
  if($('dsGo'))$('dsGo').textContent=isA?'进入行动':'进入考核现场';
- $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'终局考核 · 档案';
+ $('dAct').textContent=(DRG_BG&&DRG_BG.act)||'战术档案 · 档案';
  var c=document.querySelector('#dDossier .dsCard');if(c)c.scrollTop=0}
 function drgStartStory(){
  $('dramaBox').classList.remove('bgmode');
@@ -9909,7 +9996,7 @@ function fadeTo(fn){
  setTimeout(function(){
   try{fn()}catch(e){}
   setTimeout(function(){f.classList.remove('on')},140)},430)}
-function dStartExam(){fadeTo(function(){show(null);ST.lv=LV_RGD;brief2Exam()})}
+function dStartExam(){/* OP-07 终局考核地图已删除 */}
 /* SECTION: tutorial 新兵训练
    一座靶场里的 14 个步骤，把所有会用到的键位过一遍；不消耗经验、不会失败。 */
 var TUTS=[
@@ -10117,19 +10204,7 @@ function submitName(v){v=String(v||'').replace(/\s+/g,' ').trim().slice(0,12);
  try{lbSubmit()}catch(e){}
  if(ST.tut===1||ST.dev){playIntro(function(){goMenu();toast2('欢迎归队，'+ST.name)})}
  else{aInit();startTut()}}
-function brief2Exam(){leaveRange();
- show('sBrief');setScr('brief');
- var dr0=$('diffRow');if(dr0)dr0.classList.add('hidden');
- var go0=$('bGo');if(go0)go0.textContent='进入战场';
- var c=LS6[LV_RGD-1];$('fC').textContent=c.code;$('fN').textContent=c.nm;$('fI').textContent=c.intel;
- renderWho('你 · 终局考核（单人）');
- var o=$('fO');o.innerHTML='';c.obj.forEach(function(t,i){var d=mk('div');d.textContent=(i+1)+'．'+t;o.appendChild(d)});
- $('fE').textContent='14 名守敌 ＋ 2 名人质 · 训练楼实弹环境 · 难度 ★★★★★';
- $('fT').textContent=c.threat;$('fR').textContent=c.terr;$('fH').textContent=c.hint;
- $('fP').textContent=fmt(c.par)+' 内完成为满分基准';$('fG').textContent=c.roe;
- var fa=$('fAlly');if(fa)fa.textContent='全程单人作战：AI 队员已取消，场上只有你一个人（结算固定 +150 分）';
- if($('bCont'))$('bCont').classList.add('hidden');
- if(go0)go0.textContent='进入实弹考核'}
+function brief2Exam(){/* OP-07 终局考核地图已删除 */}
 /* 任务简报顶部：显示登记代号 + 军衔 + 本场编队 */
 function renderWho(squad){
  var w=$('fWho');if(!w)return;
@@ -10299,7 +10374,7 @@ function pause(on){if(on){if(ST.scr!=='play')return;
   if(TUT.on&&TUT.done)return;
   closeThrowPick();show('sPause');setScr('pause');$('bAud2').textContent=ST.aud?'音效 开':'音效 关'}
  else{show(null);setScr('play')}}
-function nextLv(lv){if(lv<LV_RGD)return lv+1;if(lv===LV_RGD)return LV_QTE1;if(lv>=LV_QTE1&&lv<LV_QTE3)return lv+1;return 0}
+function nextLv(lv){if(lv<LV_AIR)return lv+1;if(lv===LV_AIR)return LV_QTE1;if(lv>=LV_QTE1&&lv<LV_QTE3)return lv+1;return 0}
 function showRes(win){stopLoop();resetCombatFx();
  /* 每项任务结束做一次寻路复查：卡墙/离开道路/路径点失效的单位在这里复位。 */
  try{auditSupportArmor(true,true)}catch(e){}
@@ -10318,7 +10393,7 @@ function showRes(win){stopLoop();resetCombatFx();
   stv={S:5,A:4,B:3,C:2,D:1}[rate];
  if(win&&G.civD>0&&rate==='S'){rate='A';stv=4}
  $('rTag').textContent=win?'MISSION COMPLETE':'MISSION FAILED';
- $('rTtl').textContent=win?(ST.lv===LV_AIR?'机场行动完成 · 终局考核待命':(ST.lv===LV_RGD?'终局考核完成 · QTE 拆弹模式已开放':(c.nm+' 已完成'))):(c.nm+' · 行动失败');
+ $('rTtl').textContent=win?(ST.lv===LV_AIR?'机场行动完成 · 国产枪族与 QTE 已解锁':(c.nm+' 已完成')):(c.nm+' · 行动失败');
  var rr=$('rRate');rr.textContent=win?rate:'F';rr.className='rate'+(win?'':' f');
  $('rStar').textContent=win?('★★★★★'.slice(0,stv)+'☆☆☆☆☆'.slice(0,5-stv)):'☆☆☆☆☆';
  $('r1').textContent=fmt(sec)+'（基准 '+fmt(L&&L.cfg?L.cfg.par:c.par)+'）';
@@ -10397,11 +10472,11 @@ function showRes(win){stopLoop();resetCombatFx();
  var nx=nextLv(ST.lv);
  $('bNext').classList.toggle('hidden',!(win&&nx));
  $('bNext').textContent=nx?'下一行动':'任务列表';
- if(win&&ST.lv===LV_RGD&&!ST.storyDone){ST.storyDone=1;save();
-  try{toast('终局考核通过 · 国产枪族全部解锁 · QTE 拆弹模式开放',3200)}catch(e){}
-  $('rTtl').textContent='终局考核通过 · 国产枪族全部解锁';}
+ if(win&&ST.lv===LV_AIR&&!ST.storyDone){ST.storyDone=1;save();
+  try{toast('机场行动完成 · 国产枪族全部解锁 · QTE 拆弹模式开放',3200)}catch(e){}
+  $('rTtl').textContent='机场行动完成 · 国产枪族与 QTE 已解锁';}
  if(win&&L.cfg&&L.cfg.qte){ST.qteCoin=(ST.qteCoin||0)+(ST.lv===LV_QTE1?40:30);G.qteCoin=ST.qteCoin}
- if(win){ST.unl=Math.min(9,Math.max(ST.unl,ST.lv+1));
+ if(win){ST.unl=Math.min(8,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
   if(!ob||ob.sc<sc){ST.best[key]={sc:sc,rate:rate,time:sec}}
   save();snd.cheer()}else snd.dead()
@@ -10427,14 +10502,14 @@ function heroQuota(){ST.hu=ST.hu||{d:'',left:3};
  var d=cstDay();if(ST.hu.d!==d){ST.hu={d:d,left:3};save()}
  return ST.hu}
 function openHero(){
- if(ST.hero!==1&&ST.hero2!==1){toast('英雄队员尚未编入序列：先通过 OP-07 或完成机场行动',3000);return}
+ if(ST.hero!==1&&ST.hero2!==1){toast('英雄队员尚未编入序列：先完成机场行动',3000);return}
  show('sHero');setScr('hero');renderHero()}
 function renderHero(){if(!$('heroList'))return;var q=heroQuota();
  $('hqLeft').textContent=q.left;
  var l=$('heroList');l.innerHTML='';
  if(ST.hero!==1&&ST.hero2!==1){
   var nk=mk('div','note');
-  nk.textContent='尚未通过 OP-07 猎鹰招募：通过考核后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
+  nk.textContent='尚未完成机场行动：完成后，「燕锋」会被调遣至你的作战序列，并开放三武器槽。';
   l.appendChild(nk);return}
  if(ST.hero===1){
  /* 三武器槽：两主一副，进局后按 1 / 2 / 3 切换 */
@@ -10504,14 +10579,14 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
   var m=mk('div','m');m.textContent=o.mk.split('（')[0];
   t.appendChild(n);t.appendChild(m);r.appendChild(t);
   if(!gunOk(o.id)){r.style.opacity=.45}
-  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':(/国产/.test(o.cn||'')?'需终局考核':'需'+rankName(TIER_XP[o.tk]))));
+  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':(/国产/.test(o.cn||'')?'需机场通关':'需'+rankName(TIER_XP[o.tk]))));
   r.appendChild(tg);
   r.addEventListener('click',function(){ST.sel=o.id;renderArs();snd.ui()});
   lst.appendChild(r)});
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：通过 OP-07 终局考核后，全部国产枪族自动解锁】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】'));
+ $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成机场行动后，全部国产枪族自动解锁】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】'));
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
@@ -10712,12 +10787,12 @@ bind('bDeploy',function(){var pick=-1,i;
  if(pick<0)for(i=0;i<5;i++)if(lvPlayable(i))pick=i;
  ST.lv=(pick<0?0:pick)+1;brief()});
 bind('bSetP',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需通过 OP-07 终局考核解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需完成机场行动解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls==='pistol'){$('dI').textContent='手枪只能配为副武器——主武器需步枪／冲锋枪／霰弹枪／狙击枪。';
   setTimeout(showDtl,1300);return}
  ST.load[0]=o.id;save();renderArs()});
 bind('bSetS',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需通过 OP-07 终局考核解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需完成机场行动解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls!=='pistol'){$('dI').textContent='副武器栏只能装手枪；把 '+o.n+' 设为主武器即可。';
   setTimeout(showDtl,1300);return}
  ST.load[1]=o.id;save();renderArs()});
@@ -10767,7 +10842,7 @@ bind('bResetStory',function(){var b=$('bResetStory');
  if(b&&b.getAttribute('data-arm')==='1'){
   b.removeAttribute('data-arm');b.textContent='重置进度';
   storyReset();renderLv();
-  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场→终局考核，再进入 QTE 拆弹三关。OP-04/05 剧情地图已删除；通过终局考核后重新解锁国产枪族。');
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场，再进入 QTE 拆弹三关。OP-07 终局考核与 OP-04/05 剧情地图已删除；完成机场行动后重新解锁国产枪族。');
   goMenu();return}
  if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
  setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
@@ -10848,7 +10923,7 @@ resize();setScr('boot');renderLv();showDtl();updHint();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
- '请从 OP-01 开始重新推进：公寓→商场→储运站→机场→终局考核，再进入 QTE-01/02/03 拆弹行动。OP-04/05 剧情地图已删除；通过终局考核后国产枪族会重新解锁。军衔分、已授权枪械与训练场进度保留。');
+ '请从 OP-01 开始重新推进：公寓→商场→储运站→机场，再进入 QTE-01/02/03 拆弹行动。OP-07 终局考核与 OP-04/05 剧情地图已删除；完成机场行动后国产枪族会重新解锁。军衔分、已授权枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
