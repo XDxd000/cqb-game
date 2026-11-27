@@ -1634,7 +1634,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除，不再出现在任务序列、存档或简介中。</p>
   <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。AT4 专用拾取点散落在街区各处，每个拾取点提供 2 发火箭弹；普通弹药补给箱不补火箭弹。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援。</p>
   <p><b>拆弹币</b>：QTE 模式专属，击杀守敌与完成拆弹都会累积；任务列表顶部有金色 QTE 钱包卡显示持有量，HUD 左上角同步显示金色硬币标记，地图中散落拆弹币补给（每处 20 枚）。它不能带入其他地图，也不能用于军械库或普通任务。QTE-01 拾取后带入后续关卡，QTE-02/03 开局至少预拨 80 枚。</p>
-  <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（100 币）、自杀无人机 ×3（30 币）或机器狗 ×2（45 币）出击。QTE 三关不再提供步战车，敌方也不刷步战车。原小地图已移除。</p>
+  <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（100 币）、自杀无人机 ×3（30 币）或机器狗 ×2（45 币）出击。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 地图拾取点。原小地图已移除。</p>
   <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对步战车累计 3 架、对坦克累计 6 架才能摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
   <h3>难度曲线</h3>
   <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁国产枪族与 QTE；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
@@ -2510,7 +2510,7 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
 /* ==== OP-08 拆弹行动：大范围巷战 · 重武装 · QTE 拆弹 ====
    地图为 3600×2400 的六街区巷战：四条可通行街道、五栋可进入建筑、
    一处内嵌拆弹室。QTE 三关只使用坦克，不刷任何敌方或我方步战车；
-   步兵按 30 秒一波投入，装甲增援只追加坦克。 */
+   步兵按 60 秒一波投入，装甲增援只追加坦克。 */
 var BOMB_WL=function(a){
  ring(a,3600,2400,20);
  /* A · 西北居民楼（西移 20px，让东墙退出公路） */
@@ -2599,12 +2599,12 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
  zn:[[120,120,800,600],[1200,120,1200,600],[2500,120,1000,600],
   [120,1000,880,400],[1000,1000,500,400],[1500,1000,500,400],
   [2600,900,700,800],[120,1800,800,500],[1200,1800,1000,500],[2600,1750,700,500]],
- threat:'开局巡逻步兵×6（3 人清醒）· 无载具 · 拆弹后坦克×1（2/3 数值）+步兵×6 · 每 30 秒步兵×6 · 30 秒后空投 AT4×3',
+ threat:'开局巡逻步兵×6（3 人清醒）· 无载具 · 拆弹后坦克×1（2/3 数值）+步兵×6 · 每 60 秒步兵×6 · 30 秒后空投 AT4×3',
  terr:'3600×2400 六街区巷战：先穿过巡逻守卫进入市政楼拆弹；拆弹后敌方坦克从街道尽头压来，利用街区躲避并跑图拾取空投 AT4',
  hint:'先避开或清除巡逻守卫，再拆弹 · 拆弹后立刻躲避坦克 · 30 秒后三具 AT4 空投到街区远端 · 摧毁坦克后停止增援',
- intel:'赤隼在街区留下少量巡逻守卫和一枚 180 秒定时装置。拆弹完成后，一辆只有正常三分之二数值的主战坦克从街道尽头压来，并带一队步兵；每 30 秒还会补充 6 名步兵。30 秒后三具 AT4 会被空投到街区三个相隔很远的位置，你必须跑图拾取。摧毁坦克后敌方停止增援，清完残敌即可撤离。',
+ intel:'赤隼在街区留下少量巡逻守卫和一枚 180 秒定时装置。拆弹完成后，一辆只有正常三分之二数值的主战坦克从街道尽头压来，并带一队步兵；每 60 秒还会补充 6 名步兵。30 秒后三具 AT4 会被空投到街区三个相隔很远的位置，你必须跑图拾取。摧毁坦克后敌方停止增援，清完残敌即可撤离。',
  obj:['进入街区并避开巡逻守卫','进入市政楼拆弹室','完成 3 步 QTE 拆弹','躲避坦克并拾取空投 AT4','摧毁敌方坦克','清理残敌并撤离'],
- roe:'拆弹前有巡逻守卫 · 可潜行绕过或清除 · 拆弹后优先躲避坦克火力 · 空投 AT4 只在街道远端',pickup:[]};
+ roe:'拆弹前有巡逻守卫 · 可潜行绕过或清除 · 拆弹后优先躲避坦克火力 · 空投 AT4 只在街道远端'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
 var YARD_WL=function(a){
  ring(a,2400,1500,20);
@@ -2715,12 +2715,12 @@ var QTE2_LV={code:'QTE-02 · CROSSROADS',nm:'拆弹行动 II · 十字街区',W:
   [220,220,3160,260],[220,1120,3160,260],[220,2020,3160,260],
   [140,540,400,520],[1060,540,480,520],[2060,540,480,520],[3060,540,400,520],
   [140,1460,400,520],[1060,1460,480,520],[2060,1460,480,520]],
- threat:'开局巡逻步兵×8（3 人清醒）· 无载具 · 拆弹后坦克×1 + 步兵×6 · 坦克未毁每 30 秒步兵×6',
+ threat:'开局巡逻步兵×8（3 人清醒）· 无载具 · 拆弹后坦克×1 + 步兵×6 · 坦克未毁每 60 秒步兵×6',
  terr:'3600×2400 十字街区：开局没有载具但有巡逻守卫，先进入东南楼拆弹；拆弹后坦克与步兵入场',
- hint:'开局有巡逻守卫但无载具 · 先潜行或清除守卫再拆弹 · 拆弹后坦克+6 名步兵入场 · 坦克未毁则每 30 秒来 6 名步兵',
- intel:'赤隼在十字街区没有留下载具，但街上仍有巡逻守卫：街道不算空，东南楼里还有一枚定时装置。先潜行绕过或清除守卫完成拆弹，随后一辆坦克和六名步兵进入街区。只要坦克还存活，每 30 秒就会再投入六名步兵；摧毁坦克后停止增援，清完残敌才能撤离。',
+ hint:'开局有巡逻守卫但无载具 · 先潜行或清除守卫再拆弹 · 拆弹后坦克+6 名步兵入场 · 坦克未毁则每 60 秒来 6 名步兵',
+ intel:'赤隼在十字街区没有留下载具，但街上仍有巡逻守卫：街道不算空，东南楼里还有一枚定时装置。先潜行绕过或清除守卫完成拆弹，随后一辆坦克和六名步兵进入街区。只要坦克还存活，每 60 秒就会再投入六名步兵；摧毁坦克后停止增援，清完残敌才能撤离。',
  obj:['进入十字街区并避开巡逻守卫','进入东南楼拆弹点','完成 QTE 拆弹','摧毁坦克','清理残敌并撤离'],
- roe:'拆弹前有巡逻守卫 · 先拆弹 · 坦克未毁时每 30 秒会来 6 名步兵'};
+ roe:'拆弹前有巡逻守卫 · 先拆弹 · 坦克未毁时每 60 秒会来 6 名步兵'};
 var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4200,H:2800,dk:.16,th:'urban',sd:88,par:720,rq:0,qte:3,qteScript:3,
  qteStealthN:10,qteStealthPts:[[560,2500],[720,2470],[880,2440],
   [1800,2450],[2800,2450],[3600,2450],[800,1300],[1800,1300],
@@ -2758,10 +2758,10 @@ var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4
   [220,220,3760,260],[220,1220,3760,260],[220,2320,3760,260],
   [140,540,400,520],[1060,540,480,520],[2060,540,480,520],[3060,540,280,520],[3860,540,180,520],
   [140,1520,400,560],[1060,1520,480,560],[2060,1520,480,560],[3060,1520,280,560]],
- threat:'开局坦克×1 + 巡逻步兵×10（3 人清醒）· 每 30 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
+ threat:'开局坦克×1 + 巡逻步兵×10（3 人清醒）· 每 60 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
  terr:'4200×2800 四街合围：两枚定时装置分别藏在东南中楼与西侧楼内；开局有坦克与巡逻守卫，坦克增援持续到两枚炸弹全部拆除',
- hint:'开局按 T 呼叫支援 · 两枚炸弹都要拆 · 每 30 秒来一辆坦克并带 6 名步兵 · 拆完两枚才停止增援',
- intel:'第三关是赤隼的最后一条城市防线：两枚定时装置分别藏在东南中楼与西侧楼内，开局就有一辆坦克压街，街道上还有巡逻守卫。每 30 秒还会再投入一辆坦克并带六名步兵；只有拆除两枚炸弹才会停止增援。开局按 T 呼叫坦克、无人机或机器狗，先用支援顶住街道，再逐楼拆弹。',
+ hint:'开局按 T 呼叫支援 · 两枚炸弹都要拆 · 每 60 秒来一辆坦克并带 6 名步兵 · 拆完两枚才停止增援',
+ intel:'第三关是赤隼的最后一条城市防线：两枚定时装置分别藏在东南中楼与西侧楼内，开局就有一辆坦克压街，街道上还有巡逻守卫。每 60 秒还会再投入一辆坦克并带六名步兵；只有拆除两枚炸弹才会停止增援。开局按 T 呼叫坦克、无人机或机器狗，先用支援顶住街道，再逐楼拆弹。',
  obj:['进入四街合围区并避开巡逻守卫','按 T 呼叫支援单位','拆除第一枚炸弹','拆除第二枚炸弹','摧毁全部坦克','清理残敌并撤离'],
  roe:'支援单位沿道路推进 · 不要挡在坦克炮口前 · 潜入阶段先避开巡逻守卫'};
 LS.push(YARD,AIR_LV);
@@ -4175,7 +4175,7 @@ g.restore();
   G.p.fm=modeOf(G.p.guns[0].w);
   if(c.wave){G.waveT=c.wave.iv;G.waveN=0;G.waveSpawned=0}
   G.sup=[];G.tablet=0;G.tabletUnlock=0;G.wrecks=[];
-  G.qteScript=c.qteScript||0;G.qtePhase=0;G.qteWaveT=30;G.qteAt4=0;G.qteAt4T=30;G.qteIntro=0;
+  G.qteScript=c.qteScript||0;G.qtePhase=0;G.qteWaveT=60;G.qteAt4=0;G.qteAt4T=30;G.qteIntro=0;
   if(c.qte){
    G.qteCoin=Math.max(0,ST.qteCoin|0);
    if(c.qte>=2&&G.qteCoin<80)G.qteCoin=80;
@@ -5010,6 +5010,15 @@ function interact(){var p=G.p;if(!p||G.phase!=='live')return;
   neutralized(e2);e2.dis=1;G.disarmed++;var dsv=scorePts(140);G.sc+=dsv;ksAdd('◆','缴械 '+ename(e2),dsv,'good');addXp(10);snd.sec();
   feed('缴械 '+ename(e2)+' · ROE 合规 +'+dsv,1);checkOpen()}
    else{var box=best.o,kind=box.kind||'full';
+   /* 站在弹药箱与 AT4 之间时，F 不能被“弹药箱”永久抢占：
+      手持火箭筒开弹药箱本来就会拒绝补给，此时优先捡起脚边的地图武器。 */
+   if(kind==='ammo'&&cur().w.cls==='launcher'){
+    var wq0=null,wd0=56;
+    for(var wi3=0;wi3<(L.wpn||[]).length;wi3++){var q0=L.wpn[wi3];
+     if(q0.got)continue;var dq0=Math.hypot(q0.x-p.x,q0.y-p.y);
+     if(dq0<wd0){wd0=dq0;wq0=q0}}
+    if(wq0){pickupMapGun(wq0);return}
+   }
   if(kind==='qcoin'){
    box.got=1;var qv=box.val||20;G.qteCoin=(G.qteCoin||0)+qv;ST.qteCoin=G.qteCoin;save();
    toast('拾取拆弹币 +'+qv+'（QTE 专属）',2200);feed('拆弹币 +'+qv,1);snd.sec();return}
@@ -6508,17 +6517,35 @@ function qteArmorAlive(){
   if(!e.dead&&(e.tp==='tank'||e.tp==='ifv'))return true}
  return false}
 function qteArmorSite(){
- var c=L.cfg,p=G.p,pts=c.armorPts||c.wavePts||[],best=null,bd=-1,i;
+ var c=L.cfg,p=G.p,pts=(c.armorPts||[]).slice(),best=null,bd=1e9,i,j,bestOn=null,bdOn=1e9;
+ if(c.wavePts)for(j=0;j<c.wavePts.length;j++)pts.push(c.wavePts[j]);
+ /* 旧版固定选离玩家最远的点，坦克会刷在屏幕外，玩家只看到步兵。
+    先选画面内固定点；没有时在 480–1080px 环带内找画面内落点；
+    最后才退回最近的固定点。 */
  for(i=0;i<pts.length;i++){var q=pts[i];
   if(!freeAt(q[0],q[1],40))continue;
   if(c.roads&&!roadAt(c,q[0],q[1]))continue;
   var d=Math.hypot(q[0]-p.x,q[1]-p.y);
-  if(d>bd){bd=d;best=q}}
+  if(d<480)continue;
+  var on=!!vis(q[0],q[1],0),
+   score=Math.abs(d-680);
+  if(on&&score<bdOn){bdOn=score;bestOn=q}
+  if(score<bd){bd=score;best=q}}
+ if(bestOn)return{x:bestOn[0],y:bestOn[1]};
+ for(i=0;i<420;i++){
+  var a=Math.random()*TAU,dist=480+Math.random()*600,
+   x=p.x+Math.cos(a)*dist,y=p.y+Math.sin(a)*dist;
+  if(x<50||y<50||x>c.W-50||y>c.H-50)continue;
+  if(!freeAt(x,y,40)||(c.roads&&!roadAt(c,x,y))||!vis(x,y,0))continue;
+  var near=0,k;
+  for(k=0;k<L.en.length;k++){var o=L.en[k];
+   if(!o.dead&&Math.hypot(o.x-x,o.y-y)<72){near=1;break}}
+  if(!near)return{x:x,y:y}
+ }
  if(best)return{x:best[0],y:best[1]};
  for(i=0;i<180;i++){
-  var x=50+Math.random()*(c.W-100),y=50+Math.random()*(c.H-100);
-  if(freeAt(x,y,40)&&(!c.roads||roadAt(c,x,y))&&Math.hypot(x-p.x,y-p.y)>700)
-   return{x:x,y:y}
+  var x2=50+Math.random()*(c.W-100),y2=50+Math.random()*(c.H-100);
+  if(freeAt(x2,y2,40)&&(!c.roads||roadAt(c,x2,y2)))return{x:x2,y:y2}
  }
  return null}
 /* QTE 潜入守敌：按地图给出的点位定向生成，避免随机落点跑到地图另一端。
@@ -6629,7 +6656,7 @@ function qteScenario(dt){
  }
  if(sc===1){
   if(G.qtePhase===0&&bombsDone){
-   G.qtePhase=1;G.qteWaveT=30;G.qteAt4T=30;
+   G.qtePhase=1;G.qteWaveT=60;G.qteAt4T=30;
    qteSpawnArmor('tank',1);qteSpawnSquad(6);
    toast('拆弹完成 · 敌方坦克从街道尽头压来！立刻躲避',4200);
    feed('敌方坦克入场 · 30 秒后空投 AT4',0);snd.alert();
@@ -6641,7 +6668,7 @@ function qteScenario(dt){
     toast('坦克已摧毁 · 残敌清除后撤离',3200);checkOpen();
    }else{
     G.qteWaveT-=dt;
-    if(G.qteWaveT<=0){G.qteWaveT=30;var sm=qteSpawnSquad(6);
+    if(G.qteWaveT<=0){G.qteWaveT=60;var sm=qteSpawnSquad(6);
      if(sm){feed('敌方步兵支援 +'+sm+' · 继续躲避',0);toast('敌方步兵增援抵达',2400)}}
    }
    if(!G.qteAt4){
@@ -6652,7 +6679,7 @@ function qteScenario(dt){
  }
  else if(sc===2){
   if(G.qtePhase===0&&bombsDone){
-   G.qtePhase=1;G.qteWaveT=30;
+   G.qtePhase=1;G.qteWaveT=60;
    qteSpawnArmor('tank',0);qteSpawnSquad(6);
    toast('拆弹完成 · 敌方坦克与六名步兵进入街区',3800);
    feed('敌方坦克 +6 名步兵入场',0);snd.alert();
@@ -6660,7 +6687,7 @@ function qteScenario(dt){
   if(G.qtePhase===1){
    if(qteArmorAlive()){
     G.qteWaveT-=dt;
-    if(G.qteWaveT<=0){G.qteWaveT=30;var sm2=qteSpawnSquad(6);
+    if(G.qteWaveT<=0){G.qteWaveT=60;var sm2=qteSpawnSquad(6);
      if(sm2){feed('装甲仍在 · 敌方步兵 +'+sm2,0);toast('敌方步兵增援抵达',2400)}}
    }else{
     G.qtePhase=2;
@@ -6673,7 +6700,7 @@ function qteScenario(dt){
   if(!bombsDone){
    G.qteWaveT-=dt;
    if(G.qteWaveT<=0){
-    G.qteWaveT=30;
+    G.qteWaveT=60;
     var tp='tank';qteSpawnArmor(tp,0);
     var sm3=qteSpawnSquad(6);
     feed('敌方装甲增援 · 坦克'+(sm3?(' +'+sm3+' 步兵'):''),0);
@@ -7182,9 +7209,9 @@ function updateTabletCards(){
  if(cards)cards.classList.toggle('hidden',!isQte);
  if($('tabMode'))$('tabMode').textContent=isQte?('QTE-0'+c.qte):'TACTICAL';
  if($('tabSub'))$('tabSub').textContent=(c?c.nm:'')+(isQte?' · 战术地图 / 支援调度':' · 人质 / 补给 / 撤离');
- if($('tabLegend'))$('tabLegend').textContent=isQte?'QTE：敌我 / BOMB / EXIT':'● 人质  ● 补给箱  ▲ EXIT';
+ if($('tabLegend'))$('tabLegend').textContent=isQte?'QTE：敌军/重装甲 / 人质 / 补给 / AT4':'● 人质  ● 补给箱  ▲ EXIT';
  if($('tabNote'))$('tabNote').textContent=isQte?
-  ('平板打开期间所有单位与计时暂停。'+(!c.support?'本关不开放支援调度。':(G.tabletUnlock?'选择支援后自动出击。':'敌方坦克入场后解锁支援调度。'))):
+  ('平板打开期间所有单位与计时暂停。实时显示敌方重装甲、人质、补给与 AT4；'+(!c.support?'本关不开放支援调度。':(G.tabletUnlock?'选择支援后自动出击。':'敌方坦克入场后解锁支援调度。'))):
   '仅显示人质、补给箱与撤离点；不显示敌人、武器或其他单位。平板打开期间战斗暂停。';
  if(!isQte||!cards)return;
  var bs=cards.querySelectorAll('button');
@@ -7219,9 +7246,19 @@ function drawTablet(){
   if(label){g.fillStyle='#cfe4d3';g.font='bold 10px sans-serif';g.textAlign='center';g.fillText(label,X(x),Y(y)-r-5)}
  }
  if(isQte){
+  /* QTE 平板：敌方重装甲必须单独标注，且补给/人质/AT4 都要有实时位置。 */
   for(var ei=0;ei<L.en.length;ei++){var e=L.en[ei];if(e.dead)continue;
-   var ec=e.tp==='tank'?'#d8a24a':(e.tp==='ifv'?'#a9b8a0':'#d0614f');
-   mark(e.x,e.y,e.tp==='tank'?7:5,ec,e.tp==='tank'?'rgba(216,162,74,.45)':'rgba(208,97,79,.35)','')}
+   var heavy=e.tp==='tank'||e.tp==='ifv',
+    ec=e.tp==='tank'?'#d8a24a':(e.tp==='ifv'?'#a9b8a0':'#d0614f'),
+    elab=heavy?(e.tp==='tank'?'敌坦克':'敌步战车'):'';
+   mark(e.x,e.y,heavy?8:5,ec,heavy?'rgba(216,162,74,.5)':'rgba(208,97,79,.35)',elab)}
+  for(var ci2=0;ci2<L.civ.length;ci2++){var cvq=L.civ[ci2];if(cvq.down)continue;
+   mark(cvq.x,cvq.y,4,cvq.f?'#8ee08e':'#e6cf6a',cvq.f?'rgba(142,224,142,.35)':'rgba(230,207,106,.35)','人质')}
+  for(var cri2=0;cri2<L.cr.length;cri2++){var sb=L.cr[cri2];if(sb.got)continue;
+   var sl=sb.kind==='qcoin'?'拆弹币':'补给';
+   mark(sb.x,sb.y,4,sb.kind==='qcoin'?'#f0d890':'#9fb46e','rgba(159,180,110,.32)',sl)}
+  for(var wi2=0;wi2<(L.wpn||[]).length;wi2++){var wq=L.wpn[wi2];if(wq.got)continue;
+   mark(wq.x,wq.y,4,'#7fc8e8','rgba(127,200,232,.35)',wq.id==='at4'?'AT4':'武器')}
   if(G.sup)for(var si=0;si<G.sup.length;si++){var s=G.sup[si];if(!s.dead)mark(s.x,s.y,5,'#6fcf86','rgba(111,207,134,.35)','')}
   if(L.bombs)for(var bi=0;bi<L.bombs.length;bi++)if(!L.bombs[bi].done)mark(L.bombs[bi].x,L.bombs[bi].y,7,'#e2a93e','rgba(226,169,62,.4)','BOMB');
  }else{
@@ -7242,7 +7279,7 @@ function drawTablet(){
  g.fillStyle='rgba(140,170,150,.8)';g.font='10px sans-serif';
  g.fillText('TACTICAL MAP · '+c.W+' × '+c.H,W-220,oy+36);
  g.fillStyle='rgba(140,170,150,.65)';
- g.fillText(isQte?'● 敌方    ● 我方    ◆ BOMB    ▲ EXIT':'● 人质    ● 补给箱    ▲ EXIT',ox+8,oy+c.H*sc-8);
+ g.fillText(isQte?'● 敌军/重甲   ● 人质   ● 补给   ● AT4   ◆ BOMB   ▲ EXIT':'● 人质    ● 补给箱    ▲ EXIT',ox+8,oy+c.H*sc-8);
 }
 function qteCall(kind){
  if(!L||!G||!L.cfg||!L.cfg.qte||!L.cfg.support)return false;
@@ -9679,6 +9716,15 @@ var PATCHES=[
         '拆弹后坦克/步兵增援入场时立即结束潜入状态，HUD 从「残敌 ?」切回正常计数；QTE 潜入阶段 HUD 也直接显示真实守敌数，不再用问号遮住已经存在的巡逻守卫。',
         '清理过期描述：QTE-02 简报不再写「开局步战车×1」，QTE-03 不再写「坦克+步战车」，QTE 帮助页与 HUD 统一为坦克、无人机、机器狗支援；删除重复的 var CW 声明与重复的 qteScript:3 字段。',
         '实测：QTE-01 开局 6 人（3 清醒/3 潜伏）/0 车，拆弹后坦克×1+步兵×6，30 秒空投 AT4×3；QTE-02 开局 8 人（3 清醒）/0 车，拆弹后坦克×1+步兵×6；QTE-03 开局坦克×1+10 人（3 清醒），30 秒波次坦克×1+步兵×6；三关 ifv 始终为 0，qteSpawnArmor("ifv")=null。'
+       ]},
+      {v:56,d:'2026-11-27',t:'QTE 平板情报 · AT4 拾取 · 坦克入场与 60 秒增援',
+       items:[
+        'QTE 战术平板新增实时情报：敌方重装甲用橙色/灰色大标记并标注「敌坦克 / 敌步战车」，同时显示人质、补给箱、拆弹币和 AT4 地图拾取点；平板图例与说明同步更新。',
+        '修复 QTE-01 火箭筒无法拾取：BOMB_LV 末尾误写了空的 pickup:[]，把前面的 12 个 AT4 拾取点全部覆盖掉，导致 L.wpn 为空且 F 无提示；删除覆盖字段后 12 个拾取点恢复，F 可正常拾取并进入第三武器槽。',
+        '修复 QTE-01 拆弹后坦克刷在地图尽头、玩家只看到小兵：qteArmorSite 不再选离玩家最远的装甲点，改为优先在 480–1080px 内寻找画面内落点，找不到画面内点才退回固定点；实测拆弹后坦克刷在玩家约 500–700px 处并处于屏幕内。',
+        'QTE 小兵增援改为每 60 秒一波：QTE-01/02 拆弹后每 60 秒 +6 步兵，QTE-03 每 60 秒坦克×1 + 步兵×6；AT4 空投仍为坦克入场后 30 秒。',
+        '重新验证坦克摧毁停止增援：QTE-01 坦克死亡后立即进入收尾阶段，即使把波次计时压到 0 也不会再生成小兵；QTE-02 同样在坦克摧毁后停止增援。',
+        '实测：QTE-01 12 个 AT4 拾取点 / F 拾取后获得 AT4；拆弹后坦克约 500–700px、tankVis=true，坦克死后 grunts 12→12 不增；QTE-02 拆弹后坦克×1+步兵×6，60 秒波次 +6；QTE-03 波次 +坦克×1+步兵×6，ifv 仍为 0。'
        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -10855,11 +10901,11 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  if(c.qte){
   var qs=c.qte>=2?(' · 拆弹币 '+((G&&G.qteCoin!=null?G.qteCoin:ST.qteCoin)|0)+' · T 战术平板调度'):'';
   if(c.qteScript===1)
-    $('fE').textContent='开局巡逻步兵×6（3 人清醒）· 无载具 · 拆弹后坦克×1（2/3 数值）+步兵×6 · 每 30 秒步兵×6 · 30 秒后空投 AT4×3'+qs;
+    $('fE').textContent='开局巡逻步兵×6（3 人清醒）· 无载具 · 拆弹后坦克×1（2/3 数值）+步兵×6 · 每 60 秒步兵×6 · 30 秒后空投 AT4×3'+qs;
   else if(c.qteScript===2)
-    $('fE').textContent='开局巡逻步兵×8（3 人清醒）· 无载具 · 拆弹后坦克×1 + 步兵×6 · 坦克未毁每 30 秒步兵×6'+qs;
+    $('fE').textContent='开局巡逻步兵×8（3 人清醒）· 无载具 · 拆弹后坦克×1 + 步兵×6 · 坦克未毁每 60 秒步兵×6'+qs;
   else if(c.qteScript===3)
-    $('fE').textContent='开局坦克×1 + 巡逻步兵×10（3 人清醒）· 每 30 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
+    $('fE').textContent='开局坦克×1 + 巡逻步兵×10（3 人清醒）· 每 60 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
   else
     $('fE').textContent=tot+' 个目标（含坦克） · 定时装置 '+fmt(c.bombTime||180)+' · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克'+qs;
  }
