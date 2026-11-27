@@ -1333,7 +1333,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <button class="btn sm" data-c="pistol">副武器</button>
       </div>
       <div id="wpList"></div>
-      <div class="note">固定装备：战术医疗包 ×1。战场补给箱可现场补充枪械弹药、投掷物与医疗；火箭筒/AT4 弹药不在补给箱内，只能靠地图专用拾取点。各地图另有防弹插板补充箱，靠近按 F 可把插板补满。</div>
+      <div class="note">固定装备：战术医疗包 ×1。战场补给箱可现场补充枪械弹药、投掷物与医疗；火箭筒/AT4 弹药不在补给箱内，只能靠地图专用拾取点或 QTE-01 的空投。各地图另有防弹插板补充箱，靠近按 F 可把插板补满。</div>
       <h3 style="margin-top:14px">战术装备</h3><div id="gdList"></div>
       <h3 style="margin-top:12px">枪械改件 <span class="h3sub" id="attPlat">—</span></h3><div id="attList"></div>
       <h3 style="margin-top:12px">作战服</h3><div id="ofList"></div>
@@ -1632,7 +1632,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>QTE 拆弹行动 · 拆弹币</h3>
   <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除，不再出现在任务序列、存档或简介中。</p>
-  <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。AT4 专用拾取点散落在街区各处，每个拾取点提供 2 发火箭弹；普通弹药补给箱不补火箭弹。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援，第二关开局先有一辆坦克压街，需要立刻躲避。QTE 三关分别有 2 / 4 / 6 名人质，全部藏在建筑内部，带出后每人奖励 10 拆弹币。</p>
+  <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。拆弹前没有任何 AT4；敌方坦克入场 30 秒后才会空投 3 具 AT4，分别落在街区三处远端，每具提供 2 发火箭弹，AT4 必须完全据枪才能发射；普通弹药补给箱不补火箭弹。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援，第二关开局先有一辆坦克压街，需要立刻躲避。QTE 三关分别有 2 / 4 / 6 名人质，全部藏在建筑内部，带出后每人奖励 10 拆弹币。</p>
   <p><b>拆弹币</b>：QTE 模式专属；地图散落拆弹币每处 10 枚，拆弹成功 +20，带出 1 名人质 +10，击毁 1 辆敌方坦克 +40；普通步兵击杀与通关不再额外发币。任务列表顶部有金色 QTE 钱包卡显示持有量，HUD 左上角同步显示金色硬币标记。它不能带入其他地图，也不能用于军械库或普通任务。QTE-02/03 开局至少预拨 80 枚。</p>
   <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（80 币）、自杀无人机 ×3（30 币）或机器狗 ×2（20 币）出击。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 地图拾取点。原小地图已移除。</p>
   <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对步战车累计 3 架、对坦克累计 6 架才能摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
@@ -1792,7 +1792,7 @@ w({id:'ax50',n:'AI AX50',cls:'sniper',cn:'大口径栓动狙击步枪',g:'▦',
  mg:'5 发可拆式盒形弹匣',br:'686 mm（27 in）',mz:'约 890 m/s（近似值）',
  rg:'公开资料记 2,500 m',wt:'空枪 12 kg；全长 1,415 mm（枪托展开）／1,140 mm（折叠）',
  it:'由 AX338／AXMC 底盘扩口径而来，2011 年 SHOT Show 首发，取代 AW50。配 Schmidt &amp; Bender 5-25×56 瞄具，单发致命但携行沉重。',
- dmg:340,rpm:26,cap:5,rl:3.6,sp:.004,bs:2500,rn:4600,au:0,kk:4.6,mb:-.11,pen:3,pl:1}),
+ dmg:340,rpm:26,cap:5,rl:3.6,sp:.004,bs:2500,rn:4600,au:0,kk:4.6,mb:-.20,pen:3,pl:1}),
 w({id:'m200',n:'CheyTac M200 Intervention',cls:'sniper',cn:'超远程狙击系统',g:'▦',
  mk:'CheyTac LLC（美国·怀俄明州 里弗顿）',
  cal:'.408 CheyTac（10.36 mm）／.375 CheyTac',rt:'手动枪机，配导航 IV 激光测距与弹道计算机',
@@ -1890,6 +1890,8 @@ var MAGS={
   {n:'5 发',cap:5,rl:3.20,mb:0},{n:'10 发',cap:10,rl:3.55,mb:.02}]},
  bolt50:{n:'重弹枪弹匣',opts:[
   {n:'5 发',cap:5,rl:3.90,mb:0},{n:'10 发',cap:10,rl:4.40,mb:.03}]},
+ ax50:{n:'AX50 重弹弹匣',opts:[
+  {n:'5 发',cap:5,rl:3.90,mb:0}]},
  bolt408:{n:'.408 弹匣',opts:[
   {n:'7 发',cap:7,rl:4.00,mb:0}]},
  at4:{n:'AT4 预装填发射管',opts:[
@@ -1898,6 +1900,8 @@ var MAGS={
   {n:'30 发制式',cap:30,rl:2.45,mb:0}]},
  cn58dmr:{n:'国产 5.8mm 精确射手弹匣',opts:[
   {n:'10 发',cap:10,rl:2.90,mb:0}]},
+ cn58dmr2:{n:'国产 5.8mm 精确射手弹匣（10／20 发）',opts:[
+  {n:'10 发',cap:10,rl:2.90,mb:-.01},{n:'20 发',cap:20,rl:3.15,mb:0}]},
  cn127:{n:'国产 12.7mm 弹匣',opts:[
   {n:'5 发',cap:5,rl:4.20,mb:0}]},
  cn762smg:{n:'国产 7.62mm 冲锋枪弹匣',opts:[
@@ -1925,8 +1929,8 @@ var MAGS={
 var MAGTYPE={
  m4a1:'stanag',hk416:'stanag',scarl:'stanag',x95:'stanag',aug:'stanag',sg553:'stanag',
  ak12:'ak',spear:'spear762',scarh:'nato762',
- m24:'bolt762',cslr4:'bolt762',m107:'bolt50',ax50:'bolt50',m200:'bolt408',at4:'at4',
- qbz03:'cn58',qbz191:'cn58',qbz95:'cn58',qbz951:'cn58',qbu191:'cn58',qbu88:'cn58dmr',qbu10:'cn127',
+ m24:'bolt762',cslr4:'bolt762',m107:'bolt50',ax50:'ax50',m200:'bolt408',at4:'at4',
+ qbz03:'cn58',qbz191:'cn58',qbz95:'cn58',qbz951:'cn58',qbu191:'cn58dmr2',qbu88:'cn58dmr',qbu10:'cn127',
  mp5:'mp5',p90:'p90',mp7a2:'mp7',type79:'cn762smg',qcw05:'cn58smg',
  m870:'sg12',benelli:'sg12',spas12:'sg12',qbs09:'sg12',
  g19:'p9',p320:'p9',b92fs:'p9',qsz92g:'p9',qsz19:'p9cn',type54:'p762'
@@ -2096,17 +2100,17 @@ w({id:'qbu88',n:'QBU-88 狙击步枪',cls:'sniper',cn:'国产半自动狙击步�
 w({id:'qbu191',n:'QBU-191 精确射手步枪',cls:'sniper',cn:'国产精确射手步枪',g:'◈',
  mk:'中国兵器装备集团（公开资料）',
  cal:'5.8×42mm 新型弹',rt:'短行程活塞，半自动',
- mg:'20 发弹匣',br:'加重长枪管（公开数据为区间值）',mz:'公开数据未详',
+ mg:'10／20 发弹匣',br:'加重长枪管（公开数据为区间值）',mz:'公开数据未详',
  rg:'约 800 m 级（公开口径）',wt:'约 4.2 kg（区间值）',
- it:'191 式枪族中的精确射手型，20 发弹匣兼顾火力密度与精度，配可变倍率瞄具后中远距离压制更从容。',
- dmg:46,rpm:130,cap:20,rl:2.6,sp:.012,bs:1700,rn:3000,au:0,kk:1.35,mb:-.03,pen:2,pl:1,tk:4}),
+ it:'191 式枪族中的精确射手型，10／20 发弹匣兼顾火力密度与精度；单发伤害高于全部突击步枪，但低于专业狙击枪，手持机动性在狙击枪中最好。',
+ dmg:60,rpm:150,cap:20,rl:2.6,sp:.012,bs:1700,rn:3000,au:0,kk:1.35,mb:-.06,pen:2,pl:1,tk:4}),
 w({id:'cslr4',n:'CS/LR4 高精度狙击步枪',cls:'sniper',cn:'国产高精狙',g:'◈',
  mk:'中国兵器装备集团（外贸型号，公开资料）',
  cal:'7.62×51mm NATO',rt:'旋转后拉枪机',
  mg:'5 发弹匣',br:'约 610 mm',mz:'约 800 m/s',
  rg:'约 1000 m 级（公开口径）',wt:'空枪约 6.5 kg',
  it:'高精度狙击系统，配高倍镜与重型枪管，首发命中率高，代价是重量与机动性。',
- dmg:150,rpm:45,cap:5,rl:3.2,sp:.006,bs:1850,rn:3400,au:0,kk:1.9,mb:-.08,pen:3,pl:1,tk:5}),
+ dmg:150,rpm:80,cap:5,rl:3.2,sp:.006,bs:1850,rn:3400,au:0,kk:1.9,mb:-.08,pen:3,pl:1,tk:5}),
 w({id:'qbu10',n:'QBU-10 反器材狙击步枪',cls:'sniper',cn:'国产反器材步枪',g:'◈',
  mk:'中国兵器装备集团（公开资料）',
  cal:'12.7×108mm',rt:'半自动，导气式',
@@ -2149,11 +2153,11 @@ var ERGO_BASE={pistol:1.20,smg:1.05,shotgun:.95,rifle:.90,sniper:.55,launcher:.7
   if(o.cls==='shotgun'){o.vr=Math.round(o.vr*.9)}
  }})();
 /* v20 军械库精简：突击步枪只保留 HK416A5 / AK-12 / SCAR-H / QBZ-191，
-   狙击枪只保留 AX50 / M200 / CS/LR4。定义仍留在 WM 里作为旧存档兜底，
+   狙击枪只保留 AX50 / CS/LR4 / QBU-191。M200 定义仍留在 WM 里作为旧存档兜底，
    但 WP 不再收录，军械库、随机配枪与解锁列表都不会再出现。
    同时给每类枪写入视野宽度 vw（长度仍用 vr），用于锥形视野。 */
 var KEEP_RIFLE={hk416:1,ak12:1,scarh:1,qbz191:1};
-var KEEP_SNIPER={ax50:1,m200:1,cslr4:1};
+var KEEP_SNIPER={ax50:1,qbu191:1,cslr4:1};
 WP=WP.filter(function(o){
  if(o.cls==='rifle')return !!KEEP_RIFLE[o.id];
  if(o.cls==='sniper')return !!KEEP_SNIPER[o.id];
@@ -2539,11 +2543,8 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
   [1350,2250],[1800,2250],[2400,2250]],
  bomb:1,bombTime:180,bombSite:[2960,1740],
  at4Drop:[[420,420],[3150,520],[1800,2200]],
- /* 最新地图专属：AT4 只在本局地图内拾取，不进军械库、不带去其他关卡。
-    发射管与备用火箭散落在街区各处，出生点附近不再直接刷新。 */
- pickup:[['at4',700,1300],['at4',1500,1000],['at4',2200,180],['at4',3450,700],
-  ['at4',3450,1900],['at4',1200,2300],['at4',2520,1000],['at4',150,1750],
-  ['at4',160,1100],['at4',1000,1800],['at4',2500,2240],['at4',3400,1100]],
+ /* v58：QTE-01 拆弹前没有任何常驻 AT4 拾取点。
+    坦克入场 30 秒后由 qteDropAt4() 空投 3 具，分别落在街区三处远端。 */
  qc:[[700,1250],[1800,2320],[3400,1300],[160,1100]],
  tankSite:[1850,1130],
  wave:{iv:30,n:7,cap:48,tankEvery:2},
@@ -2601,8 +2602,8 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
   [2600,900,700,800],[120,1800,800,500],[1200,1800,1000,500],[2600,1750,700,500]],
  threat:'开局巡逻步兵×6（3 人清醒）· 人质×2（楼内）· 无载具 · 拆弹后坦克×1（2/3 数值）+步兵×6 · 每 60 秒步兵×6 · 30 秒后空投 AT4×3',
  terr:'3600×2400 六街区巷战：先穿过巡逻守卫进入市政楼拆弹；2 名人质藏在楼内，拆弹后敌方坦克从街道尽头压来，利用街区躲避并跑图拾取空投 AT4',
- hint:'先避开或清除巡逻守卫，再拆弹 · 2 名人质在楼内，带出每人 +10 拆弹币 · 拆弹后立刻躲避坦克 · 30 秒后三具 AT4 空投到街区远端 · 摧毁坦克后停止增援',
- intel:'赤隼在街区留下少量巡逻守卫、2 名被关在楼内的人质和一枚 180 秒定时装置。拆弹完成后，一辆只有正常三分之二数值的主战坦克从街道尽头压来，并带一队步兵；每 60 秒还会补充 6 名步兵。30 秒后三具 AT4 会被空投到街区三个相隔很远的位置，你必须跑图拾取。摧毁坦克后敌方停止增援，带出人质并清完残敌即可撤离。',
+ hint:'先避开或清除巡逻守卫，再拆弹 · 拆弹前没有任何 AT4 · 2 名人质在楼内，带出每人 +10 拆弹币 · 坦克入场 30 秒后三具 AT4 空投到街区远端 · 摧毁坦克后停止增援',
+ intel:'赤隼在街区留下少量巡逻守卫、2 名被关在楼内的人质和一枚 180 秒定时装置。拆弹前没有任何 AT4 可用。拆弹完成后，一辆只有正常三分之二数值的主战坦克从街道尽头压来，并带一队步兵；每 60 秒还会补充 6 名步兵。坦克入场 30 秒后，三具 AT4 才会被空投到街区三个相隔很远的位置，你必须跑图拾取。摧毁坦克后敌方停止增援，带出人质并清完残敌即可撤离。',
  obj:['进入街区并避开巡逻守卫','在楼内找到 2 名人质','进入市政楼拆弹室','完成 3 步 QTE 拆弹','躲避坦克并拾取空投 AT4','摧毁敌方坦克','带出人质并清理残敌'],
  roe:'拆弹前有巡逻守卫 · 可潜行绕过或清除 · 拆弹后优先躲避坦克火力 · 空投 AT4 只在街道远端'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
@@ -3496,9 +3497,10 @@ function gpb(){
   /* 池复用必须清掉上一发的特殊弹种标记，避免步枪弹继承 IFV 爆裂弹。 */
   b.ifvShell=0;b.ifvR=0;b.ifvSplash=0;b.al=null;b.wd=0;b.rc=0;
   b.armorDmg=0;b.at=0;b.tank=0;b.mg=0;b.srcArmor=0;b.sup=0;b.atR=0;b.atDmg=0;
+  b.pierce=0;b.hit=null;
   return b}
  var o={a:0,x:0,y:0,vx:0,vy:0,lm:0,tm:0,own:0,dm:0,pen:0,wp:null,at:0,tank:0,mg:0,srcArmor:0,sup:0,
-  armorDmg:0,atR:0,atDmg:0,ifvShell:0,ifvR:0,ifvSplash:0,al:null,wd:0,rc:0};POOL.b.push(o);return o}
+  armorDmg:0,atR:0,atDmg:0,ifvShell:0,ifvR:0,ifvSplash:0,al:null,wd:0,rc:0,pierce:0,hit:null};POOL.b.push(o);return o}
 function gpp(){for(var i=0;i<POOL.p.length;i++)if(!POOL.p[i].a)return POOL.p[i];
  var o={a:0,x:0,y:0,vx:0,vy:0,l:0,m:0,c:'',r:0};POOL.p.push(o);return o}
 function fxN(){return ST.low?80:300}
@@ -4176,7 +4178,7 @@ g.restore();
   G.p.fm=modeOf(G.p.guns[0].w);
   if(c.wave){G.waveT=c.wave.iv;G.waveN=0;G.waveSpawned=0}
   G.sup=[];G.tablet=0;G.tabletUnlock=0;G.wrecks=[];
-  G.qteScript=c.qteScript||0;G.qtePhase=0;G.qteWaveT=60;G.qteAt4=0;G.qteAt4T=30;G.qteIntro=0;
+  G.qteScript=c.qteScript||0;G.qtePhase=0;G.qteWaveT=60;G.qteAt4=0;G.qteAt4T=30;G.qteAt4Warn=0;G.qteIntro=0;
   if(c.qte){
    G.qteCoin=Math.max(0,ST.qteCoin|0);
    if(c.qte>=2&&G.qteCoin<80)G.qteCoin=80;
@@ -4742,6 +4744,8 @@ function shotSpread(w,p,fm){
  var aimT=ads?clamp((p.adsT||0)/adsTime,0,1):0;
  var aimF=ads?(1-aimT*(1-(w.adsK||.5)))*(fx.ads||1):1;
  var moveF=1+mv*(w.moveK||1.6)*(fx.move||1)*(ads?.55:1);
+ /* v58：只放大移动带来的散布，站定据枪精度不变。 */
+ if(w.cls==='sniper')moveF=1+(moveF-1)*1.42;
  var modeF=fm==='semi'?.80:(fm==='burst'?.98:1.12);
  var heat=1+Math.min(.65,(p.heat||0)*(w.recK||1)*.55);
  var hip=ads?1:(fx.hip||1);
@@ -4766,6 +4770,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
   toast('英雄使用记录 · '+w1.n+' 已永久解锁',2600);feed('国产装备解锁：'+w1.n,1)}
  if(p.rl>0||p.sw>0||p.kd>0)return;
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
+ /* v58：AT4 必须完全据枪才能发射，腰射只提示，不消耗火箭弹。 */
+ if(w1.cls==='launcher'&&!p.aim){toast('AT4 必须据枪才能发射 · 按住 Space 据枪',2400);return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
  if(L&&L.cfg&&L.cfg.cqb&&(p.fm||modeOf(w1))==='semi'&&p.aim)cqbEv('semiShot');
  var base=p.aa,fm=p.fm||modeOf(w1);
@@ -4779,6 +4785,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
   if(!freeAt(mx,my,2)){mx=p.x;my=p.y}
   b.a=1;b.x=mx;b.y=my;
   b.vx=Math.cos(a)*spd;b.vy=Math.sin(a)*spd;b.lm=w1.rn/spd;b.tm=0;b.own=1;b.dm=w1.dmg;b.pen=w1.pen;b.wp=w1;
+   /* v58：狙击弹最多连续贯穿 3 名步兵；遇到坦克/步战车立即停止。 */
+   b.pierce=w1.cls==='sniper'?3:0;b.hit=b.pierce?[]:null;
    b.armorDmg=1;b.at=w1.at||0;b.atR=w1.atR||132;b.atDmg=w1.atDmg||420;b.tank=0;b.mg=0;b.srcArmor=0;b.sup=0}
  p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1)*(p.recK||1)*(fx.recoil||1);
  if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12*(w1.recK||1));
@@ -4977,6 +4985,8 @@ function pickupMapGun(q){
  var p=G.p,o=WM[q.id],ok=0,i;
  if(!o)return;
  if(L.cfg.pickup)for(i=0;i<L.cfg.pickup.length;i++)if(L.cfg.pickup[i][0]===q.id)ok=1;
+ /* QTE-01 的 AT4 来自空投，没有 pickup 配置项；空投物本身仍可正常拾取。 */
+ if(!ok&&o.at&&L.cfg.at4Drop)ok=1;
  if(!ok)return;
  var same=-1;
  for(i=0;i<p.guns.length;i++)if(p.guns[i].w.id===o.id)same=i;
@@ -6016,6 +6026,37 @@ function hitSeg(b,ox,oy,nx,ny,strictEnd){var dx=nx-ox,dy=ny-oy,l2=dx*dx+dy*dy;
  for(i=0;i<L.en.length;i++){e=L.en[i];if(!e.dead)eL.push(e)}
  if(b.own===1){
   for(i=0;i<L.civ.length;i++){if(!L.civ[i].down)cL.push(L.civ[i])}
+  /* v58：狙击弹体穿透。按命中距离依次结算最多 3 名步兵；
+     人质仍在弹道上，穿透步兵后可以继续击中并误伤人质；
+     坦克/步战车不被穿透，命中后立即停止。 */
+  if(b.pierce>0&&b.wp&&b.wp.cls==='sniper'){
+   if(!b.hit)b.hit=[];
+   var cand=[],hq;
+   for(i=0;i<eL.length;i++){var pe=eL[i];
+    if(b.hit.indexOf(pe)>=0)continue;
+    hq=nearestHit(ox,oy,dx,dy,l2,[pe],function(o){return o.r},strictEnd);
+    if(hq)cand.push({o:pe,t:hq.t,civ:0})}
+   for(i=0;i<cL.length;i++){var pc=cL[i];
+    if(b.hit.indexOf(pc)>=0)continue;
+    hq=nearestHit(ox,oy,dx,dy,l2,[pc],function(o){return o.r},strictEnd);
+    if(hq)cand.push({o:pc,t:hq.t,civ:1})}
+   if(!cand.length)return 0;
+   cand.sort(function(a,b){return a.t-b.t});
+   var got=0;
+   for(i=0;i<cand.length;i++){
+    var pick=cand[i],po=pick.o;
+    if(b.hit.indexOf(po)>=0)continue;
+    b.hit.push(po);
+    if(pick.civ){civHit(po,dmF);b.a=0;return 1}
+    G.hits++;got++;
+    var armor2=(po.tp==='tank'||po.tp==='ifv');
+    hitEnemy(po,dmF,Math.random()<.14,b.wp,b.sup?'支援':null);
+    if(armor2){b.a=0;return 1}
+    b.pierce--;
+    if(b.pierce<=0){b.a=0;return 1}
+   }
+   return got?1:0;
+  }
   var he=nearestHit(ox,oy,dx,dy,l2,eL,function(o){return o.r},strictEnd);
   var hc=nearestHit(ox,oy,dx,dy,l2,cL,function(o){return o.r},strictEnd);
   var first=he,bt=he?he.t:2;
@@ -6680,7 +6721,16 @@ function qteDropAt4(){
  L.wpn=L.wpn||[];
  for(i=0;i<sites.length;i++){
   var x=sites[i][0],y=sites[i][1];
-  if(!freeAt(x,y,18)){var q={x:x,y:y,r:18};if(snapFree(q)){x=q.x;y=q.y}else continue}
+  if(!freeAt(x,y,18)){var q={x:x,y:y,r:18};if(snapFree(q)){x=q.x;y=q.y}else{
+   /* 固定落点被残骸或掩体占用时，在附近找一处可通行空地，保证仍空投 3 具。 */
+   var ok=0,tr;
+   for(tr=0;tr<48&&!ok;tr++){
+    var aa=Math.random()*TAU,rr=36+Math.random()*220,
+     tx=clamp(x+Math.cos(aa)*rr,30,c.W-30),ty=clamp(y+Math.sin(aa)*rr,30,c.H-30);
+    if(freeAt(tx,ty,18)){x=tx;y=ty;ok=1}
+   }
+   if(!ok)continue;
+  }}
   L.wpn.push({id:'at4',x:x,y:y,r:18,got:0,_vis:0});
   made++;
  }
@@ -6694,16 +6744,17 @@ function qteScenario(dt){
  var c=L.cfg,sc=G.qteScript,bombsDone=allBombsDone();
  if(!G.qteIntro){
   G.qteIntro=1;
-  if(sc===1){toast('QTE-01：巡逻守卫已就位，先完成拆弹',3200);feed('避开或清除巡逻守卫 · 拆弹完成后准备躲避装甲反击',1)}
+  if(sc===1){toast('QTE-01：先拆弹 · 拆弹前没有 AT4 · 坦克入场 30 秒后才会空投',4200);
+   feed('避开或清除巡逻守卫 · 拆弹前无 AT4 · 坦克入场 30 秒后空投 3 具',1)}
   if(sc===2){toast('QTE-02：开局敌方坦克已进入街区，立刻找掩体躲避',3800);feed('敌方坦克压街 · 拆弹后还有第二辆坦克与步兵',1);snd.alert()}
   if(sc===3){toast('QTE-03：按 T 呼叫支援单位，顶住坦克增援',3800);feed('开局提醒 · 战术平板可呼叫坦克/无人机/机器狗',1)}
  }
  if(sc===1){
   if(G.qtePhase===0&&bombsDone){
-   G.qtePhase=1;G.qteWaveT=60;G.qteAt4T=30;
+   G.qtePhase=1;G.qteWaveT=60;G.qteAt4T=30+dt;
    qteSpawnArmor('tank',1);qteSpawnSquad(6);
-   toast('拆弹完成 · 敌方坦克从街道尽头压来！立刻躲避',4200);
-   feed('敌方坦克入场 · 30 秒后空投 AT4',0);snd.alert();
+   toast('拆弹完成 · 坦克压街！30 秒后空投 3 具 AT4，先躲避',4400);
+   feed('敌方坦克入场 · 30 秒后空投 3 具 AT4',0);snd.alert();
   }
   if(G.qtePhase===1){
    if(!qteArmorAlive()){
@@ -6717,6 +6768,9 @@ function qteScenario(dt){
    }
    if(!G.qteAt4){
     G.qteAt4T-=dt;
+    /* 空投前 10 秒再给一次明确提示，避免玩家在坦克压制下错过跑图时机。 */
+    if(!G.qteAt4Warn&&G.qteAt4T<=10){G.qteAt4Warn=1;
+     toast('10 秒后空投 3 具 AT4 · 准备跑图拾取',3000);feed('AT4 空投倒计时 10 秒',0);snd.alert()}
     if(G.qteAt4T<=0){G.qteAt4=1;qteDropAt4()}
    }
   }
@@ -8854,8 +8908,8 @@ function updHud(){var p=G.p,g=cur(),i;
  }
  if(L.cfg.qteScript&&G.phase==='live'&&!G.qte){
   if(L.cfg.qteScript===1){
-   if(G.qtePhase===0)ot+=' · 巡逻守卫已就位 · 拆弹后敌方坦克入场';
-   else if(G.qtePhase===1)ot+=' · 躲避坦克 · 空投 '+fmt(Math.max(0,G.qteAt4T||0))+' · 下一波 '+fmt(Math.max(0,G.qteWaveT||0));
+   if(G.qtePhase===0)ot+=' · 巡逻守卫已就位 · 拆弹前无 AT4 · 拆弹后敌方坦克入场';
+   else if(G.qtePhase===1)ot+=' · 躲避坦克 · '+(G.qteAt4?'AT4 已空投':'AT4 空投 '+fmt(Math.max(0,G.qteAt4T||0)))+' · 下一波 '+fmt(Math.max(0,G.qteWaveT||0));
    else ot+=' · 增援已停止 · 清理残敌';
   }else if(L.cfg.qteScript===2){
    if(G.qtePhase===0)ot+=' · 开局坦克压街 · 先躲避再拆弹';
@@ -9782,6 +9836,17 @@ var PATCHES=[
         '拆弹币经济重做：地图拆弹币每处只给 10；拆弹成功 +20；每带出 1 名人质 +10；每击毁 1 辆敌方坦克 +40；取消击杀步兵 +1 与通关 40/30 旧奖励。QTE-02/03 开局预拨 80 仍保留。',
         'QTE 三关加入人质：QTE-01 2 名、QTE-02 4 名、QTE-03 6 名，全部放在建筑内部；营救后跟随玩家，撤离结算时按实际带出人数发放拆弹币。',
         '实测：QTE-02 开局坦克×1、拆弹后坦克×2；人质 2/4/6 全部 freeAt=true 且在楼内；普通车炸毁后 freeAt=true，坦克残骸 freeAt=false；拆弹 +20、2 名人质 +20、敌方坦克 +40；支援价坦克 80/机器狗 20。'
+       ]},
+      {v:58,d:'2026-11-27',t:'QTE-01 空投 AT4 · 狙击穿透 · AX50/QBU-191',
+       items:[
+        'QTE-01 拆除全部常驻 AT4 拾取点：拆弹前没有任何火箭筒；敌方坦克入场 30 秒后才会空投 3 具 AT4，分别落在街区三处远端，并在空投前 10 秒和抵达时给出提示。',
+        '所有关卡 AT4 改为必须完全据枪才能发射；腰射只会提示，不消耗火箭弹。',
+        '狙击枪新增弹体穿透：一发最多连续贯穿 3 名敌方步兵；命中坦克/步战车立即停止，不会穿透装甲；穿透步兵后仍可继续击中并误伤人质。',
+        '删除 M200，军械库狙击枪改为 AX50 / CS/LR4 / QBU-191；CS/LR4 射速 45→80 发/分。',
+        'AX50 弹匣只保留 5 发，不能使用 10 发弹匣；手持 AX50 移速进一步降低。',
+        '新增 QBU-191 精确射手步枪：伤害 60（高于全部突击步枪、低于全部狙击枪），射速 150 发/分，10／20 发弹匣，手持移速为狙击枪最高但不超过突击步枪。',
+        '所有狙击枪移动射击散布额外 ×1.42，边跑边打更难命中。',
+        '实测：QTE-01 拆弹前 AT4=0，坦克入场 29.9 秒仍为 0，30.1 秒空投 3 具；狙击弹连续击杀 3 名步兵后停止，遇坦克不穿透，穿透后命中人质；AX50 仅 5 发、CS/LR4 80 发/分、QBU-191 60 伤害/150 发/分/10 或 20 发；AT4 腰射不消耗弹药。'
        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
