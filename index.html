@@ -1113,7 +1113,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
         <div id="tabNote">选择支援后自动出击；关闭平板则返回战场。平板打开期间所有单位与计时暂停。</div>
         <div id="tabCards">
           <button data-sup="tank"><b>装甲支援 · 主战坦克</b><span>80 币 · 主炮 + 机枪</span><i>呼叫</i></button>
-          <button data-sup="uav"><b>无人支援 · 自杀无人机 ×3</b><span>30 币 · 接触自爆 · 对坦克 6 架</span><i>呼叫</i></button>
+          <button data-sup="uav"><b>无人支援 · 自杀无人机 ×3</b><span>30 币 · 接触自爆 · 对坦克 3 架</span><i>呼叫</i></button>
           <button data-sup="dog"><b>无人支援 · 机器狗 ×2</b><span>20 币 · 步枪压制 · 100 发</span><i>呼叫</i></button>
           <button data-sup="smoke"><b>战术装备 · 中等战术烟幕</b><span>40 币 · 地图标记 · 3 秒到达 · 持续 15 秒</span><i>标记</i></button>
         </div>
@@ -1215,10 +1215,11 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。OP-07 终局考核地图已删除；OP-04/05 剧情地图同样已删除。机场通关后解锁国产枪族与 QTE 拆弹模式。全部行动由你单人执行，武器附厂商与公开参数。</p>
+  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。机场通关后解锁国产枪族与 QTE 拆弹模式。全部行动由你单人执行，武器附厂商与公开参数。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
+    <div class="r"><span class="k">地图、武器技术顾问</span><span class="v">416</span></div>
     <div class="r"><span class="k">开发方式</span><span class="v">学生 × AI 协同开发</span></div>
   </div>
   <div class="bootAct"><button class="btn p bootBtn" id="bEnter">进入行动</button></div>
@@ -1264,10 +1265,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。行动顺序固定为：公寓 → 商场 → 郊野储运站（室外）→ 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除；机场通关后解锁国产枪族与 QTE。QTE 模式有独立拆弹币：地图拆弹币每处 10 枚，拆弹成功 +20，带出人质每人 +10，击毁敌方坦克 +40；只能在拆弹行动中使用。QTE 第二关起可呼叫我方坦克、无人机与机器狗，支援单位只沿城市道路搜索。所有行动均为单人作战，英雄队员系统已移除。
-军械库中每一把枪都是现实中列装的制式武器，附厂商与公开参数；军衔每升一级都会解锁新的枪械档次。
-界面参考《严阵以待》（Ready or Not）的任务简报与交战规则，以及《战争雷霆》手游的战斗信息流与评级结算。
-敌方设定为虚构私人佣兵团“赤隼”，不指涉任何真实国家、组织或事件。</p>
+      <p class="bgLead">俯视角战术射击演练。行动顺序：公寓 → 商场 → 郊野储运站 → 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术训练楼 → 自由训练场。机场通关后解锁国产枪族与 QTE。QTE 使用独立拆弹币：地图每处 10 枚，拆弹 +20，带出人质 +10，击毁坦克 +40；第二关起可呼叫坦克、无人机、机器狗与中等战术烟幕。所有行动单人执行，军械库附厂商与公开参数。</p>
     </div>
   </div>
 
@@ -1631,11 +1629,11 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（你喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时角色会自动喝令，附近轻装佣兵可能举手真降、也可能诈降。</p>
   <h3>QTE 拆弹行动 · 拆弹币</h3>
-  <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。OP-07 终局考核与 OP-04/05 剧情地图均已删除，不再出现在任务序列、存档或简介中。</p>
+  <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。</p>
   <p><b>QTE-01</b>：3:00 总倒计时，靠近定时装置按 <span class="kbd">F</span> 进入 3 步剪线，每步 3 秒；剪错或单步超时立即引爆。拆弹前没有任何 AT4；敌方坦克入场 30 秒后才会空投 3 具 AT4，分别落在街区三处远端，每具提供 2 发火箭弹，AT4 必须完全据枪才能发射；普通弹药补给箱不补火箭弹。QTE-01 的坦克使用正常装甲与速度，无视线时会沿街道游走，发现玩家后才转入交战。QTE-02/03 加入三条与四条平行街道、更多楼宇和更密集的敌方装甲；QTE-02 起开放支援，第二关开局先有一辆坦克压街，需要立刻躲避；拆弹前没有 AT4，拆弹后空投 4 具到街区四角，同时第二辆坦克与 4 名步兵入场，两辆坦克都会锁定玩家并沿公路持续追击，每 60 秒再补 4 名步兵。QTE-03 拆除第一枚炸弹后会立刻刷出一辆坦克与 4 名步兵，坦克直接锁定玩家追杀；每 60 秒还会补充坦克与步兵，拆完两枚才停止。QTE 三关分别有 2 / 4 / 6 名人质，全部藏在建筑内部，带出后每人奖励 10 拆弹币。</p>
   <p><b>拆弹币</b>：QTE 模式专属；地图散落拆弹币每处 10 枚，拆弹成功 +20，带出 1 名人质 +10，击毁 1 辆敌方坦克 +40；普通步兵击杀与通关不再额外发币。任务列表顶部有金色 QTE 钱包卡显示持有量，HUD 左上角同步显示金色硬币标记。它不能带入其他地图，也不能用于军械库或普通任务。QTE-02/03 开局至少预拨 80 枚。</p>
   <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（80 币）、自杀无人机 ×3（30 币）、机器狗 ×2（20 币）或中等战术烟幕（40 币）出击。中等战术烟幕需要先在战术地图上标记落点，标记确认后 3 秒到达，抵达后双击鼠标左键在标记点释放；烟幕半径 280、持续 15 秒，烟内敌人无法索敌和开火，若玩家再次惊动敌人，敌方射击散布额外 ×2.4。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 位置。原小地图已移除。</p>
-  <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对步战车累计 3 架、对坦克累计 6 架才能摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
+  <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对坦克累计 3 架即可摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
   <h3>难度曲线</h3>
   <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁国产枪族与 QTE；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
   <p><b>三档难度</b>：新兵（敌人迟缓、伤害低，体力 8 格，医疗/血包回 2 格）→ 老兵（敌人伤害约为新兵 4 倍，体力 4 格，医疗/血包回 1 格，手雷直接致命）→ 现实（体力 1 格，一枪致命，手雷直接致命）。所有行动固定单人，无英雄队员。</p>
@@ -2110,7 +2108,7 @@ w({id:'cslr4',n:'CS/LR4 高精度狙击步枪',cls:'sniper',cn:'国产高精狙'
  mg:'5 发弹匣',br:'约 610 mm',mz:'约 800 m/s',
  rg:'约 1000 m 级（公开口径）',wt:'空枪约 6.5 kg',
  it:'高精度狙击系统，配高倍镜与重型枪管，首发命中率高，代价是重量与机动性。',
- dmg:150,rpm:80,cap:5,rl:3.2,sp:.006,bs:1850,rn:3400,au:0,kk:1.9,mb:-.10,pen:3,pl:1,tk:5}),
+ dmg:120,rpm:60,cap:5,rl:3.2,sp:.006,bs:1850,rn:3400,au:0,kk:1.9,mb:-.10,pen:3,pl:1,tk:5}),
 w({id:'qbu10',n:'QBU-10 反器材狙击步枪',cls:'sniper',cn:'国产反器材步枪',g:'◈',
  mk:'中国兵器装备集团（公开资料）',
  cal:'12.7×108mm',rt:'半自动，导气式',
@@ -2362,7 +2360,7 @@ var LS=[
  threat:'12 名步兵（步枪为主，少量冲锋枪）· 室内分布更密，单人巡逻，视线严重受限',
  terr:'三室一厅格局，转角与门洞密集，交火距离 8–25 m',
  hint:'HK MP5A3／Remington 870（求稳可先用 Glock 19 熟悉）',
- intel:'赤隼步兵占据一处临街公寓，把住户扣为人盾。情报显示楼内至少 12 名武装人员。逐间清剿后从楼门撤离——墙体完全遮挡视线与子弹，转角前务必减速。',
+ intel:'赤隼占据临街公寓并扣留人质。逐间清剿后从楼门撤离；墙体阻挡视线与子弹。',
  obj:['击毙或缴械区域内全部武装人员','解救被扣押平民（跟随撤离）','抵达楼梯口撤离点并停留'],
  roe:'平民不可射击；对举手投降者开枪将重扣分',
  civ:[[300,180],[900,430]],st:[120,830],ex:[70,835,150,85],zn:[[60,60,1200,820]]},
@@ -2384,7 +2382,7 @@ var LS=[
  threat:'16 名步兵（步枪 + 冲锋枪巡逻，2 名狙击步兵封锁中庭；店铺内敌人更密）',
  terr:'狭长店铺夹开阔中庭，立柱与花台是唯一致命掩体',
  hint:'HK416A5／FN SCAR-L，副武器 Beretta 92FS 补刀',
- intel:'周末商场已被封锁，步兵在中庭设岗，南北回廊各藏一名狙击步兵。任何直线穿越都会被标记，利用立柱与店铺柜台交替推进，先定位再开火。',
+ intel:'周末商场被封锁，中庭与南北回廊有守敌和狙击手。利用立柱、柜台交替推进。',
  obj:['清除店铺与中庭全部守敌','优先消除 2 名高点狙击步兵','解救平民并从中庭侧门撤离'],
  roe:'中庭开阔地带极易误伤跟随的平民，注意走位',
  civ:[[272,150],[1352,160],[780,884]],st:[95,905],ex:[62,912,150,80],zn:[[60,60,1480,170],[60,790,1480,170],[60,300,1480,390]]}
@@ -2416,7 +2414,7 @@ var AIR_F1={code:'OP-06 · AIRPORT',nm:'机场 · 航站楼 1F',W:1700,H:1000,dk
  threat:'16 名步兵（含 2 名狙击、3 名重甲）· 候机厅内多点设伏，室内掩体与守敌增加',
  terr:'航站楼大厅：值机岛、安检通道、行李转盘，射界长、掩体多为柜台',
  hint:'Colt M4A1／HK416A5；柜台可当半身掩体，注意二层可能有人居高临下',
- intel:'赤隼把机场当作撤离通道，控制了大厅与二层商业区。1F 有值机岛与安检口两组守敌，二层控制室能俯视整个候机厅。清完 1F 后走中央楼梯上 2F，两层全部清除才算完成，最后回 1F 前门撤离。',
+ intel:'赤隼控制机场大厅与二层商业区。清完 1F 后走中央楼梯上 2F，两层清空后回 1F 前门撤离。',
  obj:['清除 1F 航站楼全部守敌','走中央楼梯上 2F，清除商业层与控制室','两层清空后回 1F 前门撤离'],
  roe:'柜台后可能藏有平民，进店前先看脚再开枪',
  civ:[[600,880],[1450,760]],st:[120,930],ex:[66,876,150,84],
@@ -2441,7 +2439,7 @@ var AIR_F2={code:'OP-06 · AIRPORT',nm:'机场 · 商业层 2F',W:1700,H:1000,dk
  threat:'11 名步兵（含 1 名狙击、2 名重甲）· 控制室与店铺内设防更密',
  terr:'二层商业层：店铺隔间与候机座椅，走廊狭窄、拐角多',
  hint:'Remington 870／HK MP5A3；拐角多，进门先闪再进',
- intel:'二层是商业区与控制室，控制室有面向大厅的观察窗。这里的守敌不多但位置好，正面硬冲会吃亏——从西侧店铺绕到控制室背后更稳。',
+ intel:'二层是商业区与控制室，控制室可俯视大厅。从西侧店铺绕到控制室背后更稳。',
  obj:['清除商业层守敌','拿下控制室','（两层清空后回 1F 撤离）'],
  roe:'二层还有被扣押的旅客，清房时注意人质',
  civ:[[900,760]],st:[600,650],ex:[-999,-999,1,1],noExit:1,
@@ -2508,7 +2506,7 @@ var CQB_LV={code:'OP-00 · CQB LAB',nm:'CQB 战术学习 · 训练楼',W:2000,H:
  threat:'8 名低活跃模拟目标 · 5 道关闭门洞 · 单人原则训练',
  terr:'六个房间、两道横向走廊与一道中央隔墙；门洞错位，必须先观察再切角',
  hint:'Space 据枪切角 · F 按住破门 · B 投掷震爆 · V 选单发',
- intel:'这不是“冲进去把人打光”的关卡。现实 CQB 的第一原则是情报与顺序：先在门外切角，确认门后威胁，再破门、投掷、进入、清近角与远角。现实行动至少两人一组，一人进房一人控门；本关是单人条件下的原则演示，不替代真实的团队合练。',
+ intel:'现实 CQB 原则演示：门外切角、破门、投掷、进入、清近角与远角；现实行动至少两人一组，本关为单人条件下的原则演示。',
  obj:['在门外据枪切角，不站进门洞正中','按住 F 破开第一道门','破门后投掷震爆弹','切换单发，完成一次据枪控制射击','清空训练楼，从南门撤离'],
  roe:'现实 CQB 至少两人一组；本关只演示单人可执行的原则，不鼓励单人强行清房'};
 /* ==== OP-08 拆弹行动：大范围巷战 · 重武装 · QTE 拆弹 ====
@@ -2603,10 +2601,10 @@ var BOMB_LV={code:'QTE-01 · BOMB',nm:'拆弹行动 I · 巷战',W:3600,H:2400,d
  zn:[[120,120,800,600],[1200,120,1200,600],[2500,120,1000,600],
   [120,1000,880,400],[1000,1000,500,400],[1500,1000,500,400],
   [2600,900,700,800],[120,1800,800,500],[1200,1800,1000,500],[2600,1750,700,500]],
- threat:'开局巡逻步兵×8（3 人清醒）· 人质×2（楼内）· 无载具 · 拆弹前无 AT4 · 拆弹后坦克×1（正常数值，沿街游走）+步兵×6 · 每 60 秒步兵×6 · 坦克入场 30 秒后空投 AT4×3',
- terr:'3600×2400 六街区巷战：先穿过巡逻守卫进入市政楼拆弹；2 名人质藏在楼内，拆弹后敌方坦克从街道尽头压来，利用街区躲避并跑图拾取空投 AT4',
- hint:'先避开或清除巡逻守卫，再拆弹 · 拆弹前没有任何 AT4 · 2 名人质在楼内，带出每人 +10 拆弹币 · 拆弹后坦克沿街游走，入场 30 秒后三具 AT4 空投到街区远端 · 摧毁坦克后停止增援',
- intel:'赤隼在街区留下少量巡逻守卫、2 名被关在楼内的人质和一枚 180 秒定时装置。拆弹前没有任何 AT4 可用。拆弹完成后，一辆正常数值的主战坦克会沿街道游走并带一队步兵入场；每 60 秒还会补充 6 名步兵。坦克入场 30 秒后，三具 AT4 才会被空投到街区三个相隔很远的位置，你必须跑图拾取。摧毁坦克后敌方停止增援，带出人质并清完残敌即可撤离。',
+ threat:'开局巡逻步兵×11（起点 3 人清醒 + 拆弹点守卫 3 人，含重甲/狙击）· 人质×2（楼内）· 无载具 · 拆弹前无 AT4 · 拆弹后坦克×1（正常数值，从左上角建筑外进入并沿街游走）+步兵×6 · 每 60 秒步兵×6 · 坦克入场 30 秒后空投 AT4×3',
+ terr:'3600×2400 六街区巷战：先穿过巡逻守卫进入市政楼拆弹；拆弹点有重甲守卫，2 名人质藏在楼内；拆弹后坦克从地图左上角建筑外进入，利用街区躲避并跑图拾取空投 AT4',
+ hint:'先避开或清除巡逻守卫，再拆弹 · 拆弹点附近有重甲/狙击守卫 · 拆弹前没有任何 AT4 · 2 名人质在楼内，带出每人 +10 拆弹币 · 拆弹后坦克从左上角建筑外进入，30 秒后三具 AT4 空投到街区远端 · 摧毁坦克后停止增援',
+ intel:'街区有巡逻守卫、2 名人质和 180 秒定时装置；拆弹前无 AT4。拆弹后坦克从左上角建筑外进入，30 秒后空投 3 具 AT4。',
  obj:['进入街区并避开巡逻守卫','在楼内找到 2 名人质','进入市政楼拆弹室','完成 3 步 QTE 拆弹','躲避坦克并拾取空投 AT4','摧毁敌方坦克','带出人质并清理残敌'],
  roe:'拆弹前有巡逻守卫 · 可潜行绕过或清除 · 拆弹后优先躲避坦克火力 · 空投 AT4 只在街道远端'};
 /* ==== 新增室外地图：OP-06 郊野储运站 ==== */
@@ -2645,7 +2643,7 @@ var YARD={code:'OP-03 · DEPOT',nm:'郊野储运站 · 室外场区',W:2400,H:15
  threat:'19 名步兵（含 4 名狙击、4 名重甲）· 室外开阔场区，值班楼/泵房/工具棚内敌人与掩体增加',
  terr:'集装箱堆、管架与防爆堤构成掩体网；狙击手占据远端与高处',
  hint:'开阔地不要直线冲刺 · 沿集装箱与管架逐段跃进，优先压制狙击步兵',
- intel:'郊野储运站：两层围栏、三排集装箱、一座值班楼与一座泵房。守敌占据场区四角，能看穿整片空地。',
+ intel:'郊野储运站：集装箱、管架与防爆堤组成掩体网，守敌占据场区四角。',
  obj:['进入储运站','清除全部守敌','解救被扣押的工人','从东侧大门撤离'],
  roe:'室外场区有平民 · 误伤按 ROE 追责'};
 /* ==== QTE 拆弹模式 II / III：城市路网 + 多街区 ====
@@ -2722,10 +2720,10 @@ var QTE2_LV={code:'QTE-02 · CROSSROADS',nm:'拆弹行动 II · 十字街区',W:
   [220,220,3160,260],[220,1120,3160,260],[220,2020,3160,260],
   [140,540,400,520],[1060,540,480,520],[2060,540,480,520],[3060,540,400,520],
   [140,1460,400,520],[1060,1460,480,520],[2060,1460,480,520]],
- threat:'开局坦克×1 + 巡逻步兵×10（3 人清醒）· 人质×4（楼内）· 拆弹后空投 AT4×4 + 坦克×1 + 步兵×4 · 两辆坦克锁定并沿公路追击 · 每 60 秒步兵×4',
+ threat:'开局坦克×1 + 巡逻步兵×14（起点 3 人清醒 + 拆弹点守卫 4 人，含重甲/狙击）· 人质×4（楼内）· 拆弹后空投 AT4×4 + 坦克×1 + 步兵×4 · 两辆坦克锁定并沿公路追击 · 每 60 秒步兵×4',
  terr:'3600×2400 十字街区：开局有一辆坦克压街，先找掩体躲避；4 名人质藏在楼内，东南楼里还有定时装置；拆弹后四具 AT4 空投到街区四角',
  hint:'开局先躲避敌方坦克 · 拆弹前没有 AT4 · 拆弹后空投 4 具 AT4 · 4 名人质在楼内，带出每人 +10 拆弹币 · 两辆坦克会锁定你并沿公路追击 · 每 60 秒来 4 名步兵',
- intel:'赤隼在十字街区留下一辆坦克压街，另有巡逻守卫、4 名藏在楼内的人质和东南楼里的定时装置。开局先利用楼体与掩体躲避坦克炮口；拆弹前没有 AT4，拆弹完成后四具 AT4 会空投到街区四角，同时第二辆坦克和四名步兵进入街区。两辆坦克都会锁定你的位置，沿公路持续追击；只要还有坦克存活，每 60 秒就会再投入四名步兵。摧毁全部坦克后停止增援，带出人质并清完残敌才能撤离。',
+ intel:'十字街区有开局坦克、4 名人质和定时装置。拆弹后空投 4 具 AT4，第二辆坦克与 4 名步兵入场；两辆坦克锁定追击。',
  obj:['进入十字街区并躲避开局坦克','在楼内找到 4 名人质','进入东南楼拆弹点','完成 QTE 拆弹','拾取空投 AT4 并摧毁两辆坦克','带出人质并清理残敌'],
  roe:'开局有坦克压街 · 人质在楼内 · 拆弹前没有 AT4 · 两辆坦克沿公路追击 · 坦克未毁时每 60 秒会来 4 名步兵'};
 var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4200,H:2800,dk:.16,th:'urban',sd:88,par:720,rq:0,qte:3,qteScript:3,
@@ -2767,10 +2765,10 @@ var QTE3_LV={code:'QTE-03 · TRIANGLE',nm:'拆弹行动 III · 四街合围',W:4
   [220,220,3760,260],[220,1220,3760,260],[220,2320,3760,260],
   [140,540,400,520],[1060,540,480,520],[2060,540,480,520],[3060,540,280,520],[3860,540,180,520],
   [140,1520,400,560],[1060,1520,480,560],[2060,1520,480,560],[3060,1520,280,560]],
- threat:'开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 拆除第一枚炸弹后立即刷出坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
+ threat:'开局坦克×1 + 巡逻步兵×18（起点 3 人清醒 + 两处拆弹点守卫共 6 人，含重甲/狙击）· 人质×6（楼内）· 拆除第一枚炸弹后立即刷出坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克增援×1 + 步兵×6 · 两枚炸弹拆除后停止增援',
  terr:'4200×2800 四街合围：6 名人质分散在楼内；两枚定时装置分别藏在东南中楼与西侧楼内，开局有坦克与巡逻守卫；拆掉第一枚后，一辆坦克与四名步兵会立即入场追杀',
  hint:'开局按 T 呼叫支援 · 6 名人质在楼内，带出每人 +10 拆弹币 · 两枚炸弹都要拆 · 拆掉第一枚会立即刷出坦克×1 + 步兵×4 并锁定你 · 每 60 秒还会来一辆坦克并带 6 名步兵',
- intel:'第三关是赤隼的最后一条城市防线：两枚定时装置分别藏在东南中楼与西侧楼内，6 名人质分散在楼内，开局就有一辆坦克压街，街道上还有巡逻守卫。拆除第一枚炸弹后，一辆坦克与四名步兵会立刻入场并锁定你的位置，必须马上转移；此后每 60 秒还会再投入一辆坦克并带六名步兵，只有拆除两枚炸弹才会停止增援。开局按 T 呼叫坦克、无人机、机器狗或中等战术烟幕，先用支援顶住街道，再逐楼拆弹并带出人质。',
+ intel:'四街合围有两枚定时装置和 6 名人质；拆第一枚后坦克 + 4 名步兵立即入场追杀。拆完两枚后停止增援。',
  obj:['进入四街合围区并避开巡逻守卫','在楼内找到 6 名人质','按 T 呼叫支援单位','拆除第一枚炸弹','立即转移并躲避坦克追杀','拆除第二枚炸弹','摧毁全部坦克','带出人质并清理残敌'],
  roe:'支援单位沿道路推进 · 不要挡在坦克炮口前 · 人质在楼内 · 潜入阶段先避开巡逻守卫'};
 LS.push(YARD,AIR_LV);
@@ -5199,7 +5197,9 @@ function allySay(a,txt,force){
  if(!force&&now<(a._vT||0))return;
  a._vT=now+5;
  say((a.n||'Bravo').replace(/^\s+/,''),txt,'#8fc0d8')}
-/* 玩家自动喊话：接敌时喝令，附近佣兵按概率真投降／诈降／顽抗 */
+/* 玩家自动喊话：接敌时喝令，附近佣兵按概率真投降／诈降／顽抗。
+   v62：真投降 20%，诈降 15%，其余 65% 顽抗。 */
+var SURRENDER_TRUE=.20,SURRENDER_FAKE=.15;
 function playerShout(){
  if(!G||!L||G.phase!=='live'||G.over)return;
  var p=G.p,now=G.t;
@@ -5214,8 +5214,8 @@ function playerShout(){
   if(!los(p.x,p.y,e.x,e.y))continue;
   seen++;
   var r=Math.random();
-  if(r<.46){e.sub=1;e.st='sub';e.vx=e.vy=0;e.canSee=0;n++;burst(e.x,e.y,3,'#e6d78a',40,400)}
-  else if(r<.72){e.sub=2;e.subT=1.4+Math.random()*1.7;e.st='sub';e.vx=e.vy=0;fk++;burst(e.x,e.y,3,'#e6d78a',40,400)}
+  if(r<SURRENDER_TRUE){e.sub=1;e.st='sub';e.vx=e.vy=0;e.canSee=0;n++;burst(e.x,e.y,3,'#e6d78a',40,400)}
+  else if(r<SURRENDER_TRUE+SURRENDER_FAKE){e.sub=2;e.subT=1.4+Math.random()*1.7;e.st='sub';e.vx=e.vy=0;fk++;burst(e.x,e.y,3,'#e6d78a',40,400)}
   else{e.alert=Math.max(e.alert,1);if(e.st==='patrol'){e.st='alert';e.rt=.8}}}
  if(!seen)return;
  if(n){say(ST.name||'你','双手抱头，趴下！','#e2a93e');feed('你喊话：'+n+' 名佣兵放下武器（靠近按 F 缴械）',1);G.sc+=scorePts(n*25)}
@@ -5264,11 +5264,12 @@ function neutralized(e){
  if(G.kf&&airOn())G.kf[L.fi]=(G.kf[L.fi]|0)+1;
 }
 /* 重装兵 / 敌方领袖：按弹匣比例决定“多少发倒下”，不再靠虚高护甲拖子弹。
-   步枪半个弹匣、冲锋枪三分之二个弹匣、狙击枪一发；霰弹枪按 3 发、手枪按大半个弹匣。 */
+   步枪半个弹匣、冲锋枪三分之二个弹匣、AX50/QBU-191 按专属发数；
+    CS/LR4 需要 2 发才能击倒重甲兵。 */
 function heavyShots(w){
  if(!w)return 1;
  var cap=w.cap||30;
- if(w.cls==='sniper')return w.id==='qbu191'?3:1;
+ if(w.cls==='sniper')return w.id==='qbu191'?3:(w.id==='cslr4'?2:1);
  if(w.cls==='smg')return Math.max(1,Math.ceil(cap*2/3));
  if(w.cls==='rifle')return Math.max(1,Math.ceil(cap/2));
  if(w.cls==='shotgun')return 3;
@@ -5327,9 +5328,10 @@ function hitEnemy(e,dm,head,wp,src,quiet){if(e.dead)return;
   else if(playerHit)feed('消音命中 · 目标单独警觉',0)}
  /* QBU-191 是精确射手步枪：保留狙击枪的穿透与视野，但不再套用“狙击枪一发必杀”。 */
  var qbuOne=wp&&wp.id==='qbu191';
+ var cslrHeavy=wp&&wp.id==='cslr4'&&e.tp==='heavy';
  if(qbuOne&&!big&&e.hp>=e.mh*.99&&dm>=e.hp)dm=Math.max(1,e.hp-1);
- if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk&&!qbuOne){e.hp=0;e.hurt=.2}
- else if(wp&&wp.cls==='sniper'&&!qbuOne){e.hp=0;e.hurt=.2}
+ if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk&&!qbuOne&&!cslrHeavy){e.hp=0;e.hurt=.2}
+ else if(wp&&wp.cls==='sniper'&&!qbuOne&&!cslrHeavy){e.hp=0;e.hurt=.2}
  else if(!big&&ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
   e.hp-=dm;e.hurt=.2}
  else if(!big&&ins&&arv===3&&head&&wp&&(wp.ap||0)>=.7&&Math.random()<ins*.4){e.hp=0}
@@ -6817,17 +6819,23 @@ function qtePayHostages(){
 }
 /* QTE 潜入守敌：按地图给出的点位定向生成，避免随机落点跑到地图另一端。
    生成后由 initInfiltration 统一设为 dormant，再唤醒起点附近的前 3 名。 */
+function qteGuardType(i){
+ var q=L&&L.cfg?L.cfg.qte:0;
+ if(q===1)return i===2?'heavy':(i===5?'sniper':'grunt');
+ if(q===2)return (i===2||i===6)?'heavy':(i===4||i===8?'sniper':'grunt');
+ return (i===2||i===7||i===10)?'heavy':(i===4||i===9?'sniper':'grunt');
+}
 function qteSeedInfiltration(){
  if(!L||!G||!L.cfg||!L.cfg.qte)return 0;
  var c=L.cfg,pts=c.qteStealthPts||[],p=G.p,made=0,
   want=Math.min(c.qteStealthN||0,pts.length),i,j;
  for(i=0;i<want;i++){
-  var q=pts[i],sx=q[0],sy=q[1],ok=0;
+  var q=pts[i],sx=q[0],sy=q[1],ok=0,tp=qteGuardType(i);
   for(j=0;j<90&&!ok;j++){
    var a=Math.random()*TAU,rr=j?Math.random()*52:0;
    sx=q[0]+Math.cos(a)*rr;sy=q[1]+Math.sin(a)*rr;
    if(sx<30||sy<30||sx>c.W-30||sy>c.H-30)continue;
-   if(!freeAt(sx,sy,FOE.grunt.r+4))continue;
+   if(!freeAt(sx,sy,FOE[tp].r+4))continue;
    if(Math.hypot(sx-p.x,sy-p.y)<260)continue;
    var near=0,k;
    for(k=0;k<L.en.length;k++){var o=L.en[k];
@@ -6837,7 +6845,7 @@ function qteSeedInfiltration(){
   if(!ok)for(j=0;j<220&&!ok;j++){
    sx=50+Math.random()*(c.W-100);sy=50+Math.random()*(c.H-100);
    if(sx<30||sy<30||sx>c.W-30||sy>c.H-30)continue;
-   if(!freeAt(sx,sy,FOE.grunt.r+4))continue;
+   if(!freeAt(sx,sy,FOE[tp].r+4))continue;
    if(Math.hypot(sx-p.x,sy-p.y)<300)continue;
    var near2=0,k2;
    for(k2=0;k2<L.en.length;k2++){var o2=L.en[k2];
@@ -6845,10 +6853,41 @@ function qteSeedInfiltration(){
    if(!near2)ok=1;
   }
   if(!ok)continue;
-  var e=spawnFoe('grunt',sx,sy,1);
+  var e=spawnFoe(tp,sx,sy,1);
   e.dormant=1;e.alert=0;e.st='patrol';e.canSee=0;e.lastSeen=-99;
   e.lx=e.x;e.ly=e.y;e.hx=e.x;e.hy=e.y;e.a=Math.random()*TAU;e.pf=Math.random()*TAU;
   L.en.push(e);made++;
+ }
+ return made}
+/* v62：每个拆弹点额外布置 3–4 名守卫，优先重甲/狙击；这些守卫保持清醒巡逻，
+   不参与 initInfiltration 的休眠队列。 */
+function qteSeedBombGuards(){
+ if(!L||!G||!L.cfg||!L.cfg.qte)return 0;
+ var c=L.cfg,p=G.p,bombs=c.bombSites||(c.bombSite?[c.bombSite]:[]),
+  types=c.qte===1?['heavy','grunt','grunt']:
+   (c.qte===2?['heavy','sniper','grunt','grunt']:['heavy','sniper','grunt']),
+  made=0,bi,k,tr;
+ for(bi=0;bi<bombs.length;bi++){
+  var bx=bombs[bi][0],by=bombs[bi][1];
+  for(k=0;k<types.length;k++){
+   var tp=types[k],r=FOE[tp].r,ok=0,sx=bx,sy=by;
+   for(tr=0;tr<90&&!ok;tr++){
+    var an=Math.random()*TAU,rr=110+Math.random()*160;
+    sx=bx+Math.cos(an)*rr;sy=by+Math.sin(an)*rr;
+    if(sx<30||sy<30||sx>c.W-30||sy>c.H-30)continue;
+    if(!freeAt(sx,sy,r+4))continue;
+    if(Math.hypot(sx-p.x,sy-p.y)<220)continue;
+    var near=0,ei;
+    for(ei=0;ei<L.en.length;ei++){var oe=L.en[ei];
+     if(!oe.dead&&Math.hypot(oe.x-sx,oe.y-sy)<42){near=1;break}}
+    if(!near)ok=1;
+   }
+   if(!ok)continue;
+   var e=spawnFoe(tp,sx,sy,1);
+   e.dormant=0;e.alert=0;e.st='patrol';e.canSee=0;e.lastSeen=-99;
+   e.lx=e.x;e.ly=e.y;e.hx=bx;e.hy=by;e.a=Math.atan2(by-e.y,bx-e.x);e.pf=Math.random()*TAU;
+   L.en.push(e);made++;
+  }
  }
  return made}
 /* QTE 的拆弹后增援是公开入场，不能再让 HUD 停留在「潜入 · 未被发现」。
@@ -6861,7 +6900,13 @@ function qteBreakInfiltration(){
 function qteSpawnArmor(tp,nerf){
  if(!L||!G)return null;
  if(L.cfg.qte&&tp==='ifv')return null;
- var p=G.p,site=qteArmorSite();if(!site)return null;
+ var p=G.p,site;
+ /* v62：QTE-01 的坦克固定从地图左上角建筑外进入，不再随机落进楼内。 */
+ if(L.cfg.qteScript===1&&tp==='tank'){
+  site={x:120,y:150};
+  if(!freeAt(site.x,site.y,40))site={x:150,y:200};
+ }else site=qteArmorSite();
+ if(!site)return null;
  var e=spawnFoe(tp,site.x,site.y,1);
  e.alert=1;e.st='engage';e.canSee=0;e.lastSeen=G.t;e.lx=p.x;e.ly=p.y;
  if(L.cfg.qteScript===1){e.qtePatrol=1;e.alert=0;e.st='patrol';e.lastSeen=-99;
@@ -7722,7 +7767,7 @@ function fireSupportBullet(e,p,kind){
  if(G.t-(e._sndT||-9)>(kind==='dog'?.12:.09)){e._sndT=G.t;snd.fire(WM.hk416,.42)}}
 function uavArmorHit(o){
  if(!o||o.dead)return;
- var need=o.tp==='tank'?6:3;
+ var need=3;
  o.uavHits=(o.uavHits||0)+1;
  if(o.uavHits>=need){
   var am=o.armorMax||(o.tp==='tank'?3:2);
@@ -10176,6 +10221,17 @@ var PATCHES=[
         '烟幕内的所有敌人失去索敌和开火能力；若玩家在烟幕存在期间再次惊动敌人，敌方步兵、装甲机枪与坦克主炮的射击精准度大幅下降（散布 ×2.4）。',
         '烟幕投送/生效期间，战术平板与 HUD 显示落点、倒计时和剩余时间；烟幕只能在 QTE-02/03 的支援面板购买。',
         '实测：狙击弹被墙体/掩体阻断，墙后目标不进入贯穿列表；QTE-03 第一枚炸弹后坦克 qteLock=true + 4 名步兵；开火后 AR 移速为 70%、SMG 100%；烟幕 3 秒到达、15 秒结束，烟内敌人 foeCanSee=0、开火散布 ×2.4。'
+       ]},
+      {v:62,d:'2026-11-28',t:'QTE 拆弹点增援 · CS/LR4 调整 · 三架无人机击毁坦克',
+       items:[
+        '敌人真投降概率 46%→20%，诈降 26%→15%；其余 65% 直接顽抗，降低整体投降率。',
+        '全部 8 张地图的任务简介精简为 1–2 句，只保留目标、关键威胁与撤离/拆弹要点。',
+        '开始界面重写：移除已删除地图的介绍；制作信息表新增“地图、武器技术顾问：416”。',
+        'QTE-01/02/03 拆弹点附近新增守卫：QTE-01 3 人、QTE-02 4 人、QTE-03 两处共 6 人；并加入重甲兵、狙击手等特殊兵种。',
+        'QTE-01 拆弹后坦克固定从地图左上角建筑外（120,150）进入，不再随机刷在建筑物内部；仍保持沿街游走。',
+        'CS/LR4 伤害 150→120、射速 80→60 发/分；对重甲兵需要 2 发，不再一枪击倒，普通兵仍可一枪击倒。',
+        '自杀无人机对坦克所需数量 6→3；一组 3 架无人机即可击毁坦克。',
+        '实测：QTE 步兵 11/14/18，重甲 2/3/5，狙击 1/3/4；QTE-01 坦克 (120,150)、freeAt=true、不在建筑内；CS/LR4 重甲第一发剩 89 HP、第二发击倒；无人机第 2 架未毁、第 3 架击毁。'
        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -11352,11 +11408,11 @@ function brief(){if(ST.tut!==1&&!ST.dev){startTut((ST.tutP|0)>=0);return}
  if(c.qte){
   var qs=c.qte>=2?(' · 拆弹币 '+((G&&G.qteCoin!=null?G.qteCoin:ST.qteCoin)|0)+' · T 战术平板调度'):'';
   if(c.qteScript===1)
-    $('fE').textContent='开局巡逻步兵×8（3 人清醒）· 人质×2（楼内）· 无载具 · 拆弹前无 AT4 · 拆弹后坦克×1（正常数值，沿街游走）+步兵×6 · 每 60 秒步兵×6 · 坦克入场 30 秒后空投 AT4×3'+qs;
+    $('fE').textContent='开局巡逻步兵×11（起点 3 人清醒 + 拆弹点守卫 3 人，含重甲/狙击）· 人质×2（楼内）· 无载具 · 拆弹前无 AT4 · 拆弹后坦克×1（从左上角建筑外进入，沿街游走）+步兵×6 · 每 60 秒步兵×6 · 坦克入场 30 秒后空投 AT4×3'+qs;
   else if(c.qteScript===2)
-    $('fE').textContent='开局坦克×1 + 巡逻步兵×10（3 人清醒）· 人质×4（楼内）· 拆弹前无 AT4 · 拆弹后空投 AT4×4 + 坦克×1 + 步兵×4 · 两辆坦克沿公路追击 · 每 60 秒步兵×4'+qs;
+    $('fE').textContent='开局坦克×1 + 巡逻步兵×14（起点 3 人清醒 + 拆弹点守卫 4 人，含重甲/狙击）· 人质×4（楼内）· 拆弹前无 AT4 · 拆弹后空投 AT4×4 + 坦克×1 + 步兵×4 · 两辆坦克沿公路追击 · 每 60 秒步兵×4'+qs;
   else if(c.qteScript===3)
-    $('fE').textContent='开局坦克×1 + 巡逻步兵×12（3 人清醒）· 人质×6（楼内）· 拆第一枚后立即刷坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
+    $('fE').textContent='开局坦克×1 + 巡逻步兵×18（起点 3 人清醒 + 两处拆弹点守卫共 6 人，含重甲/狙击）· 人质×6（楼内）· 拆第一枚后立即刷坦克×1 + 步兵×4 并锁定追杀 · 每 60 秒坦克×1 + 步兵×6 · 两枚炸弹拆除后停止增援'+qs;
   else
     $('fE').textContent=tot+' 个目标（含坦克） · 定时装置 '+fmt(c.bombTime||180)+' · 每 30 秒 7 名征召兵 · 每 2 波 1 辆坦克'+qs;
  }
@@ -11382,6 +11438,7 @@ function startLv(){resetCombatFx();show(null);setScr('play');aInit();
  TUT.on=false;
  build(ST.lv);
  initInfiltration(1);
+ if(L.cfg&&L.cfg.qte)qteSeedBombGuards();
  if(!(L.cfg&&L.cfg.cqb))CQBT.on=false;
  G.civTot0=L.civ.length+(L.cfg&&L.cfg.alt?L.cfg.alt.civ.length:0);
  /* 双层地图：记录总敌数与分楼层击杀，楼梯切换时靠它判断是否清空 */
@@ -11887,7 +11944,7 @@ bind('bResetStory',function(){var b=$('bResetStory');
  if(b&&b.getAttribute('data-arm')==='1'){
   b.removeAttribute('data-arm');b.textContent='重置进度';
   storyReset();renderLv();
-  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场，再进入 QTE 拆弹三关。OP-07 终局考核与 OP-04/05 剧情地图已删除；完成机场行动后重新解锁国产枪族。');
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场，再进入 QTE 拆弹三关。完成机场行动后重新解锁国产枪族。');
   goMenu();return}
  if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
  setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
@@ -11968,7 +12025,7 @@ resize();setScr('boot');renderLv();showDtl();updHint();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
- '请从 OP-01 开始重新推进：公寓→商场→储运站→机场，再进入 QTE-01/02/03 拆弹行动。OP-07 终局考核与 OP-04/05 剧情地图已删除；完成机场行动后国产枪族会重新解锁。军衔分、已授权枪械与训练场进度保留。');
+ '请从 OP-01 开始重新推进：公寓→商场→储运站→机场，再进入 QTE-01/02/03 拆弹行动。完成机场行动后国产枪族会重新解锁。军衔分、已授权枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
