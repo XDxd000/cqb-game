@@ -8689,6 +8689,7 @@ function beginSmokeMark(){
   toast('烟幕已在投送或生效中 · 等它结束再呼叫',2400);return false}
  if((G.qteCoin||0)<SMOKE_COST){toast('拆弹币不足 · 中等战术烟幕需要 '+SMOKE_COST,2200);return false}
  G.smokeMarking=G.smokeMarking?0:1;
+ if(G.smokeMarking)G.artMarking=0;
  updateTabletCards();drawTablet();
  toast(G.smokeMarking?'点击战术地图标记烟幕落点':'已取消烟幕标记',2000);
  return true}
@@ -8707,7 +8708,7 @@ function confirmSmokeMark(x,y){
  if((G.qteCoin||0)<SMOKE_COST){toast('拆弹币不足 · 中等战术烟幕需要 '+SMOKE_COST,2200);return false}
  var pt=smokeLandPoint(x,y);
  G.qteCoin-=SMOKE_COST;ST.qteCoin=G.qteCoin;save();
- G.smokeMarking=0;
+ G.smokeMarking=0;G.artMarking=0;
  G.smokeCall={x:pt.x,y:pt.y,t:0,armed:0};
  closeTablet();
  toast('烟幕投送确认 · 3 秒后自动在标记点释放',3200);
