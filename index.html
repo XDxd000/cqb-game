@@ -1542,9 +1542,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
     </div>
     <div class="rankCard hidden" id="rankCard"></div>
 
-    <!-- 主操作行：开始行动 + 五个图标 -->
+    <!-- 主操作行：五个图标（v81 移除上方「开始行动」按钮，开局从关卡卡片进入） -->
     <div class="actRow">
-      <button class="btn p actMain" id="bStart">开始行动</button>
       <div class="iconBar">
         <button class="ic" id="bArs" title="军械库 · 选枪"><svg><use href="#ic-ars"/></svg><span>军械库</span></button>
         <button class="ic" id="bHelp" title="作战手册"><svg><use href="#ic-book"/></svg><span>手册</span></button>
@@ -1869,7 +1868,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h1>作战手册</h1>
   <h3>战术规则</h3>
   <p>你是一名虚构反恐小队的突击手。每关任务：清除区域内全部武装守敌，随后前往撤离点停留 1 秒完成撤离。
-掩体（墙体、柜台、集装箱、长条花坛）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
+掩体（墙体、柜台、集装箱、长条花坛）会真实阻挡子弹，掩体后方的敌人无法命中；地图里的废弃车辆属于可破坏掩体，<b>被任一爆炸物命中一发即失效</b>（残骸只留外观，不再挡枪也不再挡人）。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
 场景中会有被扣押的平民：靠近后互动可将其解救，他们会跟随你——<b style="color:#e08a7b">走火误伤平民按 ROE 违规重扣分并下调评级</b>，这正是现实交战规则。</p>
   <h3>射击模式与据枪</h3>
  <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随后坐累积扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
@@ -1878,6 +1877,8 @@ table.rt td:last-child{text-align:right;font-weight:600}
  ① <b>扫射精度</b>——连续射击会累积后坐，后坐力越高累积得越快、满热后的散布上限也越大（HK416A5 满扫射约 +65%，SCAR-H 约 +88%，P90 约 +43%），停火后按后坐力高低以不同速度回落；<br>
  ② <b>开火减速</b>——每次开枪都会短暂拖慢移速，后坐力越高扣得越深、时间越长（HK416A5 −30%／0.46 秒，SCAR-H −42%／0.57 秒，M107 触顶 −55%／0.83 秒，MP5 仅 −21%／0.37 秒）。<br>
  制退器、消焰器等改件与队员专长会同时压低这两项；军械库的「后坐控制」条与详情末行直接给出数值、满扫射散布增幅与开火减速百分比。</p>
+ <p><b>霰弹枪逐发装填</b>：霰弹枪是管状弹仓，没有「弹匣换好」那一下。打空会自动开始装填，也可以随时按 <span class="kbd">R</span> 补装；每 <b>0.5 秒</b>进一发，装满为止。装填过程中只要膛里已经有弹，按左键可以<b>立刻打断装填并开火</b>，不会被换弹锁死。霰弹枪视野已上调到 <b>500×155</b>（略大于手枪、仍小于冲锋枪），持枪移速也比以前快，只比冲锋枪略慢一点。</p>
+ <p><b>副武器 · 消音特性</b>：手枪（副武器）开火<b>不制造枪声</b>——不会惊动附近守军，潜入阶段开枪也不会结束潜入；只有被命中的那个人会单独警觉。这一点同时写在军械库的手枪详情里。步枪、冲锋枪、霰弹枪与狙击枪的枪声仍会扩散并按规则暴露位置。</p>
  <h3>CQB 战术原则</h3>
  <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
@@ -1898,7 +1899,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p><b>防卡位与防扎堆</b>：搜索、警戒、接敌统一走导航网格；战斗时每名步兵和每辆坦克分配独立槽位，禁止多人挤同一墙角或多车抢同一掩体。墙角、卡位有后退—侧绕—兜底三级脱困，战斗中每 2 秒自动审计。破门瞬间，门口 300px 内的守敌会立刻向屋内退到掩体后面，不会贴着门洞站着等你进来。</p>
   <p><b>重装甲与楼宇</b>：敌方坦克不会驶入楼内——QTE 城市图只走道路，普通地图门洞对车体是不可穿越线。但门被破开后，车体可以停在门外，通过门洞向室内开火。</p>
   <h3>视野与配件</h3>
-  <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
+  <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪窄而中等，霰弹枪略大于手枪，副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
   <p>角色之间的喊话（UNF 喝令投降、敌人喝骂）会以字幕形式显示在<b style="color:#dce7ee">画面下方中央</b>——接敌时 UNF 队员会自动喝令，附近轻装武装人员可能举手真降、也可能诈降。</p>
   <h3>QTE 拆弹行动 · 拆弹币</h3>
   <p><b>行动顺序</b>：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-04 机场（双层）→ QTE-01 巷战 → QTE-02 十字街区 → QTE-03 四街合围 → CQB 训练楼 → 自由训练场。</p>
@@ -2035,21 +2036,21 @@ w({id:'m870',n:'Remington 870（M870-1）',cls:'shotgun',cn:'泵动霰弹枪',g:
  mg:'管状弹仓 7+1（军用型可扩至 9–10 发）',br:'533 mm（21 in）',mz:'约 400 m/s（00 号鹿弹，近似值）',
  rg:'约 20–50 m（取决于喉缩与弹种）',wt:'空枪 3.6 kg；全长 1060 mm',
  it:'1950 年问世的经典泵动枪，1966 年美国海军陆战队对比试验后选定为制式。结构极简、故障率极低，破门与近距离制止力首选。',
- dmg:14,rpm:60,cap:7,rl:3.0,sp:.145,bs:1050,rn:600,au:0,kk:3.0,mb:-.04,pen:0,pl:8}),
+ dmg:14,rpm:60,cap:7,rl:3.0,sp:.145,bs:1050,rn:600,au:0,kk:3.0,mb:.02,pen:0,pl:8}),
 w({id:'benelli',n:'Benelli M4 Super 90（XM1014）',cls:'shotgun',cn:'半自动战术霰弹枪',g:'▥',
  mk:'Benelli Armi SpA（意大利·乌尔比诺）；美军型与 HK USA 联合供货',
  cal:'12 号铅径，兼容 70／76 mm 弹',rt:'ARGO 双活塞导气半自动，约 240–300 发/分',
  mg:'管状弹仓 7+1',br:'470 mm（18.5 in）',mz:'408 m/s',
  rg:'约 50 m（55 yd）',wt:'空枪约 3.8 kg；全长 889–1010 mm（伸缩枪托）',
  it:'1999 年在 14 种竞标样枪中胜出，成为美军三军战术霰弹枪计划（JSCS）产物并被海军陆战队列装。半自动连发 + 自清洁导气，走廊清剿利器。',
- dmg:13,rpm:230,cap:7,rl:2.6,sp:.132,bs:1080,rn:640,au:1,kk:2.4,mb:0,pen:0,pl:8}),
+ dmg:13,rpm:230,cap:7,rl:2.6,sp:.132,bs:1080,rn:640,au:1,kk:2.4,mb:.04,pen:0,pl:8}),
 w({id:'spas12',n:'Franchi SPAS-12',cls:'shotgun',cn:'多功能自动霰弹枪',g:'▥',
  mk:'Luigi Franchi SpA（意大利·布雷西亚）',
  cal:'12 号铅径',rt:'导气半自动／泵动双模式可切换，半自动约 240–300 发/分',
  mg:'管状弹仓 8+1（部分版本 7+1）',br:'约 550 mm（标准）／460 mm（短管）',mz:'约 390 m/s（近似值）',
  rg:'约 40 m，独头弹可显著延伸',wt:'空枪约 4.4 kg',
  it:'1979 年推出的 Special Purpose Automatic Shotgun，大型散热罩 + 折叠骨架枪托带提把，可单手射击。双模装填兼顾压制火力与低威力弹药可靠性。',
- dmg:12,rpm:280,cap:8,rl:2.75,sp:.150,bs:1020,rn:620,au:1,kk:2.5,mb:-.05,pen:0,pl:9}),
+ dmg:12,rpm:280,cap:8,rl:2.75,sp:.150,bs:1020,rn:620,au:1,kk:2.5,mb:.01,pen:0,pl:9}),
 w({id:'m107',n:'Barrett M107（M82A1）',cls:'sniper',cn:'反器材步枪',g:'▦',
  mk:'Barrett Firearms Manufacturing（美国·田纳西州 默弗里斯伯勒）',
  cal:'12.7×99mm NATO（.50 BMG）',rt:'短行程后座作用 + 回转闭锁，半自动，理论约 40 发/分',
@@ -2360,7 +2361,7 @@ w({id:'qbs09',n:'QBS-09 军用霰弹枪',cls:'shotgun',cn:'国产军用霰弹枪
  mg:'5 发弹匣',br:'约 380 mm',mz:'公开数据未详',
  rg:'约 50 m',wt:'空枪约 3.3 kg',
  it:'我国军用霰弹枪，破门与近距离压制兼顾，弹丸散布大，室内一发即可压制整扇门洞。',
- dmg:18,rpm:120,cap:5,rl:3.0,sp:.075,bs:900,rn:700,au:0,kk:1.3,mb:-.02,pen:0,pl:7,tk:3}),
+ dmg:18,rpm:120,cap:5,rl:3.0,sp:.075,bs:900,rn:700,au:0,kk:1.3,mb:.03,pen:0,pl:7,tk:3}),
 w({id:'qbu88',n:'QBU-88 狙击步枪',cls:'sniper',cn:'国产半自动狙击步枪',g:'◈',
  mk:'中国兵器装备集团（公开资料）',
  cal:'5.8×42mm 重弹',rt:'导气式半自动',
@@ -2374,7 +2375,7 @@ w({id:'qbu191',n:'QBU-191 精确射手步枪',cls:'sniper',cn:'国产精确射�
  mg:'10／20 发弹匣',br:'精确射手型加重长枪管（公开数据为区间值）',mz:'公开数据未详',
  rg:'约 800 m 级（公开口径）',wt:'约 4.2 kg（区间值）',
  it:'191 式枪族中的精确射手型，10／20 发弹匣兼顾火力密度与精度；单发伤害高于全部突击步枪，但低于专业狙击枪，手持机动性在狙击枪中最好。',
- dmg:54,rpm:150,cap:20,rl:2.6,sp:.012,bs:1700,rn:3000,au:0,kk:1.35,mb:-.08,pen:2,pl:1,tk:4}),
+ dmg:54,rpm:200,cap:20,rl:2.6,sp:.012,bs:1700,rn:3000,au:0,kk:1.35,mb:-.08,pen:2,pl:1,tk:4}),
 w({id:'cslr4',n:'CS/LR4 高精度狙击步枪',cls:'sniper',cn:'国产高精狙',g:'◈',
  mk:'中国兵器装备集团（外贸型号，公开资料）',
  cal:'7.62×51mm NATO',rt:'旋转后拉枪机',
@@ -2472,10 +2473,17 @@ var WEAPON_UNLOCK_TIER={
 };
 (function(){for(var id in WEAPON_UNLOCK_TIER)if(WM[id])WM[id].tk=WEAPON_UNLOCK_TIER[id]})();
 /* 视野宽度：突击步枪适中，狙击枪窄，冲锋枪/霰弹枪/副武器窄而短 */
-(function(){var W2={rifle:300,smg:170,shotgun:150,pistol:145,sniper:240,launcher:420};
+(function(){var W2={rifle:300,smg:170,shotgun:155,pistol:145,sniper:240,launcher:420};
  for(var i=0;i<WP.length;i++){var o=WP[i];o.vw=W2[o.cls]||170}
  /* 隐藏枪也补上，避免旧存档兜底时缺字段 */
  for(var id in WM){var q=WM[id];if(q.vw==null)q.vw=W2[q.cls]||170}
+})();
+/* v81：霰弹枪视野上调到「略大于手枪、仍小于冲锋枪」：
+   固定在 500×155（手枪 388–484、冲锋枪 433–609），不再按旧公式压到 250 左右。 */
+(function(){var id,o;
+ for(id in WM){o=WM[id];
+  if(o.cls!=='shotgun')continue;
+  o.vr=500;o.vw=155}
 })();
 /* SECTION: fire-modes 射击模式
    步枪按现实击发组提供 单发 / 短点射 / 全自动；冲锋枪为 单发 / 全自动；
@@ -4343,7 +4351,7 @@ function coverPlan(c,ws,drs){
    out.push({t:type,x:x,y:y,w:w,h:h,spawnRing:1});sMade++;
   }
  }
- for(i=0;i<out.length;i++)if(out[i].t==='car'){out[i].destructible=1;out[i].hp=out[i].hp||3}
+ for(i=0;i<out.length;i++)if(out[i].t==='car'){out[i].destructible=1;out[i].hp=1}   /* v81：废弃车辆一发爆炸即失效 */
  return out}
 function build(idx,ovr){
  var c0=ovr||LS6[clamp(idx,1,LS6.length)-1],c=c0,ck;
@@ -5261,15 +5269,21 @@ function ammoResupply(g){
  if(!g||!g.w||g.w.cls==='launcher')return 0;
  var n=g.w.cap*2;g.res=(g.res||0)+n;return n}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
- var wasRl=p.rl>0,wasKd=p.kd>0;p.wi=i;p.sw=0;p.rl=0;p.kd=0;p.wasH=0;
+ var wasRl=p.rl>0||p.shell,wasKd=p.kd>0;p.wi=i;p.sw=0;p.rl=0;p.shell=0;p.shellT=0;p.kd=0;p.wasH=0;
  p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;p.fireMoveT=0;
  p.fm=modeOf(p.guns[i].w);snd.swap();updGun();tutEv('swap');
  if(wasRl)toast('换弹中切枪 · 换弹已打断',2200);
  else if(wasKd)toast('切枪完成 · 可立即射击',1200)}
-function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
+/* v81：霰弹枪逐发装填。管状弹仓没有“弹匣换好”这个瞬间，
+   每 0.5 秒塞一发，装满为止；装填中按左键可以随时打断并开火（膛里有弹就行）。 */
+var SHELL_RL=.5;
+function isShellGun(w){return !!(w&&w.cls==='shotgun')}
+function tryReload(){var p=G.p;if(!p||p.rl>0||p.shell)return;var g=cur();
  tutEv('reload');   /* 按了就算完成教学步骤，弹匣满时也生效 */
  p.burstN=0;
- if(g.am>=g.w.cap||g.res<=0)return;p.rl=g.w.rl*(p.relK||1);snd.rl1();tutEv('reload')}
+ if(g.am>=g.w.cap||g.res<=0)return;
+ if(isShellGun(g.w)){p.shell=1;p.shellT=0;snd.rl1();updGun();tutEv('reload');return}
+ p.rl=g.w.rl*(p.relK||1);snd.rl1();tutEv('reload')}
 /* v19 射击精度：
    - 站定 + 完全据枪 = 最准；
    - 移动时按武器 moveK 放大散布，狙击枪最怕边跑边打；
@@ -5321,6 +5335,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
  if(ST.inStory&&/国产/.test(w1.cn||'')&&!(ST.hw&&ST.hw[w1.id])){
   ST.hw=ST.hw||{};ST.hw[w1.id]=1;save();
   toast('英雄使用记录 · '+w1.n+' 已永久解锁',2600);feed('国产装备解锁：'+w1.n,1)}
+ /* v81：霰弹枪逐发装填中按左键 → 打断装填立即开火（膛里至少要有 1 发） */
+ if(p.shell){if(g.am<=0)return;p.shell=0;p.shellT=0}
  if(p.rl>0||p.sw>0||p.kd>0)return;
  if(g.am<=0){snd.empty();if(g.res>0)tryReload();else toast('弹药耗尽 · 按 2 切副武器');return}
  /* v58：AT4 必须完全据枪才能发射，腰射只提示，不消耗火箭弹。 */
@@ -5580,7 +5596,7 @@ function pickupMapGun(q){
   p.guns.push({w:magGun(o),am:o.cap,res:o.at?1:0,tm:0});
   p.wi=p.guns.length-1;
  }
- p.sw=0;p.rl=0;p.kd=0;p.wasH=0;p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;
+ p.sw=0;p.rl=0;p.shell=0;p.shellT=0;p.kd=0;p.wasH=0;p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;
  p.fm=modeOf(p.guns[p.wi].w);
  snd.sec();updGun();
  toast('拾取 '+o.n+' · 仅本局可用 · '+(touchUI?'点「切枪」':'按 '+kLabel(KM.gun3)+' / '+kLabel(KM.swap))+' 切换',3400);
@@ -8368,6 +8384,20 @@ function updatePlayer(dt){var p=G.p,i;
  if(p.rl>0){var mul=p.aimT>0?1.8:1;p.rl-=dt*mul;
   if(p.rl<=0){var g=cur(),need=g.w.cap-g.am,take=Math.min(need,g.res);
    g.am+=take;g.res-=take;snd.rl2();updGun()}}
+ /* v81：霰弹枪逐发装填——每 0.5 秒进一发，装满或没备弹就停 */
+ if(p.shell){
+  var gs=cur();
+  if(p.sw>0||!isShellGun(gs.w)||gs.am>=gs.w.cap||gs.res<=0){p.shell=0;p.shellT=0}
+  else{
+   p.shellT=(p.shellT||0)+dt;
+   var guard=0;
+   while(p.shellT>=SHELL_RL&&p.shell&&guard++<16){
+    p.shellT-=SHELL_RL;
+    gs.am++;gs.res--;snd.rl1();updGun();
+    if(gs.am>=gs.w.cap||gs.res<=0){p.shell=0;p.shellT=0}
+   }
+  }
+ }
  var w1=cur().w;
  var holding=BF.f||MS.l||kb('fireAlt');
  fireHold(holding);
@@ -10098,18 +10128,23 @@ function drawTank(e){
   ctx.fillStyle='rgba(30,25,20,'+(tf*.4).toFixed(3)+')';
   ctx.beginPath();ctx.arc(103,0,11+e.tankFlash*22,0,TAU);ctx.fill();
  }
- /* 双联机枪：相对炮塔独立快速转向 */
- ctx.save();ctx.rotate((e.mga==null?e.ta:e.mga)-e.ta);
+ /* v81：双联机枪装在独立枪架上——绕自己的底座转，和主炮完全脱钩。
+    之前的画法只是把两根枪管贴在炮塔中轴上，看起来像和主炮同轴。 */
+ ctx.save();
+ ctx.translate(-6,-6);
+ ctx.rotate((e.mga==null?e.ta:e.mga)-e.ta);
+ ctx.fillStyle='#26281f';ctx.beginPath();ctx.arc(0,0,9.5,0,TAU);ctx.fill();
+ ctx.fillStyle='#484b3a';ctx.beginPath();ctx.arc(0,0,6.2,0,TAU);ctx.fill();
  for(var ms=-1;ms<=1;ms+=2){
-  var my=ms*8;
-  ctx.fillStyle='#34372f';ctx.fillRect(7,my-3.2,25,6.4);
-  ctx.fillStyle='#777257';ctx.fillRect(9,my-2.4,20,1.5);
-  ctx.fillStyle='#252721';ctx.fillRect(30,my-3.8,5,7.6);
-  ctx.fillStyle='#1f211c';ctx.fillRect(4,my-4.5,8,9);
+  var my=ms*7;
+  ctx.fillStyle='#34372f';ctx.fillRect(9,my-3.2,26,6.4);
+  ctx.fillStyle='#777257';ctx.fillRect(11,my-2.4,21,1.5);
+  ctx.fillStyle='#252721';ctx.fillRect(33,my-3.8,5,7.6);
+  ctx.fillStyle='#1f211c';ctx.fillRect(4,my-4.5,9,9);
   if(e.mgFlash>0){
    var mf=clamp(e.mgFlash*10,0,1);
    ctx.fillStyle='rgba(255,210,110,'+(mf*.95).toFixed(3)+')';
-   ctx.beginPath();ctx.ellipse(37,my,10*mf+5,3.2,0,0,TAU);ctx.fill();
+   ctx.beginPath();ctx.ellipse(40,my,10*mf+5,3.2,0,0,TAU);ctx.fill();
   }
  }
  ctx.restore();
@@ -10417,7 +10452,7 @@ function updHud(){var p=G.p,g=cur(),i;
  var fm=p.fm||modeOf(g.w),fma=modesOf(g.w),fmTxt=fm+':'+fma.length+':'+(KM.mode||'');
  if(fmTxt!==HD.fm){HD.fm=fmTxt;
   var mm=$('amM');if(mm)mm.textContent=modeName(fm)+(fma.length>1?(' · '+kLabel(KM.mode)+' 切换'):' · 固定')}
- var tip=p.rl>0?'换弹中…':(g.am<=0?(g.res>0?(touchUI?'点换弹':'按 R 换弹'):'弹药耗尽'):(p.aim?'据枪':''));
+ var tip=p.rl>0?'换弹中…':(p.shell?('装填中 '+g.am+' / '+g.w.cap+' · 左键打断开火'):(g.am<=0?(g.res>0?(touchUI?'点换弹':'按 R 换弹'):'弹药耗尽'):(p.aim?'据枪':'')));
  if(tip!==HD.ti){HD.ti=tip;$('amT').textContent=tip}
  var al=aliveAll();
  /* 非 QTE 的潜入阶段保留「残敌 ?」；QTE 必须显示真实守敌数，
@@ -11679,6 +11714,18 @@ var PATCHES=[
          '实测破门：门口 6 名守敌距离 70px → 全部退到 155px，0 人仍贴着门口（<70px）、0 人卡墙。',
          '实测坦克：炮塔 0.00 rad 压着 538px 外的玩家，机枪 1.71 rad（约 98°）转向 175px 的友军并打出 12 发，同时主炮装填；机枪转速 3.2、炮塔 1.8。',
          '实测转向：接敌状态每帧 0.0967 rad（5.8 rad/s），0.28 rad 的目标偏角 3 帧内对准；patch=80、err=false。'
+        ]},
+       {v:81,d:'2026-11-28',t:'霰弹枪逐发装填 · 副武器消音文案 · 霰弹枪视野与移速 · QBU-191 射速 · 车辆掩体 · 菜单精简',
+        items:[
+         '霰弹枪改为逐发装填：按 R 或打空后自动开始，每 0.5 秒进一发、装满为止；装填中只要膛里有弹，按左键立刻打断装填并开火，HUD 显示「装填中 x / 容量 · 左键打断开火」。切枪会中断装填并照旧提示。',
+         '军械库手枪详情新增【副武器 · 消音特性】：手枪开火不制造枪声、不惊动附近守军、潜入阶段开枪不结束潜入，只有被命中的目标单独警觉；作战手册同步写明。',
+         '霰弹枪视野上调到 500×155（原来约 253–269，明显小于手枪 388–484）：现在略大于手枪、仍小于冲锋枪（433–609）。',
+         '霰弹枪持枪移速加快：机动修正由 −4%…0 改为 +1%…+4%，配合基础移速后只比冲锋枪（+5%…+6%）略慢一点。',
+         'QBU-191 精确射手步枪射速 150 → 200 发/分钟。',
+         '地图内废弃车辆掩体削弱：装甲耐久 3 → 1，被任意爆炸物（手雷 / 坦克炮 / AT4 / 炮火打击）命中一发即摧毁，残骸不再提供碰撞与掩体。',
+         '坦克并列机枪的模型改成独立枪架：绕自己的底座旋转（之前只是把枪管贴在炮塔中轴，看起来像同轴），配合已有的独立目标选择与 3.2 rad/s 转速，机枪与主炮可以各打一个方向。',
+         '任务列表页移除上方「开始行动」大按钮：入口统一走关卡卡片；新兵未完成时点卡片仍会先回靶场。',
+         '实测：霰弹枪 0.5 秒装 1 发、装满 7 发用时 3.5 秒；装填中开火立即射出并打断装填；霰弹枪移速只比 MP5 慢约 4%；QBU-191 rpm=200；QTE-02 废弃车辆 1 发手雷即 destroyed 且从 CW 移除；坦克炮塔 0.62 rad 偏差时机枪已开火（机枪误差 0.01 rad）；patch=81、err=false。'
         ]}
        ];
 function pushPatchMail(){
@@ -13178,7 +13225,7 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】');
+ $('dI').textContent=o.it+(o.cls==='pistol'?' 【副武器 · 消音特性】手枪开火不制造枪声：不会惊动附近守军，潜入阶段开枪也不会结束潜入；只有被命中的那个人会单独警觉。':'')+(gunOk(o.id)?'':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】');
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
@@ -13484,7 +13531,7 @@ bind('bQuit',function(){
   leaveRange();show('sMenu');setScr('menu');renderLv();
   toast('已退出 CQB 战术学习',2200);return}
  if(G&&G.tut&&TUT.on){tutSave();TUT.on=false;leaveRange();show('sMenu');setScr('menu');renderLv();
-  toast('新兵训练进度已保存 · 点「开始行动」接着练',3400);return}
+  toast('新兵训练进度已保存 · 点关卡卡片接着练',3400);return}
  saveLv();leaveRange();show('sMenu');setScr('menu');renderLv()});
 bind('bAgain',function(){clearLv(ST.lv);startLv()});
 bind('bNext',function(){var nx=nextLv(ST.lv);if(nx){ST.lv=nx;brief()}else{show('sMenu');setScr('menu');renderLv()}});
