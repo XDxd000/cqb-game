@@ -777,6 +777,20 @@ body.touch #touch.on{display:block}
 .rankStep.now i{background:var(--amber);border-color:#ffd27a;box-shadow:0 0 10px rgba(226,169,62,.85)}
 .rankStep .xp{display:block;font-size:8.5px;color:#4f6069;letter-spacing:0}
 .rankStep.done .xp,.rankStep.now .xp{color:#7f939f}
+.rankStep.peak:before{background:linear-gradient(90deg,#3f5a34,#8a6f2f)}
+.rankStep.peak i{box-shadow:0 0 0 2px rgba(226,169,62,.22),0 0 12px rgba(226,169,62,.55)}
+.rankWeapons{margin-top:12px;border-top:1px solid #1d2831;padding-top:9px}
+.rwTitle{font-size:10px;letter-spacing:.16em;color:#6d818d;margin-bottom:5px}
+.rwTitle span{letter-spacing:.02em;color:#52646e;margin-left:7px}
+.rwRow{display:grid;grid-template-columns:64px 72px 1fr;gap:8px;align-items:start;
+ padding:5px 7px;border-radius:4px;font-size:11px;line-height:1.55;color:#8ea2af}
+.rwRow:nth-child(odd){background:rgba(255,255,255,.018)}
+.rwRow b{font-weight:600;color:#b9c9d4;letter-spacing:.04em}
+.rwRow span{font-size:10px;color:#5f737f;font-variant-numeric:tabular-nums}
+.rwRow em{font-style:normal;color:#93ac6d}
+.rwRow.now{background:rgba(226,169,62,.08);box-shadow:inset 2px 0 0 var(--amber)}
+.rwRow.now b{color:#f0d890}
+.rwRow.peak:not(.now) b{color:#e2c47a}
 .lvRail{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}
 .lvStep{flex:1 1 130px;min-width:0;border:1px solid #1d2831;border-radius:4px;padding:8px 10px;
  background:rgba(14,20,26,.6);position:relative;overflow:hidden}
@@ -1215,7 +1229,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <span class="chip">新手教程</span>
     <span class="chip cy">测 试 版</span>
   </div>
-  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。机场通关后解锁国产枪族与 QTE 拆弹模式。全部行动由你单人执行，武器附厂商与公开参数。</p>
+  <p class="bootLead">行动顺序：OP-01 公寓 → OP-02 商场 → OP-03 郊野储运站 → OP-06 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术学习训练楼 → 自由训练场。机场通关后解锁 QTE 拆弹模式；国产枪族按军衔逐级解锁。全部行动由你单人执行，武器附厂商与公开参数。</p>
   <div class="bootDev">
     <div class="r"><span class="k">策划 / 制作</span><span class="v">小迪不是叉滴</span></div>
     <div class="r"><span class="k">技术支持</span><span class="v"><i class="dsMark">DS</i><span class="dsName">DeepSeek</span><span class="dsCn">深度求索</span></span></div>
@@ -1265,7 +1279,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
     <div class="bgWrap">
       <div class="bgTtl">战术突袭</div>
       <div class="bgSub">TACTICAL CQB OPERATION</div>
-      <p class="bgLead">俯视角战术射击演练。行动顺序：公寓 → 商场 → 郊野储运站 → 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术训练楼 → 自由训练场。机场通关后解锁国产枪族与 QTE。QTE 使用独立拆弹币：地图每处 10 枚，拆弹 +20，带出人质 +10，击毁坦克 +40；第二关起可呼叫坦克、无人机、机器狗与中等战术烟幕。所有行动单人执行，军械库附厂商与公开参数。</p>
+      <p class="bgLead">俯视角战术射击演练。行动顺序：公寓 → 商场 → 郊野储运站 → 机场双层 → QTE-01/02/03 拆弹行动 → CQB 战术训练楼 → 自由训练场。机场通关后解锁 QTE；国产枪族按军衔逐级解锁。QTE 使用独立拆弹币：地图每处 10 枚，拆弹 +20，带出人质 +10，击毁坦克 +40；第二关起可呼叫坦克、无人机、机器狗与中等战术烟幕。所有行动单人执行，军械库附厂商与公开参数。</p>
     </div>
   </div>
 
@@ -1635,7 +1649,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <p><b>战术平板</b>：所有地图按 <span class="kbd">T</span> 打开，打开期间战斗暂停。非 QTE 地图只显示人质、补给箱与撤离点，不显示敌人、武器或其他单位；QTE-02/03 在敌方坦克入场后解锁支援，可点击坦克（80 币）、自杀无人机 ×3（30 币）、机器狗 ×2（20 币）或中等战术烟幕（40 币）出击。中等战术烟幕需要先在战术地图上标记落点，标记确认后 3 秒到达，抵达后双击鼠标左键在标记点释放；烟幕半径 280、持续 15 秒，烟内敌人无法索敌和开火，若玩家再次惊动敌人，敌方射击散布额外 ×2.4。QTE 三关不再提供步战车，敌方也不刷步战车；QTE 平板会实时显示敌方重装甲、人质、补给箱与 AT4 位置。原小地图已移除。</p>
   <p>无人机携带炸弹实施自杀式袭击：接触小兵即爆炸，范围内步兵直接死亡；对坦克累计 3 架即可摧毁。无人机血量 3。机器狗携带步枪，只攻击步兵，100 发弹药、30 秒装填；火力密度高但精度低、单发威力大幅减弱，机器狗血量 5。所有支援单位只沿城市道路搜索，不穿楼、不穿墙。地图中还会散落少量拆弹币补给。</p>
   <h3>难度曲线</h3>
-  <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁国产枪族与 QTE；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
+  <p>OP-01 公寓（新手 CQB）→ OP-02 商场（开阔中庭 + 2 名狙击步兵）→ OP-03 郊野储运站（室外场区 + 4 名狙击步兵）→ OP-06 机场（双层）→ QTE-01/02/03 拆弹行动。机场通关后解锁 QTE；国产枪族按军衔逐级解锁；CQB 训练楼与自由训练场在完成新兵训练后开放，但关卡顺序排在机场与 QTE 之后。</p>
   <p><b>三档难度</b>：新兵（敌人迟缓、伤害低，体力 8 格，医疗/血包回 2 格）→ 老兵（敌人伤害约为新兵 4 倍，体力 4 格，医疗/血包回 1 格，手雷直接致命）→ 现实（体力 1 格，一枪致命，手雷直接致命）。所有行动固定单人，无英雄队员。</p>
   <h3>武器与厂商</h3>
   <p>军械库每把枪都标注真实制造商（Glock、SIG Sauer、Beretta、Heckler &amp; Koch、FN Herstal、Colt、Kalashnikov、IWI、Steyr Arms、
@@ -2160,6 +2174,18 @@ WP=WP.filter(function(o){
  if(o.cls==='rifle')return !!KEEP_RIFLE[o.id];
  if(o.cls==='sniper')return !!KEEP_SNIPER[o.id];
  return true});
+/* v63：军械库解锁阶梯。tk 对应 TIER_XP：
+   0 列兵 / 1 上等兵 / 2 下士 / 3 中士 / 4 上士 / 5 二级军士长。
+   初始只有 HK416A5 与 Glock 19；QBU-191 与 QBZ-191 同组，避免军械库孤立武器。 */
+var WEAPON_UNLOCK_TIER={
+ hk416:0,g19:0,
+ mp5:1,m870:1,p320:1,
+ ak12:2,p90:2,benelli:2,b92fs:2,
+ scarh:3,mp7a2:3,spas12:3,qsz19:3,
+ qbz191:4,qbu191:4,type79:4,qbs09:4,ax50:4,type54:4,
+ qcw05:5,cslr4:5,qsz92g:5
+};
+(function(){for(var id in WEAPON_UNLOCK_TIER)if(WM[id])WM[id].tk=WEAPON_UNLOCK_TIER[id]})();
 /* 视野宽度：突击步枪适中，狙击枪窄，冲锋枪/霰弹枪/副武器窄而短 */
 (function(){var W2={rifle:300,smg:170,shotgun:150,pistol:145,sniper:240,launcher:420};
  for(var i=0;i<WP.length;i++){var o=WP[i];o.vw=W2[o.cls]||170}
@@ -2218,7 +2244,7 @@ var DIFF_NAME=['新兵','老兵','现实'];
 var LV_REC=['列兵','上等兵','下士','中士','上士'];
 function weaponsAtXp(xp){var out=[],i,o,tk;
  for(i=0;i<WP.length;i++){o=WP[i];tk=o.tk==null?0:o.tk;
-  if(tk>0&&TIER_XP[tk]===xp)out.push(o.n)}
+  if(TIER_XP[tk]===xp)out.push(o.n)}
  return out}
 function rankBadgeSvg(r){var i,s='<svg viewBox="0 0 40 40" aria-hidden="true">',
  n=Math.min(6,r+1),w=n*4.2;
@@ -2232,7 +2258,7 @@ function renderRank(){var el=$('rankCard');if(!el)return;
   pct=next?clamp((ST.xp-cur[1])/(next[1]-cur[1])*100,0,100):100,
   h='';
  h+='<div class="rankTop">';
- h+='<div class="rankBadge">'+rankBadgeSvg(pk)+'</div>';
+ h+='<div class="rankBadge">'+rankBadgeSvg(r)+'</div>';
  h+='<div class="rankMeta">';
  h+='<div class="rankNow"><b>'+cur[0]+'</b><span>军衔 '+(r+1)+' / '+RKLAD.length+'</span>'+
   (pk>r?('<span style="color:#7f939f;font-size:11px">历史最高 · '+RKLAD[pk][0]+'</span>'):'')+
@@ -2251,12 +2277,19 @@ function renderRank(){var el=$('rankCard');if(!el)return;
  if(nxtU>=0){
   h+=nw.map(function(n){return '<em>'+n+'</em>'}).join(' · ');
   if(nxtU>pk+1)h+='<div class="none">还需 '+(RKLAD[nxtU][1]-ST.xp)+' 分（中间 '+RKLAD[pk+1][0]+' 暂无新枪）</div>';
- }else h+='<span class="none">全部枪械已解锁</span>';
+ }else h+='<span class="none">历史峰值已解锁全部枪械'+(pk>r?(' · 当前显示 '+cur[0]):'')+'</span>';
  h+='</div></div>';
  h+='</div><div class="rankRail">';
  RKLAD.forEach(function(k,i){
-  h+='<div class="rankStep '+(i<pk?'done':(i===pk?'now':''))+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
- return el.innerHTML=h+'</div>'}
+  h+='<div class="rankStep '+(i<r?'done':(i===r?'now':''))+
+   (i===pk&&pk!==r?' peak':'')+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
+ h+='</div><div class="rankWeapons"><div class="rwTitle">军衔解锁表 <span>每一级可用的新武器</span></div>';
+ RKLAD.forEach(function(k,i){
+  var wl=weaponsAtXp(k[1]);
+  h+='<div class="rwRow '+(i===r?'now':'')+(i===pk?' peak':'')+'">'+
+   '<b>'+k[0]+'</b><span>'+k[1]+' 分</span><em>'+(wl.length?wl.join(' · '):'—')+'</em></div>'});
+ h+='</div>';
+ return el.innerHTML=h}
 /* 顶部身份条：代号 / 当前军衔 / 进度 / 距下一级提示（军衔阶梯默认折叠） */
 function renderPbar(){
  var r=rankOf(ST.xp),pk=rankPk(),cur=RKLAD[r],next=RKLAD[r+1],
@@ -3143,7 +3176,7 @@ if(!ST.v42){
  })()}
 /* v49：删除 OP-07「终局考核」地图。旧 9 关索引换算为 8 关：
    OP-01/02/03 → 机场 → QTE-01/02/03 → CQB；旧 RGD 进度丢弃，
-   机场通关即视为完成终局考核，解锁国产枪族与 QTE。 */
+   机场通关即视为完成终局考核，解锁 QTE；国产枪族改由军衔逐级解锁。 */
 if(!ST.v49){
  (function(){
   var ob=ST.best||{},nb={},i2,
@@ -3190,11 +3223,8 @@ function rankPk(){return rankOf(ST.xpm)}
 function gunOk(id){var o=WM[id];if(!o)return false;
  if(WP.indexOf(o)<0)return false;   /* v20：已从军械库删除的枪不再可用 */
  if(RANGEMODE)return true;          /* 训练场：全部枪械开放 */
- /* 国产枪族：剧情任务内可直接使用；通关剧情后全部永久解锁 */
- if(/国产/.test(o.cn||'')){
-  if(G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
-  return ST.storyDone===1}
- if(ST.hw&&ST.hw[id])return true;    /* 旧存档中的临时调阅授权仍可用 */
+ /* v63：国产枪不再因通关剧情自动全解锁；只有剧情任务临时配发时例外。 */
+ if(/国产/.test(o.cn||'')&&G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
  return (o.tk==null?0:o.tk)<=tierPk()}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'hk416';
@@ -3239,7 +3269,7 @@ function isTouchDev(){
  }catch(e){}
  return false}
 var isTouch=isTouchDev(),touchUI=isTouch;
-if(isTouch){ST.load=['mp5','g19']}
+if(isTouch){ST.load=['hk416','g19']}
 var TPD={fire:{xp:89,yp:86},reload:{xp:88,yp:66},swap:{xp:71,yp:82},
  gren:{xp:55,yp:86},act:{xp:40,yp:80},
  aim:{xp:71,yp:66},spr:{xp:55,yp:68},med:{xp:71,yp:50},
@@ -4607,7 +4637,7 @@ function updHint(){var h=$('keysHint');if(!h)return;
  '<div><span class="kbd">鼠标</span> 瞄准 · <span class="kbd">左键</span> 射击 · '+K('ads')+' 据枪（精度↑ 移速↓）</div>',
  '<div>'+K('mode')+' 切换射击模式：单发 / 短点射 / 全自动</div>',
  '<div>'+K('sprint')+' 疾跑 · '+K('reload')+' 换弹</div>',
- '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('gun3')+' 第三把（地图拾取） · '+K('swap')+' 循环切枪</div>',
+ '<div>'+K('gun1')+' '+K('gun2')+' 主／副武器 · '+K('gun3')+' 第三把（地图拾取） · '+K('swap')+' 循环切枪 · 鼠标滚轮切枪</div>',
  '<div>'+K('gren')+' 投掷 · '+K('act')+' 互动／破拆</div>',
  '<div>'+K('med')+' 医疗 · <span class="kbd">Esc</span> 暂停/继续</div>',
  (KM.fireAlt?'<div>辅助开火键：'+K('fireAlt')+(KM.adsAlt?' · 辅助据枪键：'+K('adsAlt'):'')+'</div>':''),
@@ -4658,6 +4688,15 @@ D.addEventListener('blur',function(){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=
 D.addEventListener('visibilitychange',function(){if(D.hidden){KEY={};MS.l=0;MS.r=0;BF.f=0;BF.sp=0;BF.ads=0;BF.act=0}});
 function A_LBL(a){for(var i=0;i<KM_ACT.length;i++)if(KM_ACT[i][0]===a)return KM_ACT[i][1];return a}
 cv.addEventListener('contextmenu',function(e){e.preventDefault()});
+/* v63：鼠标滚轮轮换切枪；滚轮只改武器槽，不影响瞄准。 */
+cv.addEventListener('wheel',function(e){
+ if(!G||!G.p||ST.scr!=='play'||G.tablet||G.qte||G.phase!=='live'||G.over)return;
+ var n=G.p.guns?G.p.guns.length:0;if(n<2)return;
+ e.preventDefault();
+ var now=performance.now();if(now-(G._wheelT||0)<110)return;G._wheelT=now;
+ var d=e.deltaY>0?1:-1;
+ swGun((G.p.wi+d+n)%n);
+},{passive:false});
 /* 据枪改为键盘键（默认 Space）：鼠标右键不再据枪，避免和浏览器右键菜单/瞄准习惯冲突 */
 cv.addEventListener('mousedown',function(e){try{W.focus()}catch(e2){}
  if(e.button===0&&G&&G.smokeCall&&G.smokeCall.armed){
@@ -9461,6 +9500,10 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function lbApi(){return (ST.lbapi||LB.api||'').replace(/\/+$/,'')}
 /* 本机战绩快照：排行榜、称号算法、名单导出都读它 */
+/* v63：零战绩账号减负。只按胜负/击毙/通关/得分判断，不误删有真实记录的账号。 */
+function lbZero(r){return !r||((r.w|0)+(r.l|0)+(r.k|0)+(r.cl|0)+(r.sc|0))<=0}
+function lbClean(list){var out=[],i,r;for(i=0;i<(list||[]).length;i++){
+ r=list[i];if(r&&r.id&&!lbZero(r))out.push(r)}return out}
 function lbRec(){
  var cl=0,sc=0,k2;
  for(k2 in ST.best)if(ST.best[k2]){cl++;sc+=(ST.best[k2].sc|0)}
@@ -9470,12 +9513,14 @@ function lbSubmit(){
  var api=lbApi();if(!api)return;
  if(!ST.name){return}          /* 没有登记代号就不上榜：避免匿名空记录污染名单 */
  if(!ST.t0){ST.t0=Date.now();save()}
+ var rec=lbRec();
+ if(lbZero(rec))return;        /* v63：零战绩不再提交，避免新增空账号 */
  var now=Date.now();if(now-LB.lastPush<20000)return;LB.lastPush=now;
  try{
   fetch(api+'/submit',{method:'POST',cache:'no-store',
-   headers:{'Content-Type':'application/json'},body:JSON.stringify(lbRec())})
+   headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)})
   .then(function(r){return r.ok?r.json():null})
-  .then(function(j){if(j&&j.list){LB.data=j.list;LB.ts=Date.now();LB.off='';
+  .then(function(j){if(j&&j.list){LB.data=lbClean(j.list);LB.ts=Date.now();LB.off='';
     if(ST.scr==='board')lbRender()}})
   .catch(function(){LB.off='提交失败，稍后自动重试'});
  }catch(e){LB.off='当前环境不支持联网'}}
@@ -9489,7 +9534,7 @@ function lbFetch(cb){
  try{
   fetch(api+'/board',{cache:'no-store',signal:ac?ac.signal:undefined})
   .then(function(r){if(!r.ok)throw new Error('http');return r.json()})
-  .then(function(j){clearTimeout(to);LB.data=(j&&j.list)||(j instanceof Array?j:[]);LB.ts=Date.now();LB.off='';LB.busy=0;
+  .then(function(j){clearTimeout(to);LB.data=lbClean((j&&j.list)||(j instanceof Array?j:[]));LB.ts=Date.now();LB.off='';LB.busy=0;
    if(ST.scr==='board')lbRender();if(cb)cb()})
   .catch(function(){clearTimeout(to);LB.busy=0;LB.off='服务器未响应（离线显示本机战绩）';
    if(ST.scr==='board')lbRender();if(cb)cb()});
@@ -9497,11 +9542,11 @@ function lbFetch(cb){
 function lbRows(){
  var rows=[],seen={},i,r,me=lbRec(),found=0;
  if(LB.data&&LB.data.length)for(i=0;i<LB.data.length;i++){
-  r=LB.data[i];if(!r||!r.id||seen[r.id])continue;
+  r=LB.data[i];if(!r||!r.id||seen[r.id]||lbZero(r))continue;
   seen[r.id]=1;
   if(r.id===ST.pid){r=me;found=1}     /* 自己以本机实时数据为准 */
-  rows.push(r)}
- if(!found)rows.push(me);
+  if(!lbZero(r))rows.push(r)}
+ if(!found&&!lbZero(me))rows.push(me);
  rows.sort(function(a,b){return (b.xp|0)-(a.xp|0)||(b.xm|0)-(a.xm|0)||(b.sc|0)-(a.sc|0)||
   String(a.nm).localeCompare(String(b.nm))});
  return rows}
@@ -9526,7 +9571,7 @@ function lbRender(){
   h+='<td class="num sm hideSm">'+(r.cl|0)+'</td>';
   h+='<td class="num sm hideSm">'+(r.w|0)+'／'+(r.l|0)+'</td>';
   h+='</tr>'}
- if(!rows.length)h='<tr><td colspan="8"><div class="bdEmpty"><b>暂无登记</b>完成一次任务后自动上榜</div></td></tr>';
+ if(!rows.length)h='<tr><td colspan="8"><div class="bdEmpty"><b>暂无有效战绩</b>零战绩账号已从名单隐藏；完成一次任务后自动上榜</div></td></tr>';
  tb.innerHTML=h;
  var st=$('bdStat'),api=lbApi();
  if(st){
@@ -9539,7 +9584,7 @@ function lbRender(){
  } var cfg=$('bBdCfg');if(cfg)cfg.classList.toggle('hidden',!!api);
  var nt=$('bdNote');
  if(nt)nt.textContent='军衔分随战果升降：任务获胜加分，失败按关卡难度扣 '+
-  (48)+'–'+(48+6*20)+' 分（击杀可抵扣一部分）。扣分只影响名次，历史最高军衔解锁的枪械与区域不会被收回。';
+  (48)+'–'+(48+6*20)+' 分（击杀可抵扣一部分）。扣分只影响名次，历史最高军衔解锁的枪械与区域不会被收回。零战绩账号已从名单隐藏并停止提交。';
 }
 function lbCopy(){
  var rows=lbRows(),out=['#\t称号\t代号\t军衔\t历史最高\t军衔分\t通关\t胜/负\t军功'],i;
@@ -10232,6 +10277,15 @@ var PATCHES=[
         'CS/LR4 伤害 150→120、射速 80→60 发/分；对重甲兵需要 2 发，不再一枪击倒，普通兵仍可一枪击倒。',
         '自杀无人机对坦克所需数量 6→3；一组 3 架无人机即可击毁坦克。',
         '实测：QTE 步兵 11/14/18，重甲 2/3/5，狙击 1/3/4；QTE-01 坦克 (120,150)、freeAt=true、不在建筑内；CS/LR4 重甲第一发剩 89 HP、第二发击倒；无人机第 2 架未毁、第 3 架击毁。'
+       ]},
+      {v:63,d:'2026-11-28',t:'武器解锁阶梯 · 军衔解锁表 · 滚轮切枪 · 排行榜减负',
+       items:[
+        '初始只配发 HK416A5 + Glock 19；上等兵解锁 MP5A3/M870/P320，下士解锁 AK-12/P90/XM1014/92FS，中士解锁 SCAR-H/MP7A2/SPAS-12/QSZ-19。',
+        '上士解锁 QBZ-191/QBU-191/79 式/QBS-09/AX50/54 式；二级军士长解锁 05 微冲/CS/LR4/QSZ-92G。国产枪族不再因机场通关自动全部解锁。',
+        '军衔卡片新增“军衔解锁表”，逐级列出新武器；展开时高亮当前军衔，收起时保留历史最高军衔提示。掉分后展开列表显示当前等级，历史最高峰值不被改写。',
+        '鼠标滚轮可循环切枪；保留 Q/1/2/3 作为键盘备用。',
+        '排行榜隐藏并停止提交零战绩账号；已从排行榜 KV 删除 8 个零战绩账号（16→8）。',
+        '实测：0/300/700/1300/2100/4400 六档解锁边界全部正确；掉分到 700 分时军衔表高亮“下士”，收起栏仍显示“历史最高 二级军士长”；滚轮可上下切换武器；排行榜返回 8 条有效战绩。'
        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -10436,7 +10490,7 @@ function renderOpLoad(){
    r.appendChild(b)}
   if(!un){
    var tg=mk('span','rc');tg.style.flex='0 0 64px';
-   tg.textContent=/国产/.test(o.cn||'')?'剧情解锁':'未解锁';
+   tg.textContent='需'+rankName(TIER_XP[o.tk]);
    r.appendChild(tg)}
   g.appendChild(r)});
  if($('olPlat'))$('olPlat').textContent='共 '+WP.length+' 把枪';
@@ -11488,7 +11542,7 @@ function showRes(win){stopLoop();resetCombatFx();
   stv={S:5,A:4,B:3,C:2,D:1}[rate];
  if(win&&G.civD>0&&rate==='S'){rate='A';stv=4}
  $('rTag').textContent=win?'MISSION COMPLETE':'MISSION FAILED';
- $('rTtl').textContent=win?(ST.lv===LV_AIR?'机场行动完成 · 国产枪族与 QTE 已解锁':(c.nm+' 已完成')):(c.nm+' · 行动失败');
+ $('rTtl').textContent=win?(ST.lv===LV_AIR?'机场行动完成 · QTE 拆弹模式已解锁':(c.nm+' 已完成')):(c.nm+' · 行动失败');
  var rr=$('rRate');rr.textContent=win?rate:'F';rr.className='rate'+(win?'':' f');
  $('rStar').textContent=win?('★★★★★'.slice(0,stv)+'☆☆☆☆☆'.slice(0,5-stv)):'☆☆☆☆☆';
  $('r1').textContent=fmt(sec)+'（基准 '+fmt(L&&L.cfg?L.cfg.par:c.par)+'）';
@@ -11568,8 +11622,8 @@ function showRes(win){stopLoop();resetCombatFx();
  $('bNext').classList.toggle('hidden',!(win&&nx));
  $('bNext').textContent=nx?'下一行动':'任务列表';
  if(win&&ST.lv===LV_AIR&&!ST.storyDone){ST.storyDone=1;save();
-  try{toast('机场行动完成 · 国产枪族全部解锁 · QTE 拆弹模式开放',3200)}catch(e){}
-  $('rTtl').textContent='机场行动完成 · 国产枪族与 QTE 已解锁';}
+  try{toast('机场行动完成 · QTE 拆弹模式开放 · 国产枪族按军衔解锁',3200)}catch(e){}
+  $('rTtl').textContent='机场行动完成 · QTE 拆弹模式已解锁';}
 
  if(win){ST.unl=Math.min(8,Math.max(ST.unl,ST.lv+1));
   var key=''+ST.lv,ob=ST.best[key];
@@ -11674,14 +11728,14 @@ function renderArs(){var lst=$('wpList');lst.innerHTML='';
   var m=mk('div','m');m.textContent=o.mk.split('（')[0];
   t.appendChild(n);t.appendChild(m);r.appendChild(t);
   if(!gunOk(o.id)){r.style.opacity=.45}
-  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':(/国产/.test(o.cn||'')?'需机场通关':'需'+rankName(TIER_XP[o.tk]))));
+  var tg=mk('span','tag');tg.textContent=o.id===ST.load[0]?'主':(o.id===ST.load[1]?'副':(gunOk(o.id)?'':'需'+rankName(TIER_XP[o.tk])));
   r.appendChild(tg);
   r.addEventListener('click',function(){ST.sel=o.id;renderArs();snd.ui()});
   lst.appendChild(r)});
  showDtl()}
 function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('dN').textContent=o.n+' · '+o.cn;$('dS').textContent=o.mk;
- $('dI').textContent=o.it+(gunOk(o.id)?'':(/国产/.test(o.cn||'')?' 【解锁条件：完成机场行动后，全部国产枪族自动解锁】':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】'));
+ $('dI').textContent=o.it+(gunOk(o.id)?'':' 【解锁条件：晋升 '+rankName(TIER_XP[o.tk])+'（需经验 '+TIER_XP[o.tk]+'，当前 '+ST.xp+'，还差 '+Math.max(0,TIER_XP[o.tk]-ST.xp)+'）】');
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
@@ -11889,12 +11943,12 @@ bind('bRlQuit',function(){snd.ui();leaveRange();goMenu();toast('已退出训练�
 bind('bBack2',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bToArs',openArs);
 bind('bSetP',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需完成机场行动解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2('需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls==='pistol'){$('dI').textContent='手枪只能配为副武器——主武器需步枪／冲锋枪／霰弹枪／狙击枪。';
   setTimeout(showDtl,1300);return}
  ST.load[0]=o.id;save();renderArs()});
 bind('bSetS',function(){var o=WM[ST.sel];
- if(!gunOk(o.id)){toast2(/国产/.test(o.cn||'')?'需完成机场行动解锁':'需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
+ if(!gunOk(o.id)){toast2('需晋升 '+rankName(TIER_XP[o.tk])+' 解锁');return}
  if(o.cls!=='pistol'){$('dI').textContent='副武器栏只能装手枪；把 '+o.n+' 设为主武器即可。';
   setTimeout(showDtl,1300);return}
  ST.load[1]=o.id;save();renderArs()});
@@ -11944,7 +11998,7 @@ bind('bResetStory',function(){var b=$('bResetStory');
  if(b&&b.getAttribute('data-arm')==='1'){
   b.removeAttribute('data-arm');b.textContent='重置进度';
   storyReset();renderLv();
-  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场，再进入 QTE 拆弹三关。完成机场行动后重新解锁国产枪族。');
+  showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>从 OP-01 重新开始：公寓→商场→储运站→机场，再进入 QTE 拆弹三关。国产枪族改由军衔逐级解锁；军衔分、已授权枪械与训练场进度保留。');
   goMenu();return}
  if(b){b.setAttribute('data-arm','1');b.textContent='再点一次确认';}
  setTimeout(function(){if(b&&b.getAttribute('data-arm')==='1'){
@@ -12025,7 +12079,7 @@ resize();setScr('boot');renderLv();showDtl();updHint();
 /* 更新公告：版本有变化就给全体玩家投递一封更新邮件 */
 try{pushPatchMail()}catch(e){}
 if(W.__sr)showNotice('<b style="color:#a8dcff">剧情与战役进度已重置</b><br>'+
- '请从 OP-01 开始重新推进：公寓→商场→储运站→机场，再进入 QTE-01/02/03 拆弹行动。完成机场行动后国产枪族会重新解锁。军衔分、已授权枪械与训练场进度保留。');
+ '请从 OP-01 开始重新推进：公寓→商场→储运站→机场，再进入 QTE-01/02/03 拆弹行动。国产枪族改由军衔逐级解锁；军衔分、已授权枪械与训练场进度保留。');
 applyUI(true);
 /* 开发者头衔：本机访问一次 ?dev=1 即永久生效（只写本机存档，不跟随账号） */
 (function(){
