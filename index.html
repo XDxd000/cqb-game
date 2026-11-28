@@ -106,6 +106,15 @@ body.noc #hud,body.noc #hud *{cursor:none}
 .qwNum strong{font-size:26px;line-height:1;color:#ffe8a8;font-weight:800}
 .qwNum span{font-size:9px;color:#9c8b60}
 #hud.on{display:block}
+/* 全屏常驻的 AI 扫荡倒计时：不依赖当前页面，按真实时间走 */
+.sweepHud{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+ z-index:999;display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
+ border:1px solid rgba(190,158,82,.55);background:rgba(8,12,16,.9);color:#e7d6a0;
+ font-size:10.5px;letter-spacing:.04em;font-variant-numeric:tabular-nums;pointer-events:none;
+ box-shadow:0 6px 18px rgba(0,0,0,.45);backdrop-filter:blur(4px);white-space:nowrap}
+.sweepHud b{font-size:9px;letter-spacing:.16em;color:#9dbb85;font-weight:600}
+.sweepHud.hidden{display:none}
+@media(max-width:620px){.sweepHud{bottom:calc(10px + env(safe-area-inset-bottom,0px));font-size:10px;padding:5px 9px}}
 .ht{position:absolute;left:0;right:0;top:0;padding-top:env(safe-area-inset-top,0px);display:flex;justify-content:space-between;gap:8px;
  padding:9px clamp(7px,2.4vw,14px);align-items:flex-start}
 #obj{background:rgba(8,12,16,.6);border-left:2px solid var(--amber);padding:6px 11px;max-width:min(60vw,400px)}
@@ -1115,6 +1124,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div id="kbar"></div>
   <div id="go"><div id="goT">T-3</div><div id="goS">交战规则生效</div></div>
 </div>
+<div id="sweepHud" class="sweepHud hidden" aria-live="polite"><b>AI 扫荡</b><span id="sweepHudTxt">—</span></div>
 
 <!-- SECTION: markup-tablet 战术平板（全地图） -->
 <div id="tablet" class="hidden" aria-hidden="true">
@@ -1455,11 +1465,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <div class="mlMeta" id="mlMeta"></div>
   <div id="mlList"></div>
   <div id="mlDetail" class="hidden"></div>
-  <div class="bar">
+   <div class="bar">
     <button class="btn hidden" id="bMailBack">返回收件箱</button>
-    <button class="btn" id="bMailClear">清理邮件</button>
+    <button class="btn hidden" id="bMailDel">删除本封</button>
+    <button class="btn" id="bMailClear">清空全部</button>
     <button class="btn" id="bMailHome">返回任务列表</button>
-  </div>
+   </div>
 </div></section>
 
 <!-- SECTION: markup-brief -->
@@ -2179,17 +2190,16 @@ WP=WP.filter(function(o){
  if(o.cls==='rifle')return !!KEEP_RIFLE[o.id];
  if(o.cls==='sniper')return !!KEEP_SNIPER[o.id];
  return true});
-/* v65：军械库解锁阶梯。tk 对应 TIER_XP：
-   0 列兵 / 1 上等兵 / 2 下士 / 3 中士 / 4 上士 / 5 三级军士长。
-   二级军士长起不再新增枪械；初始只有 HK416A5 与 Glock 19。
-   QBU-191 与 QBZ-191 同组，避免军械库孤立武器。 */
+/* v66：军械库解锁阶梯改为「每隔两级军衔一批」：
+   列兵 → 中士 → 二级军士长 → 中尉 → 中校。
+   tk 对应 TIER_XP；每把枪只出现在一个批次里，不重复解锁。
+   初始只有 HK416A5 与 Glock 19。 */
 var WEAPON_UNLOCK_TIER={
  hk416:0,g19:0,
- mp5:1,m870:1,p320:1,
- ak12:2,p90:2,benelli:2,b92fs:2,
- scarh:3,mp7a2:3,spas12:3,qsz19:3,
- qbz191:4,qbu191:4,type79:4,qbs09:4,ax50:4,type54:4,
- qcw05:5,cslr4:5,qsz92g:5
+ mp5:1,m870:1,p320:1,ak12:1,p90:1,
+ benelli:2,b92fs:2,scarh:2,mp7a2:2,spas12:2,
+ qsz19:3,qbz191:3,qbu191:3,type79:3,qbs09:3,
+ ax50:4,type54:4,qcw05:4,cslr4:4,qsz92g:4
 };
 (function(){for(var id in WEAPON_UNLOCK_TIER)if(WM[id])WM[id].tk=WEAPON_UNLOCK_TIER[id]})();
 /* 视野宽度：突击步枪适中，狙击枪窄，冲锋枪/霰弹枪/副武器窄而短 */
@@ -2233,10 +2243,10 @@ function cycleFireMode(){
 }
 
 /* 军衔：按我军现行等级序列编排（士兵 → 军士 → 军官），共 14 级
-   武器档次 tk 0–7 依次挂在这些军衔上，见 TIER_XP；
-   v65 起最后一批枪械改挂三级军士长，二级军士长及以后不再新增枪械。 */
-var TIER_XP=[0,300,700,1300,2100,3100,8000,13600];
-var TIER_NAME=['列兵','上等兵','下士','中士','上士','三级军士长','少尉','上尉'];
+   武器批次按「隔两级」挂载：列兵、中士、二级军士长、中尉、中校。
+   v66 起每把枪只属于一个批次，升衔、掉衔、再升衔都不会重复解锁。 */
+var TIER_XP=[0,1300,4400,10600,21200];
+var TIER_NAME=['列兵','中士','二级军士长','中尉','中校'];
 var RKLAD=[
  ['列兵',0],['上等兵',300],['下士',700],['中士',1300],['上士',2100],
  ['三级军士长',3100],['二级军士长',4400],['一级军士长',6000],
@@ -2245,7 +2255,7 @@ function tierOf(xp){var r=0,i;for(i=1;i<TIER_XP.length;i++)if(xp>=TIER_XP[i])r=i
 function rankOf(xp){var r=0,i;for(i=0;i<RKLAD.length;i++)if(xp>=RKLAD[i][1])r=i;return r}
 function rankName(xp){return RKLAD[rankOf(xp)][0]}
 /* SECTION: data-rank 军衔展示
-   军衔由经验推导，每级对应可解锁的武器档次（tk 0–5，阈值见 TIER_XP）。
+   军衔由经验推导，每级对应可解锁的武器批次（tk 0–4，阈值见 TIER_XP）。
    DIFF_NAME / LV_REC 用于把作战序列标成「由易到难」的阶梯。 */
 var DIFF_NAME=['新兵','老兵','现实'];
 var LV_REC=['列兵','上等兵','下士','中士','上士'];
@@ -2300,7 +2310,7 @@ function renderRank(){var el=$('rankCard');if(!el)return;
    '<b>'+k[0]+'</b><span>'+k[1]+' 分</span><em>'+(wl.length?wl.join(' · '):'—')+'</em>'+
    '<span class="rwBelt">腰封 '+beltCapAtRank(i)+' 格</span></div>'});
  h+='<div class="rwNote"><b>腰封解锁难度</b>：列兵–上士 1 格 · 三级军士长–一级军士长 2 格 · 少尉–上尉 3 格 · 少校–上校 4 格（按历史最高军衔，掉分不缩容）</div>';
- h+='<div class="rwNote"><b>枪械</b>：'+(weaponsAtXp(3100).join(' / ')||'最后一批')+' 在三级军士长（3100 分）解锁；二级军士长起不再新增枪械。</div>';
+ h+='<div class="rwNote"><b>枪械解锁难度</b>：列兵 → 中士 → 二级军士长 → 中尉 → 中校，每隔两级军衔解锁一批；每把枪只出现一次，上校及以后不再新增枪械。</div>';
  h+='</div>';
  return el.innerHTML=h}
 /* 顶部身份条：代号 / 当前军衔 / 进度 / 距下一级提示（军衔阶梯默认折叠） */
@@ -3079,7 +3089,7 @@ function softSprite(g,x,y,w,h,t){
 /* SECTION: state */
 var RANGEMODE=0;   /* 1 = 训练场模式：枪械全开放、不计分 */
 var ST={scr:'menu',low:0,fx:'auto',aud:1,unl:1,best:{},load:['hk416','g19'],sel:'hk416',lv:1,
- xp:0,xpm:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
+ xp:0,xpm:0,legacyTk:0,pid:'',tw:0,tl:0,tk:0,lbapi:'',belt:null,dev:0,mail:null,
  swpN:0,swpDay:'',storyDone:0,clr:null,heroLoad:null,rgLoad:null,mag:null,att:null,fm:null,cqb:0,t0:0,sv:0,pv:0,diff:1,dv3:0,
  gd:{muzzle:1,optic:1,grip:1,plate:1},outfit:'g3',ally:1,hint:1,hero:0,h2:0,hero2Load:null,duo:0,duoPend:0,op:'norm',
  name:'',tut:0,tutP:-1,tutC:0,ui:'auto',swp:null,hw:null,hu:null,inStory:0,mv:0,s4:0,s5:0,
@@ -3090,6 +3100,10 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&jd.b)ST.best=jd.b;
   if(jd&&jd.x)ST.xp=Math.max(0,jd.x|0);
   if(jd&&jd.xm)ST.xpm=Math.max(0,jd.xm|0);
+   /* v66：老存档按旧阶梯折算“已解锁批次”，避免版本更新后把老玩家已买的枪重新上锁 */
+   if(jd&&typeof jd.lw==='number')ST.legacyTk=clamp(jd.lw|0,0,5);
+   else if(jd){var _ot=[0,300,700,1300,2100,3100],_oi;ST.legacyTk=0;
+    for(_oi=1;_oi<_ot.length;_oi++)if(ST.xpm>=_ot[_oi])ST.legacyTk=_oi}
   if(jd&&typeof jd.pid==='string'&&/^[a-z0-9]{6,20}$/.test(jd.pid))ST.pid=jd.pid;
   if(jd&&jd.tw)ST.tw=Math.max(0,jd.tw|0);
   if(jd&&jd.tl)ST.tl=Math.max(0,jd.tl|0);
@@ -3240,27 +3254,42 @@ function gunOk(id){var o=WM[id];if(!o)return false;
  if(RANGEMODE)return true;          /* 训练场：全部枪械开放 */
  /* v63：国产枪不再因通关剧情自动全解锁；只有剧情任务临时配发时例外。 */
  if(/国产/.test(o.cn||'')&&G&&L&&L.cfg&&L.cfg.recruit&&G.phase==='live')return true;
- return (o.tk==null?0:o.tk)<=tierPk()}
+ return (o.tk==null?0:o.tk)<=Math.max(tierPk(),ST.legacyTk||0)}
 (function(){for(var i=0;i<ST.load.length;i++)if(!gunOk(ST.load[i]))
  ST.load[i]=ST.load[i]==='g19'?'g19':'hk416';
  if(!gunOk(ST.load[0]))ST.load[0]='hk416';
  if(!gunOk(ST.load[1]))ST.load[1]='g19';
  if(!WM[ST.sel]||WP.indexOf(WM[ST.sel])<0)ST.sel='hk416'})();
 function save(){try{localStorage.setItem('ta5_v2',JSON.stringify({u:ST.unl,b:ST.best,l:ST.load,k:KM,
- x:ST.xp,xm:ST.xpm,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,cq:ST.cqb,ml:ST.mail,
+ x:ST.xp,xm:ST.xpm,lw:ST.legacyTk,pid:ST.pid,tw:ST.tw,tl:ST.tl,tk:ST.tk,lb:ST.lbapi,bl:ST.belt,dv:ST.dev,cq:ST.cqb,ml:ST.mail,
  sd:ST.storyDone,cl:ST.clr,hl:ST.heroLoad,rl:ST.rgLoad,mg:ST.mag,fm:ST.fm,at:ST.att,t0:ST.t0,sv:ST.sv,pv:ST.pv,sn:ST.swpN,sdy:ST.swpDay,df:ST.diff,dv3:ST.dv3,
  gd:ST.gd,of:ST.outfit,a:ST.ally,h:ST.hint,hr:ST.hero,h2:ST.hero2,hl2:ST.hero2Load,duo:ST.duo,dp:ST.duoPend,op:ST.op,tcf:ST.tcf,pos:ST.tcf&&ST.tcf.pos,
  nm:ST.name,tu:ST.tut,tp:ST.tutP,tc:ST.tutC,ui:ST.ui,swp:ST.swp,hw:ST.hw,hu:ST.hu,mv:ST.mv,s4:ST.s4,s5:ST.s5,
  qc:ST.qteCoin,v42:ST.v42,v49:ST.v49}))}catch(e){}}
 /* 军衔分增减：正数晋升、负数降级；峰值 xpm 只增不减，用来锁住已解锁的装备 */
+/* 计算从峰值 a 升到峰值 b 时「真正新增」的解锁项。
+   已经达到过的峰值不再重复播报；枪械与腰封按名称去重。 */
+function unlocksBetween(a,b){
+ var out=[],i,j,w,s;
+ for(i=a+1;i<=b&&i<RKLAD.length;i++){
+  w=weaponsAtXp(RKLAD[i][1]);
+  for(j=0;j<w.length;j++)if(out.indexOf(w[j])<0)out.push(w[j]);
+  if(i>0&&beltCapAtRank(i)>beltCapAtRank(i-1)){
+   s='战术腰封 '+beltCapAtRank(i)+' 格';
+   if(out.indexOf(s)<0)out.push(s)}
+ }
+ return out}
+function unlockToast(t){toast(t,4200)}
 function addXp(v){
- var b=rankOf(ST.xp);
+ var b=rankOf(ST.xp),pk0=rankPk();
  ST.xp=Math.max(0,Math.round(ST.xp+v));
  if(ST.xp>ST.xpm)ST.xpm=ST.xp;
- var a=rankOf(ST.xp);
+ var a=rankOf(ST.xp),pk1=rankPk();
  if($('pName'))try{renderPbar()}catch(e){}
- if(a>b){var wl=weaponsAtXp(RKLAD[a][1]);
-  toast('晋升 '+RKLAD[a][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 军衔提升'),3600)}
+ if(a>b){
+  var nl=unlocksBetween(pk0,pk1);
+  unlockToast((nl.length?'晋升 ':'军衔恢复 ')+RKLAD[a][0]+
+   (nl.length?(' · 解锁 '+nl.join('、')):(pk1>pk0?' · 军衔提升':' · 已解锁装备保留')))}
  else if(a<b){toast('军衔下调 '+RKLAD[b][0]+' → '+RKLAD[a][0]+' · 已解锁装备保留',3400)}}
 /* SECTION: autosave
    v19 起取消「任务中途存档 / 续关」：敌人、人质、门、补给和计时不再写入本地。
@@ -9823,19 +9852,33 @@ function swpToday(){
  return ST.swpN|0}
 function swpLeft(){return Math.max(0,3-swpToday())}
 function sweepSlot(v,d){return ST.swp&&ST.swp[swpKey(v,d)]}
+/* 找该地图的扫荡记录：优先当前最高难度，找不到就找该地图任意难度。
+   防止先派低难度、随后通关更高难度后，旧队伍在界面上“消失”。 */
+function sweepFind(v,prefD){
+ if(!ST.swp)return null;
+ if(prefD&&ST.swp[swpKey(v,prefD)]!=null)return {v:v,d:prefD,end:+ST.swp[swpKey(v,prefD)]};
+ var k,prefix=v+'|',best=null,t,d;
+ for(k in ST.swp){
+  if(k.indexOf(prefix)!==0)continue;
+  t=+ST.swp[k]||0;if(t<=0)continue;
+  d=+(k.split('|')[1]||1);
+  if(!best||t<best.end)best={v:v,d:d,end:t}}
+ return best}
 function sweepAny(){var k,n=0;for(k in (ST.swp||{}))n++;return n}
 function startSweep(v,d){
  var top=clearTop(v);
  d=top||d||ST.diff||1;
  if(!top||!isCleared(v,d)){toast('该地图还没通关 · 不能派 AI 扫荡',2800);return}
+ var ex=sweepFind(v);
+ if(ex){toast('该地图已有 AI 小队在行动 · 先等归队或领取',3000);renderLv();return}
  if(swpLeft()<=0){toast('今日扫荡 3 次已用完 · 每日 00:00（北京时间）刷新',3200);return}
  var par=diffPar(LS6[v-1],d);
  ST.swp=ST.swp||{};
  ST.swp[swpKey(v,d)]=Date.now()+par*1000;
- swpToday();ST.swpN=(swpToday()+1);save();renderLv();
+ swpToday();ST.swpN=(swpToday()+1);save();renderLv();updateSweepHud();
  toast('AI 小队出发 · OP-0'+v+' '+diffDef(d).n+'（最高已通关难度） · '+fmt(par)+' 后自动归队（今日剩余 '+swpLeft()+' 次）',3800)}
 function collectSweep(v,d){var xp=sweepXp(v-1,d);if(ST.swp)delete ST.swp[swpKey(v,d)];save();addXp(xp);
- toast('AI 扫荡归队 · 经验 +'+xp,2600);renderLv()}
+ toast('AI 扫荡归队 · 经验 +'+xp,2600);updateSweepHud();renderLv()}
 function sweepTick(){
  if(!ST.swp)return 0;
  var k,now=Date.now(),done=[];
@@ -10452,6 +10495,16 @@ var PATCHES=[
          '军衔解锁表新增腰封容量列和“腰封解锁难度”说明；军械库腰封区同步显示当前容量、4 个槽位与各段解锁条件。',
          '旧存档 6 格腰封自动截取前 4 格；掉分不会缩容。破拆专长不再额外增加腰封格数，避免绕过军衔门槛。',
          '实测：3099 分时 05 微冲/CS-LR4/QSZ-92G 未解锁，3100 分全部解锁；4400/6000/8000 分不再产生新枪；14 级腰封容量依次为 1/1/1/1/1/2/2/2/3/3/3/4/4/4；旧 6 格存档迁移为 4 格。'
+        ]},
+       {v:66,d:'2026-11-28',t:'枪械两阶一批 · 单封邮件删除 · AI 扫荡实时计时',
+        items:[
+         '枪械解锁改为每隔两级军衔一批：列兵（HK416A5/G19）→ 中士（AK-12/MP5A3/P90/M870/P320）→ 二级军士长（M4/SPAS-12/92FS/SCAR-H/MP7A2）→ 中尉（QSZ-19/QBZ-191/79 式/QBS-09/QBU-191）→ 中校（AX50/54 式/QSZ-92G/05 微冲/CS/LR4）。',
+         '每把枪只属于一个批次，不重复解锁；上等兵、下士、上士、三级军士长、一级军士长、少尉、上尉、少校等中间军衔不再解锁新枪。',
+         '掉衔只降低当前军衔，不回收枪械与腰封；重新升回原军衔时只提示“军衔恢复”，不会再次播报或发放已解锁的枪械、腰封槽位。',
+         '清理邮件旁边新增“删除本封”：打开任意一封邮件后可只删除当前选中的这一封；原“清空全部”仍保留并改为明确文案。',
+         'AI 扫荡改为真实时间计时，并新增全屏常驻倒计时条；在任务列表、任务简介、设置、邮件、战术平板、其他对局等界面都持续走时，只有关闭/刷新网页才会中断。',
+         '修复扫荡按钮用当前难度查计时、导致先派低难度后通关更高难度时旧队伍“消失”的问题；同一地图同一时间只允许一队扫荡。',
+         '实测：22 把枪只出现一次，批次边界 0/1300/4400/10600/21200 正确；中校掉到下士后 22 把枪仍全部可用、腰封仍 4 格；3 封邮件删除选中 1 封后剩 2 封；扫荡 0:04→0:02 在设置/对局界面持续走时，归队自动发邮件；v65 存档 3100 分保留旧枪（legacyTk=5）。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -10464,6 +10517,7 @@ function fmtTs(t){
  return ('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)+' '+
   ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
 function openMail(){show('sMail');setScr('mail');renderMail()}
+var openMailId=null;
 function renderMail(){
  var l=$('mlList'),d=$('mlDetail');if(!l)return;
  var arr=mailList(),i,h='',un=0;
@@ -10471,7 +10525,10 @@ function renderMail(){
  var meta=$('mlMeta');
  if(meta)meta.textContent=arr.length?('共 '+arr.length+' 封 · 未读 '+un+' 封'):'收件箱为空';
  var cb=$('bMailClear');
- if(cb){cb.removeAttribute('data-arm');cb.textContent='清理邮件'}
+ if(cb){cb.removeAttribute('data-arm');cb.textContent='清空全部'}
+ var db=$('bMailDel');
+ if(db){db.classList.add('hidden');db.removeAttribute('data-arm');db.textContent='删除本封'}
+ openMailId=null;
  $('bMailBack').classList.add('hidden');
  d.classList.add('hidden');l.classList.remove('hidden');
  if(!arr.length){
@@ -10494,10 +10551,13 @@ function renderMail(){
  syncMailBadge()}
 function openMailItem(i){
  var m=mailList()[i];if(!m)return;
+ openMailId=m.id;
  m.r=1;save();syncMailBadge();
  var l=$('mlList'),d=$('mlDetail');
  l.classList.add('hidden');d.classList.remove('hidden');
  $('bMailBack').classList.remove('hidden');
+ var db=$('bMailDel');
+ if(db){db.classList.remove('hidden');db.removeAttribute('data-arm');db.textContent='删除本封'}
  if(m.kind==='mission'){
   var rows='',i2;
   function row(k,v,st){rows+='<tr><td>'+k+'</td><td'+(st?' style="'+st+'"':'')+'>'+v+'</td></tr>'}
@@ -10555,6 +10615,9 @@ function openMailItem(i){
   '<div class="bfNote">报告要点：小队沿既定路线完成清剿，未触发增援，也未造成平民伤亡。'+
    '本次行动不改变该区域的最高成绩记录，只结算经验。</div>'}
 function openMailBack(){
+ openMailId=null;
+ var db=$('bMailDel');
+ if(db){db.classList.add('hidden');db.removeAttribute('data-arm');db.textContent='删除本封'}
  $('bMailBack').classList.add('hidden');
  $('mlDetail').classList.add('hidden');
  $('mlList').classList.remove('hidden');
@@ -10567,21 +10630,56 @@ function clearMail(){
   b.setAttribute('data-arm','1');b.textContent='再点一次：清空 '+arr.length+' 封';
   clearTimeout(clearMail.t);
   clearMail.t=setTimeout(function(){var x=$('bMailClear');
-   if(x){x.removeAttribute('data-arm');x.textContent='清理邮件'}},4000);
+   if(x){x.removeAttribute('data-arm');x.textContent='清空全部'}},4000);
   return}
  clearTimeout(clearMail.t);
- if(b){b.removeAttribute('data-arm');b.textContent='清理邮件'}
- ST.mail=[];save();syncMailBadge();renderMail();
- toast('邮件已清理 · 经验与战绩不受影响',2600)}
+ if(b){b.removeAttribute('data-arm');b.textContent='清空全部'}
+ ST.mail=[];openMailId=null;save();syncMailBadge();renderMail();
+ toast('邮件已清空 · 经验与战绩不受影响',2600)}
+/* 删除当前打开的这一封；二次确认，绝不碰其他邮件 */
+function deleteMail(){
+ var b=$('bMailDel'),arr=mailList(),m=null,i;
+ for(i=0;i<arr.length;i++)if(arr[i].id===openMailId){m=arr[i];break}
+ if(!m){toast('没有选中邮件');return}
+ if(b&&b.getAttribute('data-arm')!=='1'){
+  b.setAttribute('data-arm','1');b.textContent='再点一次：删除这封';
+  clearTimeout(deleteMail.t);
+  deleteMail.t=setTimeout(function(){var x=$('bMailDel');
+   if(x){x.removeAttribute('data-arm');x.textContent='删除本封'}},4000);
+  return}
+ clearTimeout(deleteMail.t);
+ var left=arr.filter(function(x){return x.id!==m.id});
+ ST.mail=left;save();syncMailBadge();
+ openMailBack();
+ toast('已删除选中的 1 封邮件 · 其余 '+(left.length)+' 封保留',2800)}
 function sweepLabels(){var btns=document.querySelectorAll('.swp'),i;
- for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv'),s=sweepSlot(v,ST.diff||1);
-  if(!s)continue;var left=s-Date.now();
-  if(left>0){b.textContent='扫荡中 '+fmt(left/1000);b.disabled=true;b.classList.add('on')}}}
+ for(i=0;i<btns.length;i++){var b=btns[i],v=+b.getAttribute('data-lv');
+  if(!v)continue;
+  var d=clearTop(v)||ST.diff||1,sw=sweepFind(v,d);
+  if(!sw)continue;var left=sw.end-Date.now();
+  if(left>0){b.textContent='扫荡中 '+fmt(left/1000);b.disabled=true;b.classList.add('on')}}
+ updateSweepHud()}
+/* 全屏常驻计时：按真实时间取最近一队，任何界面都能看到 */
+function activeSweeps(){
+ var out=[],k,pt,t,now=Date.now();
+ for(k in (ST.swp||{})){
+  if(!Object.prototype.hasOwnProperty.call(ST.swp,k))continue;
+  t=+ST.swp[k]||0;if(t<=now)continue;
+  pt=k.split('|');out.push({v:+pt[0],d:+(pt[1]||1),end:t,left:t-now})}
+ out.sort(function(a,b){return a.end-b.end});
+ return out}
+function updateSweepHud(){
+ var el=$('sweepHud'),tx=$('sweepHudTxt');if(!el||!tx)return;
+ var a=activeSweeps();
+ if(!a.length){el.classList.add('hidden');tx.textContent='—';return}
+ var s='OP-0'+a[0].v+' · '+diffDef(a[0].d).n+' · '+fmt(a[0].left/1000);
+ if(a.length>1)s+=' · 另 '+(a.length-1)+' 队';
+ tx.textContent=s;el.classList.remove('hidden')}
 setInterval(function(){
- var n=sweepTick();                 /* 任何界面都在跑：打别的任务时也会按时归队 */
- if(ST.scr==='menu'){
-  if(n)renderLv();else if(ST.swp)sweepLabels()}
-},1000);
+ var n=sweepTick();
+ if(n&&ST.scr==='menu')renderLv();else sweepLabels();
+ if(n)updateSweepHud();
+},500);
 /* 难度折叠卡：收起时一行，点一次展开五档，选一档即收起 */
 function renderDiffCard(){
  var card=$('dfCard'),now=$('dfNow'),dd=$('dfNowD'),list=$('dfList');
@@ -10719,7 +10817,8 @@ function renderLvOld(){var l=$('lvList');if(!l)return;l.innerHTML='';
   /* 通关后可派 AI 扫荡 */
   if(bb){
    var rowS=mk('div','cardRow');
-   var topD=clearTop(i+1),sd=topD||ST.diff||1,s=sweepSlot(i+1,sd),sb=mk('button','btn sm swp');
+   var topD=clearTop(i+1),sd=topD||ST.diff||1,sw=sweepFind(i+1,sd),s=sw?sw.end:null,sb=mk('button','btn sm swp');
+   if(sw)sd=sw.d;
    sb.setAttribute('data-lv',''+(i+1));
    if(!topD){
     sb.textContent='AI 扫荡（需先通关任一难度）';sb.disabled=true;sb.classList.add('dis');
@@ -10848,7 +10947,7 @@ function renderLv(){var l=$('lvList');if(!l)return;l.innerHTML='';
   var tg=mk('span','badge');tg.textContent=diffDef(ST.diff||1).n+' · '+fmt(diffPar(c,ST.diff||1));mt.appendChild(tg);
   b.appendChild(mt);
   if(bb){
-   var row=mk('div','cardRow'),topD=clearTop(i+1),sd=topD||ST.diff||1,s=sweepSlot(i+1,sd),sb=mk('button','btn sm swp');
+   var row=mk('div','cardRow'),topD=clearTop(i+1),sd=topD||ST.diff||1,sw=sweepFind(i+1,sd),s=sw?sw.end:null,sb=mk('button','btn sm swp');if(sw)sd=sw.d;sb.setAttribute('data-lv',''+(i+1));
    if(!topD){sb.textContent='AI 扫荡（需先通关任一难度）';sb.disabled=true;sb.classList.add('dis')}
    else if(!s){sb.textContent='AI 扫荡 +'+sweepXp(i,sd)+'（'+diffDef(sd).n+'）';
     sb.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();aInit();snd.ui();startSweep(i+1,sd)})}
@@ -11746,7 +11845,7 @@ function showRes(win){stopLoop();resetCombatFx();
  if(win)ST.tw=(ST.tw||0)+1;else ST.tl=(ST.tl||0)+1;
  ST.tk=(ST.tk||0)+G.killed;
  /* 军衔分：胜利加分，失败按难度扣分。峰值 xpm 只增不减，所以扣分不会回收任何装备 */
- var rk0=rankOf(G.xp0==null?ST.xp:G.xp0),delta;
+ var rk0=rankOf(G.xp0==null?ST.xp:G.xp0),delta,peak0=rankPk();
  var DF=diffDef((L.cfg&&L.cfg.diff)||1);
  if(win){delta=Math.round((70+stv*20)*DF.xp);addXp(delta);
   if(L.cfg&&!L.cfg.recruit&&!L.cfg.tutorial&&!L.cfg.range){
@@ -11756,7 +11855,7 @@ function showRes(win){stopLoop();resetCombatFx();
     toast('现实难度通关 · '+(nextLv(ST.lv)?('下一行动：'+LS6[nextLv(ST.lv)-1].nm):'全部区域已解锁'),3400);
     feed('难度成就：现实难度通关',1)}}}
  else{delta=-failPen(ST.lv,G.abandon);addXp(delta)}
- var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0;
+ var rk1=rankOf(ST.xp),nxr2=RKLAD[rk1+1],up=rk1>rk0,dn=rk1<rk0,peak1=rankPk(),newUp=peak1>peak0;
  /* 任务简报：胜负都寄一封，写清这一场的全部结算数据 */
  if(!G.mailSent&&L.cfg&&!L.cfg.tutorial&&!L.cfg.range){
   G.mailSent=1;
@@ -11774,8 +11873,9 @@ function showRes(win){stopLoop();resetCombatFx();
   ' · 军衔分 '+(delta>0?'+':'')+delta+' → '+ST.xp+(nxr2?(' / '+nxr2[1]):'（满级）');
  var promo=$('rPromo');
  if(promo){promo.classList.remove('down');
-  if(up){var wl=weaponsAtXp(RKLAD[rk1][1]);promo.classList.remove('hidden');
-   promo.textContent='↑ 军衔晋升 '+RKLAD[rk1][0]+(wl.length?(' · 解锁 '+wl.join('、')):' · 称号提升')}
+  if(up){var nl=unlocksBetween(peak0,peak1);promo.classList.remove('hidden');
+   promo.textContent='↑ '+(newUp?'军衔晋升 ':'军衔恢复 ')+RKLAD[rk1][0]+
+    (nl.length?(' · 解锁 '+nl.join('、')):(newUp?' · 军衔提升':' · 已解锁装备保留'))}
   else if(dn){promo.classList.remove('hidden');promo.classList.add('down');
    promo.textContent='↓ 军衔下调 '+RKLAD[rk1][0]+' · 军衔分 −'+(-delta)+
     ' · 已解锁的枪械与区域全部保留'}
@@ -12086,6 +12186,7 @@ bind('bBoard',openBoard);
 bind('bMail',openMail);
 bind('bMailHome',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bMailBack',openMailBack);
+bind('bMailDel',deleteMail);
 bind('bMailClear',clearMail);
 bind('bBoardBack',function(){show('sMenu');setScr('menu');renderLv()});
 bind('bBdRefresh',function(){lbFetch(function(){lbRender()})});
