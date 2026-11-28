@@ -1869,7 +1869,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h1>作战手册</h1>
   <h3>战术规则</h3>
   <p>你是一名虚构反恐小队的突击手。每关任务：清除区域内全部武装守敌，随后前往撤离点停留 1 秒完成撤离。
-掩体（墙体、柜台、集装箱、沙袋）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
+掩体（墙体、柜台、集装箱、长条花坛）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
 场景中会有被扣押的平民：靠近后互动可将其解救，他们会跟随你——<b style="color:#e08a7b">走火误伤平民按 ROE 违规重扣分并下调评级</b>，这正是现实交战规则。</p>
   <h3>射击模式与据枪</h3>
  <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随后坐累积扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
@@ -1887,14 +1887,15 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
   <h3>潜入与警报</h3>
-  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫与玩家共用<b>同一套视锥公式</b>：正面一个随距离变宽的锥形视野，长度与宽度直接取自该守卫手里的枪（步枪兵约 480×300、冲锋枪兵约 317×170、重甲兵约 536×300、狙击兵约 740×250），锥外身后完全看不见。开局约 1.2 秒内不会锁人。<br>
+  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫与玩家共用<b>同一套视锥公式</b>：正面一个随距离变宽的锥形视野，长度与宽度直接取自该守卫手里的枪（步枪兵约 480×300、冲锋枪兵约 317×170、重甲兵约 536×300、狙击兵约 940×250），锥外身后完全看不见。开局约 1.2 秒内不会锁人。<br>
   <b style="color:#e2a93e">只要玩家落进视锥且有视线，守卫立刻举枪并开火</b>，不会先退回问号搜索；正面 140px 内撞见时该守卫的抬枪时间缩短到 0.16 秒，只惊动他一个人，不会顺带喊醒整层。<br>
   潜入只在两种情况下结束：<b style="color:#e2a93e">你打出非手枪的枪声</b>，或<b style="color:#e2a93e">敌人真的朝你开枪</b>。被守卫看见但还没开枪时潜入仍然成立——用副武器手枪在他扣扳机前打死他，潜入不会破。</p>
+  <p><b style="color:#e2a93e">手持狙击枪的敌人单独加强</b>：它们的视野锥约 940px（步枪兵的 1.96 倍），扣扳机的反应时间压到 1.0–1.1 秒，每发瞄准误差比普通兵小得多，能在 900px 外稳定命中静止目标；它们会留在远处架枪，不会像步枪兵那样往前压。其他兵种的视野、精度与反应速度完全不受影响。</p>
   <p><b>区域潜入失效</b>：潜入一旦结束，系统会以<b>你当前的位置</b>为圆心划出半径 760px 的圆形警戒区。圈内守敌被惊动，其中约 55% 向你所在区域集结，其余就近找掩体；<b>圈外的敌人完全不受影响</b>，仍按潜入状态巡逻，也不会知道你在哪。坦克只进入警戒、不会向圈心集结，继续按自己的装甲逻辑行动。交火中每隔 3 秒按你的新位置刷新一次警戒区，后续枪声同样只影响新圈内的敌人。</p>
   <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
   <p><b>被动索敌与搜索</b>：视锥外还有一圈更宽的被动感知圈。玩家进入正面约 420–680px、背后约 290–540px（随兵种和移动状态变化）且有视线时，守卫会先出现黄色「?」，转向声源并在附近 3 个点低速搜索 9–15 秒；老兵难度搜索时间 ×1.4，现实难度 ×2.0。问号阶段不会开枪，也不会清除潜入状态。只有进入视锥真正看见你、或你开枪/制造爆炸，才会显示「!」并结束潜入。隔墙、隔掩体与烟幕内不会触发被动感知。</p>
-  <p><b>受击反击</b>：任何敌人被击中都会在 0.25–0.55 秒内转向攻击方向并反击，不再只举手不还枪。坦克被轻武器命中时虽然装甲免疫，但炮塔会开始转向，并列机枪先以更快角速度对准并短点射，主炮只有在炮塔角差进入 2° 后才开火；隔墙不射，玩家躲到掩体后坦克会向最后位置机动。</p>
-  <p><b>防卡位与防扎堆</b>：搜索、警戒、接敌统一走导航网格；战斗时每名步兵和每辆坦克分配独立槽位，禁止多人挤同一墙角或多车抢同一掩体。墙角、卡位有后退—侧绕—兜底三级脱困，战斗中每 2 秒自动审计。</p>
+  <p><b>受击反击</b>：任何敌人被击中都会在 0.25–0.55 秒内转向攻击方向并反击，不再只举手不还枪。坦克被轻武器命中时虽然装甲免疫，但炮塔会开始转向，并列机枪先以更快角速度对准并短点射，主炮只有在炮塔角差进入 2° 后才开火；<b>并列机枪有独立的目标与射界</b>（转向 3.2 rad/s，炮塔 1.8 rad/s）：炮塔压着正面目标等主炮时，机枪可以转去扫侧面的步兵，两边各打一个方向。隔墙不射，玩家躲到掩体后坦克会向最后位置机动。</p>
+  <p><b>防卡位与防扎堆</b>：搜索、警戒、接敌统一走导航网格；战斗时每名步兵和每辆坦克分配独立槽位，禁止多人挤同一墙角或多车抢同一掩体。墙角、卡位有后退—侧绕—兜底三级脱困，战斗中每 2 秒自动审计。破门瞬间，门口 300px 内的守敌会立刻向屋内退到掩体后面，不会贴着门洞站着等你进来。</p>
   <p><b>重装甲与楼宇</b>：敌方坦克不会驶入楼内——QTE 城市图只走道路，普通地图门洞对车体是不可穿越线。但门被破开后，车体可以停在门外，通过门洞向室内开火。</p>
   <h3>视野与配件</h3>
   <p>视野改为<b style="color:#dce7ee">锥形</b>：突击步枪宽度与长度适中，狙击枪宽度最窄、长度最大，冲锋枪、霰弹枪与副武器窄而短。所有配件都有正面与负面效果，并按军衔逐级解锁；前握把、激光指示器与战术手电已从游戏内移除。</p>
@@ -3180,6 +3181,33 @@ var FUD=[
    ['papers',800,760,60,38],['tyre',600,860,40,40]],
   lp:[[700,520,96],[1000,800,96],[1350,560,96],[200,300,150]]}];
 function doorSprite(){return '#6b4a2e'}
+/* v80：原来的「一串黄色沙袋」改成石框长条花坛：浅石边框 + 深色土壤 + 一排低矮绿篱，
+   偶尔带一朵黄花。碰撞尺寸不变，所以走位、掩体判定与出生点环形掩体全部沿用。 */
+function flowerBed(g,x,y,w,h,hor){
+ var along=hor?w:h,cross=hor?h:w,rim=Math.max(2,Math.min(4,cross*.16)),
+  ix=x+rim,iy=y+rim,iw=Math.max(1,w-rim*2),ih=Math.max(1,h-rim*2),
+  n=Math.max(2,Math.round(along/26)),i;
+ g.fillStyle='#9aa08c';g.fillRect(x,y,w,h);
+ g.fillStyle='#b6bba6';g.fillRect(x,y,w,Math.max(1.5,cross*.20));
+ g.fillStyle='#737a68';g.fillRect(x,y+h-Math.max(1.5,cross*.16),w,Math.max(1.5,cross*.16));
+ g.fillStyle='#3a3024';g.fillRect(ix,iy,iw,ih);
+ g.fillStyle='rgba(0,0,0,.28)';
+ if(hor)g.fillRect(ix,iy,iw,Math.max(1,ih*.16));
+ else g.fillRect(ix,iy,Math.max(1,iw*.16),ih);
+ if(along<26){
+  g.fillStyle='#6f9a4e';g.beginPath();g.arc(x+w/2,y+h/2,Math.min(w,h)*.28,0,TAU);g.fill();
+  g.fillStyle='#8fbf63';g.beginPath();g.arc(x+w*.42,y+h*.42,Math.min(w,h)*.15,0,TAU);g.fill();
+  return}
+ for(i=0;i<n;i++){
+  var t2=(i+.5)/n,cx=hor?x+t2*w:x+w*.5,cy=hor?y+h*.5:y+t2*h,
+   rr=Math.min(cross*.28,along/n*.36);
+  g.fillStyle=i%2?'#6f9a4e':'#7fae57';
+  g.beginPath();g.arc(cx,cy,rr,0,TAU);g.fill();
+  g.fillStyle='#96c46b';g.beginPath();g.arc(cx-rr*.30,cy-rr*.32,rr*.46,0,TAU);g.fill();
+  if(i%3===1){g.fillStyle='#e6cf6a';g.beginPath();g.arc(cx+rr*.46,cy+rr*.26,Math.max(1,rr*.22),0,TAU);g.fill()}
+ }
+ g.strokeStyle='rgba(0,0,0,.42)';g.lineWidth=1;
+ g.strokeRect(x+.5,y+.5,Math.max(1,w-1),Math.max(1,h-1))}
 function wallSprite(g,x,y,w,h,t){
  if(!t){g.fillStyle=TH.w;g.fillRect(x,y,w,h);
   if(w>=200&&h<=80){g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=2;var i;
@@ -3221,11 +3249,7 @@ function wallSprite(g,x,y,w,h,t){
  else if(t==='console'){g.fillStyle='#6a7a8a';g.fillRect(x,y,w,h);
   var i4;for(i4=0;i4<3;i4++){g.fillStyle=i4===1?'#5fd0a0':'#5aa8d0';
    g.fillRect(x+6+i4*(w-14)/3,y+3,(w-14)/3-3,h-6)}}
- else if(t==='sandbag'){g.fillStyle='#d9c27a';var i5,s2=Math.max(1,Math.round((hor?w:h)/16));
-  for(i5=0;i5<s2;i5++){var px=hor?x+i5*(w/s2):x+2,py=hor?y+2:y+i5*(h/s2),
-   sw=hor?w/s2-2:w-4,sh=hor?h-4:h/s2-2;
-   g.beginPath();g.ellipse(px+sw/2,py+sh/2,sw/2,sh/2,0,0,TAU);g.fill();
-   g.strokeStyle='rgba(120,90,30,.45)';g.lineWidth=1.2;g.stroke()}}
+ else if(t==='sandbag'){flowerBed(g,x,y,w,h,hor)}
  else if(t==='office'){g.fillStyle='#b8c4cc';g.fillRect(x,y,w,h);
   g.fillStyle='#6a7a86';g.fillRect(x+4,y+4,w-8,10);
   g.fillStyle='#e8f0f4';g.fillRect(x+w*.62,y+h*.5,12,8)}
@@ -3298,11 +3322,7 @@ function softSprite(g,x,y,w,h,t){
  else if(t==='papers'){var i9;for(i9=0;i9<5;i9++){g.fillStyle='rgba(240,232,205,'+(0.45+i9*0.1).toFixed(2)+')';
   g.fillRect(x+(i9*7)%w,y+((i9*11)%h),10,7);g.strokeStyle='rgba(0,0,0,.15)';g.strokeRect(x+(i9*7)%w,y+((i9*11)%h),10,7)}}
  else if(t==='rug'){rug(g,x,y,w,h,'#6a5a48','#8a7860')}
- else if(t==='sandbag'){g.fillStyle='#d9c27a';var i5,s2=Math.max(1,Math.round((w>=h?w:h)/16));
-  for(i5=0;i5<s2;i5++){var px=w>=h?x+i5*(w/s2):x+2,py=w>=h?y+2:y+i5*(h/s2),
-   sw=w>=h?w/s2-2:w-4,sh=w>=h?h-4:h/s2-2;
-   g.beginPath();g.ellipse(px+sw/2,py+sh/2,sw/2,sh/2,0,0,TAU);g.fill();
-   g.strokeStyle='rgba(120,90,30,.45)';g.lineWidth=1.2;g.stroke()}}
+ else if(t==='sandbag'){flowerBed(g,x,y,w,h,w>=h)}
  else if(t==='office'){g.fillStyle='#b8c4cc';g.fillRect(x,y,w,h);
   g.fillStyle='#6a7a86';g.fillRect(x+4,y+4,w-8,10);
   g.fillStyle='#e8f0f4';g.fillRect(x+w*.62,y+h*.5,12,8)}
@@ -3890,7 +3910,7 @@ function spawnFoe(tp,x,y,mul){var b=FOE[tp];mul=mul||1;
  noticeT:0,noticeCd:0,provokedT:0,provoked:0,slot:null,slotT:0,escapeT:0,escapeA:0,
  susKind:'',susPts:[],susIdx:0,susScan:0,susWait:0,susT:0,lastHitAt:-99,
  nade:(tp==='boss'?3:(tp==='heavy'?2:(tp==='sniper'?0:1))),ndC:3+Math.random()*6,
- hold:(tp==='sniper'?Math.random()<.5:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0};
+ hold:(tp==='sniper'?1:(tp==='heavy'?Math.random()<.45:(tp==='grunt'?Math.random()<.22:0)))?1:0};
  f.gun=foeGunOf(tp);f.lx=x;f.ly=y;f.lastSeen=-99;
  f.viewK=(L&&L.cfg&&L.cfg.eview)||1;
  f.fireN=0;f.fireT=0;f.aimBias=0;f.shotsFired=0;
@@ -4686,7 +4706,7 @@ var DIFF=[
  {k:2,n:'老兵',s:'困难',xp:1.6,acc:1.18,hp:1.30,dmg:2.40,spd:1.10,detect:1.18,rea:.95,t:1.00,brk:4,heal:1,nade:1,
   d:'敌人更准、更耐打，伤害大幅提高；体力 4 格，医疗包/血包回 1 格；手雷直接致命'},
  {k:3,n:'现实',s:'一枪致命',xp:2.80,acc:1.70,hp:1.00,dmg:3.00,spd:1.28,detect:1.45,rea:.70,t:.82,brk:1,heal:1,nade:1,ohk:1,
-  d:'一发致命：你与敌人中弹即倒；手雷直接致命；通关此档才能解锁下一区域'}
+  d:'一发致命：你的所有轻武器对任何兵种都是一枪即倒（坦克免疫轻武器，只能用 AT4/爆炸物）；你被击中同样当场阵亡；手雷直接致命；通关此档才能解锁下一区域'}
 ];
 function diffDef(k){var i;for(i=0;i<DIFF.length;i++)if(DIFF[i].k===(k||1))return DIFF[i];return DIFF[0]}
 function diffOf(r){return r&&r.k||1}
@@ -5824,7 +5844,10 @@ function hitEnemy(e,dm,head,wp,src,quiet){if(e.dead)return;
  var qbuOne=wp&&wp.id==='qbu191';
  var cslrHeavy=wp&&wp.id==='cslr4'&&e.tp==='heavy';
  if(qbuOne&&!big&&e.hp>=e.mh*.99&&dm>=e.hp)dm=Math.max(1,e.hp-1);
- if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk&&!qbuOne&&!cslrHeavy){e.hp=0;e.hurt=.2}
+ /* v80：现实难度下「所有轻武器对任何兵种一发致命」。
+    坦克在上面已经按装甲免疫处理（轻武器只有 12% 伤害且提示使用 AT4），
+    这里不再给 QBU-191 / CS-LR4 打重甲兵留任何免死例外。 */
+ if(diffDef((L&&L.cfg&&L.cfg.diff)||2).ohk){e.hp=0;e.hurt=.2}
  else if(wp&&wp.cls==='sniper'&&!qbuOne&&!cslrHeavy){e.hp=0;e.hurt=.2}
  else if(!big&&ins&&arv<=1&&Math.random()<ins){dm=Math.max(dm,e.hp+1);
   e.hp-=dm;e.hurt=.2}
@@ -6089,7 +6112,7 @@ function foeDiffBuff(e){
 function foeSpread(e,w){
  var mv=clamp(Math.hypot(e.vx||0,e.vy||0)/Math.max(1,e.sp||1),0,1.3);
  var heat=1+Math.min(1.15,e.gun.heat||0);
- var k=e.tp==='sniper'?.52:(e.tp==='heavy'?1.10:(e.tp==='rush'?1.38:1));
+ var k=e.tp==='sniper'?.26:(e.tp==='heavy'?1.10:(e.tp==='rush'?1.38:1));
  var diff=clamp(1.05/(G.eAcc||L.cfg.acc||1),.62,1.8)/foeDiffBuff(e).acc;
  var sup=1+Math.max(0,e.sup||0)*1.6,
   moveK=w.moveK||1.6;
@@ -6102,7 +6125,7 @@ function foeDamage(e,w,cfg){
  var k=e.tp==='sniper'?Math.sqrt((WM.mp5.dmg||21)/28):Math.sqrt((w.dmg||28)/28);
  return (cfg.edm||5)*(e.dm||1)*k*.62}
 function foeBurstPause(e){
- if(e.tp==='sniper')return 1.6+Math.random()*1.3;
+ if(e.tp==='sniper')return 1.05+Math.random()*.85;
  if(e.tp==='heavy')return .72+Math.random()*.55;
  if(e.tp==='rush')return .42+Math.random()*.35;
  return .36+Math.random()*.34}
@@ -6116,7 +6139,7 @@ function foeStartBurst(e,p,sees){
   var hx=e.lastSeen>=0?(e.lx==null?e.x:e.lx):(e.hx==null?e.x:e.hx),
    hy=e.lastSeen>=0?(e.ly==null?e.y:e.ly):(e.hy==null?e.y:e.hy);
   e.ftx=hx;e.fty=hy}
- var ab=(e.tp==='sniper'?.028:.14)/clamp(e.acc||1,.7,1.4);
+ var ab=(e.tp==='sniper'?.014:.14)/clamp(e.acc||1,.7,1.4);
  e.aimBias=(Math.random()-.5)*ab}
 function foeShoot(e,p){
  var g=e.gun;if(!g||g.rl>0||g.am<=0)return 0;
@@ -6125,9 +6148,9 @@ function foeShoot(e,p){
  g.am--;g.heat=Math.min(1.2,(g.heat||0)+.06*(w.recK||1));e.shotsFired=(e.shotsFired||0)+1;
  var ax=e.ftx==null?p.x:e.ftx,ay=e.fty==null?p.y:e.fty,
   dd=Math.hypot(ax-e.x,ay-e.y)||1,
-  aimBase=e.tp==='sniper'?45:(e.tp==='rush'?95:80),
-  aimCap=e.tp==='sniper'?80:120,
-  aimR=Math.min(aimCap,aimBase+dd*(e.tp==='sniper'?.03:.035))/clamp(e.acc||1,.7,e.tp==='sniper'?2:1.4),
+  aimBase=e.tp==='sniper'?12:(e.tp==='rush'?95:80),
+  aimCap=e.tp==='sniper'?18:120,
+  aimR=Math.min(aimCap,aimBase+dd*(e.tp==='sniper'?.008:.035))/clamp(e.acc||1,.7,e.tp==='sniper'?2:1.4),
   jx=(Math.random()-.5)*aimR*2,jy=(Math.random()-.5)*aimR*2,
   a=Math.atan2(ay+jy-e.y,ax+jx-e.x)+e.aimBias+(Math.random()+Math.random()-1)*foeSpread(e,w),
   vv=Math.max(680,(w.bs||1500)*1.05),
@@ -6179,7 +6202,7 @@ function foeFireTick(e,dt,cfg,p){
     - 被轻武器命中也会触发反击，但装甲仍然免疫；
     - 主炮必须等炮塔角差进入 2° 才发射，不再瞬间把炮塔拧到目标角。 */
 var ARMOR_MG={rate:.085,burst:6,pause:1.5,spread:.075,spd:1120};
-var ARMOR_TURN_TURRET=1.8,ARMOR_TURN_MG=2.4,ARMOR_TURN_BODY=1.0;
+var ARMOR_TURN_TURRET=1.8,ARMOR_TURN_MG=3.2,ARMOR_TURN_BODY=1.0;
 var ARMOR_MAIN_ALIGN=.035,ARMOR_MG_ALIGN=.10;
 /* v73：坦克被惊动（受击/被发现）后的交战距离。
    普通索敌靠短视野逼近到 390；一旦被惊动，直接退到 860 的炮击距离，
@@ -6259,14 +6282,35 @@ function armorProvoke(e,x,y,quiet,srcObj){
   if(G.inf)breakStealth('坦克遇袭')}
  return true;
 }
-function armorMG(e,dt,p,cfg){
- var m=ARMOR_MG,burst=e.mgBurst|0,aim=Math.atan2(p.y-e.y,p.x-e.x);
- if(!e.canSee||!armorVisible(e,p)||Math.abs(adiff(aim,e.mga))>ARMOR_MG_ALIGN){
-  e.mgBurst=0;return
+function armorMGVisible(e,o){
+ if(!e||!o||e.dead)return false;
+ if(enemyInSmoke(e)||inSmokeAt(o.x,o.y,8))return false;
+ if(Math.hypot(o.x-e.x,o.y-e.y)>960)return false;
+ return los(e.x,e.y,o.x,o.y)}
+/* v80：并列机枪有自己的目标——优先打「炮塔目标之外」最近的可见步兵，
+   这样机枪与主炮能各打一个方向；只有一个目标时仍与炮塔同向。 */
+function armorPickMGTarget(e,p,mainTgt){
+ var arr=[p],i,o,best=null,bd=1e9,same=null,bdSame=1e9,d;
+ if(G&&G.al)for(i=0;i<G.al.length;i++)arr.push(G.al[i]);
+ if(G&&G.sup)for(i=0;i<G.sup.length;i++)arr.push(G.sup[i]);
+ for(i=0;i<arr.length;i++){
+  o=arr[i];
+  if(!o||o.dead||o.down)continue;
+  if(o.kind==='tank')continue;
+  if(!armorMGVisible(e,o))continue;
+  d=Math.hypot(o.x-e.x,o.y-e.y);
+  if(o===mainTgt){if(d<bdSame){bdSame=d;same=o}}
+  else if(d<bd){bd=d;best=o}
  }
+ return best||same||p}
+function armorMG(e,dt,tgt,cfg){
+ var m=ARMOR_MG,burst=e.mgBurst|0;
+ if(!tgt||!armorMGVisible(e,tgt)){e.mgBurst=0;return}
+ var aim=Math.atan2(tgt.y-e.y,tgt.x-e.x);
+ if(Math.abs(adiff(aim,e.mga))>ARMOR_MG_ALIGN){e.mgBurst=0;return}
  e.mgT=(e.mgT||0)-dt;
  if(burst>0&&e.mgT<=0){
-  fireArmorMG(e,p,-1);fireArmorMG(e,p,1);
+  fireArmorMG(e,tgt,-1);fireArmorMG(e,tgt,1);
   e.mgBurst=burst-1;e.mgT=m.rate;
  }else if(burst<=0){
   e.mgCd=(e.mgCd==null?.8:e.mgCd)-dt;
@@ -6374,12 +6418,18 @@ function updateArmor(e,dt,cfg,p){
  var aimX=e.canSee?tgt.x:(e.lastSeen>=0?e.lx:(e.hx==null?e.x:e.hx)),
   aimY=e.canSee?tgt.y:(e.lastSeen>=0?e.ly:(e.hy==null?e.y:e.hy)),
   ta=Math.atan2(aimY-e.y,aimX-e.x);
- e.taGoal=ta;e.mgaGoal=ta;
+ e.taGoal=ta;
+ /* v80：机枪独立锁定、独立转向（转速快于炮塔）；
+    优先挑炮塔目标之外的可见目标，所以机枪可以与主炮打两个方向。 */
+ var mgt=armorPickMGTarget(e,p,tgt);
+ e.mgTgt=mgt;
+ var mag=(mgt&&mgt!==tgt)?Math.atan2(mgt.y-e.y,mgt.x-e.x):ta;
+ e.mgaGoal=mag;
  armorTurn(e,ta,ARMOR_TURN_TURRET,dt,'ta');
- armorTurn(e,ta,ARMOR_TURN_MG,dt,'mga');
+ armorTurn(e,mag,ARMOR_TURN_MG,dt,'mga');
  e.mgFlash=Math.max(0,(e.mgFlash||0)-dt);
  e.tankFlash=Math.max(0,(e.tankFlash||0)-dt);
- armorMG(e,dt,tgt,cfg);
+ armorMG(e,dt,(mgt||tgt),cfg);
  /* 主炮：炮塔真正对准后才允许开火；警告只在装填将完成时提示。 */
  var d=Math.hypot(tgt.x-e.x,tgt.y-e.y),canMain=e.canSee&&armorVisible(e,tgt);
  e.tankCd-=dt;
@@ -6537,10 +6587,10 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    if(ad>44){var aa2=Math.atan2(gy-e.y,gx-e.x);
     if(foeNavStep(e,gx,gy,dt,.82)){e.vx=0;e.vy=0}
     else{e.vx=Math.cos(aa2)*e.sp*.82;e.vy=Math.sin(aa2)*e.sp*.82}
-    e.a+=clamp(adiff(aa2,e.a),-dt*3.2,dt*3.2)}
-   else{e.vx=e.vy=0;e.a+=clamp(adiff(ta,e.a),-dt*3.2,dt*3.2)}}
+    e.a+=clamp(adiff(aa2,e.a),-dt*4.2,dt*4.2)}
+   else{e.vx=e.vy=0;e.a+=clamp(adiff(ta,e.a),-dt*4.2,dt*4.2)}}
   else{
-   var ideal=e.tp==='sniper'?540:(e.tp==='rush'?105:(e.tp==='heavy'?235:300));
+   var ideal=e.tp==='sniper'?760:(e.tp==='rush'?105:(e.tp==='heavy'?235:300));
    /* 距离档位加滞后：避免在 ideal*0.65 / 1.3 的边界上来回切换「前进/横移」，
       墙角附近这种切换会被碰撞放大成抖动。 */
    if(!e.mvMode)e.mvMode='strafe';
@@ -6586,7 +6636,7 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    else{
     var kk2=Math.min(1,dt*9);e.vx+=(Math.cos(want)*mv*.55-e.vx)*kk2;e.vy+=(Math.sin(want)*mv*.55-e.vy)*kk2}
    var da=ta-e.a;while(da>PI)da-=TAU;while(da<-PI)da+=TAU;
-   e.a+=clamp(da,-dt*4.5,dt*4.5);
+   e.a+=clamp(da,-dt*5.8,dt*5.8);
    if(!sees&&e.lastSeen>=0&&G.t-e.lastSeen>9){
     e.alert=0;e.st='patrol';e.hx=e.lx;e.hy=e.ly;e.fireN=0;e.canSee=0}
    /* 敌方投雷：距离合适 + 有视线时按概率投，危险等级越高越频繁 */
@@ -6630,7 +6680,7 @@ function assignAISlots(dt){
  for(i=0;i<L.en.length;i++){
   e=L.en[i];
   if(!e||e.dead||e.sub>0||e.tp==='tank'||(e.st!=='alert'&&e.st!=='engage')){if(e)e.slot=null;continue}
-  var ideal=e.tp==='sniper'?500:(e.tp==='rush'?190:(e.tp==='heavy'?265:285)),
+  var ideal=e.tp==='sniper'?640:(e.tp==='rush'?190:(e.tp==='heavy'?265:285)),
    best=null,bd=1e9;
   for(j=0;j<16;j++){
    var idx=(j+((e.uid||0)%16))%16,ang=idx*TAU/16,
@@ -6774,7 +6824,7 @@ function foeCoverStep(e,dt,p){
   e.vx=e.vy=0;
   if(ok){
    var fa=Math.atan2(g.y-e.y,g.x-e.x);
-   e.a+=clamp(adiff(fa,e.a),-dt*3.2,dt*3.2);
+   e.a+=clamp(adiff(fa,e.a),-dt*4.2,dt*4.2);
    e.coverStuck=0;
    return}
   /* 连掩体都走不到：短促尝试后放弃，改成就地搜索 */
@@ -6787,7 +6837,7 @@ function foeCoverStep(e,dt,p){
  /* 已到位：压枪、面向威胁，观察窗口结束再去搜索 */
  e.vx=e.vy=0;
  var ta=Math.atan2(fy-e.y,fx-e.x);
- e.a+=clamp(adiff(ta,e.a),-dt*3.2,dt*3.2);
+ e.a+=clamp(adiff(ta,e.a),-dt*4.2,dt*4.2);
  e.coverT=(e.coverT||0)+dt;
  if(e.canSee){e.st='engage';e.alert=1;e.coverGoal=null;e.rt=0;e.mvMode='approach';return}
  if(e.coverT>=e.coverWait){
@@ -7341,9 +7391,9 @@ var FOE_VIEW_SCALE=.62,
  ARMOR_VIEW={tank:{len:1.10,wid:1.10,near:180}};
 var PROVOKED_VIEW=1.6;
 /* v73/v77：狙击兵视野额外放大，保证「狙击兵发现距离 ≥ 其他兵种 1.5 倍」。
-   M24 的 vr 本身比 HK416 长，1.25 会把锥拉成 1150px；收到 0.80 后约 740px
-   （步枪兵 480px 的 1.54 倍），既满足 1.5 倍关系，也不会跨半张地图锁人。 */
-var SNIPER_VIEW_K=.80;
+   v80：狙击手是专门练过的长距离观察手——视野放大到约 940px（步枪兵的 1.96 倍），
+   并且只对 tp==='sniper' 生效，其他兵种的锥形完全不动。 */
+var SNIPER_VIEW_K=1.02;
 /* v77：近身正面撞见 → 单个敌人立刻开枪反击（不再等 1.7 秒反应） */
 var FOE_BUMP_R=140,FOE_BUMP_ANG=1.15,FOE_BUMP_RT=.16;
 /* v77：潜入失效的圆形区域与集结比例 */
@@ -7358,11 +7408,15 @@ var FOE_NOTICE={
  weak:{front:420,rear:290,confirm:240,rearConfirm:120,search:[8,10]},
  tank:{front:760,rear:540,confirm:500,rearConfirm:250,search:[12,14]}
 };
-/* 反应时间：以 2 秒为基准；智能低略慢、智能高略快，但不允许低于 1.7 秒 */
+/* 反应时间：以 2 秒为基准；智能低略慢、智能高略快，但不允许低于 1.7 秒。
+   v80：狙击手单独调快——它本来就在远处架枪观察，抬手就到 1.0–1.4 秒。 */
 function foeReact(e,scale){
- var intel=e&&e.intel!=null?e.intel:1;
+ var intel=e&&e.intel!=null?e.intel:1,
+  sniper=!!(e&&e.tp==='sniper');
  var t=(2.0/(scale||1))*(1.16-.16*clamp(intel,.5,1.6));
- return clamp(t*foeDiffBuff(e).rea,1.4,2.8);
+ t*=foeDiffBuff(e).rea;
+ if(sniper)t*=.60;
+ return sniper?clamp(t,1.0,1.9):clamp(t,1.4,2.8);
 }
 function foeView(e){
  var k=(e&&e.viewK)||1,pk=(e&&e.provokedT>0)?PROVOKED_VIEW:1,out;
@@ -7414,7 +7468,8 @@ function foeConfirm(e,p){
  return los(e.x,e.y,p.x,p.y)?1:0}
 function foeAimReady(e,p){
  if(!e||!p)return false;
- return Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),e.a))<.30;
+ /* v80：狙击手必须真正把枪口压到目标身上才扣扳机，容差比普通兵小得多 */
+ return Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),e.a))<(e.tp==='sniper'?.10:.30);
 }
 function beginSuspect(e,x,y,kind){
  if(!e||e.dead||e.sub>0)return false;
@@ -7470,11 +7525,11 @@ function foeSearchStep(e,dt,p){
  if(e.susWait>0){
   e.susWait-=dt;e.vx=e.vy=0;
   var fa=Math.atan2(e.hy-e.y,e.hx-e.x);
-  e.a+=clamp(adiff(fa,e.a),-dt*2.4,dt*2.4);
+  e.a+=clamp(adiff(fa,e.a),-dt*3.1,dt*3.1);
   return;
  }
  if(e.susScan>0){
-  e.susScan-=dt;e.vx=e.vy=0;e.a+=dt*2.2;
+  e.susScan-=dt;e.vx=e.vy=0;e.a+=dt*2.9;
   return;
  }
  var pt=e.susPts[e.susIdx];
@@ -7485,7 +7540,7 @@ function foeSearchStep(e,dt,p){
  var pd=Math.hypot(pt.x-e.x,pt.y-e.y);
  if(pd<24){e.susScan=1.35;return}
  var sa=Math.atan2(pt.y-e.y,pt.x-e.x);
- e.a+=clamp(adiff(sa,e.a),-dt*2.2,dt*2.2);
+ e.a+=clamp(adiff(sa,e.a),-dt*2.9,dt*2.9);
  if(!foeNavStep(e,pt.x,pt.y,dt,.34)){
   e.susIdx++;e.susScan=.45;
   /* v76：连续多个搜索点都走不通（被关着的门/家具彻底隔断）→ 改去最近掩体 */
@@ -8355,19 +8410,53 @@ function doorNear(x,y,r,closed){var i,bd=r,b=null;
   if(dd<bd){bd=dd;b=d}}return b}
 /* v19：唯一开门方式 = 玩家破拆。敌人、人质、队友都不会开门。
    openDoor 保留为内部函数名，但只允许玩家触发；外部旧调用已全部移除。 */
+/* v80：破门瞬间，门口守敌往远离门的方向退到掩体后面。
+   破拆声已经通过 noiseAt 惊动他们，这里只负责「别站在门口举枪」。 */
+function foeBreachSpot(e,cx,cy){
+ var away=Math.atan2(e.y-cy,e.x-cx)||0,i,r2,an,x,y,best=null,bd=1e9,sc;
+ for(i=0;i<18;i++){
+  an=away+((i%2)?1:-1)*(((i+1)>>1)*.38);
+  for(r2=170;r2<=330;r2+=32){
+   x=clamp(cx+Math.cos(an)*r2,e.r+8,L.cfg.W-e.r-8);
+   y=clamp(cy+Math.sin(an)*r2,e.r+8,L.cfg.H-e.r-8);
+   if(!freeAt(x,y,e.r+2))continue;
+   if(!pathFree(e.x,e.y,x,y,e.r))continue;
+   if(doorGap(x,y)<70)continue;
+   /* 优先退到「从门里看不到」的位置 */
+   sc=Math.hypot(x-e.x,y-e.y)+(los(cx,cy,x,y)?280:0);
+   if(sc<bd){bd=sc;best={x:x,y:y}}
+  }
+ }
+ return best}
+function foeDoorBreach(cx,cy){
+ if(!L||!L.en)return 0;
+ var i,e,n=0;
+ for(i=0;i<L.en.length;i++){
+  e=L.en[i];
+  if(!e||e.dead||e.sub>0||e.tp==='tank')continue;
+  if(Math.hypot(e.x-cx,e.y-cy)>300)continue;
+  var sp=foeBreachSpot(e,cx,cy);
+  e.dormant=0;e.alert=1;e.noticeT=0;
+  e.st='cover';e.coverGoal=sp||null;e.coverFrom={x:cx,y:cy};
+  e.coverT=0;e.coverStuck=0;e.coverWait=2.2+Math.random()*1.6;
+  e.canSee=0;e.fireN=0;e.sw=0;e.vx=0;e.vy=0;
+  e.path=null;e.pathT=0;e.pi=0;e.pg=null;e.goalX=null;e.goalY=null;
+  n++;
+ }
+ return n}
 function breachDoor(d,byPlayer){
  if(!d||d.open)return;
  var cx0=d.x+d.w/2,cy0=d.y+d.h/2;
  d.open=1;d.brk=1;d.kickT=d.need;rebuildCW();
  if(L&&L.cfg&&L.cfg.cqb&&byPlayer&&typeof cqbEv==='function')cqbEv('breach');
  if(d.type==='glass'){snd.boom();noiseAt(cx0,cy0,420);burst(cx0,cy0,ST.low?5:12,'#bfe2ea',200,260);
+  foeDoorBreach(cx0,cy0);
   toast('玻璃门已砸开')}
  else{
   snd.boom();shake=Math.min(shake+(d.type==='metal'?8:6),12);
   noiseAt(cx0,cy0,d.type==='metal'?640:520);
   burst(cx0,cy0,ST.low?4:9,'#c8b98a',180,280);
-  var i;for(i=0;i<L.en.length;i++){var e=L.en[i];
-   if(!e.dead&&Math.hypot(e.x-cx0,e.y-cy0)<170)e.stun=Math.max(e.stun||0,1.1)}
+  foeDoorBreach(cx0,cy0);
   toast(d.type==='metal'?'加固门已破开':'门已破开')}}
 function openDoor(d){breachDoor(d,1)}
 function kickDoor(d){startBreach(d)}
@@ -11576,6 +11665,20 @@ var PATCHES=[
          '实测炮火打击：300 币 → 180 币（-120）；圈内 5 名（含 1 辆坦克）→ 0，圈外 11 名 → 11 名原样存活；3.6 秒时校射 2/2 已落、覆盖未开始，5.3 秒时已开始覆盖；全程 6.98 秒、err=false。',
          '实测搜索索敌（被枪声惊动后的问号状态，8 秒）：步枪兵看见 480/480 帧、开火 59 发；冲锋枪兵 480/480、60 发；重甲兵 480/480、29 发；狙击兵 480/480、4 发，全部进入 engage。视锥边界：有效距离 50% 看得见，110%/140% 看不见，背后与侧面 90° 都看不见。',
          '实测分散部署（出生点最近邻距离）：OP-01 207、OP-02 220、OP-03 102、QTE-01 100、QTE-02 103（改版前 114/93/88/160/46）；出生时 60px 内成对 0 组（改版前 QTE-02 有 1 组）；20 秒巡逻后最大结团 2–3 人（改版前最多 4 人）、60px 内成对 0–1 组（改版前最多 3 组）；patch=79、err=false。'
+        ]},
+       {v:80,d:'2026-11-28',t:'现实难度全武器一枪致命 · 狙击兵强化 · 破门后撤 · 坦克独立机枪 · 花坛掩体',
+        items:[
+         '现实难度（一枪致命）重做：取消 QBU-191 与 CS/LR4 打重甲兵的免死例外——现在任何轻武器命中任何兵种（步兵、冲锋枪兵、重甲兵、狙击兵、首领、投降前的目标）都是一枪即倒；坦克仍然免疫轻武器，只能靠 AT4/爆炸物解决。老兵与新兵难度的伤害曲线不变。',
+         '手持狙击枪的敌人单独加强：视野锥 740 → 944px（步枪兵的 1.96 倍），反应时间压到约 1.1 秒（步枪兵 2.0 秒），每发瞄准误差基数 45→12、上限 80→18，武器散布系数 0.52→0.26，两发间隔 1.6–2.9s → 1.05–1.9s；狙击手固定留守原位架枪，不再像步枪兵那样前压。其他兵种的视野、精度、反应时间完全不动。',
+         '破门逻辑新增「门口后撤」：任意门被破开的瞬间，门口 300px 内的守敌立刻进入贴掩体状态，退到离门 170–330px、优先被墙挡住视线的位置；不再原地被打晕站在门口。',
+         '所有步兵转向加快：接敌 4.5 → 5.8 rad/s，警戒/贴掩体 3.2 → 4.2，搜索 2.2–2.4 → 2.9–3.1。',
+         '坦克并列机枪改为独立射击方向：机枪有自己的目标选择（优先炮塔目标之外最近的可见目标），转速 2.4 → 3.2 rad/s（炮塔 1.8）；炮塔压着正面目标等主炮时，机枪可以转向侧面步兵持续点射，两边各打一个方向。',
+         '掩体模型：原来「一串黄色沙袋」改为石框长条花坛（浅石边框 + 深色土壤 + 一排低矮绿篱，偶尔带一朵黄花）；横放/竖放、大/小尺寸都自动适配，碰撞尺寸不变，出生点环形掩体与房间散点掩体同步换模型。',
+         '实测现实难度：12 把轻武器 × 6 个兵种 = 72 组，全部一枪击倒（bad=[]）；坦克被 HK416 连续命中装甲命中数仍为 0、不会死。老兵难度重甲兵与步枪兵各吃一发步枪弹均存活（未误伤其他难度）。',
+         '实测狙击兵：视锥 944×250（步枪兵 480×300 的 1.97 倍）、反应 1.10s（步枪兵 2.00s）；782px 距离、玩家静止、20 秒内开火 10 发命中 8 发（80%）。',
+         '实测破门：门口 6 名守敌距离 70px → 全部退到 155px，0 人仍贴着门口（<70px）、0 人卡墙。',
+         '实测坦克：炮塔 0.00 rad 压着 538px 外的玩家，机枪 1.71 rad（约 98°）转向 175px 的友军并打出 12 发，同时主炮装填；机枪转速 3.2、炮塔 1.8。',
+         '实测转向：接敌状态每帧 0.0967 rad（5.8 rad/s），0.28 rad 的目标偏角 3 帧内对准；patch=80、err=false。'
         ]}
        ];
 function pushPatchMail(){
