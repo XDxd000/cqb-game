@@ -5287,9 +5287,14 @@ function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
   if(se.dead||se.sub>0||se.alert)continue;
   if(se.dormant){if(Math.hypot(se.x-x,se.y-y)<rad){wakeEnemy(se,1);var ns=alertSpot(x,y,55);se.hx=ns.x;se.hy=ns.y}continue}
   if(Math.hypot(se.x-x,se.y-y)<rad){
-   se.alert=1;se.st='alert';se.rt=foeReact(se,.9);
-   if(se.tp==='tank'){se.lastSeen=G.t;se.lx=x;se.ly=y;se.pathT=0}
-   var ns2=alertSpot(x,y,55);se.hx=ns2.x;se.hy=ns2.y}}}
+   if(se.tp==='tank'){
+    se.alert=1;se.st='alert';se.rt=foeReact(se,.9);
+    se.lastSeen=G.t;se.lx=x;se.ly=y;se.pathT=0;
+    var ns2=alertSpot(x,y,55);se.hx=ns2.x;se.hy=ns2.y;
+    continue}
+   /* v76：步兵听到枪声按距离分档——近处就地搜索，远处先找掩体 */
+   var ns3=alertSpot(x,y,55);
+   foeAlarm(se,ns3.x,ns3.y,{quiet:1})}}}
 /* 枪声方向性警觉：不要求命中/击杀，只要玩家朝某个方向开枪，
    附近（尤其是弹道前方）的敌人就会进入“?”搜索状态，而不是立刻开火。 */
 function suspectAt(e,x,y,ang,dot,delay){
@@ -6424,9 +6429,8 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    playerShout()}
   if(e.alert&&e.st==='alert'){e.rt-=dt;if(e.rt<=0)e.st='engage'}
   var ta=Math.atan2(dy,dx);
-  if(e.st==='patrol'){e.pf+=dt*.5;
-   var wx=e.hx+Math.cos(e.pf)*80,wy=e.hy+Math.sin(e.pf*1.27)*80,a2=Math.atan2(wy-e.y,wx-e.x);
-   e.a=a2;e.vx=Math.cos(a2)*e.sp*.24;e.vy=Math.sin(a2)*e.sp*.24}
+  if(e.st==='patrol'){foePatrolStep(e,dt)}
+  else if(e.st==='cover'){foeCoverStep(e,dt,p)}
   else if(e.st==='suspect'){foeSearchStep(e,dt,p)}
   else if(e.st==='alert'){var ad=Math.hypot(e.hx-e.x,e.hy-e.y);
    if(ad>44){var aa2=Math.atan2(e.hy-e.y,e.hx-e.x);
@@ -6590,6 +6594,146 @@ function foeStuckCheck(e,dt){
  if(e.stuckT>.8){
   e.stuckT=0;e.path=null;e.pathT=0;
   if(!foeEscape(e,dt)&&!freeAt(e.x,e.y,e.r)&&snapFree(e)){e.path=null;e.pathT=0}
+ }
+}
+/* ==== v76 敌人移动与掩护重做 ====
+   目标是「不再贴着墙原地磨」：
+   1) 巡逻不再在锚点周围画小圈直冲，而是「选点 → 24px 网格绕障 → 到位停一下」；
+   2) 被惊动时按距离分档：近距离就地搜索，远距离先贴到掩体后面；
+   3) 搜索途中连续走不通（被关着的门/家具隔断），改为靠近最近能挡视线的掩体。
+   所有移动都走 navPath（BFS + 视线拉直），再交给扇形避障兜底。 */
+var FOE_ALERT_NEAR=320,   /* 惊动点离自己多近算「近距离」：就地搜索 */
+ FOE_COVER_R=560,         /* 找掩体的最大搜索半径 */
+ FOE_COVER_WAIT=3.2;      /* 贴住掩体后观察多久再转搜索 */
+
+/* 在威胁方向的反面找一块「能真的挡住视线、且站得下」的掩体点 */
+function foeCoverSpot(e,thx,thy,maxR){
+ if(!L||!e||!L.sof)return null;
+ var i,s,cx,cy,d,cands=[],MAXC=10,maxR2=maxR||FOE_COVER_R;
+ for(i=0;i<L.sof.length;i++){
+  s=L.sof[i];
+  if(!s||s.t==='papers'||s.destroyed)continue;
+  if(s.w<14||s.h<14)continue;
+  cx=s.x+s.w/2;cy=s.y+s.h/2;
+  d=Math.hypot(cx-e.x,cy-e.y);
+  if(d<28||d>maxR2)continue;
+  cands.push({s:s,cx:cx,cy:cy,d:d})
+ }
+ cands.sort(function(a,b){return a.d-b.d});
+ if(cands.length>MAXC)cands.length=MAXC;
+ var best=null,bd=1e9,k;
+ for(i=0;i<cands.length;i++){
+  var c=cands[i],w=c.s.w,h=c.s.h,
+   ax=c.cx-thx,ay=c.cy-thy,al=Math.hypot(ax,ay)||1;
+  ax/=al;ay/=al;
+  /* 正后方 + 一个斜后方（左右按编号固定，避免每帧换边抖动） */
+  var side=((e.uid||0)%2)?1:-1,
+   dirs=[[ax,ay],[ax*.76-ay*.65*side,ay*.76+ax*.65*side]];
+  for(k=0;k<dirs.length;k++){
+   var ox=dirs[k][0],oy=dirs[k][1],
+    rr=(Math.abs(ox)*w+Math.abs(oy)*h)*.5+20+e.r,
+    px=c.cx+ox*rr,py=c.cy+oy*rr;
+   if(px<e.r+6||py<e.r+6||px>L.cfg.W-e.r-6||py>L.cfg.H-e.r-6)continue;
+   if(!freeAt(px,py,e.r+2))continue;
+   if(los(px,py,thx,thy))continue;      /* 挡不住这条视线就不算掩体 */
+   var sc=c.d+Math.hypot(px-e.x,py-e.y)*.35;
+   if(sc<bd){bd=sc;best={x:px,y:py}}
+  }
+ }
+ return best}
+
+/* 进入「贴掩体」状态；找不到掩体就返回 false */
+function foeTakeCover(e,thx,thy,maxR){
+ if(!e||e.dead||e.tp==='boss')return false;
+ var spot=foeCoverSpot(e,thx,thy,maxR);
+ if(!spot)return false;
+ e.st='cover';e.coverGoal=spot;e.coverT=0;e.coverStuck=0;
+ e.coverWait=FOE_COVER_WAIT*(.8+Math.random()*.6);
+ e.coverFrom={x:thx,y:thy};
+ e.path=null;e.pathT=0;e.pi=0;e.pg=null;
+ e.fireN=0;e.sw=0;e.vx=0;e.vy=0;
+ return true}
+
+function foeCoverStep(e,dt,p){
+ var g=e.coverGoal,
+  fx=e.coverFrom?e.coverFrom.x:p.x,fy=e.coverFrom?e.coverFrom.y:p.y;
+ if(!g){
+  if(!foeTakeCover(e,fx,fy)){e.vx=e.vy=0;e.st='patrol';e.alert=0;return}
+  g=e.coverGoal}
+ var gd=Math.hypot(g.x-e.x,g.y-e.y);
+ if(gd>20){
+  var ok=foeNavStep(e,g.x,g.y,dt,.80);
+  if(!ok)ok=moveToward(e,g.x,g.y,Math.max(58,e.sp*.72),dt);
+  e.vx=e.vy=0;
+  if(ok){
+   var fa=Math.atan2(g.y-e.y,g.x-e.x);
+   e.a+=clamp(adiff(fa,e.a),-dt*3.2,dt*3.2);
+   e.coverStuck=0;
+   return}
+  /* 连掩体都走不到：短促尝试后放弃，改成就地搜索 */
+  e.coverStuck=(e.coverStuck||0)+dt;
+  if(e.coverStuck>1.4){
+   e.coverStuck=0;e.coverGoal=null;e.path=null;e.pathT=0;
+   if(beginSuspect(e,fx,fy,'noise'))e.alert=1;
+   else{e.st='patrol';e.alert=0}}
+  return}
+ /* 已到位：压枪、面向威胁，观察窗口结束再去搜索 */
+ e.vx=e.vy=0;
+ var ta=Math.atan2(fy-e.y,fx-e.x);
+ e.a+=clamp(adiff(ta,e.a),-dt*3.2,dt*3.2);
+ e.coverT=(e.coverT||0)+dt;
+ if(e.canSee){e.st='engage';e.alert=1;e.coverGoal=null;e.rt=0;e.mvMode='approach';return}
+ if(e.coverT>=e.coverWait){
+  e.coverT=0;e.coverGoal=null;
+  if(beginSuspect(e,fx,fy,'sense'))e.alert=1;
+  else{e.st='patrol';e.alert=0}}
+}
+
+/* 巡逻选点：围绕锚点的一圈里挑一个站得下、够得到的点，优先在锚点视野里 */
+function foePatrolPick(e){
+ if(!L||!e)return null;
+ var ax=e.hx==null?e.x:e.hx,ay=e.hy==null?e.y:e.hy,
+  best=null,bd=-1e9,i,an,rr,x,y,sc;
+ for(i=0;i<14;i++){
+  an=Math.random()*TAU;rr=70+Math.random()*180;
+  x=clamp(ax+Math.cos(an)*rr,e.r+10,L.cfg.W-e.r-10);
+  y=clamp(ay+Math.sin(an)*rr,e.r+10,L.cfg.H-e.r-10);
+  if(!freeAt(x,y,e.r+2))continue;
+  if(Math.hypot(x-e.x,y-e.y)<48)continue;
+  sc=-Math.hypot(x-e.x,y-e.y)*.12;
+  if(los(ax,ay,x,y))sc+=24;
+  if(sc>bd){bd=sc;best={x:x,y:y}}
+ }
+ return best||{x:ax,y:ay}}
+
+/* 巡逻：一次只去一个点，路上由 navPath 绕过整栋墙，到了停一会儿再选下一个 */
+function foePatrolStep(e,dt){
+ e.ptPause=(e.ptPause||0)-dt;
+ if(e.ptPause>0){e.vx=e.vy=0;e.a+=dt*.9;e.ptPX=e.x;e.ptPY=e.y;e.ptStall=0;return}
+ var g=e.ptGoal;
+ if(!g||Math.hypot(g.x-e.x,g.y-e.y)<22){
+  if(g){e.ptGoal=null;e.ptPause=1.1+Math.random()*2.2;e.vx=e.vy=0;e.a+=dt*.6;return}
+  e.ptGoal=foePatrolPick(e);
+  if(!e.ptGoal){e.vx=e.vy=0;return}
+  g=e.ptGoal;e.ptStall=0;e.ptPX=e.x;e.ptPY=e.y}
+ /* 贴着家具/墙角磨蹭（有速度但几乎没位移）时换点，避免原地抽搐 */
+ if(e.ptPX!=null){
+  if(Math.hypot(e.x-e.ptPX,e.y-e.ptPY)<.22)e.ptStall=(e.ptStall||0)+dt;
+  else e.ptStall=0}
+ e.ptPX=e.x;e.ptPY=e.y;
+ if((e.ptStall||0)>1.1){
+  e.ptGoal=null;e.ptStall=0;e.ptPause=.35+Math.random()*.5;e.vx=e.vy=0;e.path=null;e.pathT=0;
+  return}
+ var ok=foeNavStep(e,g.x,g.y,dt,.30);
+ e.vx=e.vy=0;
+ if(ok){
+  var fa=Math.atan2(g.y-e.y,g.x-e.x);
+  e.a+=clamp(adiff(fa,e.a),-dt*2.8,dt*2.8);
+ }else{
+  /* 这个方向被门/家具彻底隔断：换点并短暂停顿，避免在墙角反复试探。
+     锚点跟着实际位置走，防止锚点落进墙里导致一直选不出可达点。 */
+  e.ptGoal=null;e.ptPause=.5+Math.random()*.6;
+  e.hx=e.x;e.hy=e.y;
  }
 }
 function rayExit(a,x,y,dx,dy){var lo=0,hi=1e9,t1,t2,sw;
@@ -7153,14 +7297,15 @@ function foeAimReady(e,p){
  if(!e||!p)return false;
  return Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),e.a))<.30;
 }
-function enterSuspect(e,x,y,kind){
- if(!e||e.dead||e.sub>0||e.alert||e.st==='alert'||e.st==='engage')return false;
+function beginSuspect(e,x,y,kind){
+ if(!e||e.dead||e.sub>0)return false;
  var c=foeNoticeCfg(e),i,pts=[],base=Math.atan2(y-e.y,x-e.x);
  e.st='suspect';e.alert=0;e.susKind=kind||'sense';
  e.canSee=0;e.fireN=0;e.sw=0;e.vx=0;e.vy=0;
  e.hx=x;e.hy=y;e.lx=x;e.ly=y;e.lastSeen=-99;
  e.susWait=(kind==='noise')?(.45+Math.random()*.55):(.75+Math.random()*.55);
  e.susT=(c.search[0]+Math.random()*(c.search[1]-c.search[0]))*foeSearchK();
+ e.susFail=0;e.coverGoal=null;
  e.susPts=[];e.susIdx=0;e.susScan=0;
  for(i=0;i<4;i++){
   var ang=base+(i-1.5)*.9+(Math.random()-.5)*.45,
@@ -7174,6 +7319,10 @@ function enterSuspect(e,x,y,kind){
  if(G.t-(e._susSnd||-9)>1.1){e._susSnd=G.t;snd.ping()}
  return true;
 }
+/* 被动感知进入搜索：只对还没被惊动的单位生效 */
+function enterSuspect(e,x,y,kind){
+ if(!e||e.dead||e.sub>0||e.alert||e.st==='alert'||e.st==='engage')return false;
+ return beginSuspect(e,x,y,kind)}
 function foeNoticeTick(e,dt,p){
  if(!e||e.dead||e.sub>0||e.alert||e.st==='alert'||e.st==='engage'||e.st==='suspect')return false;
  if(e.noticeCd>0)e.noticeCd-=dt;
@@ -7210,25 +7359,74 @@ function foeSearchStep(e,dt,p){
   return;
  }
  var pt=e.susPts[e.susIdx];
- if(!pt){e.a+=dt*1.2;e.vx=e.vy=0;return}
+ if(!pt){
+  /* 所有搜索点都到不了（典型：被关着的门隔在自己这间屋里）→ 转掩体 */
+  if(!foeSearchTakeCover(e,p)){e.a+=dt*1.2;e.vx=e.vy=0}
+  return}
  var pd=Math.hypot(pt.x-e.x,pt.y-e.y);
  if(pd<24){e.susScan=1.35;return}
  var sa=Math.atan2(pt.y-e.y,pt.x-e.x);
  e.a+=clamp(adiff(sa,e.a),-dt*2.2,dt*2.2);
- if(!foeNavStep(e,pt.x,pt.y,dt,.34)){e.susIdx++;e.susScan=.45}
+ if(!foeNavStep(e,pt.x,pt.y,dt,.34)){
+  e.susIdx++;e.susScan=.45;
+  /* v76：连续多个搜索点都走不通（被关着的门/家具彻底隔断）→ 改去最近掩体 */
+  e.susFail=(e.susFail||0)+1;
+  if(e.susFail>=3&&!foeSearchTakeCover(e,p))e.susFail=0;
+ }else e.susFail=0;
 }
-function foeAlertTo(e,x,y,quiet,srcObj){
+/* 搜索被阻断时改用掩体：限流，避免每帧重复找掩体 */
+function foeSearchTakeCover(e,p){
+ if(!e||!p)return false;
+ if(G&&G.t-(e._coverT||-99)<.8)return false;
+ e._coverT=G.t;
+ var cx=e.hx==null?p.x:e.hx,cy=e.hy==null?p.y:e.hy;
+ if(!foeTakeCover(e,cx,cy))return false;
+ e.alert=1;
+ return true}
+/* v76：统一的「被惊动」入口。
+   已经被惊动（接敌）的单位只更新记忆；否则按「威胁距离」分档：
+   - 威胁在自己 320px 以内：就地展开搜索，不冲出去；
+   - 威胁更远：先贴到最近的掩体后面观察，观察窗口过后再转搜索。
+   (mx,my) 是搜索/记忆点（噪声点、最后可见点），
+   opts.threatX/Y 是威胁本体（开枪的人），没给就用 (mx,my)。 */
+function foeAlarm(e,mx,my,opts){
+ opts=opts||{};
  if(!e||e.dead||e.sub>0)return false;
- var engaged=e.alert&&e.st==='engage';
- e.dormant=0;e.alert=1;e.st=engaged?'engage':'alert';
- e.rt=engaged?0:Math.min(.55,.28+Math.random()*.2);
- e.hx=x;e.hy=y;e.lx=x;e.ly=y;
- if(los(e.x,e.y,x,y))e.lastSeen=G.t;else e.lastSeen=-99;
+ var thx=(opts.threatX!=null?opts.threatX:mx),thy=(opts.threatY!=null?opts.threatY:my),
+  engaged=e.alert&&e.st==='engage';
+ e.dormant=0;e.noticeT=0;
+ if(!opts.quiet){G.inf=0;G.alerted=1;alertAt(e.x,e.y);wakeNear(e.x,e.y,760,3)}
+ if(engaged){
+  e.hx=mx;e.hy=my;e.lx=mx;e.ly=my;
+  if(los(e.x,e.y,mx,my))e.lastSeen=G.t;else e.lastSeen=-99;
+  e.canSee=0;e.fireN=0;e.sw=0;e.path=null;e.pathT=0;e.pi=0;e.pg=null;
+  if(opts.provoke){e.provoked=1;e.provokedT=10}
+  e.mvMode='approach';
+  return true}
+ var dist=Math.hypot(thx-e.x,thy-e.y);
+ if(opts.provoke){e.provoked=1;e.provokedT=10}
+ if(dist<=FOE_ALERT_NEAR){
+  if(beginSuspect(e,mx,my,'noise')){e.alert=1;return true}
+  /* 搜索点全落在实体里：退回原地警戒 */
+  e.alert=1;e.st='alert';e.rt=Math.min(.55,.28+Math.random()*.2);
+  e.hx=mx;e.hy=my;e.lx=mx;e.ly=my;e.canSee=0;e.fireN=0;e.sw=0;
+  e.path=null;e.pathT=0;
+  return true}
+ e.alert=1;
+ if(foeTakeCover(e,thx,thy)){e.hx=mx;e.hy=my;return true}
+ e.st='alert';e.rt=Math.min(.55,.28+Math.random()*.2);
+ e.hx=mx;e.hy=my;e.lx=mx;e.ly=my;
+ if(los(e.x,e.y,mx,my))e.lastSeen=G.t;else e.lastSeen=-99;
  e.canSee=0;e.fireN=0;e.sw=0;e.path=null;e.pathT=0;e.pi=0;e.pg=null;
- e.provoked=1;e.provokedT=10;e.noticeT=0;e.mvMode='approach';
- if(!quiet){G.inf=0;G.alerted=1;alertAt(e.x,e.y);wakeNear(e.x,e.y,760,3)}
- return true;
-}
+ e.mvMode='approach';
+ return true}
+function foeAlertTo(e,x,y,quiet,srcObj){
+ /* 命中/枪声的「威胁」是开枪的人；没有来源对象时退回命中点 */
+ var s=(srcObj&&srcObj.x!=null)?srcObj:null;
+ if(s){
+  var sp=alertSpot(s.x,s.y,55);
+  return foeAlarm(e,sp.x,sp.y,{quiet:!!quiet,provoke:1,threatX:s.x,threatY:s.y})}
+ return foeAlarm(e,x,y,{quiet:!!quiet,provoke:1})}
 function foeOnHit(e,x,y,quiet,srcObj){
  if(!e||e.dead)return false;
  if(e.tp==='tank')return armorProvoke(e,x,y,quiet,srcObj||G.p);
@@ -10973,6 +11171,15 @@ var PATCHES=[
          '制退器/消焰器（改件 recoil 系数）与队员专长同时压低扫射累积与开火减速。',
          '军械库新增「后坐控制」条，并在枪械详情末行给出后坐力数值、满扫射散布增幅与开火减速百分比；作战手册新增后坐力说明。',
          '实测：HK416A5 全自动约 1.34 秒打满扫射，SCAR-H 约 1.20 秒，P90 约 3.6 秒；满热散布倍率 1.65/1.88/1.43；开火减速 30%/42%/21%；patch=75、err=false。'
+        ]},
+       {v:76,d:'2026-11-28',t:'敌人寻路与掩护 · 巡逻绕障 · 搜索受阻转掩体',
+        items:[
+         '巡逻路线重做：不再围绕巡逻点画小圈直冲，而是「选点 → 走 24px 网格的绕障路径 → 到位停一下再选下一个点」；被家具或墙角卡住 1.1 秒就换目标点，不再贴着墙原地磨。',
+         '被惊动时按距离分档：威胁在自己 320px 以内的敌人就地展开搜索（不再一上来就冲脸）；更远的敌人先贴到最近的掩体后面观察，观察窗口过后再转搜索。',
+         '掩体判定不再只是「离得近」：必须在威胁方向的背面、能真正挡住视线、能站人，才会被选为掩护点。',
+         '搜索状态新增脱困：连续 3 个搜索点都走不通（典型是被关着的门隔在自己这间屋里），就改为靠近最近能挡视线的掩体找掩护；找不到掩体才退回原地警戒。',
+         '枪声、爆炸、受击、坦克炮声全部走同一个「被惊动」入口，行为一致；坦克仍走自己的装甲逻辑。',
+         '实测：全部 19 名巡逻敌人 20 秒内均在移动、无一人卡进墙体，单人最慢净位移 12px（绕回原点属正常巡逻）；170px 命中 → 搜索；435/1072px 命中 → 掩体 → 搜索；搜索点全在墙内 → 掩体；19 名敌人 updateEn 每帧 0.14ms；patch=76、err=false。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
