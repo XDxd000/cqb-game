@@ -1886,9 +1886,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <h3>门洞阻门器</h3>
   <p>门洞可能被 <b style="color:#e2a93e">阻门器</b> 封锁。阻门器不会阻止破拆，但会让破拆速度降到约六成；可以靠近门洞用手雷炸毁，也可以直接按住 <span class="kbd">F</span> 慢慢破拆。</p>
   <h3>潜入与警报</h3>
-  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫仍然依靠正面视野锥与 LOS 遮挡确认目标；开局约 1.2 秒内只确认近距离目标，不会隔着半张地图直接锁定；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
+  <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫与玩家共用<b>同一套视锥公式</b>：正面一个随距离变宽的锥形视野，长度与宽度直接取自该守卫手里的枪（步枪兵约 480×300、冲锋枪兵约 317×170、重甲兵约 536×300、狙击兵约 740×250），锥外身后完全看不见。开局约 1.2 秒内不会锁人。<br>
+  <b style="color:#e2a93e">只要玩家落进视锥且有视线，守卫立刻举枪并开火</b>，不会先退回问号搜索；正面 140px 内撞见时该守卫的抬枪时间缩短到 0.16 秒，只惊动他一个人，不会顺带喊醒整层。<br>
+  潜入只在两种情况下结束：<b style="color:#e2a93e">你打出非手枪的枪声</b>，或<b style="color:#e2a93e">敌人真的朝你开枪</b>。被守卫看见但还没开枪时潜入仍然成立——用副武器手枪在他扣扳机前打死他，潜入不会破。</p>
+  <p><b>区域潜入失效</b>：潜入一旦结束，系统会以<b>你当前的位置</b>为圆心划出半径 760px 的圆形警戒区。圈内守敌被惊动，其中约 55% 向你所在区域集结，其余就近找掩体；<b>圈外的敌人完全不受影响</b>，仍按潜入状态巡逻，也不会知道你在哪。坦克只进入警戒、不会向圈心集结，继续按自己的装甲逻辑行动。交火中每隔 3 秒按你的新位置刷新一次警戒区，后续枪声同样只影响新圈内的敌人。</p>
   <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
-  <p><b>被动索敌与搜索</b>：守卫现在有更大的被动感知圈。玩家进入正面约 420–680px、背后约 290–540px（随兵种和移动状态变化）且有视线时，守卫会先出现黄色「?」，转向声源并在附近 3 个点低速搜索 9–15 秒；老兵难度搜索时间 ×1.4，现实难度 ×2.0。问号阶段不会开枪，也不会清除潜入状态。只有真正进入确认圈、视线持续成立，或你开枪/制造爆炸，才会显示「!」并打破潜入。隔墙、隔掩体与烟幕内不会触发被动感知。</p>
+  <p><b>被动索敌与搜索</b>：视锥外还有一圈更宽的被动感知圈。玩家进入正面约 420–680px、背后约 290–540px（随兵种和移动状态变化）且有视线时，守卫会先出现黄色「?」，转向声源并在附近 3 个点低速搜索 9–15 秒；老兵难度搜索时间 ×1.4，现实难度 ×2.0。问号阶段不会开枪，也不会清除潜入状态。只有进入视锥真正看见你、或你开枪/制造爆炸，才会显示「!」并结束潜入。隔墙、隔掩体与烟幕内不会触发被动感知。</p>
   <p><b>受击反击</b>：任何敌人被击中都会在 0.25–0.55 秒内转向攻击方向并反击，不再只举手不还枪。坦克被轻武器命中时虽然装甲免疫，但炮塔会开始转向，并列机枪先以更快角速度对准并短点射，主炮只有在炮塔角差进入 2° 后才开火；隔墙不射，玩家躲到掩体后坦克会向最后位置机动。</p>
   <p><b>防卡位与防扎堆</b>：搜索、警戒、接敌统一走导航网格；战斗时每名步兵和每辆坦克分配独立槽位，禁止多人挤同一墙角或多车抢同一掩体。墙角、卡位有后退—侧绕—兜底三级脱困，战斗中每 2 秒自动审计。</p>
   <p><b>重装甲与楼宇</b>：敌方坦克不会驶入楼内——QTE 城市图只走道路，普通地图门洞对车体是不可穿越线。但门被破开后，车体可以停在门外，通过门洞向室内开火。</p>
@@ -5225,8 +5228,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
     只有步枪/冲锋枪/霰弹枪/狙击枪等主武器才会按枪声暴露。 */
  var pistolQuiet=w1.cls==='pistol';
  var stealthShot=!!G.inf&&!pistolQuiet;
- if(G.inf&&!pistolQuiet){G.inf=0;
-  feed('枪声暴露 · 潜入阶段结束',0);toast('枪声惊动了守军',2600)}
+ if(stealthShot){breakStealth('枪声暴露',p.x,p.y);toast('枪声惊动了守军',2600)}
+ else if(!pistolQuiet)refreshZone(p.x,p.y);
  tutEv('fire');
  /* 剧情模式里用过的国产枪 → 永久解锁 */
  if(ST.inStory&&/国产/.test(w1.cn||'')&&!(ST.hw&&ST.hw[w1.id])){
@@ -5282,7 +5285,7 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
   if(Math.random()<.022*lvD)tryDodge(de,p.x,p.y,.35+Math.random()*.3)}}
 function noiseAt(x,y,rad){if(!L)return;var i;if(G)G.lastNoise=G.t;
  if(G&&G.inf&&G.p&&Math.hypot(x-G.p.x,y-G.p.y)<rad+160){
-  G.inf=0;G.alerted=1;feed('声响暴露 · 潜入阶段结束',0);toast('声响惊动了守军',2400)}
+  breakStealth('声响暴露');toast('声响惊动了守军',2400)}
  for(i=0;i<L.en.length;i++){var se=L.en[i];
   if(se.dead||se.sub>0||se.alert)continue;
   if(se.dormant){if(Math.hypot(se.x-x,se.y-y)<rad){wakeEnemy(se,1);var ns=alertSpot(x,y,55);se.hx=ns.x;se.hy=ns.y}continue}
@@ -5633,7 +5636,7 @@ function playerShout(){
  var p=G.p,now=G.t;
  if(now<(G.shoutCd||0))return;
  G.shoutCd=now+16;
- if(G.inf){G.inf=0;G.alerted=1;wakeNear(p.x,p.y,700,3);feed('喊话暴露 · 潜入阶段结束',0)}
+ if(G.inf){breakStealth('喊话暴露');wakeNear(p.x,p.y,700,3)}
  say(ST.name||'你','UNF！放下武器！','#e2a93e');
  snd.alert();
  var i,n=0,fk=0,seen=0;
@@ -5738,7 +5741,7 @@ function hitEnemy(e,dm,head,wp,src,quiet){if(e.dead)return;
   }
   e.hp=0;e.armorHits=amax;e.armorDead=1;
  }
- if(!quiet&&G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<760){G.inf=0;G.alerted=1;wakeNear(e.x,e.y,700,3);feed('交火暴露 · 潜入阶段结束',0)}
+ if(!quiet&&G.inf&&Math.hypot(e.x-G.p.x,e.y-G.p.y)<760){breakStealth('交火暴露')}
  var ins=wp&&wp.ins||0,arv=e.arv||0,
   big=!!(wp&&wp.cls&&(e.tp==='heavy'||e.tp==='boss'));
  /* 坦克对轻武器近乎免疫，主要靠 AT4 战斗部或爆炸物解决 */
@@ -6070,6 +6073,9 @@ function foeShoot(e,p){
  if(G.t-(G._efS||-9)>.028){G._efS=G.t;
   snd.fire(w,clamp(1-Math.hypot(e.x-p.x,e.y-p.y)/1250,0,1))}
  if(!ST.low)burst(e.x+Math.cos(a)*(e.r+3),e.y+Math.sin(a)*(e.r+3),2,'#ffcf6a',80,130);
+ /* v77：敌方小兵真的扣下扳机 → 潜入结束，并以玩家为圆心划出警戒区 */
+ if(G&&G.inf)breakStealth('敌方开火',G.p?G.p.x:e.x,G.p?G.p.y:e.y);
+ else if(G)refreshZone(G.p?G.p.x:e.x,G.p?G.p.y:e.y);
  return 1}
 function foeFireTick(e,dt,cfg,p){
  var g=e.gun;if(!g)return;
@@ -6182,7 +6188,8 @@ function armorProvoke(e,x,y,quiet,srcObj){
  if(los(e.x,e.y,x,y))e.lastSeen=G.t;else e.lastSeen=-99;
  e.taGoal=Math.atan2(y-e.y,x-e.x);e.mgaGoal=e.taGoal;
  e.canSee=0;e.mgBurst=0;e.tankWarn=0;e.pathT=0;
- if(!quiet){G.inf=0;G.alerted=1;alertAt(e.x,e.y);wakeNear(e.x,e.y,760,3)}
+ if(!quiet){alertAt(e.x,e.y);
+  if(G.inf)breakStealth('坦克遇袭')}
  return true;
 }
 function armorMG(e,dt,p,cfg){
@@ -6292,7 +6299,8 @@ function updateArmor(e,dt,cfg,p){
  }
  if(lock){e.lx=p.x;e.ly=p.y;e.lastSeen=G.t;e.canSee=1}
  if(e.canSee){
-  if(!e.alert){e.alert=1;G.inf=0;G.alerted=1;
+  if(!e.alert){e.alert=1;
+   if(G.inf)breakStealth('坦克锁定街区目标');
    feed('坦克锁定街区目标 · 找掩体',0);snd.alert()}
   e.st='engage';
  }
@@ -6423,10 +6431,19 @@ function updateEn(dt){var p=G.p,i,j,Lv=ST.lv,cfg=L.cfg;
    tx=sees?p.x:(hasMem?(e.lx==null?e.hx:e.lx):(e.hx==null?e.x:e.hx)),
    ty=sees?p.y:(hasMem?(e.ly==null?e.hy:e.ly):(e.hy==null?e.y:e.hy)),
    dx=tx-e.x,dy=ty-e.y,d=Math.hypot(dx,dy)||1;
-  if(!e.alert&&e.canSee){e.alert=1;e.hx=e.lx;e.hy=e.ly;e.rt=foeReact(e);e.st='alert';
-   G.inf=0;alertAt(e.x,e.y);G.alerted=1;snd.alert();wakeNear(e.x,e.y,680,2);
-   feed('敌方发现你 · 交火开始',0);
-   playerShout()}
+  /* v77：看见就举枪。是否结束潜入不在这里判定——
+     敌人真正开枪时才算暴露（foeShoot），手枪在它扣扳机前打死它仍算潜入成功。 */
+  if(!e.alert&&e.canSee){
+   var bpd=Math.hypot(p.x-e.x,p.y-e.y),
+    bpa=Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),e.a));
+   e.alert=1;e.hx=e.lx;e.hy=e.ly;e.st='alert';
+   /* 正面近身撞见：只让这一个敌人立刻开枪，不等完整反应时间 */
+   e.rt=(bpd<=FOE_BUMP_R&&bpa<=FOE_BUMP_ANG)?FOE_BUMP_RT:foeReact(e);
+   alertAt(e.x,e.y);snd.alert();
+   if(bpd<=FOE_BUMP_R&&bpa<=FOE_BUMP_ANG){
+    e.bumpT=G.t;say(ename(e)||'佣兵','站住！','#c05040');
+    feed('正面遭遇 · '+ename(e)+' 立刻还击',0)
+   }else feed('敌方发现你 · 正在举枪',0)}
   if(e.alert&&e.st==='alert'){e.rt-=dt;if(e.rt<=0)e.st='engage'}
   var ta=Math.atan2(dy,dx);
   if(e.st==='patrol'){foePatrolStep(e,dt)}
@@ -7215,20 +7232,25 @@ function inView(x,y,p){
  var d=Math.hypot(x-p.x,y-p.y);
  if(d<PLAYER_NEAR)return true;      /* 周身小圈：背后贴近的敌人也能看见 */
  return inViewAt(x,y,p.x,p.y,p.aa,G.viewLen||500,G.viewW||150,PLAYER_NEAR)}
-/* 敌人视野：与玩家同一条锥形公式，长度/宽度直接取当前武器 vr/vw */
-/* 步枪基准视野取当前制式步枪的实际锥形参数（HK416A5：774px / 300px）。
-   重装甲的索敌距离只比步枪略远：坦克 +10%，锥宽同步放大。
-   这是“发现/开火距离”，不是主炮射程；重装甲仍需先进入这个短视野才能锁定。
-   v59：敌方识别距离整体降到 25%（降低 75%），近身感知圈同步缩小。
-   v64：新增更大的被动感知圈与问号搜索；受击后 10 秒视野 ×1.6。 */
-var FOE_VIEW_SCALE=.25,
+/* 敌人视野：与玩家完全同一条锥形公式（inViewAt），长度/宽度直接取该敌人武器的 vr/vw。
+   步枪基准取 HK416A5：774px / 300px；重装甲 +10% 长度与宽度。
+   v59 曾把敌方视野压到 25%，v77 放大到 62%：
+   - 同一种武器、同一套锥形公式，所以「不同武器 = 不同视角」；
+   - 62% 让步枪兵约 480px、冲锋枪兵约 270px、狙击兵约 680px，
+     玩家（100%）仍占视野优势，但被发现后是立刻举枪而不是先发问号。 */
+var FOE_VIEW_SCALE=.62,
  RIFLE_VIEW=(WM.hk416&&WM.hk416.vr)||774,
  RIFLE_VIEW_W=(WM.hk416&&WM.hk416.vw)||300,
  ARMOR_VIEW={tank:{len:1.10,wid:1.10,near:180}};
 var PROVOKED_VIEW=1.6;
-/* v73：狙击兵单独放大的索敌视野长度。步兵确认圈是 300，狙击兵是 560（1.87 倍），
-   视野锥必须比确认圈更长，否则会出现「确认了却看不见」的抖动。 */
-var SNIPER_VIEW_K=3.1;
+/* v73/v77：狙击兵视野额外放大，保证「狙击兵发现距离 ≥ 其他兵种 1.5 倍」。
+   M24 的 vr 本身比 HK416 长，1.25 会把锥拉成 1150px；收到 0.80 后约 740px
+   （步枪兵 480px 的 1.54 倍），既满足 1.5 倍关系，也不会跨半张地图锁人。 */
+var SNIPER_VIEW_K=.80;
+/* v77：近身正面撞见 → 单个敌人立刻开枪反击（不再等 1.7 秒反应） */
+var FOE_BUMP_R=140,FOE_BUMP_ANG=1.15,FOE_BUMP_RT=.16;
+/* v77：潜入失效的圆形区域与集结比例 */
+var FOE_ZONE_R=760,FOE_RALLY_P=.55;
 /* 被动圈/确认圈：正面与背后按朝向平滑插值。 */
 var FOE_NOTICE={
  grunt:{front:540,rear:380,confirm:300,rearConfirm:150,search:[10,13]},
@@ -7281,18 +7303,18 @@ function foeNoticeR(e,p){
  if(p.aim)R*=.90;
  return R;
 }
+/* v77：确认/开火判定改用与玩家同一条视锥。
+   只要玩家落在这名敌人武器对应的锥形里（并且有视线），就算「看见」——
+   看见即进入举枪反击，不再退回问号搜索。锥形外才交给被动感知（? 搜索）。 */
 function foeConfirm(e,p){
  if(!e||!p||e.dead)return 0;
  if(enemyInSmoke(e)||inSmokeAt(p.x,p.y,8))return 0;
- var c=foeNoticeCfg(e),d=Math.hypot(p.x-e.x,p.y-e.y);
- if(d>c.confirm)return 0;
- if(d>70&&G&&G.inf&&(G.infT||0)<1.2)return 0;
- if(!los(e.x,e.y,p.x,p.y))return 0;
- if(d<70)return 1;
- var aa=(e.tp==='tank')?e.ta:e.a,
-  off=Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),aa));
- return off<1.05?1:0;
-}
+ if(G&&G.inf&&(G.infT||0)<1.2)return 0;
+ var v=foeView(e),
+  aa=(e.tp==='tank')?e.ta:e.a,
+  len=v.len*(p.hide?p.hide:1);
+ if(!inViewAt(p.x,p.y,e.x,e.y,aa,len,v.wid,v.near))return 0;
+ return los(e.x,e.y,p.x,p.y)?1:0}
 function foeAimReady(e,p){
  if(!e||!p)return false;
  return Math.abs(adiff(Math.atan2(p.y-e.y,p.x-e.x),e.a))<.30;
@@ -7341,8 +7363,7 @@ function foeSearchStep(e,dt,p){
   e.backT-=dt;e.vx=e.vy=0;e.fireN=0;
   var bd=Math.atan2(p.y-e.y,p.x-e.x);e.a+=clamp(adiff(bd,e.a),-dt*2,dt*2);
   if(e.backT<=0){
-   e.backT=0;e.a=bd;e.hx=p.x;e.hy=p.y;e.st='alert';e.alert=1;e.rt=.35;e.susWait=0;
-   G.inf=0;G.alerted=1;wakeNear(e.x,e.y,420,1);
+   e.backT=0;e.a=bd;e.hx=p.x;e.hy=p.y;e.st='alert';e.alert=1;e.rt=FOE_BUMP_RT;e.susWait=0;
   }
   return;
  }
@@ -7395,7 +7416,7 @@ function foeAlarm(e,mx,my,opts){
  var thx=(opts.threatX!=null?opts.threatX:mx),thy=(opts.threatY!=null?opts.threatY:my),
   engaged=e.alert&&e.st==='engage';
  e.dormant=0;e.noticeT=0;
- if(!opts.quiet){G.inf=0;G.alerted=1;alertAt(e.x,e.y);wakeNear(e.x,e.y,760,3)}
+ if(!opts.quiet){alertAt(e.x,e.y);snd.alert()}
  if(engaged){
   e.hx=mx;e.hy=my;e.lx=mx;e.ly=my;
   if(los(e.x,e.y,mx,my))e.lastSeen=G.t;else e.lastSeen=-99;
@@ -7427,6 +7448,67 @@ function foeAlertTo(e,x,y,quiet,srcObj){
   var sp=alertSpot(s.x,s.y,55);
   return foeAlarm(e,sp.x,sp.y,{quiet:!!quiet,provoke:1,threatX:s.x,threatY:s.y})}
  return foeAlarm(e,x,y,{quiet:!!quiet,provoke:1})}
+
+/* ==== v77 区域潜入失效 ====
+   潜入只在两种情况下结束：玩家暴露枪声（非手枪）、或敌方小兵真的朝玩家开枪。
+   结束时以玩家为圆心划出一个圆形警戒区（FOE_ZONE_R）：
+   - 圈内的敌人被惊动，其中约 55% 向事发区域集结，其余就近找掩体；
+   - 圈外的敌人完全不受影响，仍然保持潜入/巡逻状态；
+   - 坦克只进入警戒，不参与集结（仍走自己的装甲逻辑）。 */
+function foeZoneAlert(cx,cy,r){
+ if(!L||!G)return null;
+ r=r||FOE_ZONE_R;
+ G.zone={x:cx,y:cy,r:r,t:G.t};G._zoneT=G.t;
+ var i,e,d,n=0,rally=0,cover=0,tank=0,was;
+ for(i=0;i<L.en.length;i++){
+  e=L.en[i];
+  if(!e||e.dead||e.sub>0)continue;
+  d=Math.hypot(e.x-cx,e.y-cy);
+  if(d>r)continue;                 /* 圈外：保持潜入 */
+  n++;
+  if(e.tp==='tank'){               /* 坦克：只警戒，不集结 */
+   tank++;
+   if(!e.alert){e.alert=1;e.hx=cx;e.hy=cy;e.lx=cx;e.ly=cy;e.canSee=0;e.pathT=0;e.path=null}
+   continue}
+  was=!!e.alert;
+  if(e.dormant)wakeEnemy(e,1);
+  e.alert=1;e.dormant=0;e.noticeT=0;
+  /* 已经在交战/警戒的：只更新记忆点，不重复找掩体（避免重复刷新时的开销） */
+  if(was&&(e.st==='engage'||e.st==='alert'||e.st==='cover')){
+   if(Math.random()<.5){e.hx=cx;e.hy=cy}
+   continue}
+  if(Math.random()<FOE_RALLY_P){
+   /* 集结：走到事发区域再展开搜索 */
+   e.st='alert';e.rt=Math.min(.8,.35+Math.random()*.35);
+   e.hx=cx;e.hy=cy;e.lx=cx;e.ly=cy;e.lastSeen=-99;
+   e.canSee=0;e.fireN=0;e.sw=0;
+   e.path=null;e.pathT=0;e.pi=0;e.pg=null;e.mvMode='approach';
+   e.coverGoal=null;e.ptGoal=null;
+   rally++;
+  }else{
+   /* 其余就地找掩护 */
+   if(!foeTakeCover(e,cx,cy)){
+    e.st='alert';e.rt=.5;e.hx=cx;e.hy=cy;e.lx=cx;e.ly=cy;e.lastSeen=-99;
+    e.canSee=0;e.fireN=0;e.sw=0;e.path=null;e.pathT=0}
+   cover++;
+  }
+ }
+ return {n:n,tank:tank,rally:rally,cover:cover}}
+
+/* 统一的「潜入结束」入口：写状态 + 划警戒区 + 反馈 */
+function breakStealth(why,cx,cy,r){
+ if(!G)return false;
+ var was=!!G.inf,
+  px=(cx!=null?cx:(G.p?G.p.x:0)),py=(cy!=null?cy:(G.p?G.p.y:0));
+ G.inf=0;G.alerted=1;G.infMsg=1;
+ var z=foeZoneAlert(px,py,r||FOE_ZONE_R);
+ if(was)feed((why||'暴露')+' · 潜入阶段结束',0);
+ return z||true}
+/* 交火中持续刷新警戒区（限流 3 秒一次），让后来的枪声也能把圈内的人拉过来 */
+function refreshZone(cx,cy){
+ if(!G||!G.alerted)return;
+ if(G.t-(G._zoneT||-99)<3)return;
+ foeZoneAlert(cx==null?G.p.x:cx,cy==null?G.p.y:cy)}
 function foeOnHit(e,x,y,quiet,srcObj){
  if(!e||e.dead)return false;
  if(e.tp==='tank')return armorProvoke(e,x,y,quiet,srcObj||G.p);
@@ -7726,8 +7808,8 @@ function qteSeedBombGuards(){
    初始坦克不走这里，所以 QTE-03 开局仍保持潜入状态。 */
 function qteBreakInfiltration(){
  if(!G||!G.inf)return;
- G.inf=0;G.alerted=1;G.infMsg=1;
- feed('敌方增援入场 · 潜入阶段结束',0);
+ G.infMsg=1;
+ breakStealth('敌方增援入场');
 }
 function qteSpawnArmor(tp,nerf){
  if(!L||!G||tp!=='tank')return null;
@@ -11180,6 +11262,16 @@ var PATCHES=[
          '搜索状态新增脱困：连续 3 个搜索点都走不通（典型是被关着的门隔在自己这间屋里），就改为靠近最近能挡视线的掩体找掩护；找不到掩体才退回原地警戒。',
          '枪声、爆炸、受击、坦克炮声全部走同一个「被惊动」入口，行为一致；坦克仍走自己的装甲逻辑。',
          '实测：全部 19 名巡逻敌人 20 秒内均在移动、无一人卡进墙体，单人最慢净位移 12px（绕回原点属正常巡逻）；170px 命中 → 搜索；435/1072px 命中 → 掩体 → 搜索；搜索点全在墙内 → 掩体；19 名敌人 updateEn 每帧 0.14ms；patch=76、err=false。'
+        ]},
+       {v:77,d:'2026-11-28',t:'敌方视锥 · 看见即开火 · 区域潜入失效',
+        items:[
+         '敌方小兵接入与玩家完全相同的视锥公式：正面一个随距离变宽的锥形视野，长度与宽度直接取自该守卫手中的枪，不同武器得到不同视角。',
+         '实测锥形：步枪兵（HK416）480×300、冲锋枪兵（MP5）317×170、重甲兵（SCAR-H）536×300、狙击兵（M24）740×250；狙击兵是步枪兵的 1.54 倍、冲锋枪兵的 2.34 倍。背后与侧面 90° 都看不见。',
+         '看见即开火：玩家落进视锥且有视线，守卫立刻举枪进入交战，不再退回问号搜索；问号搜索只留给锥外的被动感知。',
+         '正面遭遇：140px 内正对撞见，该守卫抬枪时间缩短到 0.16 秒并喊话，只惊动他一人，不会喊醒同层其他人。',
+         '潜入判定改为「谁先开枪」：被守卫看见不再直接结束潜入；只有在守卫扣下扳机，或你打出非手枪枪声时才算暴露。用手枪在对方开火前打死他，潜入保持。',
+         '区域潜入失效：暴露后以玩家为圆心划出半径 760 的警戒圈，圈内守敌全部惊动且约 55% 向事发区域集结、其余就近找掩体；圈外敌人完全不受影响，仍按潜入巡逻。坦克只警戒不集结。交火中每 3 秒按玩家新位置刷新警戒圈。',
+         '实测：300px 正面视锥=1、背后=0、侧面 90°=0；看见后 st=alert 且 G.inf 仍为 1、其他敌人 0 人惊动；手枪在敌人开火前击杀 → G.inf 仍 1、无警戒圈；敌人开火 → G.inf=0、警戒圈 760、圈内 7/7 惊动、圈外 11/11 不惊动；玩家居中时 10 名圈内敌人 6 集结 4 掩体、9 名圈外 0 惊动、0 人卡墙；patch=77、err=false。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
