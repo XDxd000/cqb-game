@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0b0f13">
 <link rel="icon" href="data:,">
-<title>UNF 快反分队 · 五区行动</title>
+<title>UNF 快反分队</title>
 <style>
 /* SECTION: style */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -1262,7 +1262,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
  <div class="ufiFinal">
   <div>UNIFIED NATIONS FORCE</div>
   <b>UNF 快反分队</b>
-  <span>五区行动 · 新兵，欢迎加入</span>
+  <span>新兵，欢迎加入</span>
  </div>
  <div class="ufiBottom"><div class="ufiBar"><i id="ufiBar"></i></div>
   <div class="ufiMeta"><span id="ufiStep">STANDBY</span><span>SPACE 跳过</span></div>
@@ -10823,6 +10823,12 @@ var PATCHES=[
          '实机剪辑覆盖 OP-01/02/03/06；QTE 段加入炸弹拆除、敌方坦克与步兵、战术平板呼叫支援、玩家与支援坦克并肩作战。',
          '删除终端授权、危机处置、Zone 等说明文案；只保留「UNF 快反分队」介绍和地图卡名称，画面不再叠加额外字幕。',
          '结尾先铺好任务列表，再用上滑擦除揭开，避免动画结束到菜单之间出现黑屏或跳变；Space / Esc / 点击仍可跳过。'
+        ]},
+       {v:70,d:'2026-11-28',t:'UNF 命名清理 · 页面标题统一',
+        items:[
+         '网页标题统一为「UNF 快反分队」，不再带旧行动副标题。',
+         '战术档案标题改为「UNF 战术档案」；档案处置段与旧开场收尾字幕移除旧行动代号，改用「联合危机响应」与「新兵，欢迎加入」。',
+         '源码内旧行动代号检索结果为 0 处；游戏内页面、开场、档案与文档不再出现该名称。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -11373,10 +11379,10 @@ var DRG=[
  ['沈钺','去吧。我跟着你，最后一发我看着。','building']
 ];
 /* 终局考核档案：剧情开始前读的一段档案，不与任何角色对话混在一起 */
-var DRG_BG={t:'UNF 五区行动 · 战术档案',b:[
+var DRG_BG={t:'UNF 战术档案',b:[
  '背景：全球安全危机接连爆发后，联合政府组建 UNF（Unified Nations Force，联合政府统一部队），把各成员国的精锐编成可跨区部署的快速反应分队。你所在的第 5 特遣队，代号「猎鹰」，负责进入危机最深处处理人质、清剿与拆弹任务。',
  '危机：跨国武装网络「赤隼」趁乱控制了第五危机区（Zone 5）的公寓、商场、储运站与机场，扣押平民、囤积军火，并把这里当成向全球扩散的跳板。',
- '处置：UNF 启动「五区行动」，由第 5 特遣队从外围向核心逐区推进。每推进一区，对方的装备、火力和反应都会更硬；行动顺序由易到难。',
+ '处置：UNF 启动联合危机响应，由第 5 特遣队从外围向核心逐区推进。每推进一区，对方的装备、火力和反应都会更硬；行动顺序由易到难。',
  '编成：本次终局考核不编入英雄队员，也不提供第二套配装。你带自己的主武器与副武器独自进场。',
  '你：档案上名字后面跟着「UNF 新兵」。你从成员国选拔中脱颖而出，考核成绩排在前面，但还没有人见过你在门后是什么样。',
  '须知：人质优先于击毙；能缴械就不开枪；误伤平民按违规重处。任务失败会扣军衔分，但已经解锁的装备永不回收。',
