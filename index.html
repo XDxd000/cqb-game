@@ -1602,6 +1602,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
       <div class="gauge"><b>单发伤害</b><span class="gbar"><i id="gD"></i></span></div>
       <div class="gauge"><b>火力持续</b><span class="gbar"><i id="gR"></i></span></div>
       <div class="gauge"><b>精度射程</b><span class="gbar"><i id="gA"></i></span></div>
+      <div class="gauge"><b>后坐控制</b><span class="gbar"><i id="gK"></i></span></div>
       <div class="gauge"><b>携行灵活</b><span class="gbar"><i id="gM"></i></span></div>
       <h3>现实参数（公开资料）</h3>
       <table class="sp"><tbody>
@@ -1870,8 +1871,12 @@ table.rt td:last-child{text-align:right;font-weight:600}
 掩体（墙体、柜台、集装箱、沙袋）会真实阻挡子弹，掩体后方的敌人无法命中。室内近战优先霰弹枪与冲锋枪，开阔视野使用步枪与精确射手武器。
 场景中会有被扣押的平民：靠近后互动可将其解救，他们会跟随你——<b style="color:#e08a7b">走火误伤平民按 ROE 违规重扣分并下调评级</b>，这正是现实交战规则。</p>
   <h3>射击模式与据枪</h3>
- <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随枪口热量扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
+ <p>按 <span class="kbd">V</span> 切换射击模式：步枪提供 <b>单发 / 短点射 / 全自动</b>，冲锋枪提供 <b>单发 / 全自动</b>，手枪、霰弹枪与狙击枪固定单发。射速仍按各枪公开的理论射速（发/分）计算；单发首发最稳，短点射是一次触发 3 发，全自动会随后坐累积扩大散布。这里的“短点射”是训练用三发组，现实中机械 burst 只存在于特定击发组，不是每把步枪都有。</p>
  <p>按住 <span class="kbd">Space</span> 据枪（鼠标右键不再据枪）：散布收紧、移速下降，远距离与切角时必须用。触屏用右侧「据枪」圆钮。军械库的枪械详情新增「游戏内射击模式」一栏，可先看清这把枪能切哪些模式。</p>
+ <p><b>后坐力</b>：每把枪有一个后坐力数值，<b>HK416A5 = 1.00</b> 为基准，冲锋枪 0.44–0.62、手枪 0.56–0.86、5.56 步枪 0.90–1.10、7.62 全威力步枪 1.18–1.58、霰弹枪 1.58–1.72、狙击枪 1.50–2.85。这个数值只通过两件事体现：<br>
+ ① <b>扫射精度</b>——连续射击会累积后坐，后坐力越高累积得越快、满热后的散布上限也越大（HK416A5 满扫射约 +65%，SCAR-H 约 +88%，P90 约 +43%），停火后按后坐力高低以不同速度回落；<br>
+ ② <b>开火减速</b>——每次开枪都会短暂拖慢移速，后坐力越高扣得越深、时间越长（HK416A5 −30%／0.46 秒，SCAR-H −42%／0.57 秒，M107 触顶 −55%／0.83 秒，MP5 仅 −21%／0.37 秒）。<br>
+ 制退器、消焰器等改件与队员专长会同时压低这两项；军械库的「后坐控制」条与详情末行直接给出数值、满扫射散布增幅与开火减速百分比。</p>
  <h3>CQB 战术原则</h3>
  <p>新兵训练完成后开放 <b>CQB 战术学习 · 训练楼</b>。顺序是现实 door procedure：<b>贴墙切角 → 破门 → 投掷开路 → 控制射击 → 清房复检</b>。不要站在门洞正中（fatal funnel），进门先清近角再清远角；室内优先单发或两发点射，只在近距离压制时用连发。枪口始终指向威胁方向，未确认目标前食指离开扳机；门后可能有人质，先识别再射击。现实 CQB 至少两人一组，一人进房、一人控门；本关是单人条件下的原则演示，不替代团队合练。</p>
  <p><b>所有门都要破拆</b>：v19 起门不再有可开合的门扇模型，也不能直接推开。靠近封门按住 <span class="kbd">F</span>，木门约 1.2 秒、金属门约 2.2 秒、玻璃门约 0.45 秒；松手、走进门洞或离得太远都会中断。敌人、人质与队友都不会替你开门。破拆会发出声响，门后可能有阻门器拖慢进度。</p>
@@ -2412,6 +2417,32 @@ var ERGO_BASE={pistol:1.20,smg:1.05,shotgun:.95,rifle:.90,sniper:.55,launcher:.7
   if(o.cls==='launcher'){o.vr=1900;o.adsK=.30}
   if(o.cls==='shotgun'){o.vr=Math.round(o.vr*.9)}
  }})();
+/* SECTION: recoil v75 后坐力机制
+   rc 是每把枪的「后坐力数值」，HK416A5 = 1.00 为基准。它不直接改单发散布，
+   而是同时驱动两件事，两者合起来就是这把枪的后坐力手感：
+     1) 扫射精度：rc 越高，连射累积越快（rcHeatGain），满热后的散布上限也越大（rcSpreadCap）；
+     2) 开火减速：rc 越高，每次开枪后的移速惩罚越深、持续越久（rcMoveSlow / rcMoveTime）。
+   制退器、消焰器（改件 recoil 系数）与队员专长会同时压低这两项。
+   数值本身是游戏化平衡，不是现实后坐冲量换算。 */
+var RC_T={
+ /* 5.56 步枪族：绕 1.00 上下浮动 */
+ m4a1:1.00,hk416:1.00,scarl:.97,x95:.93,aug:.90,l85a2:1.02,sg553:1.06,
+ qbz191:.94,qbz03:1.10,qbz95:1.04,qbz951:.99,
+ /* 7.62 / 6.8 全威力步枪：明显更大 */
+ ak12:1.18,scarh:1.58,spear:1.46,
+ /* 冲锋枪：最低 */
+ mp5:.54,p90:.44,mp7a2:.50,type79:.62,qcw05:.47,
+ /* 霰弹枪：一次多弹丸，后坐最猛的一类 */
+ m870:1.72,benelli:1.58,spas12:1.66,qbs09:1.62,
+ /* 狙击枪：单发为主，扫射累积小，但开火减速最重 */
+ m24:1.95,qbu88:1.70,qbu191:1.50,cslr4:2.00,ax50:2.15,m200:2.05,
+ m107:2.85,qbu10:2.55,
+ /* 手枪：轻 */
+ g19:.60,p320:.66,b92fs:.56,qsz19:.62,type54:.86,qsz92g:.65,
+ /* 火箭筒 */
+ at4:1.35
+};
+(function(){var id,o;for(id in WM){o=WM[id];o.rc=(RC_T[id]!=null?RC_T[id]:1.0)}})();
 /* v20 军械库精简：突击步枪只保留 HK416A5 / AK-12 / SCAR-H / QBZ-191，
    狙击枪只保留 AX50 / CS/LR4 / QBU-191。M200 定义仍留在 WM 里作为旧存档兜底，
    但 WP 不再收录，军械库、随机配枪与解锁列表都不会再出现。
@@ -5142,7 +5173,7 @@ function ammoResupply(g){
  var n=g.w.cap*2;g.res=(g.res||0)+n;return n}
 function swGun(i){var p=G.p;if(!p||i===p.wi||p.sw>0||i<0||i>=p.guns.length)return;
  var wasRl=p.rl>0,wasKd=p.kd>0;p.wi=i;p.sw=0;p.rl=0;p.kd=0;p.wasH=0;
- p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;
+ p.gren=0;p.cook=0;p.cooking=0;p.burstN=0;p.heat=0;p.adsT=0;p.fireMoveT=0;
  p.fm=modeOf(p.guns[i].w);snd.swap();updGun();tutEv('swap');
  if(wasRl)toast('换弹中切枪 · 换弹已打断',2200);
  else if(wasKd)toast('切枪完成 · 可立即射击',1200)}
@@ -5154,7 +5185,19 @@ function tryReload(){var p=G.p;if(!p||p.rl>0)return;var g=cur();
    - 站定 + 完全据枪 = 最准；
    - 移动时按武器 moveK 放大散布，狙击枪最怕边跑边打；
    - 据枪有 0.2–0.5 秒的过渡（ergo），刚按下 Space 不会立刻满精度；
-   - 配件、队员专长、射击模式与枪口热量再乘算。 */
+   - 配件、队员专长、射击模式与扫射累积（后坐力）再乘算。 */
+/* ---- v75 后坐力数值的两个出口 ---- */
+/* 满扫射时的散布上限：rc 越高，越打越散得厉害 */
+function rcSpreadCap(w){return .25+.40*((w&&w.rc)||1)}
+/* 每发累积多少「扫射累积」：rc 越高积得越快，射速越快积得越快，单发/短点射积得慢 */
+function rcHeatGain(w,fm){
+ var k=(fm==='auto')?1:(fm==='burst'?.80:.45);
+ return .042*Math.pow((w&&w.rc)||1,1.5)*(((w&&w.rpm)||600)/600)*k}
+/* 停火后每秒回落多少：rc 越高回落越慢（枪越难压住） */
+function rcHeatDecay(w){return 1.9/Math.max(.6,((w&&w.rc)||1)*.9)}
+/* 开火那一下的移速惩罚深度与持续时间：rc 越高扣得越狠、越久 */
+function rcMoveSlow(w){return clamp(.10+.20*((w&&w.rc)||1),.06,.55)}
+function rcMoveTime(w){return .26+.20*((w&&w.rc)||1)}
 function shotSpread(w,p,fm){
  var fx=attFx();
  var mv=clamp(Math.hypot(p.vx||0,p.vy||0)/Math.max(1,p.sp),0,1.5);
@@ -5166,7 +5209,8 @@ function shotSpread(w,p,fm){
  /* v58：只放大移动带来的散布，站定据枪精度不变。 */
  if(w.cls==='sniper')moveF=1+(moveF-1)*2.4;
  var modeF=fm==='semi'?.80:(fm==='burst'?.98:1.12);
- var heat=1+Math.min(.65,(p.heat||0)*(w.recK||1)*.55);
+ /* v75：扫射累积 × 后坐力上限；制退器（fx.recoil）与队员专长（recK）同时压低这一项 */
+ var heat=1+clamp(p.heat||0,0,1)*rcSpreadCap(w)*(fx.recoil||1)*(p.recK||1);
  var hip=ads?1:(fx.hip||1);
  var opAim=ads?(p.aimK||1):1;
  var auto=(fm==='auto')?(fx.auto||1):1;
@@ -5193,8 +5237,9 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
  /* v58：AT4 必须完全据枪才能发射，腰射只提示，不消耗火箭弹。 */
  if(w1.cls==='launcher'&&!p.aim){toast('AT4 必须据枪才能发射 · 按住 Space 据枪',2400);return}
  g.am--;p.shots=(p.shots||0)+(w1.pl||1);p.kd=Math.max(.015,60/w1.rpm);
- /* v61：除冲锋枪外，开火后 0.45 秒内移动速度降低 30%。 */
- if(w1.cls!=='smg')p.fireMoveT=.45;
+ /* v75：开火减速由后坐力数值决定——rc 越高，扣得越深、时间越长；据枪时略轻。
+    冲锋枪靠低 rc 自然占优，不再单独豁免。 */
+ p.fireMoveT=Math.max(p.fireMoveT||0,rcMoveTime(w1)*(p.aim?.80:1));
  if(L&&L.cfg&&L.cfg.cqb&&(p.fm||modeOf(w1))==='semi'&&p.aim)cqbEv('semiShot');
  var base=p.aa,fm=p.fm||modeOf(w1);
  var sp2=shotSpread(w1,p,fm);
@@ -5213,8 +5258,8 @@ function fire(){var p=G.p;if(!p||G.phase!=='live'||G.over||G.qte)return;
    b.pierce=w1.cls==='sniper'?2:0;b.hit=b.pierce?[]:null;
    b.armorDmg=1;b.at=w1.at||0;b.atR=w1.atR||132;b.atDmg=w1.atDmg||420;b.tank=0;b.mg=0;b.srcArmor=0;b.sup=0}
  p.aa=base+(Math.random()-.5)*w1.kk*.012*(fm==='semi'?.7:1)*(p.recK||1)*(fx.recoil||1);
- if(fm==='auto')p.heat=Math.min(1,(p.heat||0)+.12*(w1.recK||1));
- else if(fm==='burst')p.heat=Math.min(.5,(p.heat||0)+.04*(w1.recK||1));
+ /* v75：扫射累积 —— 每发按后坐力与射速累积，制退器与专长按 recoil 系数折减 */
+ p.heat=Math.min(1,(p.heat||0)+rcHeatGain(w1,fm)*(fx.recoil||1)*(p.recK||1));
  shake=Math.min(9,shake+w1.kk*(p.aim?.55:1)*.95*(fx.recoil||1)*(p.recK||1));
  if(w1.cls==='sniper'){p.vx-=Math.cos(base)*46;p.vy-=Math.sin(base)*46}
  snd.fire(w1,0);
@@ -7751,9 +7796,9 @@ function updatePlayer(dt){var p=G.p,i;
  var spr=0;if(p.run&&ml>.2){if(p.sT>0){spr=1;p.sT-=dt}else{p.run=0}}
  if(!p.run)p.sT=Math.min(2.4,p.sT+dt*1.4);
  var adsMove=aw.cls==='launcher'?0:(aw.cls==='sniper'?.34:.6);
- /* v61：除冲锋枪外，开火后 0.45 秒内移速降至 70%；烟幕/开火惩罚与据枪、疾跑叠乘。 */
+ /* v75：开火减速按当前武器后坐力实时计算；与据枪、疾跑、受击叠乘。 */
  p.fireMoveT=Math.max(0,(p.fireMoveT||0)-dt);
- var fireK=(p.fireMoveT>0&&aw.cls!=='smg')?.70:1;
+ var fireK=(p.fireMoveT>0)?(1-rcMoveSlow(aw)*(p.recK||1)*(p.aim?.85:1)):1;
  /* v72：副武器（手枪）持枪移速大幅提高；据枪/疾跑惩罚仍照常叠乘。 */
  var secMove=(aw.cls==='pistol')?1.40:1;
  var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1)*fireK*secMove;
@@ -7764,7 +7809,7 @@ function updatePlayer(dt){var p=G.p,i;
  var ny=p.y+p.vy*dt;if(freeAt(p.x,ny,p.r))p.y=ny;else p.vy=0;
  if(ml>.1)p.bob+=dt*(spr?15:9);
  p.kd-=dt;if(p.kd<0)p.kd=0;
- p.heat=Math.max(0,(p.heat||0)-dt*1.8);
+ p.heat=Math.max(0,(p.heat||0)-dt*rcHeatDecay(aw));
  if(p.rl>0||p.sw>0)p.burstN=0;
  if(p.throwT>0)p.throwT=Math.max(0,p.throwT-dt);
  p.sw-=dt;if(p.sw<0)p.sw=0;
@@ -10919,6 +10964,15 @@ var PATCHES=[
          '启动页、背景设定、帮助页、任务进度条与入场片地图卡片的行动顺序文案同步改为 OP-04。',
          '新兵难度手雷规则重做：手雷命中玩家后不再按距离扣 1–3 格，而是插板耐久直接清零、体力只剩 1 格；老兵/现实难度仍然一炸致命。',
          '实测：主线编号为 OP-01/02/03/04；机场卡片与其它 OP 卡片同款；新兵难度手雷命中后插板 0/8、体力 1/8；patch=74、err=false。'
+        ]},
+       {v:75,d:'2026-11-28',t:'后坐力机制 · 扫射精度与开火减速',
+        items:[
+         '新增后坐力数值：每把枪一个 rc，HK416A5 = 1.00 为基准。冲锋枪 0.44–0.62、手枪 0.56–0.86、5.56 步枪 0.90–1.10、7.62 全威力步枪 1.18–1.58、霰弹枪 1.58–1.72、狙击枪 1.50–2.85。',
+         '扫射精度：连射累积后坐，rc 越高累积越快、满热散布上限越大。HK416A5 满扫射 +65%、SCAR-H +88%、AK-12 +74%、P90 +43%、MP5 +47%；停火后按 rc 回落，rc 越高回落越慢。',
+         '开火减速：每次开枪后的移速惩罚改为按 rc 计算，rc 越高扣得越深、持续越久。HK416A5 −30%/0.46s、SCAR-H −42%/0.57s、AK-12 −34%/0.50s、M107 −55%/0.83s、MP5 −21%/0.37s、Glock 19 −22%/0.38s；冲锋枪不再单独豁免，靠低 rc 自然占优。',
+         '制退器/消焰器（改件 recoil 系数）与队员专长同时压低扫射累积与开火减速。',
+         '军械库新增「后坐控制」条，并在枪械详情末行给出后坐力数值、满扫射散布增幅与开火减速百分比；作战手册新增后坐力说明。',
+         '实测：HK416A5 全自动约 1.34 秒打满扫射，SCAR-H 约 1.20 秒，P90 约 3.6 秒；满热散布倍率 1.65/1.88/1.43；开火减速 30%/42%/21%；patch=75、err=false。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -12421,12 +12475,15 @@ function showDtl(){var o=WM[ST.sel];if(!o)return;
  $('gD').style.width=clamp(o.dmg*(o.pl||1)/1.95,0,100)+'%';
  $('gR').style.width=clamp((o.rpm-20)/900*100,0,100)+'%';
  $('gA').style.width=clamp((1-o.sp/.16)*55+o.rn/5200*45,0,100)+'%';
+ /* v75：后坐控制条 —— 条越满代表后坐力数值越低 */
+ $('gK').style.width=clamp(100-((o.rc||1)-.40)/(3.00-.40)*100,0,100)+'%';
  $('gM').style.width=clamp(52+(o.mb+.14)*130,0,100)+'%';
  $('p1').textContent=o.mk;$('p2').textContent=o.cal;$('p3').textContent=o.rt;$('p4').textContent=o.mg;
  $('p5').textContent=o.br;$('p6').textContent=o.mz;$('p7').textContent=o.rg;$('p8').textContent=o.wt;
  var fms=modesOf(o);
  if($('p9'))$('p9').textContent=fms.map(function(m){return modeName(m)}).join(' / ')+
-  (fms.length>1?('（按 '+kLabel(KM.mode)+' 切换；射速按公开 '+o.rpm+' 发/分）'):'（固定单发；射速按公开 '+o.rpm+' 发/分）')+'；视野 '+o.vr+'×'+o.vw+' px · 完全据枪散布 '+(o.adsK*100).toFixed(0)+'% · 移动散布 ×'+(o.moveK||1).toFixed(2);
+  (fms.length>1?('（按 '+kLabel(KM.mode)+' 切换；射速按公开 '+o.rpm+' 发/分）'):'（固定单发；射速按公开 '+o.rpm+' 发/分）')+'；视野 '+o.vr+'×'+o.vw+' px · 完全据枪散布 '+(o.adsK*100).toFixed(0)+'% · 移动散布 ×'+(o.moveK||1).toFixed(2)+
+  ' · 后坐力 '+(o.rc||1).toFixed(2)+'（满扫射散布 +'+Math.round(rcSpreadCap(o)*100)+'%，开火减速 −'+Math.round(rcMoveSlow(o)*100)+'% / '+rcMoveTime(o).toFixed(2)+' 秒）';
  $('cP').textContent=WM[ST.load[0]].n;$('cS').textContent=WM[ST.load[1]].n;
  $('bSetP').classList.toggle('on',ST.sel===ST.load[0]);
  $('bSetS').classList.toggle('on',ST.sel===ST.load[1]);
