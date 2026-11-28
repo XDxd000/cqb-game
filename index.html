@@ -1883,7 +1883,7 @@ table.rt td:last-child{text-align:right;font-weight:600}
   <h3>潜入与警报</h3>
   <p>任务开局是 <b style="color:#9fc6de">潜入阶段</b>：开局只唤醒 1 名最近守卫，其余守敌在你推进时分批激活，HUD 暂时显示「残敌 ?」。守卫仍然依靠正面视野锥与 LOS 遮挡确认目标；开局约 1.2 秒内只确认近距离目标，不会隔着半张地图直接锁定；<b style="color:#e2a93e">枪声、爆炸、破拆或喊话</b>都会打破潜入，附近守敌会被枪声唤醒。利用掩体绕后、避开正面视线，能避免一进门就被集火。</p>
   <p>敌人也接入玩家的武器系统：射速、弹匣、换弹时间、弹速与视野长度都取自对应枪械。失去视线后，敌人只记得<b style="color:#dce7ee">最后一次真正看见你的位置</b>，会向那里搜索或短促压制，不会隔着墙读取你的实时坐标；想重新锁定，必须重新获得视线。</p>
-  <p><b>被动索敌与搜索</b>：守卫现在有更大的被动感知圈。玩家进入正面约 420–680px、背后约 290–540px（随兵种和移动状态变化）且有视线时，守卫会先出现黄色「?」，转向声源并在附近 3 个点低速搜索 9–15 秒；问号阶段不会开枪，也不会清除潜入状态。只有真正进入确认圈、视线持续成立，或你开枪/制造爆炸，才会显示「!」并打破潜入。隔墙、隔掩体与烟幕内不会触发被动感知。</p>
+  <p><b>被动索敌与搜索</b>：守卫现在有更大的被动感知圈。玩家进入正面约 420–680px、背后约 290–540px（随兵种和移动状态变化）且有视线时，守卫会先出现黄色「?」，转向声源并在附近 3 个点低速搜索 9–15 秒；老兵难度搜索时间 ×1.4，现实难度 ×2.0。问号阶段不会开枪，也不会清除潜入状态。只有真正进入确认圈、视线持续成立，或你开枪/制造爆炸，才会显示「!」并打破潜入。隔墙、隔掩体与烟幕内不会触发被动感知。</p>
   <p><b>受击反击</b>：任何敌人被击中都会在 0.25–0.55 秒内转向攻击方向并反击，不再只举手不还枪。坦克被轻武器命中时虽然装甲免疫，但炮塔会开始转向，并列机枪先以更快角速度对准并短点射，主炮只有在炮塔角差进入 2° 后才开火；隔墙不射，玩家躲到掩体后坦克会向最后位置机动。</p>
   <p><b>防卡位与防扎堆</b>：搜索、警戒、接敌统一走导航网格；战斗时每名步兵和每辆坦克分配独立槽位，禁止多人挤同一墙角或多车抢同一掩体。墙角、卡位有后退—侧绕—兜底三级脱困，战斗中每 2 秒自动审计。</p>
   <p><b>重装甲与楼宇</b>：敌方坦克不会驶入楼内——QTE 城市图只走道路，普通地图门洞对车体是不可穿越线。但门被破开后，车体可以停在门外，通过门洞向室内开火。</p>
@@ -2310,7 +2310,7 @@ w({id:'type54',n:'54 式手枪',cls:'pistol',cn:'国产手枪',g:'▮',
  dmg:26,rpm:320,cap:8,rl:1.8,sp:.034,bs:1300,rn:800,au:0,kk:1.15,mb:.02,pen:1,pl:1,tk:0}),
 w({id:'qsz92g',n:'QSZ-92G 手枪',cls:'pistol',cn:'国产手枪',g:'▮',
  mk:'中国兵器装备集团（公开资料）',
- cal:'9×19mm / 5.8×21mm（双口径版本）',rt:'枪管短后坐 + 回转闭锁，单/双动',
+ cal:'9×19mm Parabellum',rt:'枪管短后坐 + 回转闭锁，单/双动',
  mg:'15 发弹匣',br:'约 111 mm',mz:'约 350 m/s',
  rg:'约 50 m',wt:'空枪约 0.76 kg',
  it:'92 式手枪的改进型，握把与保险机构优化，戴手套操作更顺；警用与外贸版本常见 9mm 口径。',
@@ -2325,7 +2325,7 @@ w({id:'type79',n:'79 式冲锋枪',cls:'smg',cn:'国产冲锋枪',g:'▮',
 w({id:'qcw05',n:'05 式微声冲锋枪',cls:'smg',cn:'国产微声冲锋枪',g:'▮',
  mk:'中国（公开资料）',
  cal:'5.8×21mm 微声弹',rt:'自由枪机，单/连发，消声器一体',
- mg:'50 发弹匣',br:'较短（公开数据为区间值）',mz:'亚音速（公开口径）',
+ mg:'50 发弹匣',br:'约 250 mm（公开数据为区间值）',mz:'亚音速（公开口径）',
  rg:'约 150 m',wt:'空枪约 2.2 kg',
  it:'5.8mm 微声冲锋枪，弹匣容量大、枪口特征小，适合破门后近距离连续压制，穿透力相对温和。',
  dmg:21,rpm:900,cap:50,rl:2.6,sp:.030,bs:1050,rn:1000,au:1,kk:.85,mb:.03,pen:0,pl:1,tk:3}),
@@ -2346,7 +2346,7 @@ w({id:'qbz951',n:'QBZ-95-1 步枪',cls:'rifle',cn:'国产突击步枪',g:'▣',
 w({id:'qbs09',n:'QBS-09 军用霰弹枪',cls:'shotgun',cn:'国产军用霰弹枪',g:'▤',
  mk:'中国（公开资料）',
  cal:'18.4mm 霰弹',rt:'导气式半自动',
- mg:'5 发管状弹仓',br:'约 380 mm',mz:'公开数据未详',
+ mg:'5 发弹匣',br:'约 380 mm',mz:'公开数据未详',
  rg:'约 50 m',wt:'空枪约 3.3 kg',
  it:'我国军用霰弹枪，破门与近距离压制兼顾，弹丸散布大，室内一发即可压制整扇门洞。',
  dmg:18,rpm:120,cap:5,rl:3.0,sp:.075,bs:900,rn:700,au:0,kk:1.3,mb:-.02,pen:0,pl:7,tk:3}),
@@ -3831,7 +3831,7 @@ function smoke(x,y,n){var i;for(i=0;i<n&&pcount()<fxN();i++){var p=gpp();
 var FOE={grunt:{hp:56,r:14,sp:95,acc:1,dm:1,intel:1,nearR:88},
  rush:{hp:52,r:13,sp:112,acc:1,dm:1,intel:1,nearR:84},
  heavy:{hp:178,r:16,sp:56,acc:.72,dm:1,intel:.55,nearR:78,ar:.35},
- sniper:{hp:42,r:14,sp:56,acc:1.25,dm:1.9,intel:1.5,nearR:112},
+ sniper:{hp:42,r:14,sp:56,acc:2,dm:2,intel:1.5,nearR:112},
  boss:{hp:262,r:17,sp:94,acc:1.25,dm:2.0,intel:1.5,nearR:100},
  /* 巷战征召兵：30 秒一波的消耗品，精度和体力都低于正规步兵 */
  weak:{hp:34,r:13,sp:88,acc:.55,dm:.62,intel:.7,nearR:70},
@@ -5257,7 +5257,7 @@ function suspectAt(e,x,y,ang,dot,delay){
  e.st='suspect';e.alert=0;e.susKind='noise';e.hx=tx;e.hy=ty;e.lx=tx;e.ly=ty;e.lastSeen=-99;
  e.susPts=[{x:tx,y:ty}];e.susIdx=0;e.susScan=0;
  e.susWait=wasSus?Math.min(e.susWait||0,delay||(.75+Math.random()*1.0)):(delay||(.75+Math.random()*1.0));
- e.susT=Math.max(wasSus?e.susT||0:0,(e.susWait+4.5+Math.random()*2.2)*(.55+((e.intel||1)-.55)*1.4));
+ e.susT=Math.max(wasSus?e.susT||0:0,(e.susWait+4.5+Math.random()*2.2)*(.55+((e.intel||1)-.55)*1.4)*foeSearchK());
  e.vx=e.vy=0;e.fireN=0;e.sw=0;
  e.a=Math.atan2(ty-e.y,tx-e.x);
  return true}
@@ -5613,7 +5613,7 @@ function alertNearDeath(src){
   e.dormant=0;e.alert=0;e.st='suspect';e.canSee=0;e.fireN=0;e.vx=e.vy=0;
   e.hx=src.x;e.hy=src.y;e.lx=src.x;e.ly=src.y;e.lastSeen=-99;
   e.susWait=.45+Math.random()*.5;
-  e.susT=e.susWait+4.8+Math.random()*2.2;
+  e.susT=(e.susWait+4.8+Math.random()*2.2)*foeSearchK();
   e.a=Math.atan2(src.y-e.y,src.x-e.x);
   n++;
  }
@@ -5945,19 +5945,27 @@ function initInfiltration(stealth){
    - 每轮重新生成一次瞄准偏置，避免「第一发永远贴脸」。 */
 var E_BURST={grunt:[13,17],rush:[14,19],heavy:[7,10],sniper:[1,1],boss:[14,18],
  weak:[9,14],tank:[1,1]};
+function foeSearchK(){
+ var d=(L&&L.cfg&&L.cfg.diff)||1;
+ return d===3?2:(d===2?1.4:1)}
+function foeDiffBuff(e){
+ var d=(L&&L.cfg&&L.cfg.diff)||1;
+ if(!e||e.tp==='sniper'||e.tp==='tank')return {acc:1,rea:1};
+ return d===3?{acc:1.12,rea:.86}:(d===2?{acc:1.06,rea:.92}:{acc:1,rea:1})}
 function foeSpread(e,w){
  var mv=clamp(Math.hypot(e.vx||0,e.vy||0)/Math.max(1,e.sp||1),0,1.3);
  var heat=1+Math.min(1.15,e.gun.heat||0);
  var k=e.tp==='sniper'?.52:(e.tp==='heavy'?1.10:(e.tp==='rush'?1.38:1));
- var diff=clamp(1.05/(G.eAcc||L.cfg.acc||1),.62,1.8);
+ var diff=clamp(1.05/(G.eAcc||L.cfg.acc||1),.62,1.8)/foeDiffBuff(e).acc;
  var sup=1+Math.max(0,e.sup||0)*1.6,
   moveK=w.moveK||1.6;
- var acc=clamp(e.acc||1,.6,1.45),
-   iq=clamp(e.intel||1,.55,1.6),
-   skill=acc*(.86+.14*iq);
+ var acc=clamp(e.acc||1,.6,e.tp==='sniper'?2:1.45),
+  iq=clamp(e.intel||1,.55,1.6),
+  skill=(e.tp==='sniper')?acc:acc*(.86+.14*iq);
   return (w.sp||.03)*11.2*k*diff*(1+mv*moveK*.35)*heat*sup/skill*smokeAccuracyK()}
 function foeDamage(e,w,cfg){
- var k=e.tp==='sniper'?1.9:Math.sqrt((w.dmg||28)/28);
+ /* 精确射手伤害按 MP5 冲锋枪兵的 2 倍结算，避免又被狙击武器基础伤害二次放大。 */
+ var k=e.tp==='sniper'?Math.sqrt((WM.mp5.dmg||21)/28):Math.sqrt((w.dmg||28)/28);
  return (cfg.edm||5)*(e.dm||1)*k*.62}
 function foeBurstPause(e){
  if(e.tp==='sniper')return 1.6+Math.random()*1.3;
@@ -5985,7 +5993,7 @@ function foeShoot(e,p){
   dd=Math.hypot(ax-e.x,ay-e.y)||1,
   aimBase=e.tp==='sniper'?45:(e.tp==='rush'?95:80),
   aimCap=e.tp==='sniper'?80:120,
-  aimR=Math.min(aimCap,aimBase+dd*(e.tp==='sniper'?.03:.035))/clamp(e.acc||1,.7,1.4),
+  aimR=Math.min(aimCap,aimBase+dd*(e.tp==='sniper'?.03:.035))/clamp(e.acc||1,.7,e.tp==='sniper'?2:1.4),
   jx=(Math.random()-.5)*aimR*2,jy=(Math.random()-.5)*aimR*2,
   a=Math.atan2(ay+jy-e.y,ax+jx-e.x)+e.aimBias+(Math.random()+Math.random()-1)*foeSpread(e,w),
   vv=Math.max(680,(w.bs||1500)*1.05),
@@ -7021,7 +7029,7 @@ var FOE_NOTICE={
 function foeReact(e,scale){
  var intel=e&&e.intel!=null?e.intel:1;
  var t=(2.0/(scale||1))*(1.16-.16*clamp(intel,.5,1.6));
- return clamp(t,1.7,2.8);
+ return clamp(t*foeDiffBuff(e).rea,1.4,2.8);
 }
 function foeView(e){
  var k=(e&&e.viewK)||1,pk=(e&&e.provokedT>0)?PROVOKED_VIEW:1,out;
@@ -7080,7 +7088,7 @@ function enterSuspect(e,x,y,kind){
  e.canSee=0;e.fireN=0;e.sw=0;e.vx=0;e.vy=0;
  e.hx=x;e.hy=y;e.lx=x;e.ly=y;e.lastSeen=-99;
  e.susWait=(kind==='noise')?(.45+Math.random()*.55):(.75+Math.random()*.55);
- e.susT=c.search[0]+Math.random()*(c.search[1]-c.search[0]);
+ e.susT=(c.search[0]+Math.random()*(c.search[1]-c.search[0]))*foeSearchK();
  e.susPts=[];e.susIdx=0;e.susScan=0;
  for(i=0;i<4;i++){
   var ang=base+(i-1.5)*.9+(Math.random()-.5)*.45,
@@ -7719,7 +7727,9 @@ function updatePlayer(dt){var p=G.p,i;
  /* v61：除冲锋枪外，开火后 0.45 秒内移速降至 70%；烟幕/开火惩罚与据枪、疾跑叠乘。 */
  p.fireMoveT=Math.max(0,(p.fireMoveT||0)-dt);
  var fireK=(p.fireMoveT>0&&aw.cls!=='smg')?.70:1;
- var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1)*fireK;
+ /* v72：副武器（手枪）持枪移速大幅提高；据枪/疾跑惩罚仍照常叠乘。 */
+ var secMove=(aw.cls==='pistol')?1.40:1;
+ var want=p.sp*(1+mob(p))*(p.aim?adsMove:1)*(p.gren?.6:1)*(spr?1.4:1)*(p.rl>0?.75:1)*(p.stunT>0?.55:1)*fireK*secMove;
  var acc=want*8;
  p.vx+=((mx*acc)-(p.vx*8))*dt;p.vy+=((my*acc)-(p.vy*8))*dt;
  if(ml<.06){var df=Math.pow(.0016,dt);p.vx*=df;p.vy*=df}
@@ -10835,6 +10845,16 @@ var PATCHES=[
          'QBZ-191 名称由「精确射手型」改为「突击步枪」，类型说明改为国产新一代制式突击步枪。',
          'QBZ-191 枪管介绍改为「突击步枪普通枪管」；QBU-191 保留「精确射手型加重长枪管」。',
          'QBZ-191 简介同步说明：突击步枪型使用普通枪管，QBU-191 才是精确射手型；两者定位不同。'
+        ]},
+       {v:72,d:'2026-11-28',t:'国产枪族查证 · 副武器移速 · 敌兵难度调校',
+        items:[
+         '删除 QBZ-191 与「猎鹰考核指定枪械」相关的介绍与训练台词；改为普通现役枪族描述。',
+         '国产枪族查证并修正：QSZ-92G 口径统一为 9×19mm、QBS-09 改为 5 发弹匣、05 式微声冲锋枪枪管改为约 250 mm。',
+         '副武器（手枪）持枪移动速度提高 40%；据枪、疾跑、开火与受击减速仍正常叠乘。',
+         '老兵/现实难度下普通敌兵反应速度提高：老兵约 8%、现实约 14%；精准度分别提高 6%、12%。',
+         '狙击兵精度系数提高到冲锋枪小兵的 2 倍，伤害精确校准为冲锋枪小兵的 2 倍。',
+         '老兵难度下所有敌人被惊动后的搜索时间 ×1.4；现实难度 ×2.0。',
+         '实测：QBZ-191 枪管为普通枪管、QBU-191 为精确射手长枪管；QSZ-92G 口径为 9×19mm；副武器移速 ×1.4；狙击伤害为冲锋枪兵 2.0 倍；老兵/现实搜索系数 1.4/2.0；patch=72、err=false。'
         ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
@@ -11343,7 +11363,7 @@ var DRG=[
  ['沈钺','桌上三支，全是国产。先从你会天天带的那支说起。','range'],
  ['沈钺','QSZ-19，制式手枪，2019 年公开亮相，20 发弹匣。它是保底的，不是主力。','range'],
  ['沈钺','QBZ-03，5.8 毫米，弹道平、中距离稳。枪老，但指哪打哪。','range'],
- ['沈钺','QBZ-191，现役新一代枪族。今天考核指定的就是它。','range'],
+ ['沈钺','QBZ-191，现役新一代枪族。今天先从它开始。','range'],
  ['沈钺','参数背下来没用。有用的是据枪稳、贴腮实、后压匀。','range'],
  ['沈钺','枪是手的延伸。你握得像攥拳头，它就替你乱指。','range'],
  ['你','这样？','range'],
