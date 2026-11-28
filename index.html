@@ -782,12 +782,15 @@ body.touch #touch.on{display:block}
 .rankWeapons{margin-top:12px;border-top:1px solid #1d2831;padding-top:9px}
 .rwTitle{font-size:10px;letter-spacing:.16em;color:#6d818d;margin-bottom:5px}
 .rwTitle span{letter-spacing:.02em;color:#52646e;margin-left:7px}
-.rwRow{display:grid;grid-template-columns:64px 72px 1fr;gap:8px;align-items:start;
+.rwRow{display:grid;grid-template-columns:58px 60px minmax(0,1fr) 66px;gap:8px;align-items:start;
  padding:5px 7px;border-radius:4px;font-size:11px;line-height:1.55;color:#8ea2af}
 .rwRow:nth-child(odd){background:rgba(255,255,255,.018)}
 .rwRow b{font-weight:600;color:#b9c9d4;letter-spacing:.04em}
 .rwRow span{font-size:10px;color:#5f737f;font-variant-numeric:tabular-nums}
 .rwRow em{font-style:normal;color:#93ac6d}
+.rwRow .rwBelt{text-align:right;color:#d8b25a;white-space:nowrap;font-size:9.5px}
+.rwNote{margin-top:6px;font-size:9.5px;line-height:1.65;color:#7f939f}
+.rwNote b{color:#d8b25a;font-weight:600}
 .rwRow.now{background:rgba(226,169,62,.08);box-shadow:inset 2px 0 0 var(--amber)}
 .rwRow.now b{color:#f0d890}
 .rwRow.peak:not(.now) b{color:#e2c47a}
@@ -2176,9 +2179,10 @@ WP=WP.filter(function(o){
  if(o.cls==='rifle')return !!KEEP_RIFLE[o.id];
  if(o.cls==='sniper')return !!KEEP_SNIPER[o.id];
  return true});
-/* v63：军械库解锁阶梯。tk 对应 TIER_XP：
-   0 列兵 / 1 上等兵 / 2 下士 / 3 中士 / 4 上士 / 5 二级军士长。
-   初始只有 HK416A5 与 Glock 19；QBU-191 与 QBZ-191 同组，避免军械库孤立武器。 */
+/* v65：军械库解锁阶梯。tk 对应 TIER_XP：
+   0 列兵 / 1 上等兵 / 2 下士 / 3 中士 / 4 上士 / 5 三级军士长。
+   二级军士长起不再新增枪械；初始只有 HK416A5 与 Glock 19。
+   QBU-191 与 QBZ-191 同组，避免军械库孤立武器。 */
 var WEAPON_UNLOCK_TIER={
  hk416:0,g19:0,
  mp5:1,m870:1,p320:1,
@@ -2229,9 +2233,10 @@ function cycleFireMode(){
 }
 
 /* 军衔：按我军现行等级序列编排（士兵 → 军士 → 军官），共 14 级
-   武器档次 tk 0–7 依次挂在这些军衔上，见 TIER_XP */
-var TIER_XP=[0,300,700,1300,2100,4400,8000,13600];
-var TIER_NAME=['列兵','上等兵','下士','中士','上士','二级军士长','少尉','上尉'];
+   武器档次 tk 0–7 依次挂在这些军衔上，见 TIER_XP；
+   v65 起最后一批枪械改挂三级军士长，二级军士长及以后不再新增枪械。 */
+var TIER_XP=[0,300,700,1300,2100,3100,8000,13600];
+var TIER_NAME=['列兵','上等兵','下士','中士','上士','三级军士长','少尉','上尉'];
 var RKLAD=[
  ['列兵',0],['上等兵',300],['下士',700],['中士',1300],['上士',2100],
  ['三级军士长',3100],['二级军士长',4400],['一级军士长',6000],
@@ -2240,7 +2245,7 @@ function tierOf(xp){var r=0,i;for(i=1;i<TIER_XP.length;i++)if(xp>=TIER_XP[i])r=i
 function rankOf(xp){var r=0,i;for(i=0;i<RKLAD.length;i++)if(xp>=RKLAD[i][1])r=i;return r}
 function rankName(xp){return RKLAD[rankOf(xp)][0]}
 /* SECTION: data-rank 军衔展示
-   军衔由经验推导，每级对应可解锁的武器档次（tk 0–3，阈值见 TIER_XP）。
+   军衔由经验推导，每级对应可解锁的武器档次（tk 0–5，阈值见 TIER_XP）。
    DIFF_NAME / LV_REC 用于把作战序列标成「由易到难」的阶梯。 */
 var DIFF_NAME=['新兵','老兵','现实'];
 var LV_REC=['列兵','上等兵','下士','中士','上士'];
@@ -2274,22 +2279,28 @@ function renderRank(){var el=$('rankCard');if(!el)return;
     起点用峰值 pk：已经解锁过的档次不再重复提示，降级也不会把枪收回去 */
  var nxtU=-1,i2;
  for(i2=pk+1;i2<RKLAD.length;i2++){if(weaponsAtXp(RKLAD[i2][1]).length){nxtU=i2;break}}
+ var nxtB=nextBeltRank(pk);
  var nw=nxtU>=0?weaponsAtXp(RKLAD[nxtU][1]):[];
  h+='<div class="rankUnlock"><div class="t">'+(nxtU>=0?('晋升 '+RKLAD[nxtU][0]+'（'+RKLAD[nxtU][1]+' 分）解锁'):'解锁状态')+'</div><div class="w">';
  if(nxtU>=0){
   h+=nw.map(function(n){return '<em>'+n+'</em>'}).join(' · ');
   if(nxtU>pk+1)h+='<div class="none">还需 '+(RKLAD[nxtU][1]-ST.xp)+' 分（中间 '+RKLAD[pk+1][0]+' 暂无新枪）</div>';
- }else h+='<span class="none">历史峰值已解锁全部枪械'+(pk>r?(' · 当前显示 '+cur[0]):'')+'</span>';
+ }else h+='<span class="none">历史峰值已解锁全部枪械'+
+  (nxtB>=0?(' · 下一腰封：'+RKLAD[nxtB][0]+'（'+RKLAD[nxtB][1]+' 分）'+beltCapAtRank(nxtB)+' 格'):(' · 腰封已满 '+BELT_MAX+' 格'))+
+  (pk>r?(' · 当前显示 '+cur[0]):'')+'</span>';
  h+='</div></div>';
  h+='</div><div class="rankRail">';
  RKLAD.forEach(function(k,i){
   h+='<div class="rankStep '+(i<r?'done':(i===r?'now':''))+
    (i===pk&&pk!==r?' peak':'')+'"><i></i>'+k[0]+'<span class="xp">'+k[1]+'</span></div>'});
- h+='</div><div class="rankWeapons"><div class="rwTitle">军衔解锁表 <span>每一级可用的新武器</span></div>';
+ h+='</div><div class="rankWeapons"><div class="rwTitle">军衔解锁表 <span>新武器 · 战术腰封容量</span></div>';
  RKLAD.forEach(function(k,i){
   var wl=weaponsAtXp(k[1]);
   h+='<div class="rwRow '+(i===r?'now':'')+(i===pk?' peak':'')+'">'+
-   '<b>'+k[0]+'</b><span>'+k[1]+' 分</span><em>'+(wl.length?wl.join(' · '):'—')+'</em></div>'});
+   '<b>'+k[0]+'</b><span>'+k[1]+' 分</span><em>'+(wl.length?wl.join(' · '):'—')+'</em>'+
+   '<span class="rwBelt">腰封 '+beltCapAtRank(i)+' 格</span></div>'});
+ h+='<div class="rwNote"><b>腰封解锁难度</b>：列兵–上士 1 格 · 三级军士长–一级军士长 2 格 · 少尉–上尉 3 格 · 少校–上校 4 格（按历史最高军衔，掉分不缩容）</div>';
+ h+='<div class="rwNote"><b>枪械</b>：'+(weaponsAtXp(3100).join(' / ')||'最后一批')+' 在三级军士长（3100 分）解锁；二级军士长起不再新增枪械。</div>';
  h+='</div>';
  return el.innerHTML=h}
 /* 顶部身份条：代号 / 当前军衔 / 进度 / 距下一级提示（军衔阶梯默认折叠） */
@@ -3103,8 +3114,10 @@ try{var rraw=localStorage.getItem('ta5_v2');
   if(jd&&typeof jd.sn==='number'){ST.swpN=jd.sn;ST.swpDay=jd.sdy||''}
   if(jd&&jd.df){var odf=jd.df|0;ST.diff=odf>=5?3:(odf>=3?2:1)}
   if(jd&&jd.dv3)ST.dv3=1;
-  if(jd&&jd.bl&&jd.bl.length===6)ST.belt=jd.bl.map(function(x){
+  /* v65：腰封上限 4 格。旧存档的 6 格只保留前 4 格，不足补齐空位。 */
+  if(jd&&jd.bl&&jd.bl.length){ST.belt=jd.bl.slice(0,4).map(function(x){
    return (x==='frag'||x==='stun')?x:''});
+   while(ST.belt.length<4)ST.belt.push('')}
   if(jd&&typeof jd.nm==='string')ST.name=jd.nm.slice(0,12);
   if(jd&&jd.tu)ST.tut=1;
   /* 新兵训练断点：tp = 停在第几步（-1 表示还没有保存过），tc = 该步已完成的数量 */
@@ -4267,7 +4280,7 @@ function curOp(){return 'norm'}
 function heroActive(){return false}
 function greyActive(){return false}
 function opMods(){
- return {move:.01,reload:1.00,ads:1.00,recoil:1.00,view:1.00,breach:1.35,belt:1,label:'破拆'};
+ return {move:.01,reload:1.00,ads:1.00,recoil:1.00,view:1.00,breach:1.35,label:'破拆'};
 }
 function setOp(op){ST.op='norm';save()}
 function keepGun(id,fb){var o=WM[id];return (o&&WP.indexOf(o)>=0)?id:fb}
@@ -5016,12 +5029,20 @@ var THROW=[
   r:280, dmg:0,  fuse:1.8, stun:5.2, paraMin:1, paraMax:2, d:'范围 280 · 致眩 5.2 秒 · 麻痹 1–2 秒 · 无伤害 · 引信 1.8 秒'}
 ];
 function throwDef(id){for(var i=0;i<THROW.length;i++)if(THROW[i].id===id)return THROW[i];return THROW[0]}
-function defBelt(){return ['frag','stun','','','','']}
-function beltList(){var b=(ST.belt&&ST.belt.length===6)?ST.belt:defBelt(),o=[],i;
- for(i=0;i<6;i++)o[i]=(b[i]==='frag'||b[i]==='stun')?b[i]:'';
+var BELT_MAX=4;
+function defBelt(){return ['frag','stun','','']}
+function beltList(){var b=(ST.belt&&ST.belt.length)?ST.belt:defBelt(),o=[],i;
+ for(i=0;i<BELT_MAX;i++)o[i]=(b[i]==='frag'||b[i]==='stun')?b[i]:'';
  return o}
-/* 腰封容量随「历史最高军衔」增长：2 → 6 格（掉分不会缩容） */
-function beltCap(){return clamp(2+Math.floor(rankPk()/3)+(opMods().belt||0),2,6)}
+/* v65：腰封容量按「历史最高军衔」解锁，最多 4 格：
+   列兵–上士 1 格；三级军士长–一级军士长 2 格；少尉–上尉 3 格；少校–上校 4 格。
+   掉分不会缩容。 */
+function beltCapAtRank(r){
+ return clamp(1+(r>=5?1:0)+(r>=8?1:0)+(r>=11?1:0),1,BELT_MAX)}
+function nextBeltRank(r){
+ for(var i2=r+1;i2<RKLAD.length;i2++)if(beltCapAtRank(i2)>beltCapAtRank(i2-1))return i2;
+ return -1}
+function beltCap(){return beltCapAtRank(rankPk())}
 function beltCounts(){var b=beltList(),cap=beltCap(),o={frag:0,stun:0},i,id;
  for(i=0;i<cap;i++){id=b[i];if(id&&o[id]!=null)o[id]++}
  return o}
@@ -5054,7 +5075,7 @@ function openThrowPick(){
    if(t)it.style.borderLeftColor=t.ring;
    it.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(t)pickThrow(id)});
    el.appendChild(it)})(i)}
- var tip=mk('div','tpTip');tip.textContent='点选投掷物 · 容量 '+cap+' 格（军衔越高越多）';
+ var tip=mk('div','tpTip');tip.textContent='点选投掷物 · 容量 '+cap+' 格（按军衔解锁）';
  el.appendChild(tip)}
 function closeThrowPick(){var el=$('throwPick');if(el){el.classList.remove('on');el.innerHTML=''}}
 function throwPickOpen(){var el=$('throwPick');return !!(el&&el.classList.contains('on'))}
@@ -10423,7 +10444,15 @@ var PATCHES=[
         '新增战斗槽位、固定优先级分离、墙角脱困和每 2 秒群聚审计；搜索/警戒也走导航网格，避免卡在掩体、扎在墙角。坦克新增独立射击位与残骸/车辆占位检查，多车不再抢同一块掩体。',
         '彻底删除非坦克装甲单位的全部代码、数据、支援卡片、绘制、机关炮/爆裂弹、地图出生点与波次入口；游戏内只保留主战坦克这一种敌方/我方装甲单位。',
         '实测：普通兵 500px 正面出现“?”且 G.inf 仍为 1；260px 转入“!”；背后 350px 出现“?”；受击后 0.5s 内转身并开火；坦克受击后炮塔/机枪分别转向，主炮在角差 2° 内发射；8 名步兵与 3 辆坦克压力测试群聚/车距/卡位均为 0。'
-       ]} ];
+       ]},
+       {v:65,d:'2026-11-28',t:'枪械解锁前移 · 战术腰封 4 格军衔解锁',
+        items:[
+         '最后一批枪械（05 微冲 / CS/LR4 / QSZ-92G）由二级军士长（4400 分）改为三级军士长（3100 分）解锁；二级军士长、一级军士长及后续军衔不再新增枪械。',
+         '战术腰封上限由 6 格改为 4 格，容量只按历史最高军衔解锁：列兵–上士 1 格，三级军士长–一级军士长 2 格，少尉–上尉 3 格，少校–上校 4 格。',
+         '军衔解锁表新增腰封容量列和“腰封解锁难度”说明；军械库腰封区同步显示当前容量、4 个槽位与各段解锁条件。',
+         '旧存档 6 格腰封自动截取前 4 格；掉分不会缩容。破拆专长不再额外增加腰封格数，避免绕过军衔门槛。',
+         '实测：3099 分时 05 微冲/CS-LR4/QSZ-92G 未解锁，3100 分全部解锁；4400/6000/8000 分不再产生新枪；14 级腰封容量依次为 1/1/1/1/1/2/2/2/3/3/3/4/4/4；旧 6 格存档迁移为 4 格。'
+        ]} ];
 function pushPatchMail(){
  var pv=ST.pv|0,p=null,i;
  for(i=0;i<PATCHES.length;i++)if(PATCHES[i].v>pv)p=PATCHES[i];
@@ -10658,7 +10687,7 @@ function renderOpRow(){
  else if(!unY)t.textContent='英雄队员「燕锋」将在完成机场行动后编入作战序列';
  else if(!unG)t.textContent='英雄队员「格雷」将在通关机场后编入作战序列';
  else if(!unD)t.textContent='联合编队将在机场行动结束后解锁';
- else t.textContent='当前由你自己出击：破拆专家 · 破门快 35% · 腰封 +1 格；一主一副，配装以军械库为准';
+ else t.textContent='当前由你自己出击：破拆专家 · 破门快 35% · 腰封按军衔解锁；一主一副，配装以军械库为准';
 }
 function renderLvOld(){var l=$('lvList');if(!l)return;l.innerHTML='';
  renderPbar();
@@ -11911,15 +11940,15 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
   gl.appendChild(row);
   var ip=mk('div');ip.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.55;margin:1px 0 6px';
   ip.textContent='当前：'+g.opts[st].d+' — '+g.info;gl.appendChild(ip)})}
- /* 战术腰封：容量随军衔，最多 6 格，点槽位循环切换 */
+ /* 战术腰封：容量按历史最高军衔解锁，最多 4 格，点槽位循环切换 */
  if(gl){
   var cap=beltCap(),b=beltList(),j2;
   var w1=mk('div','kmrow');w1.style.cssText='align-items:flex-start;padding-top:2px';
   var lb1=mk('span','lba');
-  lb1.innerHTML='<b style="color:#dce7ee">战术腰封</b><br><span style="font-size:10px;color:#7c919f">容量 '+cap+' 格 · 军衔越高越多</span>';
+  lb1.innerHTML='<b style="color:#dce7ee">战术腰封</b><br><span style="font-size:10px;color:#7c919f">容量 '+cap+' 格 · 按军衔解锁</span>';
   w1.appendChild(lb1);gl.appendChild(w1);
   var bar=mk('div','kmrow');bar.style.cssText='flex-wrap:wrap;gap:5px';
-  for(j2=0;j2<6;j2++){(function(si){
+  for(j2=0;j2<BELT_MAX;j2++){(function(si){
    var locked=si>=cap,id=b[si]||'',t=id?throwDef(id):null;
    var bt=mk('button','kbd'+(id?' on':''));
    bt.style.cssText='flex:0 0 auto;min-width:62px;font-size:10.5px;padding:7px 6px;'+(locked?'opacity:.32;cursor:not-allowed':'');
@@ -11929,7 +11958,7 @@ function renderGear(){var gl=$('gdList');if(gl){gl.innerHTML='';
    bar.appendChild(bt)})(j2)}
   gl.appendChild(bar);
   var ip2=mk('div');ip2.style.cssText='width:100%;font-size:10px;color:#8ba0ae;line-height:1.6;margin:1px 0 6px';
-  ip2.innerHTML='点击槽位循环切换：<b>空 → 破片 → 震爆</b>。容量由历史最高军衔决定（列兵／上等兵 2 格，上校 6 格）。<br>'+
+  ip2.innerHTML='点击槽位循环切换：<b>空 → 破片 → 震爆</b>。容量由历史最高军衔解锁：<b>列兵–上士 1 格，三级军士长–一级军士长 2 格，少尉–上尉 3 格，少校–上校 4 格</b>。<br>'+
    '同一个投掷物可以放在<b>不同槽位</b>，每一格算一次使用；投出后需要<b>重新握雷</b>，不会连投。<br>'+
    '对局中<b>长按投掷键</b>可随时重新挑选，短按切换握持；投掷落点就是<b>枪械准星</b>所指的位置。';
   gl.appendChild(ip2)}
